@@ -1,0 +1,25 @@
+{
+  "name": "sitesrankly/construtor",
+  "description": "Construtor de sites por nicho da Sites Rankly",
+  "type": "project",
+  "license": "proprietary",
+  "require": {
+    "php": ">=8.2",
+    "ext-gd": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-pdo": "*",
+    "ext-fileinfo": "*",
+    "mustache/mustache": "^2.14"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.0"
+  },
+  "autoload": {
+    "psr-4": { "Rankly\\": "app/" }
+  },
+  "autoload-dev": {
+    "psr-4": { "Rankly\\Testes\\": "tests/php/" }
+  },
+  "config": { "sort-packages": true }
+}

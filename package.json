@@ -1,0 +1,24 @@
+{
+  "name": "construtor-rankly",
+  "private": true,
+  "type": "module",
+  "description": "Construtor de sites por nicho da Sites Rankly",
+  "scripts": {
+    "test": "node --test tests/js/",
+    "paridade": "node tests/paridade/comparar.mjs",
+    "construir": "node ferramentas/construir.mjs",
+    "e2e": "playwright test --config tests/e2e/playwright.config.mjs"
+  },
+  "devDependencies": {
+    "@fontsource-variable/dm-sans": "^5.2.0",
+    "@fontsource-variable/manrope": "^5.2.0",
+    "@fontsource-variable/nunito": "^5.2.0",
+    "@fontsource-variable/source-sans-3": "^5.2.0",
+    "@fontsource/dm-serif-display": "^5.2.0",
+    "@fontsource/libre-caslon-text": "^5.2.0",
+    "@phosphor-icons/core": "^2.1.1",
+    "@playwright/test": "^1.56.1",
+    "healthicons": "^2.0.0",
+    "mustache": "^4.2.0"
+  }
+}

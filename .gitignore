@@ -1,0 +1,17 @@
+/vendor/
+/node_modules/
+/config/config.php
+/media/*
+!/media/.htaccess
+/sites/*
+!/sites/.htaccess
+!/sites/_lead.php
+!/sites/_roteador.php
+!/sites/router-dev.php
+/tests/paridade/saida/
+/tests/e2e/saida/
+/test-results/
+/playwright-report/
+/var/
+.phpunit.result.cache
+.DS_Store
