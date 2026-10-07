@@ -29,7 +29,7 @@ DirectoryIndex index.php index.html
   Header always set Referrer-Policy "same-origin"
   Header always set X-Frame-Options "DENY"
   # Editor: só recursos da própria origem (sem scripts embutidos nem de terceiros).
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-src 'self' https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'" env=RK_EDITOR
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://viacep.com.br; frame-src 'self' https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'" env=RK_EDITOR
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()" env=RK_EDITOR
   # HTML e módulos do editor sempre revalidados (uma atualização chega na hora).
   <FilesMatch "\.(html|mjs|js|css)$">

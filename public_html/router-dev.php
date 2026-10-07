@@ -70,7 +70,7 @@ header('Content-Length: ' . filesize($arquivo));
 header('Cache-Control: no-cache');
 if (str_starts_with($caminho, '/editor/')) {
     header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; "
-        . "font-src 'self' data:; connect-src 'self'; frame-src 'self' https://www.google.com; object-src 'none'; base-uri 'self'; "
+        . "font-src 'self' data:; connect-src 'self' https://viacep.com.br; frame-src 'self' https://www.google.com; object-src 'none'; base-uri 'self'; "
         . "form-action 'self'; frame-ancestors 'none'");
     header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
 }
