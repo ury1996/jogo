@@ -1,0 +1,43 @@
+{
+  "tipo": "faq",
+  "nome": "Perguntas",
+  "ordem": 11,
+  "fixa": null,
+  "ancora": "perguntas",
+  "menu": "Dúvidas",
+  "opcoes": [
+    {
+      "id": "centralizada",
+      "nome": "Centralizada",
+      "descricao": "Perguntas no centro, abertas ao clicar, e um convite para o WhatsApp no fim.",
+      "tom": "claro",
+      "alegacoes": []
+    },
+    {
+      "id": "foto-ajuda",
+      "nome": "Com foto e ajuda",
+      "descricao": "Foto e caixa \"Ainda com dúvidas?\" com WhatsApp ao lado das perguntas.",
+      "tom": "claro",
+      "sizes": { "faq.img": "(max-width: 760px) 100vw, (max-width: 1180px) 38vw, 450px" },
+      "alegacoes": []
+    }
+  ],
+  "campos": {
+    "faq.eyebrow": { "tipo": "texto", "max": 40, "rotulo": "Rótulo acima do título" },
+    "faq.titulo": { "tipo": "texto", "max": 80, "rotulo": "Título das perguntas" },
+    "faq.texto": { "tipo": "texto-longo", "max": 220, "rotulo": "Texto de apoio" },
+    "faq.img": { "tipo": "imagem", "proporcao": "4:5", "rotulo": "Foto do ambiente ou da equipe" },
+    "faq.ajuda": { "tipo": "texto-longo", "max": 120, "rotulo": "Convite \"Ainda com dúvidas?\"" }
+  },
+  "listas": {
+    "faq": {
+      "repete": [3, 10],
+      "rotuloItem": "pergunta",
+      "campos": {
+        "q": { "tipo": "texto", "max": 100, "rotulo": "Pergunta" },
+        "a": { "tipo": "texto-longo", "max": 320, "rotulo": "Resposta" }
+      }
+    }
+  },
+  "alegacoes": []
+}

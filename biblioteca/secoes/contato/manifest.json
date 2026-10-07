@@ -1,0 +1,33 @@
+{
+  "tipo": "contato",
+  "nome": "Contato",
+  "ordem": 13,
+  "fixa": null,
+  "ancora": "contato",
+  "menu": "Contato",
+  "opcoes": [
+    {
+      "id": "formulario",
+      "nome": "Com formulário",
+      "descricao": "WhatsApp, telefone, e-mail, endereço e horários ao lado do formulário de contato.",
+      "tom": "claro",
+      "alegacoes": []
+    },
+    {
+      "id": "mapa",
+      "nome": "Com mapa",
+      "descricao": "Dados de contato, botão de WhatsApp e mapa que só carrega ao clicar.",
+      "tom": "claro",
+      "alegacoes": []
+    }
+  ],
+  "campos": {
+    "contato.eyebrow": { "tipo": "texto", "max": 40, "rotulo": "Rótulo acima do título" },
+    "contato.titulo": { "tipo": "texto", "max": 80, "rotulo": "Título do contato" },
+    "contato.texto": { "tipo": "texto-longo", "max": 200, "rotulo": "Texto de apoio" },
+    "contato.botao": { "tipo": "texto", "max": 28, "rotulo": "Botão de enviar (formulário e WhatsApp)" },
+    "contato.mapa": { "tipo": "texto", "max": 24, "rotulo": "Botão que abre o mapa" }
+  },
+  "listas": {},
+  "alegacoes": []
+}

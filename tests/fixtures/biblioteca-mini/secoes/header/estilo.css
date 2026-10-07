@@ -1,0 +1,12 @@
+.rk-sec--header{padding-block:0;border-bottom:1px solid var(--linha)}
+.rk-sec--header .head-barra{display:flex;align-items:center;gap:24px;min-height:76px}
+.rk-sec--header .head-menu{margin-inline-start:auto}
+.rk-sec--header .head-menu ul{display:flex;gap:20px;list-style:none;margin:0;padding:0}
+.rk-sec--header .head-menu a{color:var(--fg);text-decoration:none}
+.rk-op--header-barra .head-topo{background:var(--deep);color:var(--on-p-sobre-escuro);font-size:var(--t-small)}
+.rk-op--header-barra .head-topo__wrap{display:flex;gap:24px;padding-block:8px}
+.rk-op--header-barra .head-info{display:inline-flex;align-items:center;gap:6px;color:inherit}
+.rk-op--header-barra .head-tel{display:inline-flex;gap:8px;color:var(--destaque);font-weight:700}
+.k-classico .rk-sec--header .rk-btn{letter-spacing:.08em;text-transform:uppercase}
+@container site (max-width: 1060px){.rk-sec--header .head-menu{display:none}}
+@container site (max-width: 760px){.rk-op--header-barra .head-topo{display:none}.rk-sec--header .head-tel span{display:none}}

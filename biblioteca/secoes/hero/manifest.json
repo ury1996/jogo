@@ -1,0 +1,56 @@
+{
+  "tipo": "hero",
+  "nome": "Destaque",
+  "ordem": 2,
+  "fixa": null,
+  "ancora": "inicio",
+  "menu": null,
+  "opcoes": [
+    {
+      "id": "cards-flutuantes",
+      "nome": "Foto com cards flutuantes",
+      "descricao": "Foto com selo de anos e um diferencial sobre ela, fotos da equipe e número de clientes.",
+      "tom": "claro",
+      "sizes": { "hero.img": "(max-width: 760px) 100vw, 46vw", "equipe.*.f": "44px" },
+      "alegacoes": ["num"]
+    },
+    {
+      "id": "fundo-cards",
+      "nome": "Foto de fundo com cards",
+      "descricao": "Foto em tela larga e 3 diferenciais sobrepostos na borda.",
+      "tom": "escuro",
+      "sizes": { "hero.img": "100vw" },
+      "alegacoes": []
+    },
+    {
+      "id": "formulario",
+      "nome": "Com formulário",
+      "descricao": "Fundo na cor e formulário de contato já no topo.",
+      "tom": "cor",
+      "alegacoes": []
+    },
+    {
+      "id": "centralizado",
+      "nome": "Centralizado",
+      "descricao": "Texto central, números em selos e foto larga abaixo.",
+      "tom": "claro",
+      "sizes": { "hero.img": "(max-width: 1180px) 100vw, 1180px" },
+      "alegacoes": ["num"]
+    }
+  ],
+  "campos": {
+    "hero.eyebrow": { "tipo": "texto", "max": 40, "rotulo": "Rótulo acima do título" },
+    "hero.titulo": { "tipo": "texto", "max": 90, "rotulo": "Título principal" },
+    "hero.texto": { "tipo": "texto-longo", "max": 200, "rotulo": "Texto de apoio" },
+    "hero.cta": { "tipo": "texto", "max": 28, "rotulo": "Botão principal (WhatsApp)" },
+    "hero.cta2": { "tipo": "texto", "max": 28, "rotulo": "Botão secundário" },
+    "hero.img": { "tipo": "imagem", "proporcao": "4:5", "rotulo": "Foto do espaço ou da equipe", "fundo": true },
+    "hero.img2": { "tipo": "imagem", "proporcao": "1:1", "rotulo": "Foto secundária do destaque" },
+    "hero.selo": { "tipo": "texto", "max": 40, "rotulo": "Selo sobre a foto" },
+    "form.titulo": { "tipo": "texto", "max": 60, "rotulo": "Título do formulário" },
+    "form.nota": { "tipo": "texto", "max": 120, "rotulo": "Nota abaixo do formulário" },
+    "form.botao": { "tipo": "texto", "max": 28, "rotulo": "Botão do formulário" }
+  },
+  "listas": {},
+  "alegacoes": ["num"]
+}

@@ -1,0 +1,83 @@
+# Construtor Rankly · raiz web dos sites publicados (curinga *.SEU-DOMINIO.com.br)
+#
+# Esta pasta (sites/) é a raiz (DocumentRoot) do subdomínio curinga. Cada site publicado é
+# um link simbólico sites/{slug} → .releases/{slug}/{versao}-{token}/ [M10].
+#
+# CONFIGURE: troque "SEU-DOMINIO\.com\.br" abaixo pelo domínio dos sites (o mesmo de
+# dominio_sites no config/config.php), com os pontos escapados. Ex.: sitesrankly\.com\.br
+
+Options -Indexes -MultiViews +SymLinksIfOwnerMatch
+DirectoryIndex index.html
+# Pasta sem barra ("/privacidade") é redirecionada pela regra abaixo, com o caminho público.
+DirectorySlash Off
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Todas as regras só rodam na primeira passada: depois de uma reescrita interna o Apache
+  # roda o .htaccess de novo (com REDIRECT_STATUS definido) e isso evita laços [M11].
+
+  # Arquivos e pastas ocultos (.releases, .htaccess, .tmp-…) nunca são servidos.
+  RewriteCond %{ENV:REDIRECT_STATUS} ^$
+  RewriteRule (^|/)\. - [F]
+
+  # Envio dos formulários (mesma origem do site) → _lead.php
+  RewriteCond %{ENV:REDIRECT_STATUS} ^$
+  RewriteRule ^_lead$ _lead.php [L]
+
+  # Arquivos do próprio sistema nunca são servidos diretamente.
+  RewriteCond %{ENV:REDIRECT_STATUS} ^$
+  RewriteRule ^(router-dev|_roteador|_lead)\.php$ - [R=404,L]
+
+  # Subdomínio: pasta sem barra no fim → mesma URL com barra (301), sem expor /{slug}/.
+  RewriteCond %{ENV:REDIRECT_STATUS} ^$
+  RewriteCond %{HTTP_HOST} ^([a-z0-9-]+)\.SEU-DOMINIO\.com\.br$ [NC]
+  RewriteCond %{DOCUMENT_ROOT}/%1/$1 -d
+  RewriteRule ^(.+[^/])$ /$1/ [R=301,L]
+
+  # Subdomínio → pasta do site (o link simbólico aponta para a release no ar).
+  RewriteCond %{ENV:REDIRECT_STATUS} ^$
+  RewriteCond %{HTTP_HOST} ^([a-z0-9-]+)\.SEU-DOMINIO\.com\.br$ [NC]
+  RewriteCond %{DOCUMENT_ROOT}/%1 -d
+  RewriteRule ^(.*)$ /%1/$1 [L]
+
+  # Domínio próprio (fase 2) e hosts desconhecidos: roteador PHP.
+  RewriteCond %{ENV:REDIRECT_STATUS} ^$
+  RewriteRule ^ _roteador.php [L]
+</IfModule>
+
+# Página 404 do próprio site (o roteador acha o site pelo host e entrega o 404.html dele).
+ErrorDocument 404 /_roteador.php
+
+<IfModule mod_mime.c>
+  AddType text/html .html
+  AddType text/css .css
+  AddType image/webp .webp
+  AddType image/svg+xml .svg
+  AddType font/woff2 .woff2
+  AddType application/xml .xml
+  AddCharset utf-8 .html .css .xml .txt
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # HTML, sitemap e robots: sempre revalidados (uma nova publicação aparece na hora).
+  <FilesMatch "\.(html|xml|txt)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  # Fotos (img/m_…-{w}.webp), fontes (.woff2) e CSS com hash (assets/site.{hash8}.css)
+  # nunca mudam de conteúdo com o mesmo nome: cache de 1 ano.
+  <FilesMatch "(^m_[0-9a-f]{8}-(\d+|orig)\.(webp|svg)|\.woff2|^site\.[0-9a-f]{8}\.css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "^(favicon\.(svg|png)|apple-touch-icon\.png)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+  # SVG aberto direto no navegador não executa nada.
+  <FilesMatch "\.svg$">
+    Header set Content-Security-Policy "default-src 'none'; style-src 'unsafe-inline'"
+  </FilesMatch>
+</IfModule>

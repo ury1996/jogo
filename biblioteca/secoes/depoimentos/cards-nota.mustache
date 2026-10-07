@@ -1,0 +1,26 @@
+<div class="rk-wrap">
+  <div class="dep-topo">
+    <div class="rk-cab dep-cab">
+      <p class="rk-eyebrow" data-k="dep.eyebrow">{{c.dep.eyebrow}}</p>
+      <h2 class="rk-h2 dep-titulo" data-k="dep.titulo">{{c.dep.titulo}}</h2>
+    </div>
+    <div class="rk-selo dep-nota">
+      <strong class="dep-nota__v" data-k="aval.nota">{{c.aval.nota}}</strong>
+      <span class="dep-nota__info">
+        <span class="rk-estrelas dep-estrelas" aria-hidden="true"><span class="dep-estrela">{{{u.estrela}}}</span><span class="dep-estrela">{{{u.estrela}}}</span><span class="dep-estrela">{{{u.estrela}}}</span><span class="dep-estrela">{{{u.estrela}}}</span><span class="dep-estrela">{{{u.estrela}}}</span></span>
+        <span class="dep-nota__txt"><span class="rk-i">{{{u.google}}}</span><span data-k="aval.txt">{{c.aval.txt}}</span></span>
+      </span>
+    </div>
+  </div>
+  <ul class="dep-grade" data-li="dep">
+    {{#c.dep.itens}}
+    <li class="dep-item" data-it="{{id}}">
+      <figure class="rk-card rk-card--estatico dep-card">
+        <span class="dep-aspas" aria-hidden="true">{{{u.aspas}}}</span>
+        <blockquote class="dep-card__t"><p data-k="{{k}}.t">{{t}}</p></blockquote>
+        <figcaption class="dep-autor"><strong class="dep-autor__n" data-k="{{k}}.n">{{n}}</strong><span class="dep-autor__c" data-k="{{k}}.c">{{c}}</span></figcaption>
+      </figure>
+    </li>
+    {{/c.dep.itens}}
+  </ul>
+</div>

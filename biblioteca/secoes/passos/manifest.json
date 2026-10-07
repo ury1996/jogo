@@ -1,0 +1,42 @@
+{
+  "tipo": "passos",
+  "nome": "Como funciona",
+  "ordem": 8,
+  "fixa": null,
+  "ancora": "como-funciona",
+  "menu": null,
+  "opcoes": [
+    {
+      "id": "linha-tempo",
+      "nome": "Linha do tempo",
+      "descricao": "3 passos ligados por uma linha pontilhada, cada um com número, título e texto.",
+      "tom": "claro",
+      "alegacoes": []
+    },
+    {
+      "id": "lista-foto",
+      "nome": "Lista com foto",
+      "descricao": "Lista numerada dos 3 passos ao lado de uma foto, com botão de WhatsApp.",
+      "tom": "claro",
+      "sizes": { "passos.img": "(max-width: 760px) 100vw, (max-width: 1180px) 42vw, 500px" },
+      "alegacoes": []
+    }
+  ],
+  "campos": {
+    "passos.eyebrow": { "tipo": "texto", "max": 40, "rotulo": "Rótulo acima do título" },
+    "passos.titulo": { "tipo": "texto", "max": 80, "rotulo": "Título de como funciona" },
+    "passos.texto": { "tipo": "texto-longo", "max": 220, "rotulo": "Texto de apoio" },
+    "passos.img": { "tipo": "imagem", "proporcao": "4:5", "rotulo": "Foto do atendimento" }
+  },
+  "listas": {
+    "passos": {
+      "repete": [3, 3],
+      "rotuloItem": "passo",
+      "campos": {
+        "t": { "tipo": "texto", "max": 40, "rotulo": "Título do passo" },
+        "d": { "tipo": "texto-longo", "max": 160, "rotulo": "Descrição do passo" }
+      }
+    }
+  },
+  "alegacoes": []
+}

@@ -1,0 +1,21 @@
+<div class="rk-wrap equipe-duas">
+  <div class="rk-cab equipe-cab">
+    <p class="rk-eyebrow" data-k="equipe.eyebrow">{{c.equipe.eyebrow}}</p>
+    <h2 class="rk-h2 equipe-titulo" data-k="equipe.titulo">{{c.equipe.titulo}}</h2>
+    <p class="rk-lead equipe-lead" data-k="equipe.texto">{{c.equipe.texto}}</p>
+  </div>
+  <ul class="equipe-lista" data-li="equipe">
+    {{#c.equipe.itens}}
+    <li class="rk-card rk-card--estatico equipe-pessoa" data-it="{{id}}">
+      <span class="equipe-avatar">
+        <span class="equipe-avatar__ini" aria-hidden="true">{{n}}</span>
+        <span class="equipe-avatar__foto" data-img="{{k}}.f">{{{f.html}}}</span>
+      </span>
+      <div class="equipe-pessoa__txt">
+        <h3 class="rk-h3 equipe-pessoa__n" data-k="{{k}}.n">{{n}}</h3>
+        <p class="equipe-pessoa__c" data-k="{{k}}.c">{{c}}</p>
+      </div>
+    </li>
+    {{/c.equipe.itens}}
+  </ul>
+</div>

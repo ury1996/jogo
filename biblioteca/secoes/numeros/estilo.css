@@ -1,0 +1,98 @@
+/* Números — faixa clara com divisórias / faixa na cor principal. Lista fixa de 3 itens (num). */
+
+.rk-sec--numeros { padding-block: clamp(52px, 6.5cqi, 92px); }
+.rk-sec--numeros .num-faixa {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.rk-sec--numeros .num-item {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+  padding: 6px clamp(16px, 3cqi, 40px);
+  text-align: center;
+}
+.rk-sec--numeros .num-item + .num-item { border-left: 1px solid var(--linha); }
+.rk-sec--numeros .num-v {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: clamp(2.4rem, 1.5rem + 3cqi, 3.9rem);
+  line-height: 1;
+  letter-spacing: var(--ft-ls);
+  color: var(--destaque);
+  white-space: nowrap;
+}
+.rk-sec--numeros .num-l {
+  max-width: 17rem;
+  font-size: 0.975rem;
+  line-height: 1.45;
+  color: var(--fg2);
+  text-wrap: balance;
+}
+.k-classico .rk-sec--numeros .num-l { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+.k-direto .rk-sec--numeros .num-l { font-weight: 600; }
+
+/* ---- faixa-clara: traço curto na cor sob cada número (Moderno e Direto) ---- */
+.k-moderno .rk-op--numeros-faixa-clara .num-v::after,
+.k-direto .rk-op--numeros-faixa-clara .num-v::after {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 3px;
+  margin: 16px auto 0;
+  border-radius: 3px;
+  background: var(--acento);
+}
+.k-direto .rk-op--numeros-faixa-clara .num-v::after { width: 36px; height: 5px; border-radius: 2px; background: var(--solido); }
+
+/* ---- faixa-cor: números na cor do texto sobre a cor principal, com enfeites ---- */
+.rk-op--numeros-faixa-cor { overflow: clip; }
+.rk-op--numeros-faixa-cor .num-v { color: var(--fg); }
+.rk-op--numeros-faixa-cor .num-l { color: var(--fg2); }
+.rk-op--numeros-faixa-cor::before,
+.rk-op--numeros-faixa-cor::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.rk-op--numeros-faixa-cor::before {
+  width: 440px;
+  height: 440px;
+  left: -300px;
+  top: -330px;
+  border: 1px solid var(--linha);
+}
+.rk-op--numeros-faixa-cor::after {
+  width: 240px;
+  height: 240px;
+  right: -130px;
+  bottom: -170px;
+  background: var(--deco);
+}
+.k-direto .rk-op--numeros-faixa-cor::after { border-radius: 40px; transform: rotate(18deg); }
+.k-classico .rk-op--numeros-faixa-cor::after { background: transparent; border: 1px solid var(--linha); }
+
+/* ===================== celular ===================== */
+
+@container site (max-width: 760px) {
+  .rk-sec--numeros { padding-block: 40px; }
+  .rk-sec--numeros .num-faixa { grid-template-columns: minmax(0, 1fr); }
+  .rk-sec--numeros .num-item {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    justify-items: start;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 0;
+    text-align: left;
+  }
+  .rk-sec--numeros .num-item + .num-item { border-left: 0; border-top: 1px solid var(--linha); }
+  .rk-sec--numeros .num-v { font-size: 2.15rem; white-space: normal; }
+  .rk-op--numeros-faixa-cor::after { display: none; }
+  .k-moderno .rk-op--numeros-faixa-clara .num-v::after,
+  .k-direto .rk-op--numeros-faixa-clara .num-v::after { margin: 12px 0 0; }
+}

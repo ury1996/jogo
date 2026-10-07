@@ -1,0 +1,7 @@
+.rk-sec--faq .faq-item{border-bottom:1px solid var(--linha);padding-block:16px}
+.rk-sec--faq .faq-item summary{display:flex;justify-content:space-between;gap:16px;cursor:pointer;list-style:none}
+.rk-op--faq-centralizada .faq-centro{max-width:820px;text-align:center}
+.rk-op--faq-centralizada .faq-lista{text-align:left;margin-top:32px}
+.rk-op--faq-foto-ajuda .faq-grade{display:grid;grid-template-columns:5fr 7fr;gap:48px}
+.rk-op--faq-foto-ajuda .faq-ajuda{background:var(--card);color:var(--card-fg);border-radius:var(--rc);padding:24px;margin-top:-48px;position:relative}
+@container site (max-width: 760px){.rk-op--faq-foto-ajuda .faq-grade{grid-template-columns:1fr}}

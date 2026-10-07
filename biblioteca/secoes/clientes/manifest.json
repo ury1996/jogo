@@ -1,0 +1,30 @@
+{
+  "tipo": "clientes",
+  "nome": "Clientes",
+  "ordem": 3,
+  "fixa": null,
+  "ancora": "clientes",
+  "menu": null,
+  "opcoes": [
+    {
+      "id": "faixa",
+      "nome": "Faixa",
+      "descricao": "Faixa discreta com os nomes das empresas atendidas.",
+      "tom": "claro",
+      "alegacoes": ["cli"]
+    }
+  ],
+  "campos": {
+    "cli.titulo": { "tipo": "texto", "max": 60, "rotulo": "Título da faixa de clientes" }
+  },
+  "listas": {
+    "cli": {
+      "repete": [3, 8],
+      "rotuloItem": "cliente",
+      "campos": {
+        "t": { "tipo": "texto", "max": 30, "rotulo": "Nome do cliente" }
+      }
+    }
+  },
+  "alegacoes": ["cli"]
+}

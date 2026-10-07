@@ -1,0 +1,219 @@
+{
+  "id": "empresas",
+  "nome": "Empresas",
+  "descricao": "Indústria, serviços e B2B",
+  "ordem": 3,
+  "especialidades": [
+    {
+      "id": "engenharia",
+      "nome": "Engenharia e serviços técnicos",
+      "segmento": "Engenharia",
+      "schemaOrg": "ProfessionalService",
+      "conselho": "CREA",
+      "registroObrigatorio": true,
+      "rotuloRegistro": "CREA",
+      "iconesCategoria": "empresas"
+    },
+    {
+      "id": "industria",
+      "nome": "Indústria",
+      "segmento": "Indústria",
+      "schemaOrg": "LocalBusiness",
+      "conselho": "",
+      "registroObrigatorio": false,
+      "rotuloRegistro": "Registro",
+      "iconesCategoria": "empresas"
+    },
+    {
+      "id": "servicos-empresariais",
+      "nome": "Serviços para empresas",
+      "segmento": "Serviços para empresas",
+      "schemaOrg": "ProfessionalService",
+      "conselho": "",
+      "registroObrigatorio": false,
+      "rotuloRegistro": "Registro",
+      "iconesCategoria": "empresas"
+    }
+  ],
+  "exemplo": {
+    "nome": "Vetor Engenharia e Manutenção",
+    "cidade": "Sorocaba",
+    "uf": "SP",
+    "whatsapp": "(15) 99812-3456",
+    "dados": {
+      "telefone": "(15) 3232-7700",
+      "email": "contato@vetorengenharia.com.br",
+      "endereco": { "cep": "18087-125", "logradouro": "Av. Eng. Carlos Reinaldo Mendes", "numero": "3200", "complemento": "Galpão 2", "bairro": "Alto da Boa Vista" },
+      "horarios": {
+        "seg": ["07:30", "17:30"], "ter": ["07:30", "17:30"], "qua": ["07:30", "17:30"],
+        "qui": ["07:30", "17:30"], "sex": ["07:30", "17:30"], "sab": ["08:00", "12:00"], "dom": null
+      }
+    }
+  },
+  "padroesPorModelo": {
+    "classico": { "cor": "#1d4f73", "fonte": "moderna" },
+    "moderno": { "cor": "#c2531b", "fonte": "moderna" },
+    "direto": { "cor": "#0f6fb8", "fonte": "moderna" }
+  },
+  "menu": {
+    "sobre": "A empresa",
+    "servicos": "Soluções",
+    "clientes": "Clientes",
+    "passos": "Como funciona",
+    "faq": "Dúvidas",
+    "contato": "Contato"
+  },
+  "mensagemWhatsapp": "Olá! Vi o site e gostaria de solicitar um orçamento.",
+  "iconesPadrao": {
+    "dif": ["users", "file-text", "shield-check"],
+    "serv": ["lightning", "solar-panel", "wrench", "clock", "file-magnifying-glass", "clipboard-text"]
+  },
+  "listas": {
+    "cli": ["1", "2", "3", "4", "5", "6"],
+    "serv": ["1", "2", "3", "4", "5", "6"],
+    "faq": ["1", "2", "3", "4", "5"]
+  },
+  "textos": {
+    "hero.eyebrow": "{segmento} em {cidade}",
+    "hero.titulo": "Soluções técnicas que mantêm a sua operação rodando",
+    "hero.texto": "Projetos, instalações e manutenção elétrica para indústrias, comércios e condomínios, com equipe própria, ART e atendimento de emergência.",
+    "hero.cta": "Solicitar orçamento",
+    "hero.cta2": "Ver soluções",
+    "hero.selo": "Engenheiros com registro no CREA",
+
+    "form.titulo": "Solicite um orçamento",
+    "form.nota": "Retornamos em até 1 dia útil. Para emergências, chame no WhatsApp.",
+    "form.botao": "Pedir orçamento",
+
+    "dif.eyebrow": "Diferenciais",
+    "dif.titulo": "Segurança e prazo em cada serviço",
+    "dif.1.t": "Equipe própria",
+    "dif.1.d": "Técnicos treinados e com equipamentos de proteção, sem terceirizar a execução do serviço.",
+    "dif.2.t": "ART e responsável técnico",
+    "dif.2.d": "Anotação de Responsabilidade Técnica emitida por engenheiro registrado no CREA.",
+    "dif.3.t": "Normas de segurança",
+    "dif.3.d": "Serviços executados conforme a NR-10 e a NBR 5410, com procedimentos documentados.",
+
+    "cli.titulo": "Empresas que já contrataram a {nome}",
+    "cli.1.t": "Metalúrgica Nova Era",
+    "cli.2.t": "Condomínio Parque das Flores",
+    "cli.3.t": "Laticínios Serra Azul",
+    "cli.4.t": "Transportes Rota Sul",
+    "cli.5.t": "Hospital Santa Clara",
+    "cli.6.t": "Supermercados Bom Preço",
+
+    "sobre.eyebrow": "Sobre a empresa",
+    "sobre.titulo": "Engenharia aplicada ao dia a dia da sua operação",
+    "sobre.texto": "A {nome} atende indústrias, comércios e condomínios em {cidade} e região com projetos, instalações e manutenção elétrica. A equipe técnica planeja cada intervenção para reduzir paradas, cumprir as normas e entregar a documentação completa ao final do serviço.",
+    "sobre.cta": "Falar com um engenheiro",
+    "sobrel.1.t": "Engenheiros e técnicos com registro no CREA",
+    "sobrel.2.t": "Relatório técnico ao final de cada serviço",
+    "sobrel.3.t": "Frota própria para atender toda a região",
+    "sobrel.4.t": "Contratos de manutenção preventiva",
+
+    "serv.eyebrow": "Soluções",
+    "serv.titulo": "Serviços para manter a sua empresa funcionando",
+    "serv.texto": "Do projeto à manutenção, com planejamento, documentação técnica e equipe própria.",
+    "serv.link": "Saiba mais",
+    "serv.1.t": "Projetos elétricos",
+    "serv.1.d": "Projetos de baixa e média tensão, quadros de distribuição e adequações, com ART e memorial descritivo.",
+    "serv.2.t": "Energia solar",
+    "serv.2.d": "Estudo de viabilidade, projeto e instalação de sistemas fotovoltaicos, com homologação na concessionária.",
+    "serv.3.t": "Manutenção preventiva",
+    "serv.3.d": "Inspeções programadas, termografia e relatórios para reduzir o risco de paradas inesperadas.",
+    "serv.4.t": "Plantão 24 horas",
+    "serv.4.d": "Atendimento emergencial para falhas elétricas, com equipe de prontidão todos os dias.",
+    "serv.5.t": "Laudos e inspeções",
+    "serv.5.d": "Laudos de instalações elétricas e de SPDA, além das inspeções exigidas por seguradoras e pelo Corpo de Bombeiros.",
+    "serv.6.t": "Consultoria técnica",
+    "serv.6.d": "Diagnóstico do consumo de energia, adequação às normas e apoio técnico em reformas e ampliações.",
+
+    "num.1.v": "18",
+    "num.1.l": "anos de experiência",
+    "num.2.v": "450+",
+    "num.2.l": "empresas atendidas",
+    "num.3.v": "24 h",
+    "num.3.l": "de plantão para emergências",
+
+    "passos.eyebrow": "Como funciona",
+    "passos.titulo": "Do orçamento à entrega da documentação",
+    "passos.texto": "Um processo simples, com prazos combinados e um responsável técnico em cada etapa.",
+    "passos.1.t": "Visita técnica",
+    "passos.1.d": "Um técnico avalia o local, entende a necessidade e levanta as informações para o orçamento.",
+    "passos.2.t": "Proposta detalhada",
+    "passos.2.d": "Você recebe escopo, prazo e valores por escrito, com as normas e a ART aplicáveis.",
+    "passos.3.t": "Execução e entrega",
+    "passos.3.d": "Executamos o serviço com segurança e entregamos relatório técnico, ART e termo de garantia.",
+
+    "equipe.eyebrow": "Equipe",
+    "equipe.titulo": "Responsáveis técnicos",
+    "equipe.texto": "Engenheiros e técnicos com registro no CREA e treinamento em segurança do trabalho.",
+    "equipe.1.n": "Eng. André Vasconcelos",
+    "equipe.1.c": "Engenheiro eletricista · diretor técnico",
+    "equipe.2.n": "Eng. Juliana Prado",
+    "equipe.2.c": "Engenheira de segurança do trabalho",
+    "equipe.3.n": "Roberto Nunes",
+    "equipe.3.c": "Supervisor de manutenção",
+
+    "dep.eyebrow": "Depoimentos",
+    "dep.titulo": "O que dizem os clientes",
+    "dep.1.t": "A equipe resolveu uma falha no nosso quadro principal de madrugada e entregou o relatório no dia seguinte. Atendimento muito profissional.",
+    "dep.1.n": "Carlos E.",
+    "dep.1.c": "Gerente de manutenção · indústria alimentícia",
+    "dep.2.t": "Fizeram o projeto e a instalação do sistema solar do condomínio no prazo combinado e com toda a documentação em ordem.",
+    "dep.2.n": "Sílvia R.",
+    "dep.2.c": "Síndica",
+    "dep.3.t": "Com o contrato de manutenção preventiva, ganhamos previsibilidade e relatórios claros a cada visita.",
+    "dep.3.n": "Paulo H.",
+    "dep.3.c": "Diretor de operações · metalúrgica",
+    "aval.nota": "4,9",
+    "aval.txt": "Nota média no Google",
+
+    "faq.eyebrow": "Dúvidas",
+    "faq.titulo": "Perguntas frequentes",
+    "faq.texto": "O que as empresas costumam perguntar antes de contratar.",
+    "faq.ajuda": "Ainda com dúvidas? Fale com um técnico da {nome} pelo WhatsApp.",
+    "faq.1.q": "Vocês emitem ART?",
+    "faq.1.a": "Sim. Os serviços de engenharia são acompanhados de Anotação de Responsabilidade Técnica emitida por profissional registrado no CREA.",
+    "faq.2.q": "Como funciona o plantão 24 horas?",
+    "faq.2.a": "Clientes com contrato de manutenção têm atendimento prioritário. Para chamados avulsos, consulte a disponibilidade pelo WhatsApp.",
+    "faq.3.q": "Quais cidades vocês atendem?",
+    "faq.3.a": "Atendemos {cidade} e as cidades da região. Para obras maiores, avaliamos o deslocamento caso a caso.",
+    "faq.4.q": "Em quanto tempo recebo o orçamento?",
+    "faq.4.a": "Depois da visita técnica, enviamos a proposta por escrito em poucos dias úteis, conforme a complexidade do serviço.",
+    "faq.5.q": "Vocês fazem contrato de manutenção?",
+    "faq.5.a": "Sim. Montamos um plano de manutenção preventiva com visitas programadas, relatórios e atendimento prioritário.",
+
+    "cta.titulo": "Precisa de uma solução técnica para a sua empresa?",
+    "cta.texto": "Conte o que está acontecendo e agende uma visita técnica. Para emergências, chame agora no WhatsApp.",
+    "cta.botao": "Solicitar visita técnica",
+
+    "contato.eyebrow": "Contato",
+    "contato.titulo": "Fale com a nossa equipe técnica",
+    "contato.texto": "Envie sua mensagem com o tipo de serviço e o endereço. Retornamos em até 1 dia útil.",
+    "contato.botao": "Enviar solicitação",
+    "contato.mapa": "Como chegar",
+
+    "rodape.sobre": "A {nome} oferece projetos, instalações e manutenção elétrica para empresas em {cidade} e região.",
+    "rodape.texto": "Serviços de engenharia com ART e responsável técnico registrado no CREA."
+  },
+  "conformidade": {
+    "conselho": "CREA",
+    "aviso": "Em serviços de engenharia, informe o registro no CREA do responsável técnico e a emissão de ART quando aplicável. Confirme com os clientes antes de citar os nomes deles no site.",
+    "termosProibidos": [
+      "o melhor",
+      "os melhores",
+      "a melhor",
+      "as melhores",
+      "100% seguro",
+      "risco zero",
+      "dispensa ART",
+      "sem ART",
+      "garantia vitalícia",
+      "preço imbatível",
+      "mais barato",
+      "aproveite",
+      "imperdível"
+    ]
+  }
+}

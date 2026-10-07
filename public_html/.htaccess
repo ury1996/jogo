@@ -1,0 +1,58 @@
+# Construtor Rankly · raiz web do editor e da API (Apache 2.4 / LiteSpeed)
+
+Options -Indexes -MultiViews
+DirectoryIndex index.php index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Arquivos e pastas ocultos (.git, .env, .htaccess…) nunca são servidos
+  # (exceto /.well-known/, usado na emissão de certificados).
+  RewriteRule (^|/)\.(?!well-known/) - [F,L]
+
+  # /api/* → front controller (o próprio index.php passa direto)
+  RewriteRule ^api/index\.php$ - [L]
+  RewriteRule ^api(/|$) api/index.php [L,QSA]
+
+  # /editor → /editor/
+  RewriteRule ^editor$ /editor/ [R=301,L]
+</IfModule>
+
+# Editor: marca as requisições de /editor/ (SetEnvIf funciona em Apache e LiteSpeed).
+<IfModule mod_setenvif.c>
+  SetEnvIf Request_URI "^/editor/" RK_EDITOR=1
+</IfModule>
+
+<IfModule mod_headers.c>
+  # A API (PHP) define os próprios cabeçalhos; estes valem para os arquivos estáticos.
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "same-origin"
+  Header always set X-Frame-Options "DENY"
+  # Editor: só recursos da própria origem (sem scripts embutidos nem de terceiros).
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-src 'self' https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'" env=RK_EDITOR
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()" env=RK_EDITOR
+  # HTML e módulos do editor sempre revalidados (uma atualização chega na hora).
+  <FilesMatch "\.(html|mjs|js|css)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType text/javascript .mjs .js
+  AddType font/woff2 .woff2
+  AddType image/svg+xml .svg
+  AddCharset utf-8 .html .css .js .mjs .json
+</IfModule>
+
+# Limites de upload do PHP (fotos até 15 MB; ver limite_upload_mb).
+# mod_php e LiteSpeed (LSAPI) leem estes valores; em PHP-FPM use .user.ini ou o painel.
+<IfModule mod_php.c>
+  php_value upload_max_filesize 16M
+  php_value post_max_size 20M
+  php_value max_execution_time 120
+</IfModule>
+<IfModule lsapi_module>
+  php_value upload_max_filesize 16M
+  php_value post_max_size 20M
+  php_value max_execution_time 120
+</IfModule>

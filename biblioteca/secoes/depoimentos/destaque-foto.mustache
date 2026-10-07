@@ -1,0 +1,37 @@
+<div class="rk-wrap dep-palco" data-li="dep">
+  <div class="rk-cab dep-cab">
+    <p class="rk-eyebrow" data-k="dep.eyebrow">{{c.dep.eyebrow}}</p>
+    <h2 class="rk-h2 dep-titulo" data-k="dep.titulo">{{c.dep.titulo}}</h2>
+  </div>
+  <div class="dep-midia">
+    <div class="rk-foto rk-foto--deco dep-foto" data-img="dep.img" style="--ar:4/5">{{{c.dep.img.html}}}</div>
+    <div class="rk-selo dep-nota">
+      <strong class="dep-nota__v" data-k="aval.nota">{{c.aval.nota}}</strong>
+      <span class="dep-nota__info">
+        <span class="rk-estrelas dep-estrelas" aria-hidden="true"><span class="dep-estrela">{{{u.estrela}}}</span><span class="dep-estrela">{{{u.estrela}}}</span><span class="dep-estrela">{{{u.estrela}}}</span><span class="dep-estrela">{{{u.estrela}}}</span><span class="dep-estrela">{{{u.estrela}}}</span></span>
+        <span class="dep-nota__txt"><span class="rk-i">{{{u.google}}}</span><span data-k="aval.txt">{{c.aval.txt}}</span></span>
+      </span>
+    </div>
+  </div>
+  {{#c.dep.p1}}
+  <figure class="dep-grande" data-it="{{id}}">
+    <span class="dep-aspas" aria-hidden="true">{{{u.aspas}}}</span>
+    <blockquote class="dep-grande__t"><p data-k="{{k}}.t">{{t}}</p></blockquote>
+    <figcaption class="dep-autor"><strong class="dep-autor__n" data-k="{{k}}.n">{{n}}</strong><span class="dep-autor__c" data-k="{{k}}.c">{{c}}</span></figcaption>
+  </figure>
+  {{/c.dep.p1}}
+  <div class="dep-menores">
+    {{#c.dep.p2}}
+    <figure class="rk-card rk-card--estatico dep-card" data-it="{{id}}">
+      <blockquote class="dep-card__t"><p data-k="{{k}}.t">{{t}}</p></blockquote>
+      <figcaption class="dep-autor"><strong class="dep-autor__n" data-k="{{k}}.n">{{n}}</strong><span class="dep-autor__c" data-k="{{k}}.c">{{c}}</span></figcaption>
+    </figure>
+    {{/c.dep.p2}}
+    {{#c.dep.p3}}
+    <figure class="rk-card rk-card--estatico dep-card" data-it="{{id}}">
+      <blockquote class="dep-card__t"><p data-k="{{k}}.t">{{t}}</p></blockquote>
+      <figcaption class="dep-autor"><strong class="dep-autor__n" data-k="{{k}}.n">{{n}}</strong><span class="dep-autor__c" data-k="{{k}}.c">{{c}}</span></figcaption>
+    </figure>
+    {{/c.dep.p3}}
+  </div>
+</div>

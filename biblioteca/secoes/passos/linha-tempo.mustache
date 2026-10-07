@@ -1,0 +1,16 @@
+<div class="rk-wrap">
+  <div class="rk-cab rk-cab--centro passos-cab">
+    <p class="rk-eyebrow" data-k="passos.eyebrow">{{c.passos.eyebrow}}</p>
+    <h2 class="rk-h2 passos-titulo" data-k="passos.titulo">{{c.passos.titulo}}</h2>
+    <p class="rk-lead passos-lead" data-k="passos.texto">{{c.passos.texto}}</p>
+  </div>
+  <ol class="passos-linha" data-li="passos">
+    {{#c.passos.itens}}
+    <li class="passos-item" data-it="{{id}}">
+      <span class="passos-num" aria-hidden="true">0{{i}}</span>
+      <h3 class="rk-h3 passos-item__t" data-k="{{k}}.t">{{t}}</h3>
+      <p class="rk-p passos-item__d" data-k="{{k}}.d">{{d}}</p>
+    </li>
+    {{/c.passos.itens}}
+  </ol>
+</div>

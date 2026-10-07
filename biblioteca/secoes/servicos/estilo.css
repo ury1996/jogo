@@ -1,0 +1,324 @@
+/* Serviços — cards, lista, cards com foto e blocos. Lista variável de 3 a 8 itens (serv).
+   A grade recebe a classe .serv-q{qtd} (quantidade de itens) e distribui as linhas:
+   3 → 3 · 4 → 4 · 5 → 3+2 · 6 → 3+3 · 7 → 4+3 · 8 → 4+4 (computador). */
+
+.rk-sec--servicos .serv-titulo { max-width: 20em; }
+.rk-sec--servicos .serv-lead { max-width: 40rem; }
+
+/* ===================== grade comum (cards e cards-foto) ===================== */
+
+.rk-sec--servicos .serv-grade {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(16px, 2cqi, 28px);
+}
+.rk-sec--servicos .serv-grade > * { grid-column: span 4; }
+/* (mesma especificidade das regras de tablet/celular abaixo, que vêm depois e vencem) */
+.rk-op--servicos-cards :is(.serv-q4, .serv-q8) > *,
+.rk-op--servicos-cards-foto :is(.serv-q4, .serv-q8) > * { grid-column: span 3; }
+.rk-op--servicos-cards .serv-q5 > :nth-child(n + 4),
+.rk-op--servicos-cards-foto .serv-q5 > :nth-child(n + 4) { grid-column: span 6; }
+.rk-op--servicos-cards .serv-q7 > :nth-child(-n + 4),
+.rk-op--servicos-cards-foto .serv-q7 > :nth-child(-n + 4) { grid-column: span 3; }
+
+/* ===================== cards ===================== */
+
+.rk-op--servicos-cards .serv-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr auto;
+  justify-items: start;
+  gap: 12px;
+}
+.rk-op--servicos-cards .serv-card .rk-ic { margin-bottom: 12px; }
+.rk-op--servicos-cards .serv-card__link { margin-top: 10px; }
+/* 4 por linha: cards mais estreitos, texto um pouco menor */
+.rk-op--servicos-cards :is(.serv-q4, .serv-q7, .serv-q8) .serv-card__d { font-size: 0.95rem; }
+.k-classico .rk-op--servicos-cards .serv-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 44px;
+  height: 3px;
+  background: var(--p);
+  transition: width 0.3s ease;
+}
+.k-classico .rk-op--servicos-cards .serv-card:hover::before { width: calc(100% + 2px); background: var(--on-p); }
+
+/* ===================== cards-foto ===================== */
+
+.rk-op--servicos-cards-foto .serv-fcard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+}
+.rk-op--servicos-cards-foto .serv-fcard__foto {
+  flex: none;
+  overflow: hidden;
+  border-radius: 0;
+}
+.rk-op--servicos-cards-foto .serv-fcard__foto > img { transition: transform 0.6s ease; }
+.rk-op--servicos-cards-foto .serv-fcard:hover .serv-fcard__foto > img { transform: scale(1.04); }
+.rk-op--servicos-cards-foto .serv-fcard__corpo {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: clamp(20px, 2.2cqi, 28px);
+}
+.rk-op--servicos-cards-foto :is(.serv-q4, .serv-q7, .serv-q8) .serv-fcard__d { font-size: 0.95rem; }
+/* linhas com cards mais largos: foto mais baixa, para as fotos da grade terem alturas parecidas */
+.rk-op--servicos-cards-foto .serv-q5 > :nth-child(n + 4) .serv-fcard__foto { aspect-ratio: 2 / 1; }
+.rk-op--servicos-cards-foto .serv-q7 > :nth-child(n + 5) .serv-fcard__foto { aspect-ratio: 16 / 9; }
+/* Moderno: foto recuada dentro do card, com cantos próprios */
+.k-moderno .rk-op--servicos-cards-foto .serv-fcard { padding: 10px; }
+.k-moderno .rk-op--servicos-cards-foto .serv-fcard__foto { border-radius: calc(var(--rc) - 8px); }
+.k-moderno .rk-op--servicos-cards-foto .serv-fcard__corpo { padding: 18px 14px 16px; }
+/* Clássico: traço na cor entre a foto e o texto */
+.k-classico .rk-op--servicos-cards-foto .serv-fcard__foto { border-bottom: 3px solid var(--p); }
+
+/* ===================== lista ===================== */
+
+.rk-op--servicos-lista .serv-duas {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  align-items: start;
+  gap: 40px clamp(48px, 7cqi, 112px);
+}
+.rk-op--servicos-lista .serv-lado {
+  position: sticky;
+  top: 112px;
+  display: grid;
+  justify-items: start;
+  gap: 30px;
+}
+.rk-op--servicos-lista .serv-lado .rk-cab { margin-bottom: 0; }
+.rk-op--servicos-lista .serv-linhas { border-top: 1px solid var(--linha); }
+.rk-op--servicos-lista .serv-linha {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 22px;
+  padding-block: clamp(22px, 2.4cqi, 30px);
+  border-bottom: 1px solid var(--linha);
+}
+.rk-op--servicos-lista .serv-linha .rk-ic { --ic: 52px; }
+.rk-op--servicos-lista .serv-linha__txt { display: grid; gap: 6px; min-width: 0; padding-top: 3px; }
+.rk-op--servicos-lista .serv-linha__t { transition: color 0.2s ease; }
+.rk-op--servicos-lista .serv-linha__seta {
+  display: grid;
+  place-items: center;
+  align-self: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--linha);
+  border-radius: min(var(--r), 50%);
+  color: var(--fg);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.rk-op--servicos-lista .serv-linha__seta .rk-i { width: 20px; height: 20px; }
+.rk-op--servicos-lista .serv-linha:hover .serv-linha__t { color: var(--destaque); }
+.rk-op--servicos-lista .serv-linha:hover .serv-linha__seta,
+.rk-op--servicos-lista .serv-linha .serv-linha__seta:focus-visible {
+  border-color: var(--solido);
+  background: var(--solido);
+  color: var(--solido-fg);
+}
+.k-moderno .rk-op--servicos-lista .serv-linha:hover .serv-linha__seta { transform: translateX(3px); }
+.k-direto .rk-op--servicos-lista .serv-linhas { border-top-width: 2px; border-top-color: var(--fg); }
+.k-direto .rk-op--servicos-lista .serv-linha__seta { border-width: 2px; border-color: var(--solido); color: var(--destaque); }
+
+/* ===================== blocos ===================== */
+/* Capa escura de título + blocos dos itens. Padrões por quantidade (computador):
+   3: capa alta + 2 / 1 largo · 4: capa alta + 2×2 · 5: capa larga + 2 / 3
+   6: capa alta + 2×2 / 2 · 7: capa alta + 2×2 / 3 · 8: capa alta + 2×2 / 4 */
+
+.rk-op--servicos-blocos .serv-blocos {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(16px, 1.8cqi, 24px);
+}
+.rk-op--servicos-blocos .serv-capa {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  grid-column: span 4;
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  padding: clamp(28px, 3.4cqi, 46px);
+  border-radius: var(--rc);
+}
+.rk-op--servicos-blocos .serv-capa::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 360px;
+  height: 360px;
+  right: -150px;
+  bottom: -170px;
+  border-radius: 50%;
+  border: 1px solid var(--linha);
+  box-shadow: 0 0 0 46px color-mix(in srgb, var(--p-sobre-escuro) 7%, transparent);
+  pointer-events: none;
+}
+.rk-op--servicos-blocos .serv-capa::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: radial-gradient(90% 70% at 100% 0%, color-mix(in srgb, var(--p-sobre-escuro) 22%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+.rk-op--servicos-blocos .serv-capa .serv-titulo {
+  font-size: clamp(1.65rem, 1.15rem + 1.35cqi, 2.3rem);
+  max-width: 14em;
+}
+.rk-op--servicos-blocos .serv-capa .serv-btn { margin-top: auto; }
+.rk-op--servicos-blocos .serv-capa .serv-lead { margin-bottom: 14px; }
+.k-direto .rk-op--servicos-blocos .serv-capa { border-bottom: 6px solid var(--p-sobre-escuro); }
+
+.rk-op--servicos-blocos .serv-bloco {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.rk-op--servicos-blocos .serv-bloco .rk-ic { margin-bottom: 14px; }
+.rk-op--servicos-blocos .serv-bloco__n {
+  position: absolute;
+  top: clamp(24px, 2.5cqi, 36px);
+  right: clamp(24px, 2.5cqi, 36px);
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 1.05rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--fg2);
+  opacity: 0.75;
+}
+.k-direto .rk-op--servicos-blocos .serv-bloco__n { font-family: var(--fb); font-weight: 800; color: var(--destaque); opacity: 1; }
+
+/* quantidades */
+.rk-op--servicos-blocos .serv-q3 > .serv-bloco:nth-of-type(3) { grid-column: span 8; }
+.rk-op--servicos-blocos .serv-q5 > .serv-capa { grid-column: span 6; grid-row: auto; }
+.rk-op--servicos-blocos .serv-q5 > .serv-bloco:nth-of-type(-n + 2) { grid-column: span 3; }
+.rk-op--servicos-blocos .serv-q6 > .serv-bloco:nth-of-type(n + 5) { grid-column: span 6; }
+.rk-op--servicos-blocos .serv-q8 > .serv-bloco:nth-of-type(n + 5) { grid-column: span 3; }
+/* bloco largo: ícone ao lado do texto */
+.rk-op--servicos-blocos .serv-q3 > .serv-bloco:nth-of-type(3),
+.rk-op--servicos-blocos .serv-q6 > .serv-bloco:nth-of-type(n + 5) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  align-content: start;
+  column-gap: 22px;
+  row-gap: 8px;
+}
+.rk-op--servicos-blocos .serv-q3 > .serv-bloco:nth-of-type(3) .rk-ic,
+.rk-op--servicos-blocos .serv-q6 > .serv-bloco:nth-of-type(n + 5) .rk-ic { grid-row: span 2; margin-bottom: 0; }
+.rk-op--servicos-blocos .serv-q3 > .serv-bloco:nth-of-type(3) .serv-bloco__t,
+.rk-op--servicos-blocos .serv-q6 > .serv-bloco:nth-of-type(n + 5) .serv-bloco__t { padding-right: 36px; padding-top: 4px; }
+
+/* ===================== tablet ===================== */
+
+@container site (max-width: 1060px) {
+  /* cards e cards-foto: 2 por linha; com quantidade ímpar o último ocupa a linha toda, deitado */
+  .rk-sec--servicos .serv-grade > :nth-child(n) { grid-column: span 6; }
+  .rk-sec--servicos .serv-grade:is(.serv-q3, .serv-q5, .serv-q7) > :last-child { grid-column: 1 / -1; }
+  .rk-op--servicos-cards :is(.serv-q3, .serv-q5, .serv-q7) > .serv-card:last-child {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: 24px;
+  }
+  .rk-op--servicos-cards :is(.serv-q3, .serv-q5, .serv-q7) > .serv-card:last-child .rk-ic { grid-row: 1 / span 3; margin-bottom: 0; }
+  .rk-op--servicos-cards-foto .serv-grade > :nth-child(n) .serv-fcard__foto { aspect-ratio: 4 / 3; }
+  .rk-op--servicos-cards-foto :is(.serv-q3, .serv-q5, .serv-q7) > .serv-fcard:last-child { flex-direction: row; }
+  .rk-op--servicos-cards-foto :is(.serv-q3, .serv-q5, .serv-q7) > .serv-fcard:last-child .serv-fcard__foto {
+    width: 46%;
+    aspect-ratio: auto;
+    min-height: 240px;
+  }
+  .rk-op--servicos-cards-foto :is(.serv-q3, .serv-q5, .serv-q7) > .serv-fcard:last-child .serv-fcard__corpo { flex: 1; align-content: center; }
+  .k-classico .rk-op--servicos-cards-foto :is(.serv-q3, .serv-q5, .serv-q7) > .serv-fcard:last-child .serv-fcard__foto { border-bottom: 0; border-right: 3px solid var(--p); }
+
+  .rk-op--servicos-lista .serv-duas { grid-template-columns: minmax(0, 1fr); }
+  .rk-op--servicos-lista .serv-lado { position: static; }
+
+  /* blocos: capa larga no topo e 2 blocos por linha */
+  .rk-op--servicos-blocos .serv-blocos > .serv-capa { grid-column: 1 / -1; grid-row: auto; }
+  .rk-op--servicos-blocos .serv-blocos > .serv-bloco:nth-of-type(n) { grid-column: span 6; }
+  .rk-op--servicos-blocos :is(.serv-q3, .serv-q5, .serv-q7) > .serv-bloco:last-child { grid-column: 1 / -1; }
+  .rk-op--servicos-blocos .serv-capa .serv-titulo { max-width: 18em; }
+  /* os blocos 5 e 6 de seis itens voltam a ficar em pé (meia largura) */
+  .rk-op--servicos-blocos .serv-q6 > .serv-bloco:nth-of-type(n + 5) { display: flex; }
+  .rk-op--servicos-blocos .serv-q6 > .serv-bloco:nth-of-type(n + 5) .rk-ic { margin-bottom: 14px; }
+  .rk-op--servicos-blocos .serv-q6 > .serv-bloco:nth-of-type(n + 5) .serv-bloco__t { padding: 0; }
+  /* o último bloco de quantidade ímpar ocupa a linha toda: deitado */
+  .rk-op--servicos-blocos :is(.serv-q3, .serv-q5, .serv-q7) > .serv-bloco:last-child {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    align-content: start;
+    column-gap: 22px;
+    row-gap: 8px;
+  }
+  .rk-op--servicos-blocos :is(.serv-q3, .serv-q5, .serv-q7) > .serv-bloco:last-child .rk-ic { grid-row: span 2; margin-bottom: 0; }
+  .rk-op--servicos-blocos :is(.serv-q3, .serv-q5, .serv-q7) > .serv-bloco:last-child .serv-bloco__t { padding-right: 36px; padding-top: 4px; }
+}
+
+/* ===================== celular ===================== */
+
+@container site (max-width: 760px) {
+  .rk-sec--servicos .serv-grade { gap: 14px; }
+  .rk-sec--servicos .serv-grade > :nth-child(n),
+  .rk-sec--servicos .serv-grade:is(.serv-q3, .serv-q5, .serv-q7) > :last-child { grid-column: 1 / -1; }
+  .rk-op--servicos-cards .serv-card,
+  .rk-op--servicos-cards :is(.serv-q3, .serv-q5, .serv-q7) > .serv-card:last-child {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto;
+    column-gap: 18px;
+    row-gap: 8px;
+    padding: 22px 20px;
+  }
+  .rk-op--servicos-cards .serv-card .rk-ic,
+  .rk-op--servicos-cards :is(.serv-q3, .serv-q5, .serv-q7) > .serv-card:last-child .rk-ic { --ic: 48px; grid-row: 1 / span 3; margin-bottom: 0; }
+  .rk-op--servicos-cards .serv-card__link { margin-top: 4px; }
+  .rk-op--servicos-cards .serv-card__d { font-size: 0.95rem; }
+  .rk-op--servicos-cards-foto :is(.serv-q3, .serv-q5, .serv-q7) > .serv-fcard:last-child { flex-direction: column; }
+  .rk-op--servicos-cards-foto :is(.serv-q3, .serv-q5, .serv-q7) > .serv-fcard:last-child .serv-fcard__foto {
+    width: auto;
+    aspect-ratio: 4 / 3;
+    min-height: 0;
+  }
+  .k-classico .rk-op--servicos-cards-foto :is(.serv-q3, .serv-q5, .serv-q7) > .serv-fcard:last-child .serv-fcard__foto { border-right: 0; border-bottom: 3px solid var(--p); }
+
+  .rk-op--servicos-lista .serv-lado { gap: 24px; }
+  .rk-op--servicos-lista .serv-btn { width: 100%; }
+  .rk-op--servicos-lista .serv-linha { gap: 16px; padding-block: 20px; }
+  .rk-op--servicos-lista .serv-linha .rk-ic { --ic: 44px; }
+  .rk-op--servicos-lista .serv-linha__seta { width: 40px; height: 40px; }
+
+  .rk-op--servicos-blocos .serv-blocos { gap: 14px; }
+  .rk-op--servicos-blocos .serv-blocos > .serv-bloco:nth-of-type(n),
+  .rk-op--servicos-blocos :is(.serv-q3, .serv-q5, .serv-q7) > .serv-bloco:last-child { grid-column: 1 / -1; }
+  .rk-op--servicos-blocos .serv-capa { padding: 30px 22px; }
+  .rk-op--servicos-blocos .serv-capa .serv-btn { width: 100%; margin-top: 6px; }
+  /* no celular todos os blocos ficam deitados (ícone ao lado), como os cards */
+  .rk-op--servicos-blocos .serv-blocos > .serv-bloco:nth-of-type(n) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    align-content: start;
+    column-gap: 18px;
+    row-gap: 8px;
+    padding: 22px 20px;
+  }
+  .rk-op--servicos-blocos .serv-blocos > .serv-bloco:nth-of-type(n) .rk-ic { --ic: 48px; grid-row: span 2; margin-bottom: 0; }
+  .rk-op--servicos-blocos .serv-blocos > .serv-bloco:nth-of-type(n) .serv-bloco__t { padding-right: 30px; padding-top: 2px; }
+  .rk-op--servicos-blocos .serv-bloco__n { top: 22px; right: 20px; }
+}

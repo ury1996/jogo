@@ -1,0 +1,19 @@
+<a class="rk-pular" href="#rk-conteudo">Pular para o conteúdo</a>
+<header class="hdr">
+  <div class="rk-wrap hdr-linha">
+    <a class="rk-logo hdr-logo" href="#topo">{{{d.logo.html}}}{{^d.logo.temLogo}}<span class="rk-logo__nome">{{d.nome}}</span>{{/d.logo.temLogo}}</a>
+    <nav class="rk-menu hdr-menu" aria-label="Menu principal">
+      <ul class="rk-menu__lista">{{#menu}}<li><a href="{{href}}">{{rotulo}}</a></li>{{/menu}}</ul>
+    </nav>
+    <div class="hdr-acoes">
+      {{#d.temWhatsapp}}<a class="rk-btn rk-btn--p hdr-cta" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="header" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span class="hdr-cta__txt" data-k="hero.cta">{{c.hero.cta}}</span></a>{{/d.temWhatsapp}}
+      <details class="rk-menu__mob">
+        <summary><span class="rk-menu__abrir">{{{u.menu}}}</span><span class="rk-menu__fechar">{{{u.fechar}}}</span><span class="rk-sr">Menu</span></summary>
+        <nav class="rk-menu__painel" aria-label="Menu principal (celular)">
+          <ul>{{#menu}}<li><a href="{{href}}">{{rotulo}}</a></li>{{/menu}}</ul>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+<span class="rk-pular-alvo" id="rk-conteudo" tabindex="-1"></span>

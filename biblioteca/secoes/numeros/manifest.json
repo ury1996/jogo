@@ -1,0 +1,36 @@
+{
+  "tipo": "numeros",
+  "nome": "Números",
+  "ordem": 7,
+  "fixa": null,
+  "ancora": "numeros",
+  "menu": null,
+  "opcoes": [
+    {
+      "id": "faixa-clara",
+      "nome": "Faixa clara",
+      "descricao": "Os 3 números em faixa clara, separados por divisórias.",
+      "tom": "claro",
+      "alegacoes": ["num"]
+    },
+    {
+      "id": "faixa-cor",
+      "nome": "Faixa na cor",
+      "descricao": "Os 3 números em destaque sobre a cor principal.",
+      "tom": "cor",
+      "alegacoes": ["num"]
+    }
+  ],
+  "campos": {},
+  "listas": {
+    "num": {
+      "repete": [3, 3],
+      "rotuloItem": "número",
+      "campos": {
+        "v": { "tipo": "texto", "max": 8, "rotulo": "Número" },
+        "l": { "tipo": "texto", "max": 40, "rotulo": "O que o número representa" }
+      }
+    }
+  },
+  "alegacoes": ["num"]
+}

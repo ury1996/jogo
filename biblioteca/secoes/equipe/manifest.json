@@ -1,0 +1,43 @@
+{
+  "tipo": "equipe",
+  "nome": "Equipe",
+  "ordem": 9,
+  "fixa": null,
+  "ancora": "equipe",
+  "menu": "Equipe",
+  "opcoes": [
+    {
+      "id": "fotos-nome",
+      "nome": "Fotos com nome",
+      "descricao": "Fotos verticais da equipe com o nome e o cargo numa plaquinha sobreposta.",
+      "tom": "claro",
+      "sizes": { "equipe.*.f": "(max-width: 760px) 80vw, (max-width: 1180px) 31vw, 370px" },
+      "alegacoes": []
+    },
+    {
+      "id": "compacta",
+      "nome": "Compacta",
+      "descricao": "Cartões compactos com avatar redondo, nome e cargo. Sem foto, mostra a inicial na cor.",
+      "tom": "claro",
+      "sizes": { "equipe.*.f": "80px" },
+      "alegacoes": []
+    }
+  ],
+  "campos": {
+    "equipe.eyebrow": { "tipo": "texto", "max": 40, "rotulo": "Rótulo acima do título" },
+    "equipe.titulo": { "tipo": "texto", "max": 80, "rotulo": "Título da equipe" },
+    "equipe.texto": { "tipo": "texto-longo", "max": 220, "rotulo": "Texto de apoio" }
+  },
+  "listas": {
+    "equipe": {
+      "repete": [3, 3],
+      "rotuloItem": "pessoa",
+      "campos": {
+        "n": { "tipo": "texto", "max": 40, "rotulo": "Nome" },
+        "c": { "tipo": "texto", "max": 50, "rotulo": "Cargo ou especialidade" },
+        "f": { "tipo": "imagem", "proporcao": "3:4", "rotulo": "Foto da pessoa" }
+      }
+    }
+  },
+  "alegacoes": []
+}

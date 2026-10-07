@@ -1,0 +1,17 @@
+<div class="rk-wrap serv-lista">
+  <div class="serv-topo">
+    <p class="rk-eyebrow" data-k="serv.eyebrow">{{c.serv.eyebrow}}</p>
+    <h2 class="rk-h2" data-k="serv.titulo">{{c.serv.titulo}}</h2>
+  </div>
+  <ol class="serv-linhas" data-li="serv">
+    {{#c.serv.itens}}
+    <li class="serv-linha" data-it="{{id}}">
+      <span class="serv-num">{{i}}</span>
+      <span class="rk-ic" data-ic="{{k}}">{{{ic.svg}}}</span>
+      <div class="serv-txt"><h3 class="rk-h3" data-k="{{k}}.t">{{t}}</h3><p class="rk-p" data-k="{{k}}.d">{{d}}</p></div>
+      {{^ultimo}}<span class="serv-sep" aria-hidden="true"></span>{{/ultimo}}
+    </li>
+    {{/c.serv.itens}}
+  </ol>
+  {{#c.serv.p9}}<p class="rk-small">{{t}}</p>{{/c.serv.p9}}
+</div>

@@ -1,0 +1,28 @@
+{
+  "tipo": "rodape",
+  "nome": "Rodapé",
+  "ordem": 14,
+  "fixa": "fim",
+  "ancora": "rodape",
+  "menu": null,
+  "opcoes": [
+    {
+      "id": "completo",
+      "nome": "Completo",
+      "descricao": "Quatro colunas: sobre e redes, navegação, serviços e contato.",
+      "tom": "escuro"
+    },
+    {
+      "id": "simples",
+      "nome": "Simples",
+      "descricao": "Logo, contatos em linha, registro profissional e privacidade.",
+      "tom": "escuro"
+    }
+  ],
+  "campos": {
+    "rodape.sobre": { "tipo": "texto-longo", "max": 200, "rotulo": "Sobre (rodapé)" },
+    "rodape.texto": { "tipo": "texto", "max": 120, "rotulo": "Texto final do rodapé" }
+  },
+  "listas": {},
+  "alegacoes": []
+}

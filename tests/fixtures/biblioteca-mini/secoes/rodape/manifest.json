@@ -1,0 +1,18 @@
+{
+  "tipo": "rodape",
+  "nome": "Rodapé",
+  "ordem": 14,
+  "fixa": "fim",
+  "ancora": "rodape",
+  "menu": null,
+  "opcoes": [
+    { "id": "completo", "nome": "Completo", "descricao": "Quatro colunas com serviços, contato e redes.", "tom": "escuro" },
+    { "id": "simples", "nome": "Simples", "descricao": "Uma linha com nome, registro e menu.", "tom": "escuro" }
+  ],
+  "campos": {
+    "rodape.sobre": { "tipo": "texto-longo", "max": 200 },
+    "rodape.texto": { "tipo": "texto", "max": 120 }
+  },
+  "listas": {},
+  "alegacoes": []
+}

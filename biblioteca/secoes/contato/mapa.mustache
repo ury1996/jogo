@@ -1,0 +1,31 @@
+<div class="rk-wrap contato-grade{{^d.temEndereco}} contato-grade--sem-mapa{{/d.temEndereco}}">
+  <div class="contato-info">
+    <div class="rk-cab contato-cab">
+      <p class="rk-eyebrow" data-k="contato.eyebrow">{{c.contato.eyebrow}}</p>
+      <h2 class="rk-h2 contato-titulo" data-k="contato.titulo">{{c.contato.titulo}}</h2>
+      <p class="rk-lead contato-lead" data-k="contato.texto">{{c.contato.texto}}</p>
+    </div>
+    <ul class="contato-lista">
+      {{#d.temWhatsapp}}<li class="contato-item"><span class="rk-ic rk-ic--p contato-item__ic">{{{u.whatsapp}}}</span><span class="contato-item__txt"><span class="contato-item__rot">WhatsApp</span><a class="contato-item__v" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="contato" target="_blank" rel="noopener">{{d.whatsapp}}</a></span></li>{{/d.temWhatsapp}}
+      {{#d.temTelefone}}<li class="contato-item"><span class="rk-ic rk-ic--p contato-item__ic">{{{u.telefone}}}</span><span class="contato-item__txt"><span class="contato-item__rot">Telefone</span><a class="contato-item__v" href="{{d.telefoneLink}}" data-ev="telefone">{{d.telefone}}</a></span></li>{{/d.temTelefone}}
+      {{#d.temEmail}}<li class="contato-item"><span class="rk-ic rk-ic--p contato-item__ic">{{{u.email}}}</span><span class="contato-item__txt"><span class="contato-item__rot">E-mail</span><a class="contato-item__v" href="{{d.emailLink}}">{{d.email}}</a></span></li>{{/d.temEmail}}
+      {{#d.temEndereco}}<li class="contato-item"><span class="rk-ic rk-ic--p contato-item__ic">{{{u.pin}}}</span><span class="contato-item__txt"><span class="contato-item__rot">Endereço</span><span class="contato-item__v contato-linhas">{{#d.enderecoLinhas}}<span>{{.}}</span>{{/d.enderecoLinhas}}</span></span></li>{{/d.temEndereco}}
+      {{#d.temHorarios}}<li class="contato-item"><span class="rk-ic rk-ic--p contato-item__ic">{{{u.relogio}}}</span><span class="contato-item__txt"><span class="contato-item__rot">Horário de atendimento</span><span class="contato-item__v contato-horarios">{{#d.horarios}}<span class="contato-horarios__dias">{{dias}}</span><span class="contato-horarios__horas">{{horas}}</span>{{/d.horarios}}</span></span></li>{{/d.temHorarios}}
+    </ul>
+    {{#d.temWhatsapp}}
+    <a class="rk-btn contato-wa" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="contato" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="contato.botao">{{c.contato.botao}}</span></a>
+    {{/d.temWhatsapp}}
+  </div>
+  {{#d.temEndereco}}
+  <div class="contato-mapa">
+    <div class="rk-mapa contato-mapa__fachada" style="--ar:5/4">
+      <div class="rk-mapa__conteudo">
+        <span class="rk-mapa__pin">{{{u.pin}}}</span>
+        <button class="rk-btn rk-mapa__botao" type="button" data-mapa="{{d.mapaEmbed}}"><span class="rk-i">{{{u.mapa}}}</span><span data-k="contato.mapa">{{c.contato.mapa}}</span><span class="rk-sr"> (carrega o mapa do Google)</span></button>
+        <span class="contato-mapa__nota">O mapa do Google só carrega ao clicar.</span>
+      </div>
+    </div>
+    <a class="rk-link contato-mapa__link" href="{{d.mapaLink}}" target="_blank" rel="noopener"><span>Abrir no Google Maps</span><span class="rk-i">{{{u.seta}}}</span></a>
+  </div>
+  {{/d.temEndereco}}
+</div>

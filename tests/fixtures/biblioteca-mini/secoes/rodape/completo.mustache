@@ -1,0 +1,35 @@
+<div class="rk-wrap rod-grade">
+  <div class="rod-col">
+    <a class="rk-logo" href="#topo">{{{d.logo.html}}}<span class="rk-logo__nome">{{d.nome}}</span></a>
+    <p class="rk-p" data-k="rodape.sobre">{{c.rodape.sobre}}</p>
+    {{#d.temRedes}}
+    <ul class="rod-redes">
+      {{#d.redes}}
+      <li><a href="{{url}}" target="_blank" rel="noopener" aria-label="{{rotulo}}">{{{svg}}}</a></li>
+      {{/d.redes}}
+    </ul>
+    {{/d.temRedes}}
+  </div>
+  <div class="rod-col">
+    <h2 class="rod-tit" data-k="serv.eyebrow">{{c.serv.eyebrow}}</h2>
+    <ul class="rod-lista" data-li="serv">{{#c.serv.itens}}<li data-it="{{id}}"><span data-k="{{k}}.t">{{t}}</span></li>{{/c.serv.itens}}</ul>
+  </div>
+  <div class="rod-col">
+    <h2 class="rod-tit">Contato</h2>
+    {{#d.temEndereco}}<p class="rod-linha">{{{u.pin}}}<span>{{#d.enderecoLinhas}}{{.}}<br>{{/d.enderecoLinhas}}</span></p>{{/d.temEndereco}}
+    {{#d.temHorarios}}
+    <ul class="rod-horarios">
+      {{#d.horarios}}<li><span>{{dias}}</span> <span>{{horas}}</span></li>{{/d.horarios}}
+    </ul>
+    {{/d.temHorarios}}
+    {{#d.temWhatsapp}}<a class="rod-linha" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="rodape" target="_blank" rel="noopener">{{{u.whatsapp}}}<span>{{d.whatsapp}}</span></a>{{/d.temWhatsapp}}
+    {{#d.temTelefone}}<a class="rod-linha" href="{{d.telefoneLink}}" data-ev="telefone">{{{u.telefone}}}<span>{{d.telefone}}</span></a>{{/d.temTelefone}}
+    {{#d.temEmail}}<a class="rod-linha" href="{{d.emailLink}}">{{{u.email}}}<span>{{d.email}}</span></a>{{/d.temEmail}}
+    <a class="rod-linha" href="{{d.mapaLink}}" target="_blank" rel="noopener">{{{u.mapa}}}<span>Ver no mapa</span></a>
+  </div>
+</div>
+<div class="rk-wrap rod-base">
+  <p class="rk-small"><span>© {{d.ano}} {{d.nome}}.</span> <span data-k="rodape.texto">{{c.rodape.texto}}</span></p>
+  {{#d.temRegistro}}<p class="rk-small rod-registro">{{d.registro}}</p>{{/d.temRegistro}}
+  <a class="rk-small" href="/privacidade/">Política de privacidade</a>
+</div>

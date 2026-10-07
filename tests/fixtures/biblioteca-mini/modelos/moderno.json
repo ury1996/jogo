@@ -1,0 +1,14 @@
+{
+  "id": "moderno",
+  "nome": "Moderno",
+  "descricao": "Cantos arredondados, cards flutuando sobre as fotos e serviços em lista.",
+  "personalidade": "Estilo Framer.",
+  "acabamento": "moderno",
+  "secoes": [
+    ["header", "simples"],
+    ["hero", "cards-flutuantes"],
+    ["servicos", "lista"],
+    ["faq", "centralizada", { "so": ["clinicas"] }],
+    ["rodape", "simples"]
+  ]
+}

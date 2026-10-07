@@ -1,0 +1,257 @@
+/* Destaque (hero) — 4 opções. Só o hero usa <h1>. */
+
+.rk-sec--hero .hero-texto {
+  display: grid;
+  justify-items: start;
+  align-content: center;
+  gap: 22px;
+  min-width: 0;
+}
+.rk-sec--hero .hero-lead { max-width: 34rem; }
+.rk-sec--hero .hero-acoes { margin-top: 6px; }
+
+/* ===================== cards-flutuantes ===================== */
+
+.rk-op--hero-cards-flutuantes { padding-block: clamp(44px, 6cqi, 92px) clamp(72px, 8.5cqi, 128px); }
+.rk-op--hero-cards-flutuantes .hero-grade {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: clamp(40px, 6cqi, 92px);
+}
+.rk-op--hero-cards-flutuantes .hero-titulo { max-width: 15em; }
+.rk-op--hero-cards-flutuantes .hero-prova {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 12px;
+}
+.rk-op--hero-cards-flutuantes .hero-prova__txt { display: grid; line-height: 1.25; }
+.rk-op--hero-cards-flutuantes .hero-prova__v {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 1.15rem;
+  letter-spacing: var(--ft-ls);
+  color: var(--fg);
+}
+.rk-op--hero-cards-flutuantes .hero-prova__l { font-size: 0.875rem; color: var(--fg2); }
+
+.rk-op--hero-cards-flutuantes .hero-midia {
+  position: relative;
+  padding: 0 var(--deco-d) var(--deco-d) 0;
+}
+.rk-op--hero-cards-flutuantes .hero-selo {
+  position: absolute;
+  top: 8%;
+  right: -4px;
+  z-index: 3;
+  padding: 10px 16px 10px 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.rk-op--hero-cards-flutuantes .hero-num {
+  position: absolute;
+  left: -36px;
+  bottom: 13%;
+  z-index: 3;
+  padding-right: 22px;
+}
+.k-moderno .rk-op--hero-cards-flutuantes .hero-selo { animation: hero-flutuar 7s ease-in-out infinite; }
+.k-moderno .rk-op--hero-cards-flutuantes .hero-num { animation: hero-flutuar 7s ease-in-out -3.5s infinite; }
+@keyframes hero-flutuar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+/* ===================== fundo-cards ===================== */
+
+.rk-op--hero-fundo-cards {
+  z-index: 2;
+  padding-block: clamp(88px, 11cqi, 168px) 0;
+}
+.rk-op--hero-fundo-cards .hero-conteudo {
+  display: grid;
+  justify-items: start;
+  gap: 22px;
+}
+.rk-op--hero-fundo-cards .hero-titulo { max-width: 14em; }
+.rk-op--hero-fundo-cards .hero-lead { max-width: 36rem; }
+.rk-op--hero-fundo-cards .hero-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: clamp(64px, 8cqi, 112px);
+  margin-bottom: calc(-1 * clamp(64px, 7cqi, 96px));
+}
+.rk-op--hero-fundo-cards .hero-card {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  box-shadow: var(--sh-hover);
+}
+.rk-op--hero-fundo-cards .hero-card .rk-ic { margin-bottom: 6px; }
+/* primeiro card em bloco de cor, como nos templates corporativos */
+.rk-op--hero-fundo-cards .hero-card:first-child {
+  --bg: var(--p);
+  --fg: var(--on-p);
+  --fg2: var(--on-p);
+  --linha: color-mix(in srgb, var(--on-p) 28%, transparent);
+  --destaque: var(--on-p); --acento: var(--on-p);
+  --acento-suave: color-mix(in srgb, var(--on-p) 16%, transparent);
+  --solido: var(--on-p); --solido-fg: var(--p);
+  background: var(--p);
+  border-color: var(--p);
+}
+.k-classico .rk-op--hero-fundo-cards .hero-cards { gap: 0; }
+.k-classico .rk-op--hero-fundo-cards .hero-card { border-radius: 0; }
+.k-classico .rk-op--hero-fundo-cards .hero-card + .hero-card { border-left-width: 0; }
+.rk-op--hero-fundo-cards + .rk-sec { padding-top: calc(var(--sec-py) + clamp(56px, 6cqi, 88px)); }
+
+/* ===================== formulario ===================== */
+
+.rk-op--hero-formulario {
+  overflow: clip;
+  padding-block: clamp(56px, 7cqi, 112px);
+}
+.rk-op--hero-formulario::before,
+.rk-op--hero-formulario::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.rk-op--hero-formulario::before {
+  width: 640px;
+  height: 640px;
+  top: -260px;
+  right: -180px;
+  background: radial-gradient(circle, var(--deco) 0%, transparent 68%);
+}
+.rk-op--hero-formulario::after {
+  width: 520px;
+  height: 520px;
+  bottom: -330px;
+  right: 22%;
+  border: 1px solid var(--linha);
+}
+.rk-op--hero-formulario .hero-grade {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 470px);
+  align-items: center;
+  gap: clamp(40px, 6cqi, 96px);
+}
+.rk-op--hero-formulario .hero-titulo { max-width: 13em; }
+.rk-op--hero-formulario .hero-lista { margin-top: 4px; font-weight: 600; }
+.rk-op--hero-formulario .hero-wa { margin-top: 8px; }
+.rk-op--hero-formulario .hero-form {
+  padding: clamp(24px, 3cqi, 40px);
+  box-shadow: 0 30px 70px -30px color-mix(in srgb, var(--deep) 60%, transparent);
+}
+.rk-op--hero-formulario .hero-form__titulo { margin-bottom: 20px; }
+.rk-op--hero-formulario .hero-form__nota { margin-top: 14px; text-align: center; }
+.k-classico .rk-op--hero-formulario .hero-form { border-top: 3px solid var(--p); }
+
+/* ===================== centralizado ===================== */
+
+.rk-op--hero-centralizado { padding-block: clamp(56px, 7.5cqi, 112px) clamp(64px, 7cqi, 112px); }
+.rk-op--hero-centralizado .hero-centro {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+  text-align: center;
+}
+.rk-op--hero-centralizado .hero-titulo { max-width: 17em; }
+.rk-op--hero-centralizado .hero-lead { max-width: 40rem; }
+.rk-op--hero-centralizado .hero-acoes { justify-content: center; }
+.k-classico .rk-op--hero-centralizado .rk-eyebrow::after {
+  content: ""; flex: none; width: 34px; height: 1px; background: currentColor;
+}
+.rk-op--hero-centralizado .hero-palco {
+  position: relative;
+  margin-top: clamp(44px, 6cqi, 76px);
+  padding-bottom: 44px;
+}
+.rk-op--hero-centralizado .hero-foto { box-shadow: var(--sh); }
+.rk-op--hero-centralizado .hero-nums {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  gap: 16px;
+  transform: translateX(-50%);
+}
+.rk-op--hero-centralizado .hero-num {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 190px;
+  padding: 18px 24px;
+}
+.rk-op--hero-centralizado .hero-num .rk-selo__v { font-size: 2rem; color: var(--destaque); white-space: nowrap; }
+.rk-op--hero-centralizado .hero-num .rk-selo__l { margin-top: 0; }
+
+/* ===================== tablet ===================== */
+
+@container site (max-width: 1060px) {
+  .rk-op--hero-cards-flutuantes .hero-grade { gap: 48px; }
+  .rk-op--hero-cards-flutuantes .hero-num { left: -16px; }
+  .rk-op--hero-fundo-cards .hero-card { padding: 22px; }
+  .rk-op--hero-formulario .hero-grade { grid-template-columns: minmax(0, 1fr) minmax(0, 400px); gap: 40px; }
+  .rk-op--hero-centralizado .hero-num { min-width: 160px; }
+}
+
+/* ===================== celular ===================== */
+
+@container site (max-width: 760px) {
+  .rk-sec--hero .hero-texto { gap: 18px; }
+  .rk-sec--hero .hero-acoes { width: 100%; }
+
+  .rk-op--hero-cards-flutuantes .hero-grade { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .rk-op--hero-cards-flutuantes .hero-midia { padding: 0 var(--deco-d) var(--deco-d) 0; }
+  .rk-op--hero-cards-flutuantes .hero-foto { aspect-ratio: 1 / 1.05; }
+  .rk-op--hero-cards-flutuantes .hero-selo { top: 14px; right: 26px; max-width: calc(100% - 48px); }
+  .rk-op--hero-cards-flutuantes .hero-num { left: 12px; bottom: 30px; }
+
+  .rk-op--hero-fundo-cards { padding-block: 72px 48px; }
+  .rk-op--hero-fundo-cards .hero-cards {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    margin-top: 48px;
+    margin-bottom: 0;
+  }
+  .k-classico .rk-op--hero-fundo-cards .hero-cards { gap: 0; }
+  .k-classico .rk-op--hero-fundo-cards .hero-card + .hero-card { border-left-width: 1px; border-top-width: 0; }
+  .rk-op--hero-fundo-cards .hero-card {
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 16px;
+    row-gap: 6px;
+    padding: 20px;
+  }
+  .rk-op--hero-fundo-cards .hero-card .rk-ic { --ic: 48px; grid-row: span 2; margin: 0; }
+  .rk-op--hero-fundo-cards + .rk-sec { padding-top: var(--sec-py); }
+
+  .rk-op--hero-formulario { padding-block: 48px 56px; }
+  .rk-op--hero-formulario .hero-grade { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .rk-op--hero-formulario .hero-wa { width: 100%; }
+  .rk-op--hero-formulario .hero-form { padding: 22px 18px; }
+
+  .rk-op--hero-centralizado .hero-centro { gap: 18px; }
+  .rk-op--hero-centralizado .hero-foto { aspect-ratio: 4 / 3.4; }
+  .rk-op--hero-centralizado .hero-palco { padding-bottom: 0; }
+  .rk-op--hero-centralizado .hero-nums {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: -34px 10px 0;
+    transform: none;
+  }
+  .rk-op--hero-centralizado .hero-num { gap: 4px; padding: 12px; }
+  .rk-op--hero-centralizado .hero-num .rk-selo__v { font-size: 1.3rem; white-space: normal; }
+  .rk-op--hero-centralizado .hero-num .rk-selo__l { font-size: 0.75rem; }
+}

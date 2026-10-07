@@ -1,0 +1,48 @@
+{
+  "tipo": "sobre",
+  "nome": "Sobre",
+  "ordem": 5,
+  "fixa": null,
+  "ancora": "sobre",
+  "menu": "Sobre",
+  "opcoes": [
+    {
+      "id": "duas-fotos",
+      "nome": "Duas fotos com selo",
+      "descricao": "Fotos sobrepostas com selo de anos, lista de checagem e assinatura do responsável.",
+      "tom": "claro",
+      "sizes": {
+        "sobre.img": "(max-width: 760px) 92vw, (max-width: 1180px) 40vw, 460px",
+        "sobre.img2": "(max-width: 760px) 46vw, (max-width: 1180px) 22vw, 260px",
+        "equipe.*.f": "52px"
+      },
+      "alegacoes": ["num"]
+    },
+    {
+      "id": "foto-numeros",
+      "nome": "Foto larga com números",
+      "descricao": "Texto em duas colunas, foto larga e cartão de números sobreposto.",
+      "tom": "claro",
+      "sizes": { "sobre.img": "(max-width: 1180px) 100vw, 1180px" },
+      "alegacoes": ["num"]
+    }
+  ],
+  "campos": {
+    "sobre.eyebrow": { "tipo": "texto", "max": 40, "rotulo": "Rótulo acima do título" },
+    "sobre.titulo": { "tipo": "texto", "max": 80, "rotulo": "Título do sobre" },
+    "sobre.texto": { "tipo": "texto-longo", "max": 420, "rotulo": "Texto sobre o negócio" },
+    "sobre.img": { "tipo": "imagem", "proporcao": "4:5", "rotulo": "Foto principal do espaço" },
+    "sobre.img2": { "tipo": "imagem", "proporcao": "1:1", "rotulo": "Foto de um detalhe do ambiente" },
+    "sobre.cta": { "tipo": "texto", "max": 28, "rotulo": "Botão (WhatsApp)" }
+  },
+  "listas": {
+    "sobrel": {
+      "repete": [4, 4],
+      "rotuloItem": "item da lista",
+      "campos": {
+        "t": { "tipo": "texto", "max": 60, "rotulo": "Item da lista de checagem" }
+      }
+    }
+  },
+  "alegacoes": ["num"]
+}

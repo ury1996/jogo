@@ -1,0 +1,14 @@
+{
+  "id": "classico",
+  "nome": "Clássico",
+  "descricao": "Foto de fundo, cards sobrepostos e seções escuras.",
+  "personalidade": "Corporativo, estilo dos templates premium.",
+  "acabamento": "classico",
+  "secoes": [
+    ["header", "barra"],
+    ["hero", "formulario"],
+    ["servicos", "cards"],
+    ["faq", "foto-ajuda", { "exceto": ["advocacia"] }],
+    ["rodape", "completo"]
+  ]
+}

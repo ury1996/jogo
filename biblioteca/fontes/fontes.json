@@ -1,0 +1,201 @@
+{
+  "versao": 1,
+  "pares": {
+    "classica": {
+      "nome": "Clássica",
+      "titulos": "Libre Caslon Text",
+      "texto": "Source Sans 3",
+      "descricao": "Serifada tradicional",
+      "indicado": "Advocacia, finanças tradicionais"
+    },
+    "editorial": {
+      "nome": "Editorial",
+      "titulos": "DM Serif Display",
+      "texto": "DM Sans",
+      "descricao": "Serifa marcante",
+      "indicado": "Estética, consultorias, marcas sofisticadas"
+    },
+    "moderna": {
+      "nome": "Moderna",
+      "titulos": "Manrope",
+      "texto": "Manrope",
+      "descricao": "Sem serifa, firme",
+      "indicado": "Empresas, tecnologia, conversão"
+    },
+    "amigavel": {
+      "nome": "Amigável",
+      "titulos": "Nunito",
+      "texto": "Nunito",
+      "descricao": "Arredondada e leve",
+      "indicado": "Clínicas, saúde, serviços para família"
+    }
+  },
+  "arquivos": [
+    {
+      "familia": "Libre Caslon Text",
+      "arquivo": "libre-caslon-text-latin-400-normal.woff2",
+      "peso": "400",
+      "estilo": "normal",
+      "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+      "licenca": "OFL-1.1"
+    },
+    {
+      "familia": "Libre Caslon Text",
+      "arquivo": "libre-caslon-text-latin-700-normal.woff2",
+      "peso": "700",
+      "estilo": "normal",
+      "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+      "licenca": "OFL-1.1"
+    },
+    {
+      "familia": "Source Sans 3",
+      "arquivo": "source-sans-3-latin-wght-normal.woff2",
+      "peso": "200 900",
+      "estilo": "normal",
+      "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+      "licenca": "OFL-1.1"
+    },
+    {
+      "familia": "DM Serif Display",
+      "arquivo": "dm-serif-display-latin-400-normal.woff2",
+      "peso": "400",
+      "estilo": "normal",
+      "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+      "licenca": "OFL-1.1"
+    },
+    {
+      "familia": "DM Sans",
+      "arquivo": "dm-sans-latin-wght-normal.woff2",
+      "peso": "100 1000",
+      "estilo": "normal",
+      "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+      "licenca": "OFL-1.1"
+    },
+    {
+      "familia": "Manrope",
+      "arquivo": "manrope-latin-wght-normal.woff2",
+      "peso": "200 800",
+      "estilo": "normal",
+      "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+      "licenca": "OFL-1.1"
+    },
+    {
+      "familia": "Nunito",
+      "arquivo": "nunito-latin-wght-normal.woff2",
+      "peso": "200 1000",
+      "estilo": "normal",
+      "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+      "licenca": "OFL-1.1"
+    }
+  ],
+  "reserva": {
+    "Libre Caslon Text": {
+      "familia": "Libre Caslon Text Reserva",
+      "base": "serifada",
+      "local": [
+        "Times New Roman",
+        "Liberation Serif",
+        "Tinos"
+      ],
+      "ajustes": {
+        "size-adjust": "117.57%",
+        "ascent-override": "82.51%",
+        "descent-override": "22.12%",
+        "line-gap-override": "0.00%"
+      }
+    },
+    "Source Sans 3": {
+      "familia": "Source Sans 3 Reserva",
+      "base": "sem-serifa",
+      "local": [
+        "Arial",
+        "Liberation Sans",
+        "Arimo"
+      ],
+      "ajustes": {
+        "size-adjust": "89.41%",
+        "ascent-override": "114.52%",
+        "descent-override": "44.74%",
+        "line-gap-override": "0.00%"
+      }
+    },
+    "DM Serif Display": {
+      "familia": "DM Serif Display Reserva",
+      "base": "serifada",
+      "local": [
+        "Times New Roman",
+        "Liberation Serif",
+        "Tinos"
+      ],
+      "ajustes": {
+        "size-adjust": "110.85%",
+        "ascent-override": "93.46%",
+        "descent-override": "30.22%",
+        "line-gap-override": "0.00%"
+      }
+    },
+    "DM Sans": {
+      "familia": "DM Sans Reserva",
+      "base": "sem-serifa",
+      "local": [
+        "Arial",
+        "Liberation Sans",
+        "Arimo"
+      ],
+      "ajustes": {
+        "size-adjust": "105.13%",
+        "ascent-override": "94.36%",
+        "descent-override": "29.49%",
+        "line-gap-override": "0.00%"
+      }
+    },
+    "Manrope": {
+      "familia": "Manrope Reserva",
+      "base": "sem-serifa",
+      "local": [
+        "Arial",
+        "Liberation Sans",
+        "Arimo"
+      ],
+      "ajustes": {
+        "size-adjust": "100.14%",
+        "ascent-override": "106.45%",
+        "descent-override": "29.96%",
+        "line-gap-override": "0.00%"
+      }
+    },
+    "Nunito": {
+      "familia": "Nunito Reserva",
+      "base": "sem-serifa",
+      "local": [
+        "Arial",
+        "Liberation Sans",
+        "Arimo"
+      ],
+      "ajustes": {
+        "size-adjust": "98.13%",
+        "ascent-override": "103.02%",
+        "descent-override": "35.97%",
+        "line-gap-override": "0.00%"
+      }
+    }
+  },
+  "sistema": {
+    "sem-serifa": {
+      "nome": "Arial",
+      "local": [
+        "Arial",
+        "Liberation Sans",
+        "Arimo"
+      ]
+    },
+    "serifada": {
+      "nome": "Times New Roman",
+      "local": [
+        "Times New Roman",
+        "Liberation Serif",
+        "Tinos"
+      ]
+    }
+  }
+}

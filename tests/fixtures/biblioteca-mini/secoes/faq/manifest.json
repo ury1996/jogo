@@ -1,0 +1,31 @@
+{
+  "tipo": "faq",
+  "nome": "Perguntas",
+  "ordem": 11,
+  "fixa": null,
+  "ancora": "perguntas",
+  "menu": "Dúvidas",
+  "opcoes": [
+    { "id": "centralizada", "nome": "Centralizada", "descricao": "Perguntas abertas ao clicar, no centro.", "tom": "claro" },
+    { "id": "foto-ajuda", "nome": "Com foto e ajuda", "descricao": "Foto e caixa \"Ainda com dúvidas?\" com WhatsApp.", "tom": "claro",
+      "sizes": { "faq.img": "(max-width: 760px) 100vw, 40vw" } }
+  ],
+  "campos": {
+    "faq.eyebrow": { "tipo": "texto", "max": 40 },
+    "faq.titulo": { "tipo": "texto", "max": 80 },
+    "faq.texto": { "tipo": "texto-longo", "max": 220 },
+    "faq.img": { "tipo": "imagem", "proporcao": "4:5", "rotulo": "Foto do ambiente" },
+    "faq.ajuda": { "tipo": "texto-longo", "max": 120 }
+  },
+  "listas": {
+    "faq": {
+      "repete": [3, 10],
+      "rotuloItem": "pergunta",
+      "campos": {
+        "q": { "tipo": "texto", "max": 100 },
+        "a": { "tipo": "texto-longo", "max": 320 }
+      }
+    }
+  },
+  "alegacoes": []
+}

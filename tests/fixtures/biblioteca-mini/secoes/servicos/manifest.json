@@ -1,0 +1,32 @@
+{
+  "tipo": "servicos",
+  "nome": "Serviços",
+  "ordem": 6,
+  "fixa": null,
+  "ancora": "servicos",
+  "menu": "Serviços",
+  "opcoes": [
+    { "id": "cards", "nome": "Cards", "descricao": "Cards com foto, ícone e \"Saiba mais\".", "tom": "claro",
+      "sizes": { "serv.*.img": "(max-width: 760px) 100vw, 33vw" } },
+    { "id": "lista", "nome": "Lista", "descricao": "Serviços em linhas numeradas.", "tom": "claro" }
+  ],
+  "campos": {
+    "serv.eyebrow": { "tipo": "texto", "max": 40, "rotulo": "Rótulo acima do título" },
+    "serv.titulo": { "tipo": "texto", "max": 80 },
+    "serv.texto": { "tipo": "texto-longo", "max": 220 },
+    "serv.link": { "tipo": "texto", "max": 24 }
+  },
+  "listas": {
+    "serv": {
+      "repete": [3, 8],
+      "rotuloItem": "serviço",
+      "campos": {
+        "t": { "tipo": "texto", "max": 40 },
+        "d": { "tipo": "texto-longo", "max": 160 },
+        "img": { "tipo": "imagem", "proporcao": "4:3", "rotulo": "Foto do serviço" },
+        "ic": { "tipo": "icone", "automatico": "t" }
+      }
+    }
+  },
+  "alegacoes": []
+}

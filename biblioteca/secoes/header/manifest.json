@@ -1,0 +1,25 @@
+{
+  "tipo": "header",
+  "nome": "Cabeçalho",
+  "ordem": 1,
+  "fixa": "inicio",
+  "ancora": "topo",
+  "menu": null,
+  "opcoes": [
+    {
+      "id": "simples",
+      "nome": "Simples",
+      "descricao": "Logo, menu e botão de WhatsApp.",
+      "tom": "branco"
+    },
+    {
+      "id": "barra",
+      "nome": "Com barra de contato",
+      "descricao": "Faixa escura com horário, e-mail e endereço, e telefone em destaque.",
+      "tom": "branco"
+    }
+  ],
+  "campos": {},
+  "listas": {},
+  "alegacoes": []
+}

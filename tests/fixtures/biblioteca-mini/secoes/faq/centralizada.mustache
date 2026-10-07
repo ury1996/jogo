@@ -1,0 +1,13 @@
+<div class="rk-wrap faq-centro">
+  <p class="rk-eyebrow" data-k="faq.eyebrow">{{c.faq.eyebrow}}</p>
+  <h2 class="rk-h2" data-k="faq.titulo">{{c.faq.titulo}}</h2>
+  <p class="rk-lead" data-k="faq.texto">{{c.faq.texto}}</p>
+  <div class="faq-lista" data-li="faq">
+    {{#c.faq.itens}}
+    <details class="faq-item" data-it="{{id}}"{{#primeiro}} open{{/primeiro}}>
+      <summary><h3 class="rk-h3" data-k="{{k}}.q">{{q}}</h3>{{{u.mais}}}</summary>
+      <p class="rk-p" data-k="{{k}}.a">{{a}}</p>
+    </details>
+    {{/c.faq.itens}}
+  </div>
+</div>

@@ -1,0 +1,11 @@
+/* Serviços: cards e lista */
+.rk-sec--servicos .serv-topo{max-width:720px;margin-bottom:40px}
+.rk-op--servicos-cards .serv-grade{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.rk-op--servicos-cards .serv-card{background:var(--card);color:var(--card-fg);border-radius:var(--rc);box-shadow:var(--sh);padding:20px}
+.rk-op--servicos-cards .serv-card:hover{box-shadow:var(--sh-hover)}
+.rk-op--servicos-lista .serv-linhas{list-style:none;padding:0;margin:0}
+.rk-op--servicos-lista .serv-linha{display:grid;grid-template-columns:48px 48px 1fr;gap:16px;padding-block:20px;border-top:1px solid var(--linha)}
+.rk-op--servicos-lista .serv-num{color:var(--destaque);font-family:var(--ft)}
+.k-direto .rk-op--servicos-cards .serv-card{border:2px solid currentColor}
+@container site (max-width: 1060px){.rk-op--servicos-cards .serv-grade{grid-template-columns:repeat(2,1fr)}}
+@container site (max-width: 760px){.rk-op--servicos-cards .serv-grade{grid-template-columns:1fr}.rk-op--servicos-lista .serv-linha{grid-template-columns:40px 1fr}}

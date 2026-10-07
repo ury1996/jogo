@@ -1,0 +1,30 @@
+<div class="rk-wrap sobre-grade">
+  <div class="sobre-midia">
+    <div class="rk-foto rk-foto--deco sobre-foto" data-img="sobre.img" style="--ar:4/5">{{{c.sobre.img.html}}}</div>
+    <div class="rk-foto sobre-foto2" data-img="sobre.img2" style="--ar:1/1">{{{c.sobre.img2.html}}}</div>
+    {{#c.num.p1}}
+    <div class="rk-selo sobre-selo"><strong class="rk-selo__v sobre-selo__v" data-k="{{k}}.v">{{v}}</strong><span class="rk-selo__l sobre-selo__l" data-k="{{k}}.l">{{l}}</span></div>
+    {{/c.num.p1}}
+  </div>
+  <div class="sobre-texto">
+    <div class="rk-cab sobre-cab">
+      <p class="rk-eyebrow" data-k="sobre.eyebrow">{{c.sobre.eyebrow}}</p>
+      <h2 class="rk-h2 sobre-titulo" data-k="sobre.titulo">{{c.sobre.titulo}}</h2>
+    </div>
+    <p class="rk-p sobre-p" data-k="sobre.texto">{{c.sobre.texto}}</p>
+    <ul class="rk-check sobre-lista" data-li="sobrel">
+      {{#c.sobrel.itens}}
+      <li data-it="{{id}}"><span class="rk-check__ic">{{{u.check}}}</span><span data-k="{{k}}.t">{{t}}</span></li>
+      {{/c.sobrel.itens}}
+    </ul>
+    <div class="sobre-acoes">
+      {{#c.equipe.p1}}
+      <div class="sobre-ass">
+        <span class="rk-avatar sobre-ass__foto" data-img="{{k}}.f">{{{f.html}}}</span>
+        <span class="sobre-ass__txt"><strong class="sobre-ass__n" data-k="{{k}}.n">{{n}}</strong><span class="sobre-ass__c" data-k="{{k}}.c">{{c}}</span></span>
+      </div>
+      {{/c.equipe.p1}}
+      <a class="rk-btn sobre-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="sobre" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="sobre.cta">{{c.sobre.cta}}</span></a>
+    </div>
+  </div>
+</div>

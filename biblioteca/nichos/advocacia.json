@@ -1,0 +1,197 @@
+{
+  "id": "advocacia",
+  "nome": "Advocacia",
+  "descricao": "Escritórios e advogados autônomos",
+  "ordem": 1,
+  "especialidades": [
+    {
+      "id": "advocacia",
+      "nome": "Advocacia",
+      "segmento": "Advocacia",
+      "schemaOrg": "LegalService",
+      "conselho": "OAB",
+      "registroObrigatorio": true,
+      "rotuloRegistro": "OAB",
+      "iconesCategoria": "juridico"
+    }
+  ],
+  "exemplo": {
+    "nome": "Moraes & Lima Advogados",
+    "cidade": "Campinas",
+    "uf": "SP",
+    "whatsapp": "(19) 99876-5432",
+    "dados": {
+      "telefone": "(19) 3232-4500",
+      "email": "contato@moraeselima.adv.br",
+      "endereco": { "cep": "13025-320", "logradouro": "Av. Norte-Sul", "numero": "500", "complemento": "Sala 62", "bairro": "Cambuí" },
+      "horarios": {
+        "seg": ["09:00", "18:00"], "ter": ["09:00", "18:00"], "qua": ["09:00", "18:00"],
+        "qui": ["09:00", "18:00"], "sex": ["09:00", "18:00"], "sab": null, "dom": null
+      }
+    }
+  },
+  "padroesPorModelo": {
+    "classico": { "cor": "#1b2a4a", "fonte": "classica" },
+    "moderno": { "cor": "#2d3340", "fonte": "editorial" },
+    "direto": { "cor": "#1f3d63", "fonte": "moderna" }
+  },
+  "menu": {
+    "sobre": "O escritório",
+    "servicos": "Áreas de atuação",
+    "equipe": "Advogados",
+    "passos": "Como atendemos",
+    "faq": "Dúvidas",
+    "contato": "Contato"
+  },
+  "mensagemWhatsapp": "Olá! Vi o site do escritório e gostaria de agendar uma consulta.",
+  "iconesPadrao": {
+    "dif": ["handshake", "receipt", "globe"],
+    "serv": ["scales", "file-text", "users-three", "buildings", "gavel", "handshake"]
+  },
+  "listas": {
+    "serv": ["1", "2", "3", "4", "5", "6"],
+    "faq": ["1", "2", "3", "4", "5", "6"]
+  },
+  "textos": {
+    "hero.eyebrow": "{segmento} em {cidade}",
+    "hero.titulo": "Orientação jurídica clara para as decisões que importam",
+    "hero.texto": "Atuação em direito civil, de família, trabalhista e empresarial, com atendimento presencial e online e explicação de cada etapa.",
+    "hero.cta": "Agendar consulta",
+    "hero.cta2": "Áreas de atuação",
+    "hero.selo": "Atendimento presencial e online",
+
+    "form.titulo": "Agende uma consulta",
+    "form.nota": "Retornamos em horário comercial. Seus dados são usados apenas para responder a este contato.",
+    "form.botao": "Solicitar contato",
+
+    "dif.eyebrow": "Como atendemos",
+    "dif.titulo": "Clareza em cada etapa do atendimento",
+    "dif.1.t": "Atendimento personalizado",
+    "dif.1.d": "Um advogado responsável acompanha o seu caso do início ao fim e responde às suas dúvidas.",
+    "dif.2.t": "Honorários transparentes",
+    "dif.2.d": "Proposta por escrito antes de qualquer decisão, sem surpresas ao longo do processo.",
+    "dif.3.t": "Online e presencial",
+    "dif.3.d": "Reuniões por videochamada ou no escritório em {cidade}, no horário combinado.",
+
+    "sobre.eyebrow": "O escritório",
+    "sobre.titulo": "Um escritório próximo, com linguagem simples",
+    "sobre.texto": "A {nome} atua em {cidade} atendendo pessoas e empresas em questões do dia a dia e em momentos decisivos. Explicamos cada etapa em linguagem simples, para que você saiba sempre em que pé está o seu caso e quais são os próximos passos.",
+    "sobre.cta": "Falar com o escritório",
+    "sobrel.1.t": "Relatórios do andamento do caso",
+    "sobrel.2.t": "Advogados dedicados por área",
+    "sobrel.3.t": "Reuniões presenciais ou por videochamada",
+    "sobrel.4.t": "Retorno às mensagens em até 1 dia útil",
+
+    "serv.eyebrow": "Áreas de atuação",
+    "serv.titulo": "Em que podemos orientar você",
+    "serv.texto": "Atuação consultiva, para prevenir problemas, e também em processos judiciais e administrativos.",
+    "serv.link": "Saiba mais",
+    "serv.1.t": "Direito Trabalhista",
+    "serv.1.d": "Orientação a empregados e empregadores em rescisões, horas extras, acordos e reclamações trabalhistas.",
+    "serv.2.t": "Direito Previdenciário",
+    "serv.2.d": "Aposentadorias, revisões, auxílio por incapacidade e planejamento previdenciário junto ao INSS.",
+    "serv.3.t": "Família e Sucessões",
+    "serv.3.d": "Divórcio, guarda, pensão alimentícia, inventário e testamento, conduzidos com cuidado e discrição.",
+    "serv.4.t": "Direito Civil e Contratos",
+    "serv.4.d": "Elaboração e revisão de contratos, cobranças, indenizações e questões de imóveis e vizinhança.",
+    "serv.5.t": "Direito Empresarial",
+    "serv.5.d": "Constituição e alteração de sociedades, acordos entre sócios e assessoria no dia a dia da empresa.",
+    "serv.6.t": "Direito do Consumidor",
+    "serv.6.d": "Orientação em cobranças indevidas, produtos com defeito e problemas com bancos e planos de saúde.",
+
+    "num.1.v": "15",
+    "num.1.l": "anos de atuação",
+    "num.2.v": "4",
+    "num.2.l": "advogados na equipe",
+    "num.3.v": "6",
+    "num.3.l": "áreas de atuação",
+
+    "passos.eyebrow": "Como funciona",
+    "passos.titulo": "Como funciona o atendimento",
+    "passos.texto": "Do primeiro contato à definição da estratégia, você sabe o que esperar em cada etapa.",
+    "passos.1.t": "Primeiro contato",
+    "passos.1.d": "Você conta brevemente a sua situação pelo WhatsApp ou pelo formulário e agendamos uma conversa.",
+    "passos.2.t": "Análise do caso",
+    "passos.2.d": "Avaliamos documentos e prazos e explicamos as alternativas possíveis, com os riscos de cada uma.",
+    "passos.3.t": "Proposta e acompanhamento",
+    "passos.3.d": "Você recebe a proposta de honorários por escrito e relatórios a cada movimentação importante.",
+
+    "equipe.eyebrow": "Equipe",
+    "equipe.titulo": "Advogados que acompanham você de perto",
+    "equipe.texto": "Cada área tem um advogado responsável, que conhece o seu caso e responde às suas dúvidas.",
+    "equipe.1.n": "Dra. Helena Moraes",
+    "equipe.1.c": "Sócia · Família e Sucessões",
+    "equipe.2.n": "Dr. Rafael Lima",
+    "equipe.2.c": "Sócio · Trabalhista e Previdenciário",
+    "equipe.3.n": "Dra. Camila Duarte",
+    "equipe.3.c": "Civil e Empresarial",
+
+    "faq.eyebrow": "Dúvidas",
+    "faq.titulo": "Perguntas frequentes",
+    "faq.texto": "Respostas para quem vai procurar um advogado pela primeira vez.",
+    "faq.ajuda": "Ainda com dúvidas? Fale com o escritório pelo WhatsApp.",
+    "faq.1.q": "Como funciona a primeira consulta?",
+    "faq.1.a": "É uma conversa para entender a sua situação, analisar os documentos e explicar as alternativas possíveis. Pode ser no escritório ou por videochamada.",
+    "faq.2.q": "Como são definidos os honorários?",
+    "faq.2.a": "Os honorários são combinados em contrato escrito, conforme a complexidade do caso e a tabela de referência da OAB, antes de qualquer contratação.",
+    "faq.3.q": "Vocês atendem online?",
+    "faq.3.a": "Sim. Reuniões por videochamada, envio de documentos digitais e assinatura eletrônica permitem acompanhar tudo sem sair de casa.",
+    "faq.4.q": "Quais documentos devo levar?",
+    "faq.4.a": "Documento de identidade, comprovante de endereço e tudo o que tiver relação com o assunto, como contratos, mensagens e comprovantes.",
+    "faq.5.q": "Quanto tempo leva um processo?",
+    "faq.5.a": "Depende do tipo de ação e do andamento no tribunal. Explicamos os prazos estimados na análise do caso e informamos cada movimentação.",
+    "faq.6.q": "Vocês atendem fora de {cidade}?",
+    "faq.6.a": "Sim. Com o processo eletrônico e as reuniões online, atendemos clientes de outras cidades e estados.",
+
+    "cta.titulo": "Precisa de orientação jurídica?",
+    "cta.texto": "Conte a sua situação e agende uma conversa com um advogado da área, no escritório ou por videochamada.",
+    "cta.botao": "Agendar consulta",
+
+    "contato.eyebrow": "Contato",
+    "contato.titulo": "Fale com o escritório",
+    "contato.texto": "Envie sua mensagem ou chame pelo WhatsApp. Retornamos em horário comercial para agendar a sua consulta.",
+    "contato.botao": "Enviar mensagem",
+    "contato.mapa": "Como chegar",
+
+    "rodape.sobre": "A {nome} atua em {cidade} com advocacia consultiva e contenciosa para pessoas e empresas.",
+    "rodape.texto": "Conteúdo informativo, conforme o Provimento 205/2021 do Conselho Federal da OAB."
+  },
+  "conformidade": {
+    "conselho": "OAB",
+    "aviso": "A publicidade da advocacia segue o Provimento 205/2021 da OAB: informe áreas de atuação e formas de atendimento, sem prometer resultados, citar casos ou clientes, divulgar preços ou publicar depoimentos. Inclua o número de inscrição na OAB.",
+    "termosProibidos": [
+      "garantido",
+      "garantida",
+      "garantimos",
+      "garantia de resultado",
+      "resultado garantido",
+      "causa ganha",
+      "casos ganhos",
+      "causas ganhas",
+      "100% de êxito",
+      "100% de sucesso",
+      "taxa de sucesso",
+      "vitória garantida",
+      "o melhor escritório",
+      "os melhores advogados",
+      "o melhor advogado",
+      "melhor advogado",
+      "mais barato",
+      "menor preço",
+      "preço baixo",
+      "promoção",
+      "desconto nos honorários",
+      "honorários a partir de",
+      "consulta grátis",
+      "consulta gratuita",
+      "primeira consulta grátis",
+      "grátis",
+      "aproveite",
+      "imperdível",
+      "sem risco",
+      "indenização garantida",
+      "ganhe sua causa",
+      "ganhe a causa"
+    ]
+  }
+}

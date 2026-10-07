@@ -1,0 +1,44 @@
+{
+  "tipo": "depoimentos",
+  "nome": "Depoimentos",
+  "ordem": 10,
+  "fixa": null,
+  "ancora": "depoimentos",
+  "menu": null,
+  "opcoes": [
+    {
+      "id": "cards-nota",
+      "nome": "Cards com nota",
+      "descricao": "Nota média do Google com estrelas e 3 depoimentos em cards.",
+      "tom": "claro",
+      "alegacoes": ["dep", "aval"]
+    },
+    {
+      "id": "destaque-foto",
+      "nome": "Destaque com foto",
+      "descricao": "Um depoimento grande ao lado de uma foto com a nota do Google, e dois menores.",
+      "tom": "claro",
+      "sizes": { "dep.img": "(max-width: 760px) 100vw, (max-width: 1180px) 40vw, 470px" },
+      "alegacoes": ["dep", "aval"]
+    }
+  ],
+  "campos": {
+    "dep.eyebrow": { "tipo": "texto", "max": 40, "rotulo": "Rótulo acima do título" },
+    "dep.titulo": { "tipo": "texto", "max": 80, "rotulo": "Título dos depoimentos" },
+    "dep.img": { "tipo": "imagem", "proporcao": "4:5", "rotulo": "Foto de um cliente ou do atendimento" },
+    "aval.nota": { "tipo": "texto", "max": 4, "rotulo": "Nota média no Google (ex.: 4,9)" },
+    "aval.txt": { "tipo": "texto", "max": 60, "rotulo": "Texto da nota" }
+  },
+  "listas": {
+    "dep": {
+      "repete": [3, 3],
+      "rotuloItem": "depoimento",
+      "campos": {
+        "t": { "tipo": "texto-longo", "max": 240, "rotulo": "Depoimento" },
+        "n": { "tipo": "texto", "max": 40, "rotulo": "Nome de quem deu o depoimento" },
+        "c": { "tipo": "texto", "max": 50, "rotulo": "Contexto (ex.: Paciente desde 2021)" }
+      }
+    }
+  },
+  "alegacoes": ["dep", "aval"]
+}

@@ -1,0 +1,18 @@
+<div class="rk-wrap">
+  <div class="rk-cab serv-cab">
+    <p class="rk-eyebrow" data-k="serv.eyebrow">{{c.serv.eyebrow}}</p>
+    <h2 class="rk-h2 serv-titulo" data-k="serv.titulo">{{c.serv.titulo}}</h2>
+    <p class="rk-lead serv-lead" data-k="serv.texto">{{c.serv.texto}}</p>
+  </div>
+  <div class="serv-grade serv-q{{c.serv.qtd}}" data-li="serv">
+    {{#c.serv.itens}}
+    <article class="rk-card serv-fcard" data-it="{{id}}">
+      <div class="rk-foto serv-fcard__foto" data-img="{{k}}.img" style="--ar:4/3">{{{img.html}}}</div>
+      <div class="serv-fcard__corpo">
+        <h3 class="rk-h3 serv-fcard__t" data-k="{{k}}.t">{{t}}</h3>
+        <p class="rk-p serv-fcard__d" data-k="{{k}}.d">{{d}}</p>
+      </div>
+    </article>
+    {{/c.serv.itens}}
+  </div>
+</div>

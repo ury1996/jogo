@@ -1,1 +1,6 @@
+# Mídia enviada: nunca servida diretamente (só por /api/media, com sessão) nem executada.
 Require all denied
+Options -Indexes -ExecCGI
+<IfModule mod_php.c>
+  php_flag engine off
+</IfModule>

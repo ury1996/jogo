@@ -1,0 +1,145 @@
+/* Cabeçalho — fixo no topo no computador (sticky), estático no celular. */
+
+.rk-sec--header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding-block: 0;
+  border-bottom: 1px solid var(--linha);
+  overflow-x: visible;
+}
+.rk-sec--header .hdr-linha {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.6cqi, 40px);
+  min-height: 84px;
+}
+.rk-sec--header .hdr-logo { margin-right: auto; }
+.rk-sec--header .hdr-acoes {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: none;
+}
+.rk-sec--header .hdr-cta { white-space: nowrap; }
+
+/* ---- barra de contato (faixa escura acima) ---- */
+.rk-op--header-barra:has(.hdr-topo__item) { top: -42px; }
+.rk-op--header-barra .hdr-topo:not(:has(.hdr-topo__item)) { display: none; }
+.rk-op--header-barra .hdr-topo { font-size: 0.8125rem; }
+.rk-op--header-barra .hdr-topo__linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 42px;
+  overflow: hidden;
+}
+.rk-op--header-barra .hdr-topo__info {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  min-width: 0;
+}
+.rk-op--header-barra .hdr-topo__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--fg2);
+  white-space: nowrap;
+}
+.rk-op--header-barra .hdr-topo__item > :last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rk-op--header-barra .hdr-topo__item .rk-i { color: var(--acento); }
+.rk-op--header-barra .hdr-topo a { transition: color 0.2s ease; }
+.rk-op--header-barra .hdr-topo a:hover { color: var(--fg); }
+.rk-op--header-barra .hdr-linha { min-height: 88px; }
+
+.rk-op--header-barra .hdr-fone {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 6px;
+  color: var(--fg);
+}
+.rk-op--header-barra .hdr-fone__ic {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--acento-suave);
+  color: var(--acento);
+}
+.rk-op--header-barra .hdr-fone__ic svg { width: 20px; height: 20px; }
+.k-classico .rk-op--header-barra .hdr-fone__ic {
+  border: 1px solid var(--linha);
+  border-radius: var(--ri);
+  background: transparent;
+}
+.k-direto .rk-op--header-barra .hdr-fone__ic {
+  border-radius: var(--ri);
+  background: var(--solido);
+  color: var(--solido-fg);
+}
+.rk-op--header-barra .hdr-fone__rot {
+  display: block;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  color: var(--fg2);
+}
+.k-classico .rk-op--header-barra .hdr-fone__rot { text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.66rem; }
+.rk-op--header-barra .hdr-fone__num {
+  display: block;
+  font-size: 1.06rem;
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+.rk-op--header-barra .hdr-fone:hover .hdr-fone__num { color: var(--destaque); }
+
+/* ---- tablet: menu vira <details> ---- */
+@container site (max-width: 1060px) {
+  .rk-sec--header .hdr-menu { display: none; }
+  .rk-sec--header .rk-menu__mob { display: block; }
+  .rk-op--header-barra .hdr-fone__txt { display: none; }
+  .rk-op--header-barra .hdr-topo__email { display: none; }
+}
+
+/* ---- celular ---- */
+@container site (max-width: 760px) {
+  .rk-sec--header,
+  .rk-op--header-barra:has(.hdr-topo__item) { position: relative; top: auto; }
+  .rk-sec--header .hdr-linha { min-height: 70px; gap: 10px; }
+  .rk-op--header-barra .hdr-linha { min-height: 70px; }
+  .rk-sec--header .hdr-acoes { gap: 8px; }
+  .rk-sec--header .rk-logo { gap: 10px; }
+  .rk-sec--header .rk-logo__nome { font-size: 1.04rem; }
+  .rk-sec--header .rk-logo__ini { width: 38px; height: 38px; font-size: 1.15rem; }
+  .rk-sec--header .rk-logo__img { max-width: 150px; max-height: 42px; }
+  .rk-sec--header .hdr-cta {
+    width: 46px;
+    min-height: 46px;
+    padding: 0;
+    border-radius: min(var(--r), 14px);
+  }
+  .rk-sec--header .hdr-cta .rk-i { width: 22px; height: 22px; }
+  .rk-sec--header .hdr-cta__txt {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .rk-op--header-barra .hdr-fone { display: none; }
+  .rk-op--header-barra .hdr-topo__linha { justify-content: center; height: auto; min-height: 38px; padding-block: 8px; }
+  .rk-op--header-barra .hdr-topo__item { white-space: normal; text-align: center; line-height: 1.4; }
+  .rk-op--header-barra .hdr-topo__info > li + li { display: none; }
+  .rk-op--header-barra .hdr-topo__info:has(li) ~ .hdr-topo__end { display: none; }
+}

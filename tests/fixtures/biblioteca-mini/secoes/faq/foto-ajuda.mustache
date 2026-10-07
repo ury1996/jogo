@@ -1,0 +1,22 @@
+<div class="rk-wrap faq-grade">
+  <div class="faq-lado">
+    <div class="rk-foto" data-img="faq.img" style="--ar:4/5">{{{c.faq.img.html}}}</div>
+    <div class="rk-card faq-ajuda">
+      <p data-k="faq.ajuda">{{c.faq.ajuda}}</p>
+      <a class="rk-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="faq" target="_blank" rel="noopener">{{{u.whatsapp}}}<span>WhatsApp</span></a>
+    </div>
+  </div>
+  <div class="faq-principal">
+    <p class="rk-eyebrow" data-k="faq.eyebrow">{{c.faq.eyebrow}}</p>
+    <h2 class="rk-h2" data-k="faq.titulo">{{c.faq.titulo}}</h2>
+    <div class="faq-lista" data-li="faq">
+      {{#c.faq.itens}}
+      <details class="faq-item" data-it="{{id}}">
+        <summary><h3 class="rk-h3" data-k="{{k}}.q">{{q}}</h3>{{{u.mais}}}</summary>
+        <p class="rk-p" data-k="{{k}}.a">{{a}}</p>
+      </details>
+      {{/c.faq.itens}}
+      {{^c.faq.tem}}<p class="rk-p">Sem perguntas por enquanto.</p>{{/c.faq.tem}}
+    </div>
+  </div>
+</div>

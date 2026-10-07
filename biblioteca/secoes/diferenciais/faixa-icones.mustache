@@ -1,0 +1,17 @@
+<div class="rk-wrap">
+  <div class="rk-cab rk-cab--centro dif-cab">
+    <p class="rk-eyebrow" data-k="dif.eyebrow">{{c.dif.eyebrow}}</p>
+    <h2 class="rk-h2 dif-titulo" data-k="dif.titulo">{{c.dif.titulo}}</h2>
+  </div>
+  <ul class="rk-card rk-card--estatico dif-faixa" data-li="dif">
+    {{#c.dif.itens}}
+    <li class="dif-item" data-it="{{id}}">
+      <span class="rk-ic" data-ic="{{k}}">{{{ic.svg}}}</span>
+      <div class="dif-item__txt">
+        <h3 class="rk-h3 dif-item__t" data-k="{{k}}.t">{{t}}</h3>
+        <p class="rk-p dif-item__d" data-k="{{k}}.d">{{d}}</p>
+      </div>
+    </li>
+    {{/c.dif.itens}}
+  </ul>
+</div>

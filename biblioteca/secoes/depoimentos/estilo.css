@@ -1,0 +1,239 @@
+/* Depoimentos — cards com a nota do Google e destaque com foto. Lista fixa de 3 (dep) + nota (aval). */
+
+.rk-sec--depoimentos .dep-titulo { max-width: 16em; }
+
+/* nota média: número grande, estrelas e "Nota média no Google" */
+.rk-sec--depoimentos .dep-nota {
+  gap: 16px;
+  padding: 16px 24px 16px 20px;
+}
+.rk-sec--depoimentos .dep-nota__v {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 2.6rem;
+  line-height: 1;
+  letter-spacing: var(--ft-ls);
+  color: var(--fg);
+  font-variant-numeric: lining-nums;
+}
+.rk-sec--depoimentos .dep-nota__info { display: grid; gap: 6px; min-width: 0; }
+.rk-sec--depoimentos .dep-nota .rk-estrelas { font-size: 1.05rem; color: var(--acento); }
+/* estrelas de nota sempre cheias: no Moderno o preenchimento suave do duotone fica opaco;
+   no Clássico (traço fino) o contorno do ícone ganha um miolo na mesma cor */
+.rk-sec--depoimentos .dep-estrela { position: relative; display: inline-flex; width: 1.1em; height: 1.1em; }
+.rk-sec--depoimentos .dep-estrela svg { position: relative; z-index: 1; width: 100%; height: 100%; }
+.k-moderno .rk-sec--depoimentos .dep-estrela path[opacity] { opacity: 1; }
+.k-classico .rk-sec--depoimentos .dep-estrela::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  clip-path: polygon(50% 11%, 64.8% 32%, 90% 39.5%, 74% 60%, 75.5% 86%, 50% 77.5%, 24.5% 86%, 26% 60%, 10% 39.5%, 35.2% 32%);
+}
+.rk-sec--depoimentos .dep-nota__txt {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--fg2);
+}
+.rk-sec--depoimentos .dep-nota__txt .rk-i { width: 1.05em; height: 1.05em; color: var(--fg); }
+
+/* aspas decorativas */
+.rk-sec--depoimentos .dep-aspas {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--acento);
+}
+.rk-sec--depoimentos .dep-aspas svg { width: 100%; height: 100%; }
+.k-moderno .rk-sec--depoimentos .dep-aspas {
+  width: 48px;
+  height: 48px;
+  padding: 11px;
+  border-radius: 50%;
+  background: var(--acento-suave);
+}
+.k-direto .rk-sec--depoimentos .dep-aspas {
+  width: 46px;
+  height: 46px;
+  padding: 11px;
+  border-radius: var(--ri);
+  background: var(--solido);
+  color: var(--solido-fg);
+}
+
+/* autor: nome + contexto */
+.rk-sec--depoimentos .dep-autor { display: grid; gap: 2px; min-width: 0; }
+.rk-sec--depoimentos .dep-autor__n {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 1.05rem;
+  line-height: 1.3;
+  letter-spacing: var(--ft-ls);
+  color: var(--fg);
+}
+.rk-sec--depoimentos .dep-autor__c { font-size: 0.875rem; line-height: 1.4; color: var(--fg2); }
+
+/* card de depoimento */
+.rk-sec--depoimentos .dep-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  margin: 0;
+}
+.rk-sec--depoimentos .dep-card__t { flex: 1 1 auto; margin: 0; }
+.rk-sec--depoimentos .dep-card__t p {
+  font-size: var(--t-p);
+  line-height: 1.68;
+  color: var(--fg);
+  text-wrap: pretty;
+}
+.rk-sec--depoimentos .dep-card .dep-autor { padding-top: 18px; border-top: 1px solid var(--linha); }
+
+/* ===================== cards-nota ===================== */
+
+.rk-op--depoimentos-cards-nota .dep-topo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 28px 48px;
+  margin-bottom: clamp(36px, 4.6cqi, 60px);
+}
+.rk-op--depoimentos-cards-nota .dep-cab { margin-bottom: 0; }
+.rk-op--depoimentos-cards-nota .dep-grade {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2cqi, 28px);
+}
+.rk-op--depoimentos-cards-nota .dep-item { min-width: 0; }
+.k-classico .rk-op--depoimentos-cards-nota .dep-card { border-top: 2px solid var(--p); }
+
+/* ===================== destaque-foto ===================== */
+
+.rk-op--depoimentos-destaque-foto .dep-palco {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  grid-template-areas:
+    "foto cab"
+    "foto grande"
+    "foto menores";
+  grid-template-rows: auto auto 1fr;
+  column-gap: clamp(44px, 6.5cqi, 96px);
+  align-items: start;
+}
+.rk-op--depoimentos-destaque-foto .dep-cab { grid-area: cab; margin-bottom: clamp(24px, 2.8cqi, 36px); }
+.rk-op--depoimentos-destaque-foto .dep-midia {
+  grid-area: foto;
+  position: relative;
+  align-self: center;
+  padding: 0 var(--deco-d) var(--deco-d) 0;
+}
+.k-direto .rk-op--depoimentos-destaque-foto .dep-midia { padding: 0 0 var(--deco-d) var(--deco-d); }
+.rk-op--depoimentos-destaque-foto .dep-nota {
+  position: absolute;
+  right: -28px;
+  bottom: 12%;
+  z-index: 3;
+  max-width: calc(100% - 24px);
+}
+.k-direto .rk-op--depoimentos-destaque-foto .dep-nota { right: -20px; }
+.k-moderno .rk-op--depoimentos-destaque-foto .dep-nota { animation: dep-flutuar 7s ease-in-out infinite; }
+@keyframes dep-flutuar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+.rk-op--depoimentos-destaque-foto .dep-grande {
+  grid-area: grande;
+  display: grid;
+  justify-items: start;
+  gap: 20px;
+  margin: 0 0 clamp(28px, 3.4cqi, 44px);
+}
+.rk-op--depoimentos-destaque-foto .dep-grande__t { margin: 0; }
+.rk-op--depoimentos-destaque-foto .dep-grande__t p {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: clamp(1.25rem, 1.05rem + 0.75cqi, 1.7rem);
+  line-height: 1.42;
+  letter-spacing: var(--ft-ls);
+  color: var(--fg);
+  text-wrap: pretty;
+}
+/* traço antes do autor do depoimento principal */
+.rk-op--depoimentos-destaque-foto .dep-grande .dep-autor {
+  position: relative;
+  padding-left: 46px;
+}
+.rk-op--depoimentos-destaque-foto .dep-grande .dep-autor::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 32px;
+  height: 2px;
+  background: var(--acento);
+}
+.rk-op--depoimentos-destaque-foto .dep-menores {
+  grid-area: menores;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 1.8cqi, 24px);
+}
+.rk-op--depoimentos-destaque-foto .dep-card { padding: clamp(20px, 2.2cqi, 28px); gap: 16px; }
+.rk-op--depoimentos-destaque-foto .dep-card__t p { font-size: 0.975rem; line-height: 1.62; }
+.rk-op--depoimentos-destaque-foto .dep-card .dep-autor { padding-top: 14px; }
+.rk-op--depoimentos-destaque-foto .dep-card .dep-autor__n { font-size: 1rem; }
+.k-classico .rk-op--depoimentos-destaque-foto .dep-card { border-left: 2px solid var(--p); }
+
+/* ===================== tablet ===================== */
+
+@container site (max-width: 1060px) {
+  .rk-sec--depoimentos .dep-nota__v { font-size: 2.2rem; }
+  .rk-op--depoimentos-cards-nota .dep-grade { gap: 16px; }
+  .rk-op--depoimentos-cards-nota .dep-card { padding: 22px; }
+
+  .rk-op--depoimentos-destaque-foto .dep-palco {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-areas:
+      "cab cab"
+      "foto grande"
+      "menores menores";
+    grid-template-rows: auto auto auto;
+    column-gap: 48px;
+  }
+  .rk-op--depoimentos-destaque-foto .dep-midia { margin-bottom: 40px; }
+  .rk-op--depoimentos-destaque-foto .dep-grande { align-self: center; margin-bottom: 40px; }
+  .rk-op--depoimentos-destaque-foto .dep-nota { right: -12px; }
+}
+
+/* ===================== celular ===================== */
+
+@container site (max-width: 760px) {
+  .rk-sec--depoimentos .dep-nota { gap: 12px; padding: 12px 18px 12px 14px; }
+  .rk-sec--depoimentos .dep-nota__v { font-size: 2rem; }
+
+  .rk-op--depoimentos-cards-nota .dep-topo { display: grid; justify-items: start; gap: 24px; }
+  .rk-op--depoimentos-cards-nota .dep-grade { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+
+  .rk-op--depoimentos-destaque-foto .dep-palco {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "cab" "foto" "grande" "menores";
+  }
+  .rk-op--depoimentos-destaque-foto .dep-foto { aspect-ratio: 4 / 3.6; }
+  .rk-op--depoimentos-destaque-foto .dep-nota,
+  .k-direto .rk-op--depoimentos-destaque-foto .dep-nota {
+    right: calc(var(--deco-d) + 12px);
+    bottom: calc(var(--deco-d) + 12px);
+  }
+  .k-direto .rk-op--depoimentos-destaque-foto .dep-nota { right: 12px; }
+  .rk-op--depoimentos-destaque-foto .dep-midia { margin-bottom: 36px; }
+  .rk-op--depoimentos-destaque-foto .dep-grande { gap: 16px; margin-bottom: 28px; }
+  .rk-op--depoimentos-destaque-foto .dep-menores { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+}

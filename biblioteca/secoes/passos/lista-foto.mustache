@@ -1,0 +1,26 @@
+<div class="rk-wrap passos-grade">
+  <div class="passos-texto">
+    <div class="rk-cab passos-cab">
+      <p class="rk-eyebrow" data-k="passos.eyebrow">{{c.passos.eyebrow}}</p>
+      <h2 class="rk-h2 passos-titulo" data-k="passos.titulo">{{c.passos.titulo}}</h2>
+      <p class="rk-lead passos-lead" data-k="passos.texto">{{c.passos.texto}}</p>
+    </div>
+    <ol class="passos-lista" data-li="passos">
+      {{#c.passos.itens}}
+      <li class="passos-item" data-it="{{id}}">
+        <span class="passos-num" aria-hidden="true">0{{i}}</span>
+        <div class="passos-item__txt">
+          <h3 class="rk-h3 passos-item__t" data-k="{{k}}.t">{{t}}</h3>
+          <p class="rk-p passos-item__d" data-k="{{k}}.d">{{d}}</p>
+        </div>
+      </li>
+      {{/c.passos.itens}}
+    </ol>
+    {{#d.temWhatsapp}}
+    <a class="rk-btn passos-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="passos" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="hero.cta">{{c.hero.cta}}</span></a>
+    {{/d.temWhatsapp}}
+  </div>
+  <div class="passos-midia">
+    <div class="rk-foto rk-foto--deco passos-foto" data-img="passos.img" style="--ar:4/5">{{{c.passos.img.html}}}</div>
+  </div>
+</div>

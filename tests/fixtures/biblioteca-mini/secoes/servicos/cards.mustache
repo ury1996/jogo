@@ -1,0 +1,18 @@
+<div class="rk-wrap">
+  <div class="serv-topo">
+    <p class="rk-eyebrow" data-k="serv.eyebrow">{{c.serv.eyebrow}}</p>
+    <h2 class="rk-h2" data-k="serv.titulo">{{c.serv.titulo}}</h2>
+    <p class="rk-lead" data-k="serv.texto">{{c.serv.texto}}</p>
+  </div>
+  <div class="serv-grade" data-li="serv">
+    {{#c.serv.itens}}
+    <article class="rk-card serv-card{{#primeiro}} serv-card--primeiro{{/primeiro}}{{#par}} serv-card--par{{/par}}" data-it="{{id}}">
+      <div class="rk-foto" data-img="{{k}}.img" style="--ar:4/3">{{{img.html}}}</div>
+      <span class="rk-ic" data-ic="{{k}}">{{{ic.svg}}}</span>
+      <h3 class="rk-h3" data-k="{{k}}.t">{{t}}</h3>
+      <p class="rk-p" data-k="{{k}}.d">{{d}}</p>
+      <a class="rk-link" href="{{dados.whatsappLink}}" data-ev="whatsapp" data-pos="servicos" target="_blank" rel="noopener"><span data-k="serv.link">{{c.serv.link}}</span>{{{u.seta}}}</a>
+    </article>
+    {{/c.serv.itens}}
+  </div>
+</div>

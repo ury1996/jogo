@@ -1,0 +1,14 @@
+/* base.css mínimo da biblioteca de teste (o real fica em biblioteca/base.css). */
+.rk{container:site / inline-size;font-family:var(--fb);color:var(--fg);background:var(--bg)}
+.rk *,.rk *::before,.rk *::after{box-sizing:border-box}
+.k-classico{--r:2px;--rc:4px;--ri:4px;--sh:none;--sh-hover:none}
+.k-moderno{--r:999px;--rc:26px;--ri:16px;--sh:0 10px 30px rgb(0 0 0 / .08);--sh-hover:0 16px 40px rgb(0 0 0 / .12)}
+.k-direto{--r:12px;--rc:16px;--ri:12px;--sh:6px 6px 0 var(--p);--sh-hover:8px 8px 0 var(--p)}
+.f-moderna{--ft:"Manrope",system-ui,sans-serif;--fb:"Manrope",system-ui,sans-serif}
+.rk-bg--branco{--bg:#fff;--fg:var(--ink);--fg2:var(--muted);--linha:var(--line);--card:var(--p-tint);--card-fg:var(--ink);--destaque:var(--p-fino);--btn-bg:var(--p);--btn-fg:var(--on-p)}
+.rk-bg--tom{--bg:var(--p-tint);--fg:var(--ink);--fg2:var(--muted);--linha:var(--line);--card:#fff;--card-fg:var(--ink);--destaque:var(--p-fino);--btn-bg:var(--p);--btn-fg:var(--on-p)}
+.rk-bg--escuro{--bg:var(--deep);--fg:#fff;--fg2:rgb(255 255 255 / .72);--linha:rgb(255 255 255 / .14);--card:#fff;--card-fg:var(--ink);--destaque:var(--p-sobre-escuro);--btn-bg:var(--p-sobre-escuro);--btn-fg:var(--on-p-sobre-escuro)}
+.rk-bg--cor{--bg:var(--p);--fg:var(--on-p);--fg2:var(--on-p);--linha:currentColor;--card:#fff;--card-fg:var(--ink);--destaque:var(--on-p);--btn-bg:var(--on-p);--btn-fg:var(--p)}
+.rk-sec{background:var(--bg);color:var(--fg);padding-block:var(--sec-py,72px)}
+.rk-wrap{max-width:var(--wrap,1180px);margin-inline:auto;padding-inline:var(--gut,24px)}
+.rk-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}

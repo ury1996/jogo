@@ -1,0 +1,198 @@
+/* Sobre — duas fotos com selo / foto larga com números. Lista de checagem fixa de 4 itens (sobrel). */
+
+.rk-sec--sobre .sobre-titulo { max-width: 18em; }
+.rk-sec--sobre .sobre-lista {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 28px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+/* ===================== duas-fotos ===================== */
+
+.rk-op--sobre-duas-fotos .sobre-grade {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
+  align-items: center;
+  gap: clamp(48px, 7cqi, 100px);
+}
+/* foto principal à esquerda; a segunda sobe sobre o canto inferior direito */
+.rk-op--sobre-duas-fotos .sobre-midia {
+  position: relative;
+  padding: 0 17% 15% 0;
+}
+.rk-op--sobre-duas-fotos .sobre-foto2 {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 48%;
+  border: clamp(6px, 0.9cqi, 10px) solid var(--bg);
+  border-radius: calc(var(--rc) + clamp(6px, 0.9cqi, 10px));
+  background: var(--bg);
+  box-shadow: var(--sh);
+}
+.rk-op--sobre-duas-fotos .sobre-foto2::after { border-radius: var(--rc); }
+.rk-op--sobre-duas-fotos .sobre-foto2 > img { border-radius: var(--rc); }
+.k-classico .rk-op--sobre-duas-fotos .sobre-foto2 { border-radius: var(--rc); box-shadow: none; outline: 1px solid var(--linha); }
+.k-classico .rk-op--sobre-duas-fotos .sobre-foto2::after,
+.k-classico .rk-op--sobre-duas-fotos .sobre-foto2 > img { border-radius: 0; }
+.rk-op--sobre-duas-fotos .sobre-selo {
+  position: absolute;
+  top: 9%;
+  left: -26px;
+  z-index: 3;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  width: max-content;
+  max-width: 12.5rem;
+  padding: 18px 22px 20px;
+}
+.rk-op--sobre-duas-fotos .sobre-selo__v { font-size: clamp(2rem, 1.6rem + 1.3cqi, 2.7rem); color: var(--destaque); }
+.rk-op--sobre-duas-fotos .sobre-selo__l { margin-top: 0; font-size: 0.875rem; font-weight: 600; color: var(--fg); }
+.k-direto .rk-op--sobre-duas-fotos .sobre-selo {
+  --fg: var(--on-p);
+  --fg2: var(--on-p);
+  --destaque: var(--on-p);
+  background: var(--p);
+  color: var(--on-p);
+}
+/* Direto: o enfeite sólido fica à esquerda; o selo vai para o canto superior direito da foto */
+.k-direto .rk-op--sobre-duas-fotos .sobre-selo { top: -18px; left: auto; right: calc(17% - 26px); }
+.k-moderno .rk-op--sobre-duas-fotos .sobre-selo { animation: sobre-flutuar 7s ease-in-out infinite; }
+@keyframes sobre-flutuar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+.rk-op--sobre-duas-fotos .sobre-texto { display: grid; justify-items: start; min-width: 0; }
+.rk-op--sobre-duas-fotos .sobre-cab { margin-bottom: 22px; }
+.rk-op--sobre-duas-fotos .sobre-lista { width: 100%; margin-top: 28px; }
+.rk-op--sobre-duas-fotos .sobre-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 22px 32px;
+  width: 100%;
+  margin-top: 34px;
+  padding-top: 32px;
+  border-top: 1px solid var(--linha);
+}
+/* assinatura do responsável (1º integrante da equipe) */
+.rk-op--sobre-duas-fotos .sobre-ass { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.rk-op--sobre-duas-fotos .sobre-ass__foto { width: 52px; height: 52px; margin-left: 0; border-width: 0; }
+.rk-op--sobre-duas-fotos .sobre-ass__txt { display: grid; gap: 2px; min-width: 0; line-height: 1.3; }
+.rk-op--sobre-duas-fotos .sobre-ass__n {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 1.08rem;
+  letter-spacing: var(--ft-ls);
+  color: var(--fg);
+}
+.rk-op--sobre-duas-fotos .sobre-ass__c { font-size: 0.875rem; color: var(--fg2); }
+.k-classico .rk-op--sobre-duas-fotos .sobre-ass__foto { border-radius: 2px; }
+
+/* ===================== foto-numeros ===================== */
+
+.rk-op--sobre-foto-numeros .sobre-topo {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  align-items: start;
+  gap: 24px clamp(48px, 7cqi, 112px);
+}
+.rk-op--sobre-foto-numeros .sobre-cab { display: grid; justify-items: start; gap: 16px; }
+.rk-op--sobre-foto-numeros .sobre-texto {
+  display: grid;
+  justify-items: start;
+  gap: 26px;
+  min-width: 0;
+  padding-top: 4px;
+}
+.rk-op--sobre-foto-numeros .sobre-lista { width: 100%; }
+.rk-op--sobre-foto-numeros .sobre-palco {
+  position: relative;
+  margin-top: clamp(48px, 6cqi, 84px);
+  padding-bottom: 52px;
+}
+.rk-op--sobre-foto-numeros .sobre-nums {
+  position: absolute;
+  right: clamp(24px, 4cqi, 56px);
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, auto));
+  align-items: start;
+  gap: 0;
+  max-width: calc(100% - 2 * clamp(24px, 4cqi, 56px));
+  padding: 24px 6px;
+}
+.rk-op--sobre-foto-numeros .sobre-num {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  max-width: 13rem;
+  padding-inline: clamp(20px, 2.6cqi, 34px);
+}
+.rk-op--sobre-foto-numeros .sobre-num + .sobre-num { border-left: 1px solid var(--linha); }
+.rk-op--sobre-foto-numeros .sobre-num__v {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: clamp(1.9rem, 1.4rem + 1.5cqi, 2.6rem);
+  line-height: 1;
+  letter-spacing: var(--ft-ls);
+  color: var(--destaque);
+  white-space: nowrap;
+}
+.rk-op--sobre-foto-numeros .sobre-num__l { font-size: 0.875rem; line-height: 1.4; color: var(--fg2); }
+.k-classico .rk-op--sobre-foto-numeros .sobre-nums { border-bottom-width: 3px; }
+
+/* ===================== tablet ===================== */
+
+@container site (max-width: 1060px) {
+  .rk-op--sobre-duas-fotos .sobre-grade { gap: 48px; }
+  .rk-op--sobre-duas-fotos .sobre-selo { left: -14px; }
+  .rk-sec--sobre .sobre-lista { grid-template-columns: minmax(0, 1fr); }
+  .rk-op--sobre-foto-numeros .sobre-topo { grid-template-columns: minmax(0, 1fr); }
+  .rk-op--sobre-foto-numeros .sobre-p { max-width: 46rem; }
+  .rk-op--sobre-foto-numeros .sobre-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rk-op--sobre-foto-numeros .sobre-foto { aspect-ratio: 16 / 9; }
+}
+
+/* ===================== celular ===================== */
+
+@container site (max-width: 760px) {
+  .rk-sec--sobre .sobre-lista,
+  .rk-op--sobre-foto-numeros .sobre-lista { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+
+  .rk-op--sobre-duas-fotos .sobre-grade { grid-template-columns: minmax(0, 1fr); gap: 44px; }
+  .rk-op--sobre-duas-fotos .sobre-midia { padding: 0 14% 18% 0; }
+  .rk-op--sobre-duas-fotos .sobre-foto2 { width: 52%; }
+  /* canto inferior esquerdo da foto principal (o topo fica livre para o rótulo "enviar" do editor) */
+  .rk-op--sobre-duas-fotos .sobre-selo { top: auto; bottom: calc(18% + 14px); left: 14px; max-width: 44%; padding: 12px 16px 14px; }
+  .k-direto .rk-op--sobre-duas-fotos .sobre-selo { top: auto; right: auto; left: 14px; }
+  .rk-op--sobre-duas-fotos .sobre-selo__v { font-size: 1.75rem; }
+  .rk-op--sobre-duas-fotos .sobre-acoes { flex-direction: column; align-items: stretch; gap: 22px; margin-top: 28px; padding-top: 26px; }
+  .rk-op--sobre-duas-fotos .sobre-btn { width: 100%; }
+
+  .rk-op--sobre-foto-numeros .sobre-palco { margin-top: 40px; padding-bottom: 0; }
+  .rk-op--sobre-foto-numeros .sobre-foto { aspect-ratio: 4 / 3.2; }
+  .rk-op--sobre-foto-numeros .sobre-nums {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: none;
+    margin: -44px 14px 0;
+    padding: 6px 20px;
+  }
+  .rk-op--sobre-foto-numeros .sobre-num {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: 14px;
+    max-width: none;
+    padding: 16px 0;
+  }
+  .rk-op--sobre-foto-numeros .sobre-num + .sobre-num { border-left: 0; border-top: 1px solid var(--linha); }
+  .rk-op--sobre-foto-numeros .sobre-num__v { font-size: 1.85rem; white-space: normal; }
+}

@@ -1,0 +1,8 @@
+<div class="rk-wrap rod-simples">
+  <p class="rk-small">© {{d.ano}} {{d.nome}} · {{d.cidadeUf}} · {{d.segmento}}</p>
+  {{#d.temRegistro}}
+    <p class="rk-small">{{d.registro}}</p>
+  {{/d.temRegistro}}
+  <nav aria-label="Rodapé"><ul>{{#menu}}<li><a href="{{href}}">{{rotulo}}</a></li>{{/menu}}</ul></nav>
+  {{#e.classico}}<span class="rod-traco" aria-hidden="true"></span>{{/e.classico}}
+</div>

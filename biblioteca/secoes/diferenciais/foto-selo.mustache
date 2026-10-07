@@ -1,0 +1,25 @@
+<div class="rk-wrap dif-grade">
+  <div class="dif-midia">
+    <div class="rk-foto rk-foto--deco dif-foto" data-img="dif.img" style="--ar:4/5">{{{c.dif.img.html}}}</div>
+    {{#c.num.p1}}
+    <div class="rk-selo dif-selo"><strong class="rk-selo__v dif-selo__v" data-k="{{k}}.v">{{v}}</strong><span class="rk-selo__l dif-selo__l" data-k="{{k}}.l">{{l}}</span></div>
+    {{/c.num.p1}}
+  </div>
+  <div class="dif-texto">
+    <div class="rk-cab dif-cab">
+      <p class="rk-eyebrow" data-k="dif.eyebrow">{{c.dif.eyebrow}}</p>
+      <h2 class="rk-h2 dif-titulo" data-k="dif.titulo">{{c.dif.titulo}}</h2>
+    </div>
+    <ul class="dif-lista" data-li="dif">
+      {{#c.dif.itens}}
+      <li class="dif-item" data-it="{{id}}">
+        <span class="rk-ic" data-ic="{{k}}">{{{ic.svg}}}</span>
+        <div class="dif-item__txt">
+          <h3 class="rk-h3 dif-item__t" data-k="{{k}}.t">{{t}}</h3>
+          <p class="rk-p dif-item__d" data-k="{{k}}.d">{{d}}</p>
+        </div>
+      </li>
+      {{/c.dif.itens}}
+    </ul>
+  </div>
+</div>

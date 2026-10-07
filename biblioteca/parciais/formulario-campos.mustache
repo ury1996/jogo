@@ -1,0 +1,30 @@
+<div class="rk-form__ok" hidden>
+  <span class="rk-ic">{{{u.check}}}</span>
+  <p class="rk-h3">Mensagem enviada!</p>
+  <p class="rk-small">Retornamos em breve. Se preferir, continue a conversa pelo WhatsApp.</p>
+  {{#d.temWhatsapp}}<a class="rk-btn rk-btn--sec" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="{{s.tipo}}" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span>Continuar pelo WhatsApp</span></a>{{/d.temWhatsapp}}
+</div>
+<p class="rk-form__status" role="status" aria-live="polite"></p>
+<div class="rk-form__campos">
+  <div class="rk-form__linha">
+    <div class="rk-campo">
+      <label for="{{s.tipo}}-nome">Nome <span class="rk-obrig" aria-hidden="true">*</span></label>
+      <input class="rk-input" id="{{s.tipo}}-nome" name="nome" type="text" autocomplete="name" maxlength="80" required placeholder="Seu nome">
+    </div>
+    <div class="rk-campo">
+      <label for="{{s.tipo}}-telefone">WhatsApp ou telefone <span class="rk-obrig" aria-hidden="true">*</span></label>
+      <input class="rk-input" id="{{s.tipo}}-telefone" name="telefone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" required placeholder="(00) 00000-0000">
+    </div>
+  </div>
+  <div class="rk-campo">
+    <label for="{{s.tipo}}-email">E-mail <span class="rk-campo__opc">(opcional)</span></label>
+    <input class="rk-input" id="{{s.tipo}}-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" placeholder="voce@exemplo.com.br">
+  </div>
+  <div class="rk-campo">
+    <label for="{{s.tipo}}-mensagem">Mensagem <span class="rk-campo__opc">(opcional)</span></label>
+    <textarea class="rk-input" id="{{s.tipo}}-mensagem" name="mensagem" rows="3" maxlength="1000" placeholder="Conte em poucas palavras como podemos ajudar"></textarea>
+  </div>
+  <input class="rk-hp" type="text" name="empresa_site" value="" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <input type="hidden" name="_t" value="">
+  <p class="rk-form__aviso">Usamos seus dados só para responder a este contato. Veja a <a href="/privacidade/">Política de privacidade</a>.</p>
+</div>

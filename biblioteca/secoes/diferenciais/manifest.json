@@ -1,0 +1,42 @@
+{
+  "tipo": "diferenciais",
+  "nome": "Diferenciais",
+  "ordem": 4,
+  "fixa": null,
+  "ancora": "diferenciais",
+  "menu": null,
+  "opcoes": [
+    {
+      "id": "faixa-icones",
+      "nome": "Faixa de ícones",
+      "descricao": "Os 3 diferenciais lado a lado, cada um com ícone, título e texto.",
+      "tom": "claro",
+      "alegacoes": []
+    },
+    {
+      "id": "foto-selo",
+      "nome": "Foto com selo",
+      "descricao": "Foto com selo de anos e a lista dos diferenciais com ícones.",
+      "tom": "claro",
+      "sizes": { "dif.img": "(max-width: 760px) 100vw, (max-width: 1180px) 44vw, 520px" },
+      "alegacoes": ["num"]
+    }
+  ],
+  "campos": {
+    "dif.eyebrow": { "tipo": "texto", "max": 40, "rotulo": "Rótulo acima do título" },
+    "dif.titulo": { "tipo": "texto", "max": 80, "rotulo": "Título dos diferenciais" },
+    "dif.img": { "tipo": "imagem", "proporcao": "4:5", "rotulo": "Foto dos diferenciais" }
+  },
+  "listas": {
+    "dif": {
+      "repete": [3, 3],
+      "rotuloItem": "diferencial",
+      "campos": {
+        "t": { "tipo": "texto", "max": 40, "rotulo": "Título do diferencial" },
+        "d": { "tipo": "texto-longo", "max": 140, "rotulo": "Descrição do diferencial" },
+        "ic": { "tipo": "icone", "automatico": "t" }
+      }
+    }
+  },
+  "alegacoes": ["num"]
+}

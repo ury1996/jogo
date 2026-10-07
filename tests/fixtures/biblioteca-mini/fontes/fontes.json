@@ -1,0 +1,11 @@
+{
+  "pares": {
+    "classica": { "nome": "Clássica", "titulos": "Libre Caslon Text", "texto": "Source Sans 3", "descricao": "Serifada tradicional" },
+    "editorial": { "nome": "Editorial", "titulos": "DM Serif Display", "texto": "DM Sans", "descricao": "Serifa marcante" },
+    "moderna": { "nome": "Moderna", "titulos": "Manrope", "texto": "Manrope", "descricao": "Sem serifa, firme" },
+    "amigavel": { "nome": "Amigável", "titulos": "Nunito", "texto": "Nunito", "descricao": "Arredondada e leve" }
+  },
+  "arquivos": [
+    { "familia": "Manrope", "arquivo": "manrope-latin-wght-normal.woff2", "peso": "200 800", "estilo": "normal" }
+  ]
+}

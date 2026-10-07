@@ -1,0 +1,21 @@
+<div class="rk-wrap hero-grade">
+  <div class="hero-texto">
+    <p class="rk-eyebrow" data-k="hero.eyebrow">{{c.hero.eyebrow}}</p>
+    <h1 class="rk-h1" data-k="hero.titulo">{{c.hero.titulo}}</h1>
+    <p class="rk-lead" data-k="hero.texto">{{c.hero.texto}}</p>
+    <div class="hero-acoes">
+      <a class="rk-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="hero" target="_blank" rel="noopener"><span data-k="hero.cta">{{c.hero.cta}}</span></a>
+      <a class="rk-btn rk-btn--sec" href="#servicos"><span data-k="hero.cta2">{{c.hero.cta2}}</span></a>
+    </div>
+  </div>
+  <div class="hero-midia">
+    <div class="rk-foto rk-foto--deco" data-img="hero.img" style="--ar:4/5">{{{c.hero.img.html}}}</div>
+    <div class="rk-selo hero-selo">{{{u.check}}}<span data-k="hero.selo">{{c.hero.selo}}</span></div>
+    {{#c.serv.p1}}
+    <div class="rk-selo hero-card">
+      <span class="rk-ic" data-ic="{{k}}">{{{ic.svg}}}</span>
+      <span data-k="{{k}}.t">{{t}}</span>
+    </div>
+    {{/c.serv.p1}}
+  </div>
+</div>

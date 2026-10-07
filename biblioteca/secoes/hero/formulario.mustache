@@ -1,0 +1,14 @@
+<div class="rk-wrap hero-grade">
+  <div class="hero-texto">
+    <p class="rk-eyebrow" data-k="hero.eyebrow">{{c.hero.eyebrow}}</p>
+    <h1 class="rk-h1 hero-titulo" data-k="hero.titulo">{{c.hero.titulo}}</h1>
+    <p class="rk-lead hero-lead" data-k="hero.texto">{{c.hero.texto}}</p>
+    <ul class="rk-check hero-lista" data-li="dif">{{#c.dif.itens}}<li data-it="{{id}}"><span class="rk-check__ic">{{{u.check}}}</span><span data-k="{{k}}.t">{{t}}</span></li>{{/c.dif.itens}}</ul>
+    {{#d.temWhatsapp}}<a class="rk-btn hero-wa" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="hero" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="hero.cta">{{c.hero.cta}}</span></a>{{/d.temWhatsapp}}
+  </div>
+  <div class="rk-card rk-card--estatico hero-form">
+    <h2 class="rk-h3 hero-form__titulo" data-k="form.titulo">{{c.form.titulo}}</h2>
+    {{> formulario-hero}}
+    <p class="rk-small hero-form__nota" data-k="form.nota">{{c.form.nota}}</p>
+  </div>
+</div>

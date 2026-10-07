@@ -1,0 +1,17 @@
+<div class="head-topo">
+  <div class="rk-wrap head-topo__wrap">
+    {{#d.temHorarios}}
+    <span class="head-info">{{{u.relogio}}} {{d.horariosTexto}}</span>
+    {{/d.temHorarios}}
+    {{#d.temEmail}}<a class="head-info" href="{{d.emailLink}}">{{{u.email}}} {{d.email}}</a>{{/d.temEmail}}
+    {{#d.temEndereco}}
+      <span class="head-info">{{{u.pin}}} {{d.endereco}}</span>
+    {{/d.temEndereco}}
+  </div>
+</div>
+<div class="rk-wrap head-barra">
+  <a class="rk-logo" href="#topo">{{{d.logo.html}}}<span class="rk-logo__nome">{{d.nome}}</span></a>
+  <nav class="rk-menu head-menu" aria-label="Principal"><ul>{{#menu}}<li><a href="{{href}}">{{rotulo}}</a></li>{{/menu}}</ul></nav>
+  {{#d.temTelefone}}<a class="head-tel" href="{{d.telefoneLink}}" data-ev="telefone">{{{u.telefone}}}<span>{{d.telefone}}</span></a>{{/d.temTelefone}}
+  <a class="rk-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="header" target="_blank" rel="noopener"><span data-k="hero.cta">{{c.hero.cta}}</span></a>
+</div>

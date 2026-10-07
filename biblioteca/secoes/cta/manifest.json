@@ -1,0 +1,37 @@
+{
+  "tipo": "cta",
+  "nome": "Chamada final",
+  "ordem": 12,
+  "fixa": null,
+  "ancora": "chamada",
+  "menu": null,
+  "opcoes": [
+    {
+      "id": "faixa-cor",
+      "nome": "Faixa na cor",
+      "descricao": "Faixa na cor principal com título e botão de WhatsApp.",
+      "tom": "cor"
+    },
+    {
+      "id": "caixa-clara",
+      "nome": "Caixa clara",
+      "descricao": "Caixa em destaque com título, texto e botão.",
+      "tom": "claro"
+    },
+    {
+      "id": "foto-fundo",
+      "nome": "Foto de fundo",
+      "descricao": "Foto em tela larga com sobreposição escura e texto centralizado.",
+      "tom": "escuro",
+      "sizes": { "cta.img": "100vw" }
+    }
+  ],
+  "campos": {
+    "cta.titulo": { "tipo": "texto", "max": 80, "rotulo": "Título da chamada" },
+    "cta.texto": { "tipo": "texto-longo", "max": 180, "rotulo": "Texto da chamada" },
+    "cta.botao": { "tipo": "texto", "max": 28, "rotulo": "Botão (WhatsApp)" },
+    "cta.img": { "tipo": "imagem", "proporcao": "16:9", "rotulo": "Foto de fundo da chamada", "fundo": true }
+  },
+  "listas": {},
+  "alegacoes": []
+}

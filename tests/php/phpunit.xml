@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Uso: vendor/bin/phpunit -c tests/php/phpunit.xml (opcional: testsuite Api, Lib, Preparo ou Gerador) -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="bootstrap.php"
+         cacheDirectory="../../var/cache/phpunit"
+         colors="true"
+         executionOrder="default"
+         failOnWarning="true"
+         failOnRisky="true"
+         beStrictAboutOutputDuringTests="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnSkippedTests="true">
+    <testsuites>
+        <testsuite name="Preparo">
+            <directory>Preparo</directory>
+        </testsuite>
+        <testsuite name="Lib">
+            <directory>Lib</directory>
+        </testsuite>
+        <testsuite name="Api">
+            <directory>Api</directory>
+        </testsuite>
+        <testsuite name="Gerador">
+            <directory>Gerador</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <ini name="memory_limit" value="1G"/>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="display_errors" value="1"/>
+        <env name="TZ" value="UTC"/>
+    </php>
+</phpunit>

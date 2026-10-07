@@ -1,0 +1,918 @@
+/* ==========================================================================
+   Construtor Rankly · base.css
+   Sistema visual compartilhado por todas as seções (contrato §4).
+
+   Camadas de tokens (todas herdadas pelo site):
+   1. Paleta (gerada; §4.1): --p --on-p --p-ink --p-dark --p-soft --p-soft2 --p-tint
+      --deep --ink --muted --line --p-fino --p-sobre-escuro --on-p-sobre-escuro
+   2. Fonte (.f-*; §4.4): --ft --fb --ft-peso (+ extras --ft-ls --ft-lh --ft-escala)
+   3. Escala (§4.4): --t-h1 --t-h2 --t-h3 --t-lead --t-p --t-small --wrap --gut --sec-py
+   4. Acabamento (.k-*; §4.3): --r --rc --ri --sh --sh-hover
+      (+ extras --rs cantos de selo, --rf cantos de campo, --btn-* forma do botão)
+   5. Contexto de fundo (.rk-bg--* / .rk-ctx-*; §4.2):
+      --bg --fg --fg2 --linha --card --card-fg --destaque --btn-bg --btn-fg
+      (+ extras: --acento  cor de detalhes finos/ícones/linhas legível neste fundo
+                 --acento-suave  fundo suave de ícone/rótulo
+                 --deco  enfeite suave atrás de fotos
+                 --solido / --solido-fg  bloco sólido de cor e o texto sobre ele
+                 --pilula / --pilula-borda  rótulo em pílula do acabamento Moderno)
+      Todo .rk-card e .rk-selo é SEMPRE claro e redefine esses tokens para dentro dele.
+
+   Vocabulário (marcação esperada pelos templates):
+   .rk-wrap                      largura máxima + respiro lateral
+   .rk-cab [.rk-cab--centro]     cabeçalho de seção: .rk-eyebrow + .rk-h2 + .rk-lead
+   .rk-acoes                     linha de botões (quebra no celular)
+   .rk-grade [--2|--4]           grade de cards (3 col → 2 no tablet → 1 no celular)
+   .rk-eyebrow  .rk-h1 .rk-h2 .rk-h3 .rk-lead .rk-p .rk-small
+   .rk-btn [--sec|--claro|--p|--bloco]  <a class="rk-btn"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="…">…</span></a>
+   .rk-link                      link de texto com seta: <a class="rk-link"><span data-k>…</span><span class="rk-i">{{{u.seta}}}</span></a>
+   .rk-i                         ícone utilitário em linha (1.15em)
+   .rk-card [--estatico]         card (cor oposta ao fundo; hover por acabamento; --estatico sem hover)
+   .rk-ic [--p|--g]              <span class="rk-ic" data-ic="{{k}}">{{{ic.svg}}}</span>
+   .rk-selo  .rk-selo__v  .rk-selo__l   card flutuante sobre foto (valor grande + rótulo)
+   .rk-foto [--deco]             <div class="rk-foto rk-foto--deco" data-img="…" style="--ar:4/3">{{{….html}}}</div>
+   .rk-foto__vazio               espaço sem foto (gerado pelo preparo)
+   .rk-fundo [--centro]          foto de fundo com sobreposição escura (primeiro filho da seção)
+   .rk-avatares > .rk-avatar     círculos sobrepostos (foto ou inicial)
+   .rk-estrelas                  sequência de {{{u.estrela}}}
+   ul.rk-check > li > .rk-check__ic + span   lista com marca de checagem
+   .rk-redes                     ul de links de redes sociais (svg)
+   .rk-form .rk-form__linha .rk-campo .rk-input .rk-hp   formulário (ver parciais/)
+   .rk-logo .rk-logo__img .rk-logo__ini .rk-logo__nome
+   .rk-menu .rk-menu__lista .rk-menu__mob(details) .rk-menu__painel
+   .rk-wa                        WhatsApp flutuante (gerado pelo preparo)
+   .rk-mapa .rk-mapa__pin .rk-mapa__botao   fachada do mapa (iframe só ao clicar)
+   .rk-sr  .rk-pular             acessibilidade
+
+   Regras: sem cores literais fora dos neutros dos contextos; responsivo só com
+   @container site (max-width: 1060px | 760px) — o gerador converte para @media.
+   ========================================================================== */
+
+/* ---------- 1. Raiz e reset escopado ---------- */
+
+/* Valores padrão com especificidade zero: a paleta gerada (.rk{--p:…}), as classes
+   .f-* e .k-* sempre vencem, em qualquer ordem de carregamento. */
+:where(.rk) {
+  --p: #2f5bd3; --on-p: #ffffff; --p-ink: #2f5bd3; --p-dark: #1f44a8;
+  --p-soft: #e6ecfa; --p-soft2: #c6d3f2; --p-tint: #f6f8fd; --deep: #121a2e;
+  --ink: #1a1f2b; --muted: #5c6370; --line: #dfe2e8; --p-fino: #2f5bd3;
+  --p-sobre-escuro: #7f9ef0; --on-p-sobre-escuro: #14161a;
+  --ft: Georgia, "Times New Roman", serif;
+  --fb: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --ft-peso: 600; --ft-ls: -0.01em; --ft-lh: 1.1; --ft-escala: 1;
+}
+.rk {
+  container: site / inline-size;
+  --t-h1: calc(clamp(2.15rem, 1.05rem + 4cqi, 4rem) * var(--ft-escala));
+  --t-h2: calc(clamp(1.75rem, 1.05rem + 2.35cqi, 2.85rem) * var(--ft-escala));
+  --t-h3: calc(clamp(1.15rem, 1.02rem + 0.42cqi, 1.375rem) * var(--ft-escala));
+  --t-lead: clamp(1.0625rem, 0.98rem + 0.38cqi, 1.25rem);
+  --t-p: clamp(1rem, 0.95rem + 0.2cqi, 1.0625rem);
+  --t-small: 0.875rem;
+  --wrap: 1180px;
+  --gut: clamp(20px, 5cqi, 40px);
+  --sec-py: clamp(68px, 3rem + 6cqi, 124px);
+  --deco-d: clamp(12px, 2cqi, 26px);
+
+  font-family: var(--fb);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink);
+  background: #ffffff;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+}
+.rk, .rk *, .rk *::before, .rk *::after { box-sizing: border-box; }
+.rk :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol) { margin: 0; }
+.rk :where(ul, ol) { padding: 0; list-style: none; }
+.rk :where(img, svg, video, iframe, canvas) { display: block; max-width: 100%; }
+.rk :where(img) { height: auto; }
+.rk :where(svg) { width: 1em; height: 1em; flex-shrink: 0; }
+.rk :where(a) { color: inherit; text-decoration: none; }
+.rk :where(strong, b) { font-weight: 700; }
+.rk :where(button, input, textarea, select) { font: inherit; color: inherit; margin: 0; }
+.rk :where(button) { background: none; border: 0; padding: 0; cursor: pointer; }
+.rk :where(summary) { list-style: none; cursor: pointer; }
+.rk :where(summary)::-webkit-details-marker { display: none; }
+.rk :where(h1, h2, h3, p, li, blockquote) { overflow-wrap: break-word; }
+.rk :where(a, button, summary, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--destaque, var(--p-ink));
+  outline-offset: 3px;
+}
+
+/* ---------- 2. Pares de fontes (§3.8) ----------
+   "… Reserva" = fonte local ajustada (size-adjust) que o gerador pode declarar [M16]. */
+
+.f-classica {
+  --ft: "Libre Caslon Text", "Libre Caslon Text Reserva", Georgia, "Times New Roman", serif;
+  --fb: "Source Sans 3", "Source Sans 3 Reserva", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --ft-peso: 400; --ft-ls: -0.012em; --ft-lh: 1.14; --ft-escala: 0.92;
+}
+.f-editorial {
+  --ft: "DM Serif Display", "DM Serif Display Reserva", Georgia, "Times New Roman", serif;
+  --fb: "DM Sans", "DM Sans Reserva", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --ft-peso: 400; --ft-ls: -0.01em; --ft-lh: 1.06; --ft-escala: 1.04;
+}
+.f-moderna {
+  --ft: "Manrope", "Manrope Reserva", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --fb: "Manrope", "Manrope Reserva", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --ft-peso: 750; --ft-ls: -0.028em; --ft-lh: 1.08; --ft-escala: 0.9;
+}
+.f-amigavel {
+  --ft: "Nunito", "Nunito Reserva", ui-rounded, "Segoe UI Rounded", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --fb: "Nunito", "Nunito Reserva", ui-rounded, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --ft-peso: 800; --ft-ls: -0.02em; --ft-lh: 1.1; --ft-escala: 0.94;
+}
+
+/* ---------- 3. Acabamentos (§4.3 + tabela 5.3 do PDF) ---------- */
+
+:where(.rk), .k-moderno {
+  --r: 999px; --rc: 26px; --ri: 16px; --rs: 18px; --rf: 14px;
+  --sh: 0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent), 0 18px 44px -22px color-mix(in srgb, var(--ink) 26%, transparent);
+  --sh-hover: 0 2px 6px color-mix(in srgb, var(--ink) 6%, transparent), 0 32px 64px -28px color-mix(in srgb, var(--ink) 36%, transparent);
+  --sh-selo: 0 2px 6px color-mix(in srgb, var(--ink) 6%, transparent), 0 22px 44px -18px color-mix(in srgb, var(--ink) 32%, transparent);
+  --btn-tt: none; --btn-ls: 0; --btn-fs: 0.975rem; --btn-peso: 600; --btn-pad: 0.9em 1.65em;
+}
+.k-classico {
+  --r: 2px; --rc: 4px; --ri: 2px; --rs: 2px; --rf: 2px;
+  --sh: 0 1px 2px color-mix(in srgb, var(--ink) 6%, transparent), 0 14px 34px -22px color-mix(in srgb, var(--ink) 30%, transparent);
+  --sh-hover: 0 2px 4px color-mix(in srgb, var(--ink) 6%, transparent), 0 26px 50px -24px color-mix(in srgb, var(--ink) 40%, transparent);
+  --sh-selo: 0 1px 2px color-mix(in srgb, var(--ink) 8%, transparent), 0 18px 40px -20px color-mix(in srgb, var(--ink) 38%, transparent);
+  --btn-tt: uppercase; --btn-ls: 0.14em; --btn-fs: 0.78rem; --btn-peso: 700; --btn-pad: 1.2em 2.2em;
+}
+.k-direto {
+  --r: 12px; --rc: 16px; --ri: 12px; --rs: 14px; --rf: 10px;
+  --sh: 0 1px 0 color-mix(in srgb, var(--ink) 6%, transparent), 0 14px 32px -18px color-mix(in srgb, var(--ink) 34%, transparent);
+  --sh-hover: 0 2px 0 color-mix(in srgb, var(--ink) 6%, transparent), 0 26px 48px -22px color-mix(in srgb, var(--ink) 42%, transparent);
+  --sh-selo: 0 2px 4px color-mix(in srgb, var(--ink) 8%, transparent), 0 20px 40px -18px color-mix(in srgb, var(--ink) 36%, transparent);
+  --btn-tt: none; --btn-ls: 0.005em; --btn-fs: 1rem; --btn-peso: 800; --btn-pad: 0.95em 1.7em;
+}
+
+/* ---------- 4. Contextos de fundo (§4.2) ---------- */
+
+/* claro: branco, tom, ilhas claras, e o interior de todo card/selo */
+.rk-bg--branco, .rk-bg--tom, .rk-ctx-claro, .rk-card, .rk-selo {
+  --fg: var(--ink); --fg2: var(--muted); --linha: var(--line);
+  --destaque: var(--p-ink); --acento: var(--p-fino);
+  --acento-suave: var(--p-soft); --deco: var(--p-soft2);
+  --solido: var(--p); --solido-fg: var(--on-p);
+  --btn-bg: var(--p); --btn-fg: var(--on-p); --btn2-bg: #ffffff;
+  --card-fg: var(--ink);
+  --pilula: var(--acento-suave); --pilula-borda: transparent;
+}
+.rk-bg--branco, .rk-ctx-claro { --bg: #ffffff; --card: var(--p-tint); }
+/* cores muito luminosas mesmo em L 36 (amarelos, verdes, cianos): limita a claridade
+   perceptiva do texto de destaque para manter 4,5:1 sobre branco e --p-soft */
+@supports (color: oklch(from red l c h)) {
+  .rk-bg--branco, .rk-bg--tom, .rk-ctx-claro, .rk-card, .rk-selo, .rk-menu__painel {
+    --destaque: oklch(from var(--p-ink) min(l, 0.47) c h);
+  }
+}
+.rk-bg--tom { --bg: var(--p-tint); --card: #ffffff; }
+
+.rk-bg--escuro, .rk-ctx-escuro {
+  --bg: var(--deep); --fg: #ffffff;
+  --fg2: color-mix(in srgb, #ffffff 74%, var(--deep));
+  --linha: color-mix(in srgb, #ffffff 15%, transparent);
+  /* --p-sobre-escuro garante 3:1 (ícones, linhas); texto pequeno pede 4,5:1 → clareia */
+  --destaque: color-mix(in srgb, var(--p-sobre-escuro) 62%, #ffffff); --acento: var(--p-sobre-escuro);
+  --acento-suave: color-mix(in srgb, var(--p-sobre-escuro) 18%, transparent);
+  --deco: color-mix(in srgb, var(--p-sobre-escuro) 26%, transparent);
+  --solido: var(--p-sobre-escuro); --solido-fg: var(--on-p-sobre-escuro);
+  --btn-bg: var(--p-sobre-escuro); --btn-fg: var(--on-p-sobre-escuro); --btn2-bg: transparent;
+  --card: #ffffff; --card-fg: var(--ink);
+  --pilula: var(--acento-suave); --pilula-borda: transparent;
+}
+.rk-bg--cor, .rk-ctx-cor {
+  --bg: var(--p); --fg: var(--on-p);
+  --fg2: var(--on-p);
+  --linha: color-mix(in srgb, var(--on-p) 24%, transparent);
+  --destaque: var(--on-p); --acento: var(--on-p);
+  --pilula: transparent; --pilula-borda: color-mix(in srgb, var(--on-p) 40%, transparent);
+  --acento-suave: color-mix(in srgb, var(--on-p) 15%, transparent);
+  --deco: color-mix(in srgb, var(--on-p) 18%, transparent);
+  --solido: var(--on-p); --solido-fg: var(--p);
+  --btn-bg: var(--on-p); --btn-fg: var(--p); --btn2-bg: transparent;
+  --card: #ffffff; --card-fg: var(--ink);
+}
+.rk-bg--branco, .rk-bg--tom, .rk-bg--escuro, .rk-bg--cor,
+.rk-ctx-claro, .rk-ctx-escuro, .rk-ctx-cor {
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+/* ---------- 5. Layout ---------- */
+
+.rk-sec {
+  position: relative;
+  display: flow-root;
+  padding-block: var(--sec-py);
+  scroll-margin-top: 92px;
+  overflow-x: clip;
+}
+.rk-wrap {
+  width: min(100% - 2 * var(--gut), var(--wrap));
+  margin-inline: auto;
+}
+.rk-cab {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  max-width: 46rem;
+  margin-bottom: clamp(36px, 4.6cqi, 64px);
+}
+.rk-cab--centro { margin-inline: auto; justify-items: center; text-align: center; }
+.rk-cab > .rk-lead { max-width: 40rem; }
+.rk-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.rk-grade {
+  display: grid;
+  gap: clamp(16px, 2cqi, 28px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.rk-grade--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.rk-grade--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+/* ---------- 6. Tipografia ---------- */
+
+.rk-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65em;
+  max-width: 100%;
+  font-family: var(--fb);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  color: var(--destaque);
+}
+.k-classico .rk-eyebrow { text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; }
+.k-classico .rk-eyebrow::before {
+  content: ""; flex: none; width: 34px; height: 1px; background: currentColor;
+}
+.k-classico .rk-cab--centro .rk-eyebrow::after {
+  content: ""; flex: none; width: 34px; height: 1px; background: currentColor;
+}
+.k-moderno .rk-eyebrow {
+  padding: 0.42em 1em 0.42em 0.8em;
+  border: 1px solid var(--pilula-borda, transparent);
+  border-radius: 999px;
+  background: var(--pilula, var(--acento-suave));
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.k-moderno .rk-eyebrow::before {
+  content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--acento);
+}
+.k-direto .rk-eyebrow { text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.75rem; font-weight: 800; }
+.k-direto .rk-eyebrow::before {
+  content: ""; flex: none; width: 9px; height: 9px; border-radius: 2px; background: var(--solido);
+}
+
+.rk-h1, .rk-h2, .rk-h3 {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  letter-spacing: var(--ft-ls);
+  color: var(--fg);
+  text-wrap: balance;
+}
+.rk-h1 { font-size: var(--t-h1); line-height: var(--ft-lh); }
+.rk-h2 { font-size: var(--t-h2); line-height: calc(var(--ft-lh) + 0.04); }
+.rk-h3 { font-size: var(--t-h3); line-height: 1.28; letter-spacing: calc(var(--ft-ls) / 2); }
+.rk-lead { font-size: var(--t-lead); line-height: 1.62; color: var(--fg2); text-wrap: pretty; }
+.rk-p { font-size: var(--t-p); line-height: 1.65; color: var(--fg2); text-wrap: pretty; }
+.rk-small { font-size: var(--t-small); line-height: 1.5; color: var(--fg2); }
+
+/* ---------- 7. Botões e links ---------- */
+
+.rk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-height: 50px;
+  padding: var(--btn-pad);
+  border: 1px solid transparent;
+  border-radius: var(--r);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--fb);
+  font-size: var(--btn-fs);
+  font-weight: var(--btn-peso);
+  line-height: 1.2;
+  letter-spacing: var(--btn-ls);
+  text-transform: var(--btn-tt);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.rk-btn:hover { background: color-mix(in srgb, var(--btn-bg) 86%, #000000); }
+.rk-btn:active { transform: translateY(1px); }
+.rk-btn .rk-i { width: 1.25em; height: 1.25em; }
+.k-classico .rk-btn .rk-i { width: 1.45em; height: 1.45em; }
+.k-moderno .rk-btn:hover { transform: translateY(-1px); }
+.k-direto .rk-btn {
+  box-shadow: 0 12px 26px -12px color-mix(in srgb, var(--btn-bg) 80%, transparent),
+              inset 0 -2px 0 color-mix(in srgb, #000000 14%, transparent);
+}
+.k-direto .rk-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 32px -14px color-mix(in srgb, var(--btn-bg) 85%, transparent),
+              inset 0 -2px 0 color-mix(in srgb, #000000 14%, transparent);
+}
+
+.rk-btn--sec {
+  background: transparent;
+  color: var(--fg);
+  border-color: color-mix(in srgb, var(--fg) 26%, transparent);
+}
+.k-moderno .rk-btn--sec { background: var(--btn2-bg); }
+.rk-btn--sec:hover {
+  background: color-mix(in srgb, var(--fg) 6%, transparent);
+  border-color: var(--fg);
+}
+.k-direto .rk-btn--sec, .k-direto .rk-btn--sec:hover {
+  box-shadow: none;
+  border-width: 2px;
+}
+
+.rk-btn--claro { --btn-bg: #ffffff; --btn-fg: var(--ink); }
+.rk-btn--claro:hover { background: var(--p-soft); }
+.rk-btn--p { min-height: 44px; padding: 0.7em 1.25em; font-size: calc(var(--btn-fs) * 0.94); }
+.k-classico .rk-btn--p { padding: 1em 1.6em; }
+.rk-btn--bloco { display: flex; width: 100%; }
+
+.rk-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--destaque);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition: gap 0.2s ease, color 0.2s ease;
+}
+.rk-link:hover { gap: 0.8em; }
+.rk-link .rk-i { width: 1.15em; height: 1.15em; }
+.k-classico .rk-link { text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.75rem; }
+
+.rk-i { display: inline-flex; flex: none; width: 1.15em; height: 1.15em; }
+.rk-i svg { width: 100%; height: 100%; }
+
+/* ---------- 8. Cards, selos e ícones ---------- */
+
+.rk-card {
+  --bg: var(--card);
+  position: relative;
+  padding: clamp(24px, 2.5cqi, 36px);
+  border: 1px solid transparent;
+  border-radius: var(--rc);
+  background: var(--card);
+  color: var(--fg);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+}
+.k-classico .rk-card { border-color: var(--line); }
+.k-moderno .rk-card, .k-direto .rk-card { box-shadow: var(--sh); }
+.k-classico .rk-card :where(*) { transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease; }
+
+@media (hover: hover) {
+  /* Clássico: o card se preenche com a cor; Moderno e Direto: sobe levemente */
+  .k-classico .rk-card:not(.rk-card--estatico):hover {
+    --bg: var(--p);
+    --fg: var(--on-p);
+    --fg2: var(--on-p);
+    --linha: color-mix(in srgb, var(--on-p) 28%, transparent);
+    --destaque: var(--on-p); --acento: var(--on-p);
+    --acento-suave: color-mix(in srgb, var(--on-p) 16%, transparent);
+    --solido: var(--on-p); --solido-fg: var(--p);
+    --btn-bg: var(--on-p); --btn-fg: var(--p);
+    background: var(--p);
+    border-color: var(--p);
+    box-shadow: var(--sh-hover);
+  }
+  .k-moderno .rk-card:not(.rk-card--estatico):hover,
+  .k-direto .rk-card:not(.rk-card--estatico):hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sh-hover);
+  }
+}
+
+.rk-selo {
+  --bg: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 100%;
+  padding: 12px 18px 12px 12px;
+  border-radius: var(--rs);
+  background: #ffffff;
+  color: var(--fg);
+  box-shadow: var(--sh-selo);
+  line-height: 1.25;
+}
+.k-classico .rk-selo { border: 1px solid var(--line); border-bottom: 2px solid var(--p); }
+.rk-selo__v {
+  display: block;
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 1.6rem;
+  line-height: 1;
+  letter-spacing: var(--ft-ls);
+  color: var(--fg);
+}
+.rk-selo__l { display: block; margin-top: 3px; font-size: 0.8125rem; line-height: 1.3; color: var(--fg2); }
+
+.rk-ic {
+  --ic: 56px;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--ic);
+  height: var(--ic);
+  border-radius: var(--ri);
+  color: var(--acento);
+}
+.rk-ic svg { width: 50%; height: 50%; }
+.k-classico .rk-ic { border: 1px solid var(--linha); }
+.k-classico .rk-ic svg { width: 54%; height: 54%; }
+.k-moderno .rk-ic { background: var(--acento-suave); }
+.k-direto .rk-ic { background: var(--solido); color: var(--solido-fg); }
+.rk-ic--p { --ic: 42px; }
+.rk-ic--g { --ic: 68px; }
+
+/* ---------- 9. Fotos ---------- */
+
+.rk-foto {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: var(--ar, 4 / 3);
+  border-radius: var(--rc);
+}
+/* fundo nos tons da cor: aparece no espaço vazio e enquanto a foto carrega */
+.rk-foto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--p-ink) 13%, transparent) 1.1px, transparent 1.6px) 0 0 / 18px 18px,
+    linear-gradient(168deg, var(--p-soft) 0%, var(--p-soft2) 100%);
+}
+.rk-foto > img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+.rk-foto__vazio {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 28px);
+  padding: 6px 12px 6px 10px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--ink);
+  font: 600 0.75rem/1.3 var(--fb);
+  letter-spacing: 0;
+  text-transform: none;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.rk-foto__vazio::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--p);
+}
+.rk-foto__vazio:empty { display: none; }
+
+/* enfeite atrás da foto (tabela 5.3) */
+.rk-foto--deco::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: var(--rc);
+  pointer-events: none;
+}
+.k-classico .rk-foto--deco::before {
+  inset: var(--deco-d) calc(-1 * var(--deco-d)) calc(-1 * var(--deco-d)) var(--deco-d);
+  border: 1px solid var(--acento);
+}
+.k-moderno .rk-foto--deco::before {
+  inset: 18% calc(-1 * var(--deco-d)) calc(-1 * var(--deco-d)) 20%;
+  background: var(--deco);
+}
+.k-direto .rk-foto--deco::before {
+  inset: 32% auto calc(-1 * var(--deco-d)) calc(-1 * var(--deco-d));
+  width: 58%;
+  background: var(--solido);
+}
+
+/* foto de fundo de seção: sobreposição escura garante texto claro legível (≥ 4.5:1) */
+.rk-fundo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 85% 10%, color-mix(in srgb, var(--p) 30%, var(--deep)) 0%, var(--deep) 70%);
+}
+.rk-fundo > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rk-fundo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--deep) 92%, transparent) 0%,
+    color-mix(in srgb, var(--deep) 80%, transparent) 50%,
+    color-mix(in srgb, var(--deep) 68%, transparent) 100%);
+}
+.rk-fundo--centro::after { background: color-mix(in srgb, var(--deep) 76%, transparent); }
+.rk-fundo .rk-foto__vazio { top: auto; left: auto; right: 16px; bottom: 16px; z-index: 2; }
+.rk-fundo ~ * {
+  position: relative;
+  z-index: 1;
+  --fg2: color-mix(in srgb, #ffffff 86%, var(--deep));
+  --destaque: color-mix(in srgb, var(--p-sobre-escuro) 40%, #ffffff);
+}
+
+/* ---------- 10. Detalhes ---------- */
+
+.rk-avatares { display: inline-flex; align-items: center; }
+.rk-avatar {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin-left: -12px;
+  overflow: hidden;
+  border: 3px solid var(--bg, #ffffff);
+  border-radius: 50%;
+  background: linear-gradient(140deg, var(--p-soft) 0%, var(--p-soft2) 100%);
+  color: var(--p-ink);
+  font: 700 0.8125rem/1 var(--fb);
+}
+.rk-avatar:first-child { margin-left: 0; }
+.rk-avatar:nth-child(2) { background: linear-gradient(140deg, var(--p-soft2) 0%, var(--p-soft) 100%); }
+.rk-avatar > img { width: 100%; height: 100%; object-fit: cover; }
+.rk-avatar .rk-foto__vazio { display: none; }
+.rk-avatar svg { width: 46%; height: 46%; }
+.rk-avatar--cor { background: var(--solido); color: var(--solido-fg); }
+
+.rk-estrelas { display: inline-flex; gap: 2px; color: var(--acento); }
+.rk-estrelas svg { width: 1.1em; height: 1.1em; }
+
+.rk-check { display: grid; gap: 12px; }
+.rk-check > li { display: flex; align-items: flex-start; gap: 12px; color: var(--fg); }
+.rk-check__ic {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin-top: 0.08em;
+  border-radius: 50%;
+  color: var(--acento);
+}
+.rk-check__ic svg { width: 100%; height: 100%; }
+.k-moderno .rk-check__ic { background: var(--acento-suave); }
+.k-moderno .rk-check__ic svg { width: 70%; height: 70%; }
+.k-direto .rk-check__ic { background: var(--solido); color: var(--solido-fg); }
+.k-direto .rk-check__ic svg { width: 64%; height: 64%; }
+
+.rk-redes { display: flex; flex-wrap: wrap; gap: 10px; }
+.rk-redes a {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--linha);
+  border-radius: var(--ri);
+  color: var(--fg);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.k-moderno .rk-redes a { border-radius: 50%; }
+.rk-redes a:hover { background: var(--solido); border-color: var(--solido); color: var(--solido-fg); }
+.rk-redes svg { width: 19px; height: 19px; }
+
+/* ---------- 11. Formulário (parciais/formulario*.mustache; §8) ---------- */
+
+.rk-form { display: grid; gap: 16px; }
+.rk-form__campos { display: grid; gap: 16px; }
+.rk-form__linha {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+}
+.rk-campo { display: grid; gap: 7px; min-width: 0; }
+.rk-campo > label { font-size: 0.875rem; font-weight: 600; line-height: 1.3; color: var(--fg); }
+.rk-campo__opc { font-weight: 400; color: var(--fg2); }
+.rk-obrig { color: var(--destaque); }
+.rk-input {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  padding: 13px 16px;
+  border: 1px solid color-mix(in srgb, var(--fg) 22%, transparent);
+  border-radius: var(--rf);
+  background: #ffffff;
+  color: var(--ink);
+  font-family: var(--fb);
+  font-size: 1rem;
+  line-height: 1.4;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.rk-input::placeholder { color: var(--muted); opacity: 0.8; }
+.rk-input:hover { border-color: color-mix(in srgb, var(--fg) 40%, transparent); }
+.rk .rk-input:focus,
+.rk .rk-input:focus-visible {
+  outline: 2px solid transparent;
+  border-color: var(--acento);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--acento) 24%, transparent);
+}
+textarea.rk-input { min-height: 112px; resize: vertical; }
+.rk-hp {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.rk-form__aviso { font-size: 0.8125rem; line-height: 1.5; color: var(--fg2); }
+.rk-form__aviso a { color: var(--destaque); text-decoration: underline; text-underline-offset: 2px; }
+.rk-form__status { font-size: 0.9rem; font-weight: 600; color: var(--destaque); }
+.rk-form__status:empty { display: none; }
+.rk-form__ok { text-align: center; padding-block: 12px; }
+.rk-form__ok > * + * { margin-top: 10px; }
+.rk-form__ok .rk-ic { margin-inline: auto; }
+/* o script do site marca data-estado="enviando|ok|erro" no <form> */
+.rk-form[data-estado="ok"] > :not(.rk-form__ok) { display: none; }
+.rk-form[data-estado="ok"] > .rk-form__ok { display: block; }
+.rk-form[data-estado="enviando"] [type="submit"] { opacity: 0.7; pointer-events: none; }
+
+/* ---------- 12. Logo e menu ---------- */
+
+.rk-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  color: var(--fg);
+  text-decoration: none;
+}
+.rk-logo__img { display: block; width: auto; height: auto; max-width: 210px; max-height: 50px; }
+.rk-logo__ini {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: min(var(--ri), 12px);
+  background: var(--solido);
+  color: var(--solido-fg);
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+.k-moderno .rk-logo__ini { border-radius: 12px; }
+.rk-logo__nome {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 1.22rem;
+  line-height: 1.12;
+  letter-spacing: var(--ft-ls);
+  overflow-wrap: anywhere;
+}
+
+.rk-menu { display: flex; align-items: center; min-width: 0; }
+.rk-menu__lista { display: flex; align-items: center; gap: clamp(18px, 2.3cqi, 34px); }
+.rk-menu__lista a {
+  position: relative;
+  display: inline-flex;
+  padding: 8px 0;
+  color: var(--fg);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.rk-menu__lista a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--acento);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.rk-menu__lista a:hover { color: var(--destaque); }
+.rk-menu__lista a:hover::after { transform: scaleX(1); }
+.k-classico .rk-menu__lista a { text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.72rem; font-weight: 600; }
+.k-classico .rk-menu__lista a::after { height: 1px; }
+.k-direto .rk-menu__lista a { font-weight: 600; }
+
+/* menu do celular: <details> nativo, sem JS */
+.rk-menu__mob { position: relative; display: none; }
+.rk-menu__mob > summary {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--linha);
+  border-radius: min(var(--r), 14px);
+  color: var(--fg);
+}
+.rk-menu__mob > summary svg { width: 22px; height: 22px; }
+.rk-menu__mob .rk-menu__fechar,
+.rk-menu__mob[open] .rk-menu__abrir { display: none; }
+.rk-menu__mob[open] .rk-menu__fechar { display: inline-flex; }
+.rk-menu__mob:not(:has(li)) { display: none !important; }
+.rk-menu__painel {
+  --bg: #ffffff; --fg: var(--ink); --fg2: var(--muted); --linha: var(--line);
+  --destaque: var(--p-ink); --acento: var(--p-fino); --btn-bg: var(--p); --btn-fg: var(--on-p);
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 80;
+  display: grid;
+  gap: 6px;
+  width: min(320px, 100cqi - 2 * var(--gut));
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: min(var(--rc), 20px);
+  background: #ffffff;
+  color: var(--ink);
+  box-shadow: var(--sh-hover);
+}
+.rk-menu__painel a:not(.rk-btn) {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: min(var(--rc), 12px);
+  font-weight: 600;
+  color: var(--ink);
+}
+.rk-menu__painel a:not(.rk-btn):hover { background: var(--p-tint); color: var(--p-ink); }
+.rk-menu__painel .rk-btn { margin-top: 6px; }
+
+/* ---------- 13. WhatsApp flutuante e mapa ---------- */
+
+.rk-wa {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--p);
+  color: var(--on-p);
+  box-shadow: 0 14px 30px -10px color-mix(in srgb, var(--p) 70%, transparent),
+              0 3px 8px color-mix(in srgb, #000000 18%, transparent);
+  transition: transform 0.2s ease;
+}
+.rk-wa svg { width: 30px; height: 30px; }
+.rk-wa:hover { transform: scale(1.07); }
+.rk-wa::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid var(--p);
+  opacity: 0;
+  animation: rk-pulso 3.2s ease-out 1.5s infinite;
+  pointer-events: none;
+}
+@keyframes rk-pulso {
+  0% { transform: scale(1); opacity: 0.55; }
+  60%, 100% { transform: scale(1.5); opacity: 0; }
+}
+
+.rk-mapa {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  aspect-ratio: var(--ar, 4 / 3);
+  overflow: hidden;
+  border-radius: var(--rc);
+  background:
+    linear-gradient(115deg, transparent 46%, color-mix(in srgb, #ffffff 80%, transparent) 46% 49.5%, transparent 49.5%),
+    linear-gradient(28deg, transparent 62%, color-mix(in srgb, #ffffff 70%, transparent) 62% 64.5%, transparent 64.5%),
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--p-ink) 8%, transparent) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--p-ink) 8%, transparent) 0 1px, transparent 1px 44px),
+    var(--p-soft);
+  color: var(--ink);
+}
+.rk-mapa > iframe { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; border: 0; }
+.rk-mapa__conteudo { display: grid; justify-items: center; gap: 14px; padding: 20px; text-align: center; }
+.rk-mapa__pin {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50% 50% 50% 6px;
+  transform: rotate(-45deg);
+  background: var(--p);
+  color: var(--on-p);
+  box-shadow: 0 14px 28px -12px color-mix(in srgb, var(--p) 80%, transparent);
+}
+.rk-mapa__pin svg { width: 26px; height: 26px; transform: rotate(45deg); }
+.rk-mapa__botao {
+  --btn-bg: #ffffff; --btn-fg: var(--ink);
+  box-shadow: var(--sh-selo);
+}
+
+/* ---------- 14. Acessibilidade [M18] ---------- */
+
+.rk-sr {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.rk-pular {
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  z-index: 100;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  text-decoration: underline;
+  transform: translateY(-200%);
+  transition: transform 0.15s ease;
+}
+.rk-pular:focus, .rk-pular:focus-visible { transform: none; }
+.rk-pular-alvo { display: block; height: 0; overflow: hidden; outline: none; }
+
+/* ---------- 15. Responsivo (convertido em @media na publicação) ---------- */
+
+@container site (max-width: 1060px) {
+  .rk-grade, .rk-grade--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container site (max-width: 760px) {
+  .rk-sec { scroll-margin-top: 12px; }
+  .rk-grade, .rk-grade--2, .rk-grade--4 { grid-template-columns: minmax(0, 1fr); }
+  .rk-acoes > .rk-btn { flex: 1 1 auto; }
+  .rk-cab { gap: 14px; }
+  .rk-btn { min-height: 52px; }
+  .rk-wa { width: 54px; height: 54px; }
+  .rk-wa svg { width: 28px; height: 28px; }
+  .rk-fundo::after { background: color-mix(in srgb, var(--deep) 82%, transparent); }
+}
+
+/* ---------- 16. Movimento reduzido ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .rk *, .rk *::before, .rk *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .rk .rk-btn:hover, .rk .rk-card:hover, .rk .rk-wa:hover { transform: none !important; }
+}

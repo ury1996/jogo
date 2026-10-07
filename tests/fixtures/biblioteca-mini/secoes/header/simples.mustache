@@ -1,0 +1,11 @@
+<div class="rk-wrap head-barra">
+  <a class="rk-logo" href="#topo">{{{d.logo.html}}}{{^d.logo.temLogo}}<span class="rk-logo__nome">{{d.nome}}</span>{{/d.logo.temLogo}}</a>
+  <nav class="rk-menu head-menu" aria-label="Principal">
+    <ul>
+      {{#menu}}
+      <li><a href="{{href}}">{{rotulo}}</a></li>
+      {{/menu}}
+    </ul>
+  </nav>
+  <a class="rk-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="header" target="_blank" rel="noopener"><span data-k="hero.cta">{{c.hero.cta}}</span></a>
+</div>

@@ -1,0 +1,28 @@
+{
+  "tipo": "hero",
+  "nome": "Destaque",
+  "ordem": 2,
+  "fixa": null,
+  "ancora": "inicio",
+  "menu": null,
+  "opcoes": [
+    { "id": "cards-flutuantes", "nome": "Foto com cards flutuantes", "descricao": "Foto com selo e um serviço sobre ela.", "tom": "claro",
+      "sizes": { "hero.img": "(max-width: 760px) 100vw, 50vw" } },
+    { "id": "formulario", "nome": "Com formulário", "descricao": "Fundo na cor e formulário de contato já no topo.", "tom": "cor" }
+  ],
+  "campos": {
+    "hero.eyebrow": { "tipo": "texto", "max": 40, "rotulo": "Rótulo acima do título" },
+    "hero.titulo": { "tipo": "texto", "max": 90, "rotulo": "Título principal" },
+    "hero.texto": { "tipo": "texto-longo", "max": 200 },
+    "hero.cta": { "tipo": "texto", "max": 28, "rotulo": "Botão principal" },
+    "hero.cta2": { "tipo": "texto", "max": 28, "rotulo": "Botão secundário" },
+    "hero.img": { "tipo": "imagem", "proporcao": "4:5", "rotulo": "Foto da recepção ou da equipe" },
+    "hero.img2": { "tipo": "imagem", "proporcao": "1:1", "rotulo": "Foto de detalhe" },
+    "hero.selo": { "tipo": "texto", "max": 40 },
+    "form.titulo": { "tipo": "texto", "max": 60 },
+    "form.nota": { "tipo": "texto-longo", "max": 120 },
+    "form.botao": { "tipo": "texto", "max": 28 }
+  },
+  "listas": {},
+  "alegacoes": []
+}

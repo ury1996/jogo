@@ -1,0 +1,31 @@
+<div class="rk-wrap faq-grade">
+  <div class="faq-principal">
+    <div class="rk-cab faq-cab">
+      <p class="rk-eyebrow" data-k="faq.eyebrow">{{c.faq.eyebrow}}</p>
+      <h2 class="rk-h2 faq-titulo" data-k="faq.titulo">{{c.faq.titulo}}</h2>
+      <p class="rk-lead faq-lead" data-k="faq.texto">{{c.faq.texto}}</p>
+    </div>
+    <div class="faq-lista" data-li="faq">
+      {{#c.faq.itens}}
+      <details class="faq-item" data-it="{{id}}"{{#primeiro}} open{{/primeiro}}>
+        <summary class="faq-q">
+          <h3 class="faq-q__t" data-k="{{k}}.q">{{q}}</h3>
+          <span class="faq-q__ic" aria-hidden="true"><span class="faq-mais">{{{u.mais}}}</span><span class="faq-menos">{{{u.menos}}}</span></span>
+        </summary>
+        <div class="faq-a">
+          <p class="rk-p" data-k="{{k}}.a">{{a}}</p>
+        </div>
+      </details>
+      {{/c.faq.itens}}
+    </div>
+  </div>
+  <aside class="faq-lado">
+    <div class="rk-foto rk-foto--deco faq-foto" data-img="faq.img" style="--ar:4/5">{{{c.faq.img.html}}}</div>
+    <div class="rk-card rk-card--estatico faq-ajuda">
+      <p class="faq-ajuda__txt" data-k="faq.ajuda">{{c.faq.ajuda}}</p>
+      {{#d.temWhatsapp}}
+      <a class="rk-btn rk-btn--bloco faq-ajuda__btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="faq" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span>Chamar no WhatsApp</span></a>
+      {{/d.temWhatsapp}}
+    </div>
+  </aside>
+</div>

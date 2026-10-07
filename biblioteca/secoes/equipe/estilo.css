@@ -1,0 +1,189 @@
+/* Equipe — fotos com nome em plaquinha e versão compacta com avatar. Lista fixa de 3 pessoas. */
+
+.rk-sec--equipe .equipe-titulo { max-width: 18em; }
+.rk-sec--equipe .equipe-lead { max-width: 38rem; }
+
+/* ===================== fotos-nome ===================== */
+
+.rk-op--equipe-fotos-nome .equipe-grade {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.4cqi, 32px);
+}
+.rk-op--equipe-fotos-nome .equipe-pessoa { position: relative; min-width: 0; }
+.rk-op--equipe-fotos-nome .equipe-foto { overflow: hidden; }
+.rk-op--equipe-fotos-nome .equipe-foto > img { transition: transform 0.6s ease; }
+.rk-op--equipe-fotos-nome .equipe-pessoa:hover .equipe-foto > img { transform: scale(1.035); }
+
+/* plaquinha com nome e cargo, sobreposta à foto */
+.rk-op--equipe-fotos-nome .equipe-placa {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  z-index: 3;
+  display: grid;
+  justify-items: start;
+  gap: 3px;
+  padding: 14px 18px 15px;
+}
+.rk-op--equipe-fotos-nome .equipe-placa__n {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 1.12rem;
+  line-height: 1.2;
+  letter-spacing: var(--ft-ls);
+  color: var(--fg);
+}
+.rk-op--equipe-fotos-nome .equipe-placa__c { font-size: 0.875rem; line-height: 1.35; color: var(--fg2); }
+
+/* Clássico: placa centralizada que "sai" da borda de baixo da foto (traço na cor vem do .rk-selo) */
+.k-classico .rk-op--equipe-fotos-nome .equipe-pessoa { padding-bottom: 30px; }
+.k-classico .rk-op--equipe-fotos-nome .equipe-placa {
+  left: 22px;
+  right: 22px;
+  bottom: 0;
+  justify-items: center;
+  text-align: center;
+  padding: 16px 16px 17px;
+}
+.k-classico .rk-op--equipe-fotos-nome .equipe-placa__c { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* Direto: placa sólida na cor, colada à esquerda */
+.k-direto .rk-op--equipe-fotos-nome .equipe-placa {
+  --fg: var(--on-p);
+  --fg2: color-mix(in srgb, var(--on-p) 82%, var(--p));
+  left: 0;
+  right: auto;
+  bottom: 20px;
+  max-width: calc(100% - 28px);
+  border-radius: 0 var(--rs) var(--rs) 0;
+  background: var(--p);
+  color: var(--on-p);
+}
+
+/* ===================== compacta ===================== */
+
+.rk-op--equipe-compacta .equipe-duas {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(36px, 6cqi, 96px);
+}
+.rk-op--equipe-compacta .equipe-cab { margin-bottom: 0; }
+.rk-op--equipe-compacta .equipe-lista { display: grid; gap: 14px; }
+.rk-op--equipe-compacta .equipe-pessoa {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 24px 18px 18px;
+}
+.rk-op--equipe-compacta .equipe-pessoa__txt { display: grid; gap: 3px; min-width: 0; }
+.rk-op--equipe-compacta .equipe-pessoa__n { font-size: 1.15rem; }
+.rk-op--equipe-compacta .equipe-pessoa__c { font-size: 0.9375rem; line-height: 1.4; color: var(--fg2); }
+
+/* avatar redondo: a foto cobre a inicial; sem foto, aparece a inicial na cor */
+.rk-op--equipe-compacta .equipe-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--acento-suave);
+  color: var(--destaque);
+}
+.rk-op--equipe-compacta .equipe-avatar__ini {
+  display: block;
+  overflow: hidden;
+  max-width: 100%;
+  font-size: 0;
+  line-height: 0;
+  white-space: nowrap;
+}
+.rk-op--equipe-compacta .equipe-avatar__ini::first-letter {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 1.9rem;
+  line-height: 1;
+}
+.rk-op--equipe-compacta .equipe-avatar__foto {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.rk-op--equipe-compacta .equipe-avatar__foto > img { width: 100%; height: 100%; object-fit: cover; }
+/* no editor, o aviso "enviar" vira um pontinho no canto do avatar */
+.rk-op--equipe-compacta .equipe-avatar__foto .rk-foto__vazio {
+  top: auto;
+  left: auto;
+  right: 3px;
+  bottom: 3px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  justify-content: center;
+  font-size: 0;
+}
+.k-classico .rk-op--equipe-compacta .equipe-avatar {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--acento);
+}
+.k-direto .rk-op--equipe-compacta .equipe-avatar { background: var(--solido); color: var(--solido-fg); }
+.k-direto .rk-op--equipe-compacta .equipe-avatar__ini::first-letter { font-family: var(--fb); font-weight: 800; }
+.k-classico .rk-op--equipe-compacta .equipe-pessoa { border-left: 3px solid var(--p); }
+.k-direto .rk-op--equipe-compacta .equipe-pessoa { padding-left: 16px; }
+
+/* ===================== tablet ===================== */
+
+@container site (max-width: 1060px) {
+  .rk-op--equipe-fotos-nome .equipe-placa { left: 10px; right: 10px; bottom: 10px; padding: 12px 14px; }
+  .k-classico .rk-op--equipe-fotos-nome .equipe-placa { left: 14px; right: 14px; bottom: 0; }
+  .k-direto .rk-op--equipe-fotos-nome .equipe-placa { left: 0; right: auto; bottom: 16px; }
+  .rk-op--equipe-fotos-nome .equipe-placa__n { font-size: 1.02rem; }
+
+  .rk-op--equipe-compacta .equipe-duas { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .rk-op--equipe-compacta .equipe-lista { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rk-op--equipe-compacta .equipe-pessoa {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 22px;
+  }
+}
+
+/* ===================== celular ===================== */
+
+@container site (max-width: 760px) {
+  /* fotos em carrossel com "espiada" da próxima; rola com o dedo, sem JS */
+  .rk-op--equipe-fotos-nome .equipe-grade {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 78%;
+    gap: 14px;
+    margin-inline: calc(-1 * var(--gut));
+    padding: 0 var(--gut) 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gut);
+    scrollbar-width: none;
+  }
+  .rk-op--equipe-fotos-nome .equipe-grade::-webkit-scrollbar { display: none; }
+  .rk-op--equipe-fotos-nome .equipe-pessoa { scroll-snap-align: start; }
+  .rk-op--equipe-fotos-nome .equipe-placa__n { font-size: 1.05rem; }
+
+  .rk-op--equipe-compacta .equipe-lista { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .rk-op--equipe-compacta .equipe-pessoa {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 18px 14px 14px;
+  }
+  .rk-op--equipe-compacta .equipe-avatar { width: 64px; height: 64px; }
+  .rk-op--equipe-compacta .equipe-avatar__ini::first-letter { font-size: 1.6rem; }
+  .rk-op--equipe-compacta .equipe-pessoa__n { font-size: 1.06rem; }
+}

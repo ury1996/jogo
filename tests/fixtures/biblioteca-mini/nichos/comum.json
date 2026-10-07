@@ -1,0 +1,17 @@
+{
+  "textos": {
+    "form.titulo": "Agende uma conversa",
+    "form.nota": "Respondemos em até 1 dia útil. Seus dados ficam só com {nome}.",
+    "form.botao": "Enviar mensagem",
+    "faq.eyebrow": "Dúvidas",
+    "faq.titulo": "Perguntas frequentes",
+    "faq.ajuda": "Ainda com dúvidas? Fale com a equipe da {nome} pelo WhatsApp.",
+    "rodape.texto": "Todos os direitos reservados.",
+    "serv.link": "Saiba mais"
+  },
+  "listas": { "serv": ["1", "2", "3"], "faq": ["1", "2", "3"] },
+  "novoItem": {
+    "serv": { "t": "Novo serviço", "d": "Descreva em uma ou duas frases o que está incluído." },
+    "faq": { "q": "Nova pergunta?", "a": "Escreva aqui a resposta, em linguagem simples." }
+  }
+}

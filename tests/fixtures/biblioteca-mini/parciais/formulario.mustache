@@ -1,0 +1,17 @@
+<form class="rk-form" action="/_lead" method="post" data-form="{{s.tipo}}">
+  <div class="rk-campo">
+    <label for="f-nome-{{s.indice}}">Nome</label>
+    <input class="rk-input" id="f-nome-{{s.indice}}" name="nome" required maxlength="80" autocomplete="name">
+  </div>
+  <div class="rk-campo">
+    <label for="f-tel-{{s.indice}}">WhatsApp ou telefone</label>
+    <input class="rk-input" id="f-tel-{{s.indice}}" name="telefone" required inputmode="tel" autocomplete="tel">
+  </div>
+  <div class="rk-campo">
+    <label for="f-msg-{{s.indice}}">Mensagem</label>
+    <textarea class="rk-input" id="f-msg-{{s.indice}}" name="mensagem" rows="3" maxlength="1000"></textarea>
+  </div>
+  <div class="rk-hp" aria-hidden="true"><label>Empresa <input name="empresa_site" tabindex="-1" autocomplete="off"></label></div>
+  <input type="hidden" name="_t" value="">
+  <button class="rk-btn" type="submit"><span data-k="form.botao">{{c.form.botao}}</span></button>
+</form>

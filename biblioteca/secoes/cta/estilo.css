@@ -1,0 +1,131 @@
+/* Chamada final (cta) — faixa na cor, caixa clara ou foto de fundo. Botão → WhatsApp. */
+
+.rk-sec--cta .cta-titulo { max-width: 18em; }
+.rk-sec--cta .cta-lead { max-width: 36rem; }
+.rk-sec--cta .cta-texto { display: grid; gap: 14px; min-width: 0; }
+.rk-sec--cta .cta-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 22px;
+}
+.rk-sec--cta .cta-btn { min-height: 56px; }
+.rk-sec--cta .cta-fone {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--fg);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.rk-sec--cta .cta-fone .rk-i { color: var(--acento); }
+.rk-sec--cta .cta-fone:hover span:last-child { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---- faixa-cor ---- */
+.rk-op--cta-faixa-cor {
+  overflow: clip;
+  padding-block: clamp(60px, 7.5cqi, 104px);
+}
+.rk-op--cta-faixa-cor::before,
+.rk-op--cta-faixa-cor::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.rk-op--cta-faixa-cor::before {
+  width: 520px;
+  height: 520px;
+  right: -140px;
+  top: -300px;
+  border: 1px solid var(--linha);
+}
+.rk-op--cta-faixa-cor::after {
+  width: 300px;
+  height: 300px;
+  right: -90px;
+  bottom: -190px;
+  background: var(--deco);
+}
+.k-direto .rk-op--cta-faixa-cor::after { border-radius: 40px; transform: rotate(18deg); }
+.k-classico .rk-op--cta-faixa-cor::after { background: transparent; border: 1px solid var(--linha); }
+.rk-op--cta-faixa-cor .cta-linha {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 32px 64px;
+}
+.rk-op--cta-faixa-cor .cta-acoes { flex-direction: column; align-items: stretch; text-align: center; }
+.rk-op--cta-faixa-cor .cta-fone { justify-content: center; }
+
+/* ---- caixa-clara ---- */
+.rk-op--cta-caixa-clara .cta-caixa {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 32px 64px;
+  overflow: hidden;
+  padding: clamp(32px, 5.5cqi, 72px);
+}
+.rk-op--cta-caixa-clara .cta-caixa::before {
+  content: "";
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  right: -110px;
+  top: -150px;
+  border-radius: 50%;
+  background: var(--deco);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.rk-op--cta-caixa-clara .cta-caixa > * { position: relative; }
+.rk-op--cta-caixa-clara .cta-acoes { flex-direction: column; align-items: stretch; text-align: center; }
+.rk-op--cta-caixa-clara .cta-fone { justify-content: center; }
+.k-classico .rk-op--cta-caixa-clara .cta-caixa { border-left: 3px solid var(--p); }
+.k-classico .rk-op--cta-caixa-clara .cta-caixa::before {
+  background: transparent;
+  border: 1px solid var(--acento);
+  opacity: 0.35;
+}
+.k-direto .rk-op--cta-caixa-clara .cta-caixa::before {
+  width: 220px;
+  height: 220px;
+  right: -60px;
+  top: -80px;
+  border-radius: 36px;
+  transform: rotate(16deg);
+  background: var(--solido);
+  opacity: 0.12;
+}
+
+/* ---- foto-fundo ---- */
+.rk-op--cta-foto-fundo { padding-block: clamp(88px, 11cqi, 152px); }
+.rk-op--cta-foto-fundo .cta-centro {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  text-align: center;
+}
+.rk-op--cta-foto-fundo .cta-acoes { justify-content: center; margin-top: 10px; }
+
+/* ---- tablet ---- */
+@container site (max-width: 1060px) {
+  .rk-op--cta-faixa-cor .cta-linha,
+  .rk-op--cta-caixa-clara .cta-caixa { gap: 28px 40px; }
+}
+
+/* ---- celular ---- */
+@container site (max-width: 760px) {
+  .rk-op--cta-faixa-cor { padding-block: 56px; }
+  .rk-op--cta-faixa-cor .cta-linha,
+  .rk-op--cta-caixa-clara .cta-caixa { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .rk-op--cta-caixa-clara .cta-caixa { padding: 30px 22px; }
+  .rk-op--cta-caixa-clara .cta-caixa::before { width: 180px; height: 180px; right: -90px; top: -90px; }
+  .rk-sec--cta .cta-acoes { flex-direction: column; align-items: stretch; width: 100%; }
+  .rk-sec--cta .cta-btn { width: 100%; }
+  .rk-sec--cta .cta-fone { justify-content: center; }
+  .rk-op--cta-foto-fundo { padding-block: 80px; }
+}

@@ -1,0 +1,56 @@
+{
+  "id": "clinicas",
+  "nome": "Clínicas",
+  "descricao": "Odontologia, saúde e estética",
+  "ordem": 4,
+  "especialidades": [
+    { "id": "odontologia", "nome": "Odontologia", "segmento": "Dentista", "schemaOrg": "Dentist",
+      "conselho": "CRO", "registroObrigatorio": true, "rotuloRegistro": "CRO", "iconesCategoria": "saude" },
+    { "id": "estetica", "nome": "Estética", "segmento": "Clínica de estética", "schemaOrg": "HealthAndBeautyBusiness",
+      "conselho": "", "registroObrigatorio": false, "rotuloRegistro": "", "iconesCategoria": "saude" }
+  ],
+  "exemplo": { "nome": "Clínica Sorriso Vivo", "cidade": "Jundiaí", "uf": "SP", "whatsapp": "(11) 98765-4321" },
+  "padroesPorModelo": {
+    "classico": { "cor": "#2a7f86", "fonte": "amigavel" },
+    "moderno": { "cor": "#c23b6e", "fonte": "editorial" },
+    "direto": { "cor": "#2e6fd1", "fonte": "moderna" }
+  },
+  "menu": { "servicos": "Tratamentos" },
+  "mensagemWhatsapp": "Olá! Vi o site e gostaria de agendar uma avaliação.",
+  "iconesPadrao": { "serv": ["dente", "aparelho", "implante", "brilho"] },
+  "listas": { "serv": ["1", "2", "3", "4"], "faq": ["1", "2", "3", "4"] },
+  "textos": {
+    "hero.eyebrow": "{segmento} em {cidade}",
+    "hero.titulo": "Cuidado com o seu sorriso, do primeiro atendimento ao resultado",
+    "hero.texto": "Avaliação completa, plano de tratamento explicado sem pressa e uma equipe que acompanha cada etapa.",
+    "hero.cta": "Agendar avaliação",
+    "hero.cta2": "Ver tratamentos",
+    "hero.selo": "Abrimos aos sábados",
+    "serv.eyebrow": "Tratamentos",
+    "serv.titulo": "Tudo o que o seu sorriso precisa na {nome}",
+    "serv.texto": "Do check-up à ortodontia, com o tempo de cada etapa explicado antes de começar.",
+    "serv.1.t": "Ortodontia",
+    "serv.1.d": "Aparelhos fixos e alinhadores, com acompanhamento mensal.",
+    "serv.2.t": "Implantes",
+    "serv.2.d": "Planejamento digital e reabilitação feita por etapas.",
+    "serv.3.t": "Harmonização facial",
+    "serv.3.d": "Procedimentos discretos, sempre após avaliação.",
+    "serv.4.t": "Limpeza e prevenção",
+    "serv.4.d": "Consulta de rotina para manter tudo em dia.",
+    "faq.texto": "Respostas rápidas para quem vai à {nome} pela primeira vez.",
+    "faq.1.q": "Vocês atendem convênios?",
+    "faq.1.a": "Atendemos os principais convênios odontológicos. Confirme o seu pelo WhatsApp.",
+    "faq.2.q": "A primeira consulta é paga?",
+    "faq.2.a": "A avaliação inicial inclui exame clínico e explicação do plano de tratamento.",
+    "faq.3.q": "Quanto tempo dura um tratamento?",
+    "faq.3.a": "Depende do caso. Você recebe uma estimativa por escrito depois da avaliação.",
+    "faq.4.q": "Onde vocês ficam em {cidade}?",
+    "faq.4.a": "O endereço completo e o mapa estão no fim desta página.",
+    "rodape.sobre": "A {nome} atende em {cidade} com consultórios modernos e esterilização rigorosa."
+  },
+  "conformidade": {
+    "conselho": "CFO/CFM",
+    "aviso": "Não prometa resultados nem use imagens de antes e depois.",
+    "termosProibidos": ["garantido", "sem dor", "o melhor", "resultado imediato"]
+  }
+}

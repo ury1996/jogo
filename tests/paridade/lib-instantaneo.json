@@ -1,0 +1,54 @@
+{
+  "versao": "instantaneo",
+  "secoes": {
+    "header": {
+      "manifest": { "tipo": "header", "ancora": "topo", "menu": null, "opcoes": [{ "id": "a", "nome": "A", "tom": "branco" }], "campos": {}, "listas": {} },
+      "templates": { "a": "<a href=\"#topo\">{{d.nome}}</a>{{#menu}}<i>{{rotulo}}={{href}}</i>{{/menu}}" },
+      "css": ""
+    },
+    "hero": {
+      "manifest": {
+        "tipo": "hero", "ancora": "inicio", "menu": "Início",
+        "opcoes": [{ "id": "a", "nome": "A", "tom": "claro", "sizes": { "hero.img": "50vw" } }],
+        "campos": { "hero.titulo": { "tipo": "texto", "max": 90 }, "hero.img": { "tipo": "imagem", "rotulo": "Foto" } },
+        "listas": {}
+      },
+      "templates": { "a": "<h1 data-k=\"hero.titulo\">{{c.hero.titulo}}</h1>{{{c.hero.img.html}}}" },
+      "css": ""
+    },
+    "servicos": {
+      "manifest": {
+        "tipo": "servicos", "ancora": "servicos", "menu": "Serviços",
+        "opcoes": [{ "id": "a", "nome": "A", "tom": "claro" }],
+        "campos": { "serv.titulo": { "tipo": "texto", "max": 80 } },
+        "listas": { "serv": { "repete": [1, 3], "campos": { "t": { "tipo": "texto", "max": 40 }, "ic": { "tipo": "icone", "automatico": "t" } } } }
+      },
+      "templates": { "a": "<ul data-li=\"serv\">{{#c.serv.itens}}<li data-it=\"{{id}}\">{{i}}{{{ic.svg}}}<span data-k=\"{{k}}.t\">{{t}}</span></li>{{/c.serv.itens}}</ul>" },
+      "css": ""
+    }
+  },
+  "parciais": {},
+  "baseCss": "",
+  "modelos": { "m": { "id": "m", "acabamento": "direto", "secoes": [["header", "a"], ["hero", "a"], ["servicos", "a"]] } },
+  "nichos": {
+    "n": {
+      "id": "n",
+      "especialidades": [{ "id": "e", "segmento": "Seg" }],
+      "exemplo": { "nome": "Ex", "cidade": "Cid", "uf": "SP", "whatsapp": "(11) 98765-4321" },
+      "padroesPorModelo": { "m": { "cor": "#2e6fd1", "fonte": "moderna" } },
+      "menu": { "servicos": "Tratamentos" },
+      "mensagemWhatsapp": "Oi",
+      "textos": { "hero.titulo": "Olá {nome} & <cia>", "serv.1.t": "Um", "serv.2.t": "Dois" },
+      "listas": { "serv": ["1", "2"] }
+    }
+  },
+  "comum": {},
+  "icones": {
+    "icones": [{ "id": "um", "palavras": ["um"], "svg": { "fino": "<svg>1f</svg>", "duotone": "<svg>1d</svg>", "preenchido": "<svg>1p</svg>" } }],
+    "utilitarios": {
+      "whatsapp": { "svg": { "fino": "<svg>wf</svg>", "duotone": "<svg>wd</svg>", "preenchido": "<svg>wp</svg>" } },
+      "circulo": { "svg": { "fino": "<svg>c</svg>" } }
+    }
+  },
+  "fontes": { "pares": { "moderna": {}, "classica": {} } }
+}

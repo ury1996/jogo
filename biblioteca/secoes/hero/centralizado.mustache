@@ -1,0 +1,13 @@
+<div class="rk-wrap hero-centro">
+  <p class="rk-eyebrow" data-k="hero.eyebrow">{{c.hero.eyebrow}}</p>
+  <h1 class="rk-h1 hero-titulo" data-k="hero.titulo">{{c.hero.titulo}}</h1>
+  <p class="rk-lead hero-lead" data-k="hero.texto">{{c.hero.texto}}</p>
+  <div class="rk-acoes hero-acoes">
+    <a class="rk-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="hero" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="hero.cta">{{c.hero.cta}}</span></a>
+    <a class="rk-btn rk-btn--sec" href="#servicos"><span data-k="hero.cta2">{{c.hero.cta2}}</span></a>
+  </div>
+</div>
+<div class="rk-wrap hero-palco">
+  <div class="rk-foto hero-foto" data-img="hero.img" style="--ar:21/9">{{{c.hero.img.html}}}</div>
+  <ul class="hero-nums" data-li="num">{{#c.num.itens}}<li class="rk-selo hero-num" data-it="{{id}}"><strong class="rk-selo__v" data-k="{{k}}.v">{{v}}</strong><span class="rk-selo__l" data-k="{{k}}.l">{{l}}</span></li>{{/c.num.itens}}</ul>
+</div>

@@ -1,0 +1,18 @@
+<div class="rk-wrap">
+  <div class="serv-blocos serv-q{{c.serv.qtd}}" data-li="serv">
+    <div class="rk-ctx-escuro serv-capa">
+      <p class="rk-eyebrow" data-k="serv.eyebrow">{{c.serv.eyebrow}}</p>
+      <h2 class="rk-h2 serv-titulo" data-k="serv.titulo">{{c.serv.titulo}}</h2>
+      <p class="rk-p serv-lead" data-k="serv.texto">{{c.serv.texto}}</p>
+      <a class="rk-btn serv-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="servicos" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="hero.cta">{{c.hero.cta}}</span></a>
+    </div>
+    {{#c.serv.itens}}
+    <article class="rk-card serv-bloco" data-it="{{id}}">
+      <span class="rk-ic" data-ic="{{k}}">{{{ic.svg}}}</span>
+      <span class="serv-bloco__n" aria-hidden="true">0{{i}}</span>
+      <h3 class="rk-h3 serv-bloco__t" data-k="{{k}}.t">{{t}}</h3>
+      <p class="rk-p serv-bloco__d" data-k="{{k}}.d">{{d}}</p>
+    </article>
+    {{/c.serv.itens}}
+  </div>
+</div>

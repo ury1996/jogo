@@ -1,0 +1,172 @@
+/* Perguntas (faq) — <details>/<summary> nativo, sem JS. Lista variável de 3 a 10 perguntas. */
+
+.rk-sec--faq .faq-titulo { max-width: 18em; }
+.rk-sec--faq .faq-lead { max-width: 38rem; }
+
+/* ---- pergunta e resposta ---- */
+.rk-sec--faq .faq-lista { display: grid; gap: 12px; }
+.rk-sec--faq .faq-item {
+  border: 1px solid transparent;
+  border-radius: min(var(--rc), 20px);
+  background: var(--card);
+  color: var(--fg);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.rk-sec--faq .faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 20px 20px 26px;
+  border-radius: inherit;
+}
+.rk-sec--faq .faq-q__t {
+  min-width: 0;
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: clamp(1.04rem, 0.98rem + 0.25cqi, 1.17rem);
+  line-height: 1.38;
+  letter-spacing: calc(var(--ft-ls) / 2);
+  color: var(--fg);
+  transition: color 0.2s ease;
+}
+.rk-sec--faq .faq-q:hover .faq-q__t { color: var(--destaque); }
+.rk-sec--faq .faq-q__ic {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--acento-suave);
+  color: var(--destaque);
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.25s ease;
+}
+.rk-sec--faq .faq-q__ic svg { width: 18px; height: 18px; }
+.rk-sec--faq .faq-mais,
+.rk-sec--faq .faq-menos { display: inline-flex; }
+.rk-sec--faq .faq-menos,
+.rk-sec--faq .faq-item[open] .faq-mais { display: none; }
+.rk-sec--faq .faq-item[open] .faq-menos { display: inline-flex; }
+.rk-sec--faq .faq-item[open] .faq-q__ic { background: var(--solido); color: var(--solido-fg); }
+.rk-sec--faq .faq-a { padding: 0 70px 24px 26px; }
+.rk-sec--faq .faq-a .rk-p { max-width: 64ch; }
+.rk-sec--faq .faq-item[open] .faq-a { animation: faq-abrir 0.3s ease; }
+@keyframes faq-abrir {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Moderno: cartões arredondados; o aberto ganha sombra */
+.k-moderno .rk-sec--faq .faq-item[open] { box-shadow: var(--sh); }
+
+/* Clássico: linhas finas, sem caixa; ícone em quadrado de traço fino */
+.k-classico .rk-sec--faq .faq-lista { gap: 0; border-top: 1px solid var(--linha); }
+.k-classico .rk-sec--faq .faq-item {
+  border-width: 0 0 1px;
+  border-color: var(--linha);
+  border-radius: 0;
+  background: transparent;
+}
+.k-classico .rk-sec--faq .faq-q { padding: 24px 4px; }
+.k-classico .rk-sec--faq .faq-a { padding: 0 64px 26px 4px; }
+.k-classico .rk-sec--faq .faq-q__ic {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--linha);
+  border-radius: var(--ri);
+  background: transparent;
+  color: var(--destaque);
+}
+.k-classico .rk-sec--faq .faq-item[open] .faq-q__ic { border-color: var(--acento); background: transparent; color: var(--destaque); }
+
+/* Direto: cartão com borda; o aberto ganha a faixa na cor à esquerda */
+.k-direto .rk-sec--faq .faq-item { border-color: var(--linha); }
+.k-direto .rk-sec--faq .faq-item[open] {
+  border-color: transparent;
+  box-shadow: inset 4px 0 0 var(--p), var(--sh);
+}
+.k-direto .rk-sec--faq .faq-q__ic { border-radius: var(--ri); }
+
+/* ===================== centralizada ===================== */
+
+.rk-op--faq-centralizada .faq-centro { max-width: 860px; }
+.rk-op--faq-centralizada .faq-rodape {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 18px;
+  margin-top: clamp(32px, 4cqi, 48px);
+  text-align: center;
+}
+.rk-op--faq-centralizada .faq-rodape__txt { font-size: var(--t-p); line-height: 1.5; color: var(--fg2); }
+.rk-op--faq-centralizada .faq-rodape__link { white-space: nowrap; }
+
+/* ===================== foto-ajuda ===================== */
+
+.rk-op--faq-foto-ajuda .faq-grade {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  align-items: start;
+  gap: clamp(44px, 6.5cqi, 96px);
+}
+/* a foto fica à esquerda no computador (no HTML vem depois das perguntas) e acompanha a rolagem */
+.rk-op--faq-foto-ajuda .faq-lado {
+  position: sticky;
+  top: 96px;
+  grid-column: 1;
+  grid-row: 1;
+  padding: 0 var(--deco-d) var(--deco-d) 0;
+}
+.k-direto .rk-op--faq-foto-ajuda .faq-lado { padding: 0 0 var(--deco-d) var(--deco-d); }
+.rk-op--faq-foto-ajuda .faq-principal { grid-column: 2; grid-row: 1; min-width: 0; }
+.rk-op--faq-foto-ajuda .faq-cab { margin-bottom: clamp(28px, 3.4cqi, 44px); }
+.rk-op--faq-foto-ajuda .faq-ajuda {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  gap: 16px;
+  margin: -96px 20px 0;
+  padding: 24px;
+  box-shadow: var(--sh-hover);
+}
+.k-classico .rk-op--faq-foto-ajuda .faq-ajuda { border-top: 3px solid var(--p); }
+.rk-op--faq-foto-ajuda .faq-ajuda__txt {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 1.12rem;
+  line-height: 1.4;
+  letter-spacing: calc(var(--ft-ls) / 2);
+  color: var(--fg);
+  text-wrap: pretty;
+}
+
+/* ===================== tablet ===================== */
+
+@container site (max-width: 1060px) {
+  .rk-op--faq-foto-ajuda .faq-grade { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 40px; }
+  .rk-op--faq-foto-ajuda .faq-ajuda { margin: -72px 0 0; padding: 20px 18px; }
+  .rk-op--faq-foto-ajuda .faq-ajuda__txt { font-size: 1.02rem; }
+  .rk-op--faq-foto-ajuda .faq-ajuda__btn { padding-inline: 16px; }
+}
+
+/* ===================== celular ===================== */
+
+@container site (max-width: 760px) {
+  .rk-sec--faq .faq-lista { gap: 10px; }
+  .rk-sec--faq .faq-q { gap: 14px; padding: 16px 14px 16px 18px; }
+  .rk-sec--faq .faq-q__ic { width: 34px; height: 34px; }
+  .rk-sec--faq .faq-a { padding: 0 18px 20px; }
+  .k-classico .rk-sec--faq .faq-q { padding: 20px 2px; }
+  .k-classico .rk-sec--faq .faq-a { padding: 0 2px 22px; }
+
+  .rk-op--faq-centralizada .faq-rodape { flex-direction: column; gap: 10px; }
+
+  /* perguntas primeiro; foto e caixa de ajuda fecham a seção */
+  .rk-op--faq-foto-ajuda .faq-grade { grid-template-columns: minmax(0, 1fr); gap: 44px; }
+  .rk-op--faq-foto-ajuda .faq-lado,
+  .rk-op--faq-foto-ajuda .faq-principal { position: relative; top: auto; grid-column: auto; grid-row: auto; }
+  .rk-op--faq-foto-ajuda .faq-foto { aspect-ratio: 4 / 3; }
+  .rk-op--faq-foto-ajuda .faq-ajuda { margin: -64px 14px 0; padding: 20px 18px; }
+}

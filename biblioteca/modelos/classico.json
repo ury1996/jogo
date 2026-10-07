@@ -1,0 +1,21 @@
+{
+  "id": "classico",
+  "nome": "Clássico",
+  "descricao": "Foto de fundo, cards sobrepostos e seções escuras. O visual corporativo dos templates premium.",
+  "personalidade": "Corporativo, estilo dos templates premium do Envato. Foto de fundo, seções escuras.",
+  "acabamento": "classico",
+  "secoes": [
+    ["header", "barra"],
+    ["hero", "fundo-cards"],
+    ["clientes", "faixa", { "so": ["empresas"] }],
+    ["sobre", "duas-fotos"],
+    ["servicos", "cards"],
+    ["numeros", "faixa-cor"],
+    ["equipe", "fotos-nome"],
+    ["depoimentos", "cards-nota", { "exceto": ["advocacia"] }],
+    ["faq", "foto-ajuda"],
+    ["cta", "foto-fundo"],
+    ["contato", "formulario"],
+    ["rodape", "completo"]
+  ]
+}

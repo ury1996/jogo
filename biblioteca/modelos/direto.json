@@ -1,0 +1,18 @@
+{
+  "id": "direto",
+  "nome": "Direto",
+  "descricao": "Formulário já no topo, blocos de cor fortes. Feito para gerar contato rápido.",
+  "personalidade": "Conversão. Formulário no topo, blocos de cor fortes.",
+  "acabamento": "direto",
+  "secoes": [
+    ["header", "simples"],
+    ["hero", "formulario"],
+    ["servicos", "cards"],
+    ["passos", "linha-tempo"],
+    ["depoimentos", "cards-nota", { "exceto": ["advocacia"] }],
+    ["faq", "centralizada"],
+    ["cta", "faixa-cor"],
+    ["contato", "mapa"],
+    ["rodape", "simples"]
+  ]
+}

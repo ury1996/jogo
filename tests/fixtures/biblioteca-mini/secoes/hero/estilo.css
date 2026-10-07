@@ -1,0 +1,11 @@
+.rk-sec--hero .hero-grade{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
+.rk-sec--hero .hero-acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.rk-sec--hero .hero-midia{position:relative}
+.rk-sec--hero .hero-selo{position:absolute;top:24px;right:-12px}
+.rk-sec--hero .hero-card{position:absolute;bottom:32px;left:-28px;display:flex;align-items:center;gap:10px}
+.rk-op--hero-formulario .hero-lista{list-style:none;padding:0;display:grid;gap:10px}
+.rk-op--hero-formulario .hero-lista li{display:flex;gap:10px;align-items:center}
+.rk-op--hero-formulario .hero-form{background:var(--card);color:var(--card-fg);padding:28px;border-radius:var(--rc)}
+.k-moderno .rk-sec--hero .hero-selo{border-radius:999px}
+@container site (max-width: 1060px){.rk-sec--hero .hero-grade{gap:32px}}
+@container site (max-width: 760px){.rk-sec--hero .hero-grade{grid-template-columns:1fr}.rk-sec--hero .hero-card{left:12px}}

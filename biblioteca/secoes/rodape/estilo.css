@@ -1,0 +1,103 @@
+/* Rodapé — completo (4 colunas) ou simples. Registro profissional sempre visível quando existe (cap. 11). */
+
+.rk-sec--rodape {
+  padding-block: clamp(60px, 7cqi, 96px) 0;
+  font-size: 0.9375rem;
+}
+.rk-sec--rodape a { transition: color 0.2s ease; }
+.rk-sec--rodape .rk-logo { color: var(--fg); }
+.rk-sec--rodape .rk-logo__img { max-height: 54px; }
+
+/* ---- completo ---- */
+.rk-op--rodape-completo .rod-grade {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: clamp(32px, 4cqi, 56px);
+}
+.rk-op--rodape-completo .rod-sobre { display: grid; align-content: start; justify-items: start; gap: 20px; }
+.rk-op--rodape-completo .rod-sobre__txt { max-width: 22rem; font-size: 0.9375rem; }
+.rk-op--rodape-completo .rod-tit {
+  margin-bottom: 18px;
+  color: var(--fg);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.k-moderno .rk-op--rodape-completo .rod-tit { letter-spacing: 0.08em; }
+.rk-op--rodape-completo .rod-links { display: grid; gap: 10px; }
+.rk-op--rodape-completo .rod-links a { color: var(--fg2); }
+.rk-op--rodape-completo .rod-links a:hover { color: var(--fg); }
+.rk-op--rodape-completo .rod-contatos { display: grid; gap: 14px; }
+.rk-op--rodape-completo .rod-contatos li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--fg2);
+  line-height: 1.5;
+}
+.rk-op--rodape-completo .rod-contatos .rk-i { margin-top: 0.18em; color: var(--acento); }
+.rk-op--rodape-completo .rod-contatos a { color: var(--fg2); overflow-wrap: anywhere; }
+.rk-op--rodape-completo .rod-contatos a:hover { color: var(--fg); }
+.rk-op--rodape-completo .rod-linhas { display: grid; }
+
+/* ---- simples ---- */
+.rk-op--rodape-simples { padding-top: clamp(44px, 5cqi, 64px); }
+.rk-op--rodape-simples .rod-s {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px 40px;
+}
+.rk-op--rodape-simples .rod-s__contatos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  margin-right: auto;
+}
+.rk-op--rodape-simples .rod-s__contatos a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--fg2);
+}
+.rk-op--rodape-simples .rod-s__contatos a:hover { color: var(--fg); }
+.rk-op--rodape-simples .rod-s__contatos .rk-i { color: var(--acento); }
+
+/* ---- linha final (as duas opções) ---- */
+.rk-sec--rodape .rod-base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 32px;
+  margin-top: clamp(40px, 5cqi, 64px);
+  padding-block: 26px 30px;
+  border-top: 1px solid var(--linha);
+  color: var(--fg2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.rk-sec--rodape .rod-base p { display: flex; flex-wrap: wrap; align-items: center; column-gap: 0; }
+.rk-sec--rodape .rod-sep { margin-inline: 10px; opacity: 0.6; }
+.rk-sec--rodape .rod-registro { color: var(--fg); font-weight: 600; }
+.rk-sec--rodape .rod-base a { color: var(--fg2); text-decoration: underline; text-decoration-color: var(--linha); text-underline-offset: 3px; }
+.rk-sec--rodape .rod-base a:hover { color: var(--fg); text-decoration-color: currentColor; }
+
+/* ---- tablet ---- */
+@container site (max-width: 1060px) {
+  .rk-op--rodape-completo .rod-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---- celular ---- */
+@container site (max-width: 760px) {
+  .rk-sec--rodape { padding-top: 52px; }
+  .rk-op--rodape-completo .rod-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 20px; }
+  .rk-op--rodape-completo .rod-sobre,
+  .rk-op--rodape-completo .rod-col:last-child { grid-column: 1 / -1; }
+  .rk-op--rodape-simples .rod-s { flex-direction: column; align-items: flex-start; gap: 22px; }
+  .rk-op--rodape-simples .rod-s__contatos { flex-direction: column; gap: 12px; }
+  .rk-sec--rodape .rod-base { flex-direction: column; align-items: flex-start; padding-bottom: 92px; }
+  .rk-sec--rodape .rod-base p { flex-direction: column; align-items: flex-start; row-gap: 6px; }
+  .rk-sec--rodape .rod-sep { display: none; }
+}

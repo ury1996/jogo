@@ -1,0 +1,18 @@
+<div class="rk-wrap">
+  <div class="rk-cab rk-cab--centro equipe-cab">
+    <p class="rk-eyebrow" data-k="equipe.eyebrow">{{c.equipe.eyebrow}}</p>
+    <h2 class="rk-h2 equipe-titulo" data-k="equipe.titulo">{{c.equipe.titulo}}</h2>
+    <p class="rk-lead equipe-lead" data-k="equipe.texto">{{c.equipe.texto}}</p>
+  </div>
+  <ul class="equipe-grade" data-li="equipe">
+    {{#c.equipe.itens}}
+    <li class="equipe-pessoa" data-it="{{id}}">
+      <div class="rk-foto equipe-foto" data-img="{{k}}.f" style="--ar:3/4">{{{f.html}}}</div>
+      <div class="rk-selo equipe-placa">
+        <h3 class="equipe-placa__n" data-k="{{k}}.n">{{n}}</h3>
+        <p class="equipe-placa__c" data-k="{{k}}.c">{{c}}</p>
+      </div>
+    </li>
+    {{/c.equipe.itens}}
+  </ul>
+</div>

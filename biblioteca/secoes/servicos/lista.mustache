@@ -1,0 +1,22 @@
+<div class="rk-wrap serv-duas">
+  <div class="serv-lado">
+    <div class="rk-cab serv-cab">
+      <p class="rk-eyebrow" data-k="serv.eyebrow">{{c.serv.eyebrow}}</p>
+      <h2 class="rk-h2 serv-titulo" data-k="serv.titulo">{{c.serv.titulo}}</h2>
+      <p class="rk-lead serv-lead" data-k="serv.texto">{{c.serv.texto}}</p>
+    </div>
+    <a class="rk-btn serv-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="servicos" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="hero.cta">{{c.hero.cta}}</span></a>
+  </div>
+  <ul class="serv-linhas" data-li="serv">
+    {{#c.serv.itens}}
+    <li class="serv-linha" data-it="{{id}}">
+      <span class="rk-ic" data-ic="{{k}}">{{{ic.svg}}}</span>
+      <div class="serv-linha__txt">
+        <h3 class="rk-h3 serv-linha__t" data-k="{{k}}.t">{{t}}</h3>
+        <p class="rk-p serv-linha__d" data-k="{{k}}.d">{{d}}</p>
+      </div>
+      <a class="serv-linha__seta" href="{{dados.whatsappLink}}" data-ev="whatsapp" data-pos="servicos" target="_blank" rel="noopener"><span class="rk-sr">{{c.serv.link}} – {{t}}</span><span class="rk-i">{{{u.seta}}}</span></a>
+    </li>
+    {{/c.serv.itens}}
+  </ul>
+</div>

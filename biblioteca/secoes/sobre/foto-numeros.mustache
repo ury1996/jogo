@@ -1,0 +1,23 @@
+<div class="rk-wrap sobre-topo">
+  <div class="sobre-cab">
+    <p class="rk-eyebrow" data-k="sobre.eyebrow">{{c.sobre.eyebrow}}</p>
+    <h2 class="rk-h2 sobre-titulo" data-k="sobre.titulo">{{c.sobre.titulo}}</h2>
+  </div>
+  <div class="sobre-texto">
+    <p class="rk-lead sobre-p" data-k="sobre.texto">{{c.sobre.texto}}</p>
+    <ul class="rk-check sobre-lista" data-li="sobrel">
+      {{#c.sobrel.itens}}
+      <li data-it="{{id}}"><span class="rk-check__ic">{{{u.check}}}</span><span data-k="{{k}}.t">{{t}}</span></li>
+      {{/c.sobrel.itens}}
+    </ul>
+    <a class="rk-link sobre-link" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="sobre" target="_blank" rel="noopener"><span data-k="sobre.cta">{{c.sobre.cta}}</span><span class="rk-i">{{{u.seta}}}</span></a>
+  </div>
+</div>
+<div class="rk-wrap sobre-palco">
+  <div class="rk-foto sobre-foto" data-img="sobre.img" style="--ar:21/9">{{{c.sobre.img.html}}}</div>
+  <ul class="rk-selo sobre-nums" data-li="num">
+    {{#c.num.itens}}
+    <li class="sobre-num" data-it="{{id}}"><strong class="sobre-num__v" data-k="{{k}}.v">{{v}}</strong><span class="sobre-num__l" data-k="{{k}}.l">{{l}}</span></li>
+    {{/c.num.itens}}
+  </ul>
+</div>

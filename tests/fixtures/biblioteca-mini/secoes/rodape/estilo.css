@@ -1,0 +1,8 @@
+.rk-sec--rodape{padding-block:56px 24px}
+.rk-op--rodape-completo .rod-grade{display:grid;grid-template-columns:2fr 1fr 1.4fr;gap:40px}
+.rk-sec--rodape .rod-tit{font-size:var(--t-small);text-transform:uppercase;letter-spacing:.08em;color:var(--fg2)}
+.rk-sec--rodape .rod-linha{display:flex;gap:8px;color:var(--fg);text-decoration:none}
+.rk-sec--rodape .rod-redes{display:flex;gap:12px;list-style:none;padding:0}
+.rk-sec--rodape .rod-base{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;border-top:1px solid var(--linha);margin-top:40px;padding-top:20px}
+.rk-op--rodape-simples .rod-simples{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+@container site (max-width: 760px){.rk-op--rodape-completo .rod-grade{grid-template-columns:1fr}}

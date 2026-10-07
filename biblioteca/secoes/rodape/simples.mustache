@@ -1,0 +1,16 @@
+<footer class="rod">
+  <div class="rk-wrap rod-s">
+    <a class="rk-logo" href="#topo">{{{d.logo.html}}}{{^d.logo.temLogo}}<span class="rk-logo__nome">{{d.nome}}</span>{{/d.logo.temLogo}}</a>
+    <ul class="rod-s__contatos">
+      {{#d.temWhatsapp}}<li><a href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="rodape" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span>{{d.whatsapp}}</span></a></li>{{/d.temWhatsapp}}
+      {{#d.temTelefone}}<li><a href="{{d.telefoneLink}}" data-ev="telefone"><span class="rk-i">{{{u.telefone}}}</span><span>{{d.telefone}}</span></a></li>{{/d.temTelefone}}
+      {{#d.temEmail}}<li><a href="{{d.emailLink}}"><span class="rk-i">{{{u.email}}}</span><span>{{d.email}}</span></a></li>{{/d.temEmail}}
+      {{#d.temEndereco}}<li><a href="{{d.mapaLink}}" target="_blank" rel="noopener"><span class="rk-i">{{{u.pin}}}</span><span>{{d.endereco}}</span></a></li>{{/d.temEndereco}}
+    </ul>
+    {{#d.temRedes}}<ul class="rk-redes">{{#d.redes}}<li><a href="{{url}}" target="_blank" rel="noopener" aria-label="{{rotulo}}">{{{svg}}}</a></li>{{/d.redes}}</ul>{{/d.temRedes}}
+  </div>
+  <div class="rk-wrap rod-base">
+    <p class="rod-base__id">© {{d.ano}} {{d.nome}}{{#d.temRegistro}}<span class="rod-sep" aria-hidden="true">·</span><span class="rod-registro">{{d.registro}}</span>{{/d.temRegistro}}</p>
+    <p class="rod-base__links"><span data-k="rodape.texto">{{c.rodape.texto}}</span><span class="rod-sep" aria-hidden="true">·</span><a href="/privacidade/">Política de privacidade</a></p>
+  </div>
+</footer>

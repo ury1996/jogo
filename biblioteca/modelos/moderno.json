@@ -1,0 +1,22 @@
+{
+  "id": "moderno",
+  "nome": "Moderno",
+  "descricao": "Cantos arredondados, cards flutuando sobre as fotos e grade de serviços em blocos.",
+  "personalidade": "Estilo Framer. Cantos arredondados, cards flutuantes, grade em blocos.",
+  "acabamento": "moderno",
+  "secoes": [
+    ["header", "simples"],
+    ["hero", "cards-flutuantes"],
+    ["clientes", "faixa", { "so": ["empresas"] }],
+    ["diferenciais", "faixa-icones"],
+    ["servicos", "blocos"],
+    ["sobre", "foto-numeros"],
+    ["equipe", "fotos-nome", { "so": ["advocacia"] }],
+    ["passos", "linha-tempo"],
+    ["depoimentos", "destaque-foto", { "exceto": ["advocacia"] }],
+    ["faq", "centralizada"],
+    ["cta", "caixa-clara"],
+    ["contato", "mapa"],
+    ["rodape", "completo"]
+  ]
+}
