@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Construtor de sites por nicho da Sites Rankly",
   "scripts": {
-    "test": "node --test tests/js/",
+    "test": "node --test 'tests/js/**/*.test.mjs'",
     "paridade": "node tests/paridade/comparar.mjs",
     "construir": "node ferramentas/construir.mjs",
     "e2e": "playwright test --config tests/e2e/playwright.config.mjs"

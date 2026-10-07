@@ -47,6 +47,7 @@ export const TEXTO_STATUS = Object.freeze({
 
 const instanciasAtivas = new Map(); // siteId → EstadoEditor vivo
 const sementes = new Map(); // siteId → { antes, revisao, rotulo } (troca de modelo feita fora do editor)
+const enviosAoSair = new Map(); // siteId → promessa do envio feito por destruir() (editor fechado)
 
 function clonar(v) {
   return typeof structuredClone === 'function' ? structuredClone(v) : JSON.parse(JSON.stringify(v));
@@ -284,6 +285,10 @@ export class EstadoEditor {
   static async carregar(siteId, opcoes = {}) {
     const viva = instanciasAtivas.get(String(siteId));
     if (viva && !viva._destruido && opcoes.reutilizar !== false) return viva;
+    // Editor fechado há pouco com um envio no ar (troca de rota): espera o envio terminar,
+    // senão o GET traria a revisão antiga e o próximo PUT daria conflito consigo mesmo.
+    const saindo = enviosAoSair.get(String(siteId));
+    if (saindo) await saindo.catch(() => false);
     const cliente = opcoes.api ?? apiPadrao;
     const r = await cliente.get(`/sites/${encodeURIComponent(siteId)}`);
     const estado = new EstadoEditor(r, opcoes);
@@ -409,8 +414,9 @@ export class EstadoEditor {
     if (!this._pendente) return Promise.resolve(true);
     if (this._status === STATUS.CONFLITO) return Promise.resolve(false);
     if (this._emVoo) {
+      // Há um envio no ar com uma versão anterior: só resolve depois de enviar a atual.
       this._salvarDeNovo = true;
-      return this._emVoo;
+      return this._emVoo.then((ok) => (ok ? this.salvar({ keepalive }) : false));
     }
     clearTimeout(this._timerTentativa);
     this._timerTentativa = null;
@@ -437,7 +443,10 @@ export class EstadoEditor {
           this._definirStatus(STATUS.SALVO);
           this._apagarCopiaLocal();
         } else {
+          // Mudou durante o envio. Se o envio era uma nova tentativa (offline/erro), a alteração
+          // não agendou salvamento próprio: agenda aqui para ela não ficar parada.
           this._definirStatus(STATUS.SALVANDO);
+          if (!this._timerSalvar && !this._salvarDeNovo && !this._destruido) this._agendarSalvar();
         }
         this._emitir({ tipo: 'revisao', revisao: this._revisao });
         return true;
@@ -668,6 +677,15 @@ export class EstadoEditor {
 
   /* ---------------------------------------------------------------- fim */
 
+  _lembrarEnvioAoSair(promessa) {
+    const chave = String(this.siteId);
+    const p = Promise.resolve(promessa).catch(() => false);
+    enviosAoSair.set(chave, p);
+    p.finally(() => {
+      if (enviosAoSair.get(chave) === p) enviosAoSair.delete(chave);
+    });
+  }
+
   /**
    * Remove os ouvintes da página e para os temporizadores. Se houver alteração pendente,
    * dispara o envio (e guarda a cópia local) antes de sair.
@@ -687,7 +705,11 @@ export class EstadoEditor {
     this._ouvintes.clear();
     if (this._pendente) {
       this._guardarCopiaLocal();
-      if (this._status !== STATUS.CONFLITO) this.salvar();
+      if (this._status !== STATUS.CONFLITO) this._lembrarEnvioAoSair(this.salvar());
+    } else if (this._emVoo) {
+      this._lembrarEnvioAoSair(this._emVoo);
+      clearTimeout(this._timerSalvar);
+      this._timerSalvar = null;
     } else {
       clearTimeout(this._timerSalvar);
       this._timerSalvar = null;

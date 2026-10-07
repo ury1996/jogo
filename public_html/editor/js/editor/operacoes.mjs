@@ -164,10 +164,23 @@ export function adicionarSecao(doc, lib, tipo, opcao = null, selecionada = null)
   return { doc: comSecoes(doc, novas), indice: pos };
 }
 
-/** Cabeçalho e rodapé não podem ser removidos (o site sempre começa e termina com eles). */
+/**
+ * A seção é uma repetição de um tipo que já apareceu antes no documento? (o site mostra só a
+ * primeira; o validador bloqueia a publicação até a repetida sair).
+ */
+export function ehSecaoRepetida(doc, indice) {
+  const secoes = secoesDe(doc);
+  const s = secoes[indice];
+  return Boolean(s) && secoes.slice(0, indice).some((o) => o.tipo === s.tipo);
+}
+
+/**
+ * Cabeçalho e rodapé não podem ser removidos (o site sempre começa e termina com eles) —
+ * a não ser uma cópia repetida deles, que precisa sair para o site poder ser publicado.
+ */
 export function podeRemoverSecao(doc, lib, indice) {
   const s = secoesDe(doc)[indice];
-  return Boolean(s) && fixaDe(lib, s.tipo) === null;
+  return Boolean(s) && (fixaDe(lib, s.tipo) === null || ehSecaoRepetida(doc, indice));
 }
 
 /** Remove a seção (os textos ficam guardados no documento: voltando, eles voltam). */

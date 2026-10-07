@@ -203,7 +203,8 @@ function enviarArquivo(p, formData, aoProgresso, opcoes = {}) {
     xhr.addEventListener('abort', () => rejeitar(new DOMException('Envio cancelado.', 'AbortError')));
     if (opcoes.sinal) {
       if (opcoes.sinal.aborted) {
-        xhr.abort();
+        // Antes do send() o abort() não dispara o evento "abort": rejeita aqui.
+        rejeitar(new DOMException('Envio cancelado.', 'AbortError'));
         return;
       }
       opcoes.sinal.addEventListener('abort', () => xhr.abort(), { once: true });

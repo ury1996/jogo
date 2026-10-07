@@ -219,6 +219,11 @@ final class Aplicacao
         if ($segredo === '') {
             throw new \RuntimeException('Configure segredo_ip em config/config.php.');
         }
+        // Em produção, o valor de exemplo (público no repositório) ou um segredo curto tornam
+        // o HMAC reversível: basta testar os 4 bilhões de IPv4 com a chave conhecida.
+        if ($this->producao() && (str_starts_with($segredo, 'troque-') || strlen($segredo) < 16)) {
+            throw new \RuntimeException('segredo_ip de exemplo ou curto demais: gere um com php -r \'echo bin2hex(random_bytes(32));\'.');
+        }
         return $segredo;
     }
 }

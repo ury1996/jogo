@@ -37,7 +37,8 @@ return [
     'dir_var' => 'var',         // cache, logs, sessões, e-mails de dev, travas
 
     // Segredos: gere cada um com  php -r 'echo bin2hex(random_bytes(32)), PHP_EOL;'
-    // segredo_ip é a chave do HMAC-SHA256 que identifica IPs sem guardá-los (LGPD).
+    // segredo_ip é a chave do HMAC-SHA256 que identifica IPs sem guardá-los (LGPD). Em produção
+    // ("prod") o valor de exemplo abaixo, ou um segredo com menos de 16 caracteres, é recusado.
     'segredo_app' => 'troque-por-um-segredo-longo-e-aleatorio',
     'segredo_ip' => 'troque-por-outro-segredo-longo-e-aleatorio',
 

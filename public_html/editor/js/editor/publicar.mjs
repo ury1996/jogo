@@ -152,6 +152,9 @@ function corpoChecklist(ed, janelaRef, organizado, aoMudar) {
 
 /** Fluxo completo do botão Publicar. */
 export async function fluxoPublicar(ed, botao = null) {
+  // Dois cliques seguidos (antes da janela abrir) abririam dois checklists empilhados.
+  if (ed.publicando) return;
+  ed.publicando = true;
   ed.confirmarEdicao();
   botao?.setAttribute('aria-busy', 'true');
   let resposta;
@@ -171,7 +174,9 @@ export async function fluxoPublicar(ed, botao = null) {
     return;
   } finally {
     botao?.removeAttribute('aria-busy');
+    ed.publicando = false;
   }
+  if (ed.desmontado) return;
   abrirChecklist(ed, op.organizarValidacao(resposta));
 }
 

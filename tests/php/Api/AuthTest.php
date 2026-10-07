@@ -7,6 +7,7 @@ namespace Rankly\Testes\Api;
 use PHPUnit\Framework\TestCase;
 use Rankly\Aplicacao;
 use Rankly\Lib\Executores;
+use Rankly\Lib\Usuarios;
 use Rankly\Testes\Lib\AmbienteTeste;
 
 final class AuthTest extends TestCase
@@ -118,6 +119,62 @@ final class AuthTest extends TestCase
         $this->assertSame(403, $r->status);
         $c->enviarCsrf = true;
         $this->assertSame(201, $c->post('/api/sites', ['nicho' => 'clinicas', 'modelo' => 'moderno', 'dados' => ['nome' => 'X']])->status);
+    }
+
+    /**
+     * Regressão (login CSRF): uma página de outra origem não pode fazer o navegador da vítima
+     * entrar numa conta (nem com formulário text/plain montando um JSON), nem pedir
+     * redefinição de senha em nome dela. A própria origem e clientes sem Origin continuam.
+     */
+    public function testLoginEsqueciERedefinirRecusamOutraOrigem(): void
+    {
+        $credenciais = ['email' => 'admin@rankly.teste', 'senha' => 'senha-forte-123'];
+        $c = new ClienteApi($this->app);
+        foreach ([
+            ['Origin' => 'https://mal.example'],
+            ['Origin' => 'null'],
+            ['Origin' => 'https://sorrisovivo.sites.teste'],
+            ['Sec-Fetch-Site' => 'cross-site'],
+            ['Sec-Fetch-Site' => 'same-site'],
+        ] as $cab) {
+            $r = $c->post('/api/auth/login', $credenciais, $cab + ['Host' => 'editor.teste']);
+            $this->assertSame(403, $r->status, json_encode($cab));
+            $this->assertSame('origem', $r->dados()['erro']['codigo']);
+            $this->assertSame([], $r->cookies(), 'Nenhuma sessão criada');
+            $this->assertSame(403, $c->post('/api/auth/esqueci', ['email' => 'admin@rankly.teste'], $cab)->status);
+            $this->assertSame(403, $c->post('/api/auth/redefinir', ['token' => str_repeat('a', 64), 'senha' => 'outra-senha-123'], $cab)->status);
+        }
+        // Formulário text/plain de outra página: o corpo "parece" JSON, mas a origem denuncia.
+        $corpo = '{"email":"admin@rankly.teste","senha":"senha-forte-123","x":"="}';
+        $req = new \Rankly\Http\Requisicao('POST', '/api/auth/login', [], ['Content-Type' => 'text/plain', 'Origin' => 'https://mal.example', 'Host' => 'editor.teste'], $corpo, [], [], [], ['REMOTE_ADDR' => '203.0.113.10']);
+        $this->assertSame(403, $c->api->processar($req)->status);
+        $this->assertSame(0, (int) $this->app->db()->valor("SELECT COUNT(*) FROM tarefas WHERE tipo = 'email_redefinicao'"));
+
+        // Mesma origem (pelo Host ou por url_editor) e clientes sem Origin entram normalmente.
+        $this->assertSame(200, $c->post('/api/auth/login', $credenciais, ['Origin' => 'http://editor.teste', 'Host' => 'editor.teste', 'Sec-Fetch-Site' => 'same-origin'])->status);
+        $this->assertSame(200, (new ClienteApi($this->app))->post('/api/auth/login', $credenciais, ['Origin' => 'https://api.interna:8443', 'Host' => 'api.interna:8443'])->status);
+        $this->assertSame(200, (new ClienteApi($this->app))->post('/api/auth/login', $credenciais, ['Origin' => 'http://editor.teste'])->status);
+        $this->assertSame(200, (new ClienteApi($this->app))->login('admin@rankly.teste', 'senha-forte-123')->status);
+    }
+
+    /**
+     * Regressão (enumeração por tempo): o e-mail inexistente é conferido contra um hash com o
+     * MESMO algoritmo e custo das senhas reais; um hash fixo de custo menor responderia mais
+     * rápido e revelaria quais e-mails têm conta.
+     */
+    public function testLoginComEmailInexistenteUsaHashDeMesmoCusto(): void
+    {
+        $arquivo = $this->app->dirVar('cache') . '/hash-falso.txt';
+        file_put_contents($arquivo, password_hash('x', PASSWORD_BCRYPT, ['cost' => 4])); // custo antigo/menor
+        $r = (new ClienteApi($this->app))->login('ninguem@rankly.teste', 'qualquer-coisa');
+        $this->assertSame(401, $r->status);
+        $falso = trim((string) file_get_contents($arquivo));
+        $real = (string) Usuarios::porEmail($this->app, 'admin@rankly.teste')['senha_hash'];
+        $this->assertFalse(password_needs_rehash($falso, PASSWORD_DEFAULT), 'Hash falso no custo atual');
+        $this->assertSame(password_get_info($real)['algo'], password_get_info($falso)['algo']);
+        $this->assertSame(password_get_info($real)['options'], password_get_info($falso)['options']);
+        $this->assertSame($falso, Usuarios::hashFalso($this->app), 'Reaproveitado, não recalculado');
+        $this->assertFalse(password_verify('qualquer-coisa', $falso));
     }
 
     public function testLogoutEncerraSessao(): void

@@ -217,9 +217,28 @@ export async function montar(alvo, { siteId } = {}) {
         return;
       }
       const nome = nomeDe(indice);
+      // O botão que tinha o foco (lixeira da lista ou da barrinha) some com a seção: o foco vai
+      // para a seção que ocupa o lugar dela (ou a anterior), senão o teclado cai no <body>.
+      const ativo = document.activeElement;
+      const focoNoPainel = painel.elemento.contains(ativo);
+      const focoNaBarrinha = tela.camada.contains(ativo);
       ed.aplicar((d) => op.removerSecao(d, lib, indice), { rotulo: `Remover ${nome.toLowerCase()}` });
       ed.selecionada = null;
-      painel.secoes.atualizar();
+      const secoes = estado.doc.secoes;
+      const vizinha = secoes[indice] && !op.fixaDe(lib, secoes[indice].tipo) ? indice : Math.max(0, indice - 1);
+      if (focoNoPainel && secoes[vizinha]) {
+        painel.secoes.atualizar({ focarTipo: secoes[vizinha].tipo, focarAcao: 'remover' });
+      } else {
+        painel.secoes.atualizar();
+        if (focoNaBarrinha && secoes[vizinha]) {
+          selecionar(vizinha);
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            const alvoFoco = tela.camada.querySelector('.ed-barrinha:not([hidden]) .ed-barrinha__btn--perigo:not([disabled])')
+              ?? tela.camada.querySelector('.ed-barrinha:not([hidden]) button');
+            alvoFoco?.focus({ preventScroll: true });
+          }));
+        }
+      }
       aviso(`Seção "${nome}" removida. Os textos ficam guardados.`, {
         duracao: 6000,
         acao: { rotulo: 'Desfazer', fn: () => { desfazer(); selecionar(indice, { rolar: true }); } },
@@ -360,6 +379,7 @@ export async function montar(alvo, { siteId } = {}) {
   return {
     /** Fecha o editor: salva o que estiver pendente e solta os ouvintes. */
     desmontar() {
+      ed.desmontado = true;
       texto.confirmar();
       document.removeEventListener('keydown', aoTecla);
       cancelarEstado();

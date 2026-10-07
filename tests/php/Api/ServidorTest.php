@@ -135,7 +135,10 @@ final class ServidorTest extends TestCase
         $this->assertSame('image/webp', $img['cabecalhos']['content-type']);
         $this->assertSame('RIFF', substr($img['corpo'], 0, 4));
 
-        // Lead por formulário sem JavaScript.
+        // Lead por formulário sem JavaScript (só sites no ar recebem contatos).
+        $this->assertSame(404, $this->http('POST', '/api/lead/sorrisovivo', ['campos' => ['nome' => 'Ana', 'telefone' => '11988887777', '_t' => '', 'empresa_site' => '']])['status']);
+        $app = \Rankly\Aplicacao::iniciar(AmbienteTeste::config(self::$dir, AmbienteTeste::extraBanco()));
+        $app->db()->executar("UPDATE sites SET status = 'publicado' WHERE id = ?", [(int) $site['id']]);
         $r = $this->http('POST', '/api/lead/sorrisovivo', ['campos' => ['nome' => 'Ana', 'telefone' => '11988887777', '_t' => '', 'empresa_site' => '']]);
         $this->assertSame(303, $r['status'], $r['corpo']);
         $this->assertSame('https://sorrisovivo.sites.teste/obrigado/', $r['cabecalhos']['location']);

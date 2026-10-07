@@ -46,13 +46,29 @@ final class Leads
         $ipHash = IpHash::hash($ip, $app->segredoIp());
         $limites = new LimiteTaxa($app);
         $chaveLimite = LimiteTaxa::chave('lead', $ipHash);
-        if ($limites->excedido($chaveLimite, self::LIMITE_POR_HORA, 3600)) {
+        // A vaga é reservada antes de gravar (envios simultâneos não furam o limite) e
+        // devolvida se os dados forem recusados ou a gravação falhar.
+        if (!$limites->consumir($chaveLimite, self::LIMITE_POR_HORA, 3600)) {
             return [
                 'ok' => false, 'status' => 429, 'erro' => 'limite',
                 'mensagem' => 'Recebemos várias mensagens deste aparelho. Tente de novo mais tarde ou chame no WhatsApp.',
             ];
         }
+        try {
+            $r = self::validarEGravar($app, $site, $campos, $ipHash);
+        } catch (\Throwable $e) {
+            $limites->descontar($chaveLimite);
+            throw $e;
+        }
+        if (!$r['ok']) {
+            $limites->descontar($chaveLimite);
+        }
+        return $r;
+    }
 
+    /** Valida os campos e grava o lead (+ tarefa do e-mail). */
+    private static function validarEGravar(Aplicacao $app, array $site, array $campos, string $ipHash): array
+    {
         $nome = self::linha($campos['nome'] ?? '');
         $telefone = self::linha($campos['telefone'] ?? '');
         $email = self::linha($campos['email'] ?? '');
@@ -90,7 +106,6 @@ final class Leads
             $app->tarefas()->enfileirar('email_lead', ['lead_id' => $id]);
             return $id;
         });
-        $limites->registrar($chaveLimite, 3600);
         return ['ok' => true, 'id' => $id];
     }
 

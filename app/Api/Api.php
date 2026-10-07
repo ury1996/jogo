@@ -39,7 +39,11 @@ final class Api
         $pub = new Publicacao();
         $versoes = new Versoes();
         $publica = ['publica' => true];
-        $semCsrf = ['publica' => true, 'csrf' => false];
+        // Sem token CSRF (ainda não há sessão), mas só aceitas da própria origem do editor:
+        // sem isso, uma página de terceiros faz o navegador da vítima entrar na conta do
+        // atacante (login CSRF) ou disparar e-mails de redefinição.
+        $semCsrf = ['publica' => true, 'csrf' => false, 'mesmaOrigem' => true];
+        $leadPublico = ['publica' => true, 'csrf' => false];
         // Parâmetros sem quantificador com chaves (o compilador de rotas não aceita "{n}" dentro de "{…}");
         // o tamanho é conferido nos controladores.
         $id = '{id:\d+}';
@@ -75,8 +79,8 @@ final class Api
         $r->patch('/api/media/{id:m_[0-9a-f]+}', [$midia, 'atualizar']);
         $r->get('/api/media/{id:m_[0-9a-f]+}/{w:orig|\d+}', [$midia, 'servir']);
 
-        $r->post('/api/lead/{slug:[a-z0-9]+}', [$leads, 'receber'], $semCsrf);
-        $r->adicionar('OPTIONS', '/api/lead/{slug:[a-z0-9]+}', [$leads, 'preflight'], $semCsrf);
+        $r->post('/api/lead/{slug:[a-z0-9]+}', [$leads, 'receber'], $leadPublico);
+        $r->adicionar('OPTIONS', '/api/lead/{slug:[a-z0-9]+}', [$leads, 'preflight'], $leadPublico);
     }
 
     /** Processa uma requisição e devolve a resposta (nunca lança). */
@@ -92,6 +96,9 @@ final class Api
                 $ctx->exigirUsuario();
             }
             $altera = !in_array($req->metodo, ['GET', 'HEAD', 'OPTIONS'], true);
+            if ($altera && ($opcoes['mesmaOrigem'] ?? false) && !$this->mesmaOrigem($req)) {
+                throw new ErroHttp(403, 'origem', 'Envio recusado: use o editor do Construtor Rankly.');
+            }
             if ($altera && ($opcoes['csrf'] ?? true) && !Csrf::verificar($sessao, $req->cabecalho('x-csrf-token'))) {
                 throw new ErroHttp(403, 'csrf', 'A página ficou desatualizada. Recarregue e tente de novo.');
             }
@@ -138,6 +145,38 @@ final class Api
             $corpo['erro']['detalhe'] = $e::class . ': ' . $e->getMessage() . ' em ' . basename($e->getFile()) . ':' . $e->getLine();
         }
         return Resposta::json($corpo, 500);
+    }
+
+    /**
+     * A requisição veio de uma página da própria origem do editor? Recusa quando o navegador
+     * informa outra origem (Origin diferente do Host e de url_editor, ou "null" de iframe
+     * isolado/data:) ou Sec-Fetch-Site cross-site/same-site (outro subdomínio, ex.: um site
+     * publicado). Sem esses cabeçalhos (clientes que não são navegadores) passa: o risco
+     * aqui é só o navegador da vítima ser usado por outra página.
+     */
+    private function mesmaOrigem(Requisicao $req): bool
+    {
+        $site = strtolower(trim($req->cabecalho('sec-fetch-site') ?? ''));
+        if ($site === 'cross-site' || $site === 'same-site') {
+            return false;
+        }
+        $origem = $req->cabecalho('origin');
+        if ($origem === null || trim($origem) === '') {
+            return true;
+        }
+        $origem = rtrim(strtolower(trim($origem)), '/');
+        $permitidas = [];
+        $host = strtolower(trim($req->cabecalho('host') ?? ($req->servidor['HTTP_HOST'] ?? '')));
+        if ($host !== '') {
+            // Os dois esquemas: atrás de um proxy que termina o TLS sem X-Forwarded-Proto o PHP
+            // vê http, mas o navegador manda Origin https (é o mesmo host do editor).
+            array_push($permitidas, 'https://' . $host, 'http://' . $host);
+        }
+        $editor = parse_url((string) $this->app->config('url_editor', ''));
+        if (is_array($editor) && isset($editor['scheme'], $editor['host'])) {
+            $permitidas[] = strtolower($editor['scheme'] . '://' . $editor['host'] . (isset($editor['port']) ? ':' . $editor['port'] : ''));
+        }
+        return in_array($origem, $permitidas, true);
     }
 
     private function cookieSeguro(Requisicao $req): bool

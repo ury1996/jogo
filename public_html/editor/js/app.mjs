@@ -16,7 +16,7 @@
 //   window "rk:sessao"  detail { usuario }   — o login avisa quem entrou (evita outro /auth/eu)
 
 import { api } from './api.mjs';
-import { el, anexar, icone, aviso, navegar, carregando, telaErro } from './ui.mjs';
+import { el, anexar, icone, aviso, navegar, carregando, telaErro, fecharJanelas, fecharAvisosComAcao } from './ui.mjs';
 
 const TITULO_APP = 'Construtor Rankly';
 const CHAVE_VOLTAR = 'rk:voltar';
@@ -202,6 +202,11 @@ function desenharCabecalho(rota) {
 async function desmontarAtual() {
   const tela = telaAtual;
   telaAtual = null;
+  // Janelas e avisos com ação ("Desfazer") pertencem à tela que sai.
+  if (tela) {
+    fecharJanelas('navegacao');
+    fecharAvisosComAcao();
+  }
   if (tela && typeof tela.desmontar === 'function') {
     try {
       await tela.desmontar();

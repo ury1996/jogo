@@ -63,6 +63,8 @@ export function criarPainelSecoes(ed) {
       botaoAcao('Opção anterior', 'esquerda', 'anterior', () => ed.passarOpcao(i, -1)),
       el('span', { class: 'ed-secao__pos', 'aria-label': `Opção ${posicao} de ${total}` }, `${posicao}/${total}`),
       botaoAcao('Próxima opção', 'direita', 'proxima', () => ed.passarOpcao(i, 1))) : null,
+    fixa && op.podeRemoverSecao(doc, lib, i) ? el('div', { class: 'ed-secao__acoes' },
+      botaoAcao(`Remover ${nome.toLowerCase()} repetido`, 'lixeira', 'remover', () => ed.removerSecao(i), { classe: 'ed-secao__remover' })) : null,
     fixa ? null : el('div', { class: 'ed-secao__acoes' },
       botaoAcao(`Mover ${nome.toLowerCase()} para cima`, 'setaCima', 'cima', () => ed.moverSecao(i, -1), { desabilitado: !op.podeMoverSecao(doc, lib, i, -1) }),
       botaoAcao(`Mover ${nome.toLowerCase()} para baixo`, 'setaBaixo', 'baixo', () => ed.moverSecao(i, 1), { desabilitado: !op.podeMoverSecao(doc, lib, i, 1) }),

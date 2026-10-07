@@ -207,6 +207,7 @@ export function aviso(mensagem, opcoes = {}) {
     if (fechado) return;
     fechado = true;
     clearTimeout(timer);
+    item.dispatchEvent(new Event('rk:fechado'));
     item.classList.add('aviso--saindo');
     const remover = () => item.remove();
     if (matchMedia?.('(prefers-reduced-motion: reduce)').matches) remover();
@@ -242,16 +243,40 @@ export function aviso(mensagem, opcoes = {}) {
   item.addEventListener('focusin', pausar);
   item.addEventListener('focusout', () => !fechado && !timer && contar());
 
+  if (acao && acao.rotulo) {
+    avisosComAcao.add(fechar);
+    item.addEventListener('rk:fechado', () => avisosComAcao.delete(fechar), { once: true });
+  }
   caixa.append(item);
   while (caixa.children.length > MAX_AVISOS) caixa.firstElementChild.remove();
   contar();
   return { elemento: item, fechar };
 }
 
+const avisosComAcao = new Set();
+
+/**
+ * Fecha os avisos que têm botão de ação (ex.: "Desfazer"). Chamado ao sair de uma tela: a ação
+ * pertence à tela que saiu e não pode mais agir sobre ela.
+ */
+export function fecharAvisosComAcao() {
+  for (const fechar of [...avisosComAcao]) fechar();
+  avisosComAcao.clear();
+}
+
 /* ------------------------------------------------------------------ janelas (modais) */
 
 const pilhaModais = [];
 let contadorModais = 0;
+
+/**
+ * Fecha todas as janelas abertas (da mais nova para a mais antiga). Chamado na troca de rota:
+ * uma janela da tela que saiu não pode continuar agindo sobre ela (nem deixar a tela nova inerte).
+ * `resultado` chega ao aoFechar de cada janela (padrão "navegacao").
+ */
+export function fecharJanelas(resultado = 'navegacao') {
+  for (const j of [...pilhaModais].reverse()) j.fechar(resultado);
+}
 const FOCAVEIS = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), '
   + 'textarea:not([disabled]), [tabindex]:not([tabindex="-1"]), [contenteditable="true"], [contenteditable="plaintext-only"], summary';
 

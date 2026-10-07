@@ -203,6 +203,9 @@ final class SitesNoServidorTest extends TestCase
         // De outra origem: recusado.
         $fora = $this->http('POST', '/_lead', ['cabecalhos' => ['Accept: application/json', 'Origin: https://malicioso.example'], 'campos' => ['nome' => 'X', 'telefone' => '11912345678']]);
         $this->assertSame(403, $fora['status']);
+        // Regressão: Origin "null" (iframe sandbox/data: de outra página) também é recusado.
+        $nulo = $this->http('POST', '/_lead', ['cabecalhos' => ['Accept: application/json', 'Origin: null'], 'campos' => ['nome' => 'X', 'telefone' => '11912345678', '_t' => '5000']]);
+        $this->assertSame(403, $nulo['status']);
         $this->assertSame(405, $this->http('GET', '/_lead')['status']);
         $this->assertSame(404, $this->http('POST', '/_lead', ['host' => 'naoexiste.localhost:' . self::$porta, 'cabecalhos' => ['Accept: application/json'], 'campos' => ['nome' => 'X', 'telefone' => '11912345678']])['status']);
         $this->assertSame($antes + 1, $this->contarLeads());

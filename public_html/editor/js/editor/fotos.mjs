@@ -76,6 +76,9 @@ export function escolherArquivo(aceita = 'image/*') {
 
 export function ligarFotos(ed) {
   const { lib } = ed;
+  /** Editor fechado: envios em andamento são cancelados e nada mais toca o documento. */
+  let desligado = false;
+  const cancelamentos = new Set();
 
   function rotuloDe(chave) {
     return op.definicaoDaChave(lib, chave)?.rotulo ?? 'Foto';
@@ -99,10 +102,17 @@ export function ligarFotos(ed) {
       preparada = await prepararFoto(arquivo);
     } catch (e) {
       ed.envios.delete(chave);
+      if (desligado) return false;
       ed.tela.posicionar();
       aviso(e.message, { tipo: 'erro', duracao: 9000 });
       return false;
     }
+    if (desligado) {
+      ed.envios.delete(chave);
+      return false;
+    }
+    const controle = new AbortController();
+    cancelamentos.add(controle);
     const local = URL.createObjectURL(preparada.blob);
     const temporario = `m_local${(++contadorTemporario).toString(16)}`;
     ed.estado.definirMidia(temporario, {
@@ -120,11 +130,12 @@ export function ligarFotos(ed) {
     try {
       const r = await api.enviarArquivo('/media', form, (fracao) => {
         const envio = ed.envios.get(chave);
-        if (envio) {
+        if (envio && !desligado) {
           envio.progresso = fracao;
           ed.tela.posicionar();
         }
-      });
+      }, { sinal: controle.signal });
+      if (desligado) throw new DOMException('Envio cancelado.', 'AbortError');
       const midia = r?.midia;
       if (!midia?.id) throw new Error('Resposta inesperada do servidor.');
       const { id, ...dados } = midia;
@@ -138,12 +149,15 @@ export function ligarFotos(ed) {
       return true;
     } catch (e) {
       delete ed.imagensTemporarias[chave];
-      ed.estado.definirMidia(temporario, null);
       ed.envios.delete(chave);
       URL.revokeObjectURL(local);
+      if (desligado || e?.name === 'AbortError') return false;
+      ed.estado.definirMidia(temporario, null);
       ed.renderizar();
       aviso(e?.mensagem ?? e?.message ?? 'Não foi possível enviar a foto.', { tipo: 'erro', duracao: 9000 });
       return false;
+    } finally {
+      cancelamentos.delete(controle);
     }
   }
 
@@ -237,6 +251,9 @@ export function ligarFotos(ed) {
     abrirFoto,
     enviarFoto,
     desligar() {
+      desligado = true;
+      for (const c of cancelamentos) c.abort();
+      cancelamentos.clear();
       alvo.removeEventListener('dragover', aoArrastarSobre);
       alvo.removeEventListener('drop', aoSoltar);
     },

@@ -323,6 +323,8 @@ export function criarTela(ed) {
         const b = el('button', {
           type: 'button',
           class: 'ed-item-remover',
+          'data-lista': lista,
+          'data-pos': String(pos),
           'aria-label': `Remover ${rotulo} ${pos + 1}${titulo ? ` (${titulo})` : ''}`,
           title: podeRemover ? `Remover ${rotulo}` : `Mínimo de ${op.limitesLista(lib, lista)[0]} itens`,
           disabled: !podeRemover,
@@ -345,6 +347,7 @@ export function criarTela(ed) {
       const add = el('button', {
         type: 'button',
         class: 'ed-item-adicionar',
+        'data-lista': lista,
         disabled: !pode,
         title: pode ? '' : `Máximo de ${max} itens`,
         onclick: (ev) => {
@@ -357,6 +360,19 @@ export function criarTela(ed) {
       add.style.left = `${Math.round(c.left + c.width / 2)}px`;
       grupoListas.append(add);
     }
+  }
+
+  let docListas = null;
+  let indiceListas = null;
+
+  function devolverFocoListas({ lista, pos, adicionar }) {
+    const daLista = [...grupoListas.querySelectorAll('button')].filter((b) => b.dataset.lista === lista && !b.disabled);
+    const remover = daLista.filter((b) => b.classList.contains('ed-item-remover'));
+    const add = daLista.find((b) => b.classList.contains('ed-item-adicionar'));
+    let alvoFoco = null;
+    if (!adicionar && remover.length > 0) alvoFoco = remover[Math.min(Math.max(0, pos), remover.length - 1)];
+    alvoFoco = alvoFoco ?? add ?? remover.at(-1) ?? null;
+    alvoFoco?.focus({ preventScroll: true });
   }
 
   function montarFundos(indice, secEl) {
@@ -469,8 +485,18 @@ export function criarTela(ed) {
       barrinha.hidden = true;
       secaoBarrinha = null;
     }
-    const focoNasListas = grupoListas.contains(document.activeElement);
-    if (!focoNasListas) montarListas(ativa, ativaEl);
+    // Com o foco num botão de item, os botões só são refeitos quando o documento mudou (item
+    // removido ou adicionado — senão ficariam botões de itens que não existem mais), e o foco
+    // volta ao botão equivalente. Passar o mouse em outra seção não tira o foco do teclado.
+    const focado = grupoListas.contains(document.activeElement) ? document.activeElement : null;
+    if (!focado || docListas !== ed.estado.doc) {
+      const foco = focado ? { lista: focado.dataset.lista, pos: Number(focado.dataset.pos), adicionar: focado.classList.contains('ed-item-adicionar') } : null;
+      const secaoFoco = foco ? indiceListas : ativa;
+      montarListas(secaoFoco, elementoSecao(secaoFoco));
+      indiceListas = secaoFoco;
+      docListas = ed.estado.doc;
+      if (foco) devolverFocoListas(foco);
+    }
     montarFundos(ativa, ativaEl);
     montarEnvios();
     posicionarContador();

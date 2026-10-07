@@ -54,8 +54,11 @@ $erro = static function (int $status, string $codigo, string $mensagem) use ($re
 
 try {
     // Só aceita envios da própria página do site (Origin, quando o navegador informa).
+    // "null" também é recusado: é o que manda um iframe isolado (sandbox) ou data: de outra
+    // página, que assim faria o navegador de cada visitante dela enviar leads falsos (cada
+    // um com seu IP, driblando o limite por IP).
     $origem = $req->cabecalho('origin');
-    if ($origem !== null && $origem !== '' && $origem !== 'null') {
+    if ($origem !== null && $origem !== '') {
         $hostOrigem = strtolower((string) parse_url($origem, PHP_URL_HOST));
         $porta = parse_url($origem, PHP_URL_PORT);
         if ($porta !== null) {

@@ -9,6 +9,13 @@
 
 declare(strict_types=1);
 
+// Só para o servidor embutido: no Apache/LiteSpeed um GET /router-dev.php não pode virar um
+// segundo roteador (com regras próprias) por fora do .htaccess.
+if (PHP_SAPI !== 'cli-server') {
+    http_response_code(404);
+    exit;
+}
+
 $raizWeb = __DIR__;
 $caminho = (string) (parse_url((string) ($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH) ?: '/');
 $caminho = rawurldecode($caminho);

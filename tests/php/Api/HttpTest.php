@@ -70,6 +70,24 @@ final class HttpTest extends TestCase
         $this->assertTrue((new Requisicao('GET', '/', [], ['X-Forwarded-Proto' => 'https']))->seguro());
     }
 
+    /**
+     * Regressão: os roteadores de desenvolvimento não funcionam fora do php -S (no Apache, um
+     * GET /router-dev.php não pode virar um segundo roteador com regras próprias).
+     */
+    public function testRoteadoresDeDesenvolvimentoSoNoServidorEmbutido(): void
+    {
+        $raiz = dirname(__DIR__, 3);
+        foreach (['public_html/router-dev.php', 'sites/router-dev.php'] as $arquivo) {
+            $proc = proc_open([PHP_BINARY, $raiz . '/' . $arquivo], [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes, $raiz,
+                ['REQUEST_URI' => '/editor/index.html', 'REQUEST_METHOD' => 'GET'] + getenv());
+            $saida = stream_get_contents($pipes[1]) . stream_get_contents($pipes[2]);
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+            proc_close($proc);
+            $this->assertSame('', $saida, $arquivo);
+        }
+    }
+
     public function testRespostaCabecalhosECookies(): void
     {
         $r = Resposta::json(['ok' => true, 'texto' => 'ação/<b>'], 201);

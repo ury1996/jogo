@@ -43,6 +43,36 @@ final class Usuarios
         return password_hash($senha, PASSWORD_DEFAULT);
     }
 
+    /**
+     * Hash de uma senha aleatória com o algoritmo e o custo atuais de hash(), para o login
+     * conferir a senha mesmo quando o e-mail não existe e levar o mesmo tempo. Um hash fixo
+     * no código (custo 10) denunciaria quais e-mails têm conta quando o custo padrão muda
+     * (PHP 8.4 passou o bcrypt para 12). Gerado uma vez e guardado em var/cache.
+     */
+    public static function hashFalso(Aplicacao $app): string
+    {
+        static $memoria = [];
+        $arquivo = null;
+        try {
+            $arquivo = $app->dirVar('cache') . '/hash-falso.txt';
+        } catch (\Throwable) {
+            // sem var/ gravável: gera em memória
+        }
+        $chave = $arquivo ?? '';
+        $atual = $memoria[$chave] ?? ($arquivo !== null && is_file($arquivo) ? trim((string) @file_get_contents($arquivo)) : '');
+        if ($atual !== '' && password_get_info($atual)['algo'] !== null && !password_needs_rehash($atual, PASSWORD_DEFAULT)) {
+            return $memoria[$chave] = $atual;
+        }
+        $novo = self::hash(bin2hex(random_bytes(16)));
+        if ($arquivo !== null) {
+            $tmp = $arquivo . '.' . bin2hex(random_bytes(4)) . '.tmp';
+            if (@file_put_contents($tmp, $novo) !== false) {
+                @rename($tmp, $arquivo);
+            }
+        }
+        return $memoria[$chave] = $novo;
+    }
+
     public static function porEmail(Aplicacao $app, string $email): ?array
     {
         return $app->db()->um('SELECT * FROM usuarios WHERE email = ?', [self::normalizarEmail($email)]);

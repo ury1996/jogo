@@ -83,11 +83,22 @@ final class Leads
     {
         $app = $ctx->app;
         $site = SitesLib::porSlug($app, $p['slug']);
-        if ($site === null) {
+        // Como no /_lead: só sites no ar recebem contatos (rascunho e arquivado não têm formulário público).
+        if ($site === null || $site['status'] !== 'publicado') {
             $erro = ErroHttp::naoEncontrado('Site não encontrado.');
             return $ctx->req->querJson()
                 ? Resposta::json($erro->corpo() + ['ok' => false], 404)
                 : self::paginaErro('Site não encontrado.', 404, null, '/');
+        }
+        // Origin informado pelo navegador precisa ser o do próprio site: uma página de terceiros
+        // (inclusive iframe isolado, Origin "null") não pode usar os visitantes dela para enviar
+        // leads falsos, cada um com um IP diferente.
+        $origem = $ctx->req->cabecalho('origin');
+        if ($origem !== null && $origem !== '' && !self::origemPermitida($app, $site, $origem)) {
+            $mensagem = 'Envio recusado: use o formulário do próprio site.';
+            return $ctx->req->querJson()
+                ? Resposta::json(['ok' => false, 'erro' => ['codigo' => 'origem', 'mensagem' => $mensagem]], 403)
+                : self::paginaErro($mensagem, 403, $site, $app->urlSite((string) $site['slug']) . '/');
         }
         $resposta = self::responderPublico($app, $ctx->req, $site, $app->urlSite((string) $site['slug']) . '/obrigado/');
         return self::cors($app, $ctx->req, $site, $resposta);
@@ -173,16 +184,22 @@ final class Leads
         if ($origem === null || $origem === '') {
             return $r;
         }
+        if (self::origemPermitida($app, $site, $origem)) {
+            $r->cabecalho('Access-Control-Allow-Origin', $origem);
+            $r->cabecalho('Vary', 'Origin');
+        }
+        return $r;
+    }
+
+    /** A origem é a do próprio site (subdomínio ou domínio próprio ativo, com ou sem www)? */
+    private static function origemPermitida(Aplicacao $app, array $site, string $origem): bool
+    {
         $permitidas = [$app->urlSite((string) $site['slug'])];
         foreach ($app->db()->todos("SELECT dominio FROM dominios WHERE site_id = ? AND status = 'ativo'", [(int) $site['id']]) as $d) {
             $permitidas[] = 'https://' . $d['dominio'];
             $permitidas[] = 'https://www.' . $d['dominio'];
         }
-        if (in_array(rtrim(strtolower($origem), '/'), array_map('strtolower', $permitidas), true)) {
-            $r->cabecalho('Access-Control-Allow-Origin', $origem);
-            $r->cabecalho('Vary', 'Origin');
-        }
-        return $r;
+        return in_array(rtrim(strtolower(trim($origem)), '/'), array_map('strtolower', $permitidas), true);
     }
 
     private function exigirLead(Contexto $ctx, int $id): array

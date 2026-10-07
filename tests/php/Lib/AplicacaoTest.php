@@ -50,6 +50,25 @@ final class AplicacaoTest extends TestCase
         $prod->segredoIp();
     }
 
+    /** Regressão: produção não aceita o segredo_ip do config.exemplo.php (público) nem um curto. */
+    public function testSegredoIpDeExemploOuCurtoRecusadoEmProducao(): void
+    {
+        $exemplo = (string) Config::carregarArquivo(dirname(__DIR__, 3) . '/config/config.exemplo.php')['segredo_ip'];
+        foreach ([$exemplo, 'curto123'] as $segredo) {
+            $prod = Aplicacao::iniciar(['ambiente' => 'prod', 'segredo_ip' => $segredo]);
+            try {
+                $prod->segredoIp();
+                $this->fail('Aceitou segredo_ip fraco em produção: ' . $segredo);
+            } catch (\RuntimeException $e) {
+                $this->assertStringContainsString('segredo_ip', $e->getMessage());
+            }
+        }
+        $forte = bin2hex(random_bytes(32));
+        $this->assertSame($forte, Aplicacao::iniciar(['ambiente' => 'prod', 'segredo_ip' => $forte])->segredoIp());
+        // Em desenvolvimento o exemplo continua servindo.
+        $this->assertSame($exemplo, Aplicacao::iniciar(['segredo_ip' => $exemplo])->segredoIp());
+    }
+
     public function testExemploDeConfiguracaoTemTodasAsChavesDoContrato(): void
     {
         $exemplo = Config::carregarArquivo(dirname(__DIR__, 3) . '/config/config.exemplo.php');

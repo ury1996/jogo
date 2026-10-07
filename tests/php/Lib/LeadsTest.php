@@ -54,9 +54,23 @@ final class LeadsTest extends TestCase
 
     public function testHmacDoIpDependeDoSegredoENormalizaIpv6(): void
     {
-        $this->assertSame(hash_hmac('sha256', '2001:db8::1', 's'), IpHash::hash('2001:0DB8:0000::0001', 's'));
+        $this->assertSame(hash_hmac('sha256', '2001:db8::/64', 's'), IpHash::hash('2001:0DB8:0000::0001', 's'));
+        $this->assertSame(IpHash::hash('1.2.3.4', 's'), IpHash::hash('::ffff:1.2.3.4', 's'));
         $this->assertNotSame(IpHash::hash('1.2.3.4', 'a'), IpHash::hash('1.2.3.4', 'b'));
         $this->assertSame(64, strlen(IpHash::hash('1.2.3.4', 'a')));
+    }
+
+    /** Regressão: com IPv6, trocar de endereço dentro do mesmo /64 não zera o limite por IP. */
+    public function testLimitePorIpNaoEContornadoTrocandoEnderecoIpv6NoMesmoBloco(): void
+    {
+        $this->assertSame(IpHash::hash('2001:db8:1:2::1', 's'), IpHash::hash('2001:db8:1:2:ffff:abcd:1234:9', 's'));
+        $this->assertNotSame(IpHash::hash('2001:db8:1:2::1', 's'), IpHash::hash('2001:db8:1:3::1', 's'));
+        for ($i = 1; $i <= Leads::LIMITE_POR_HORA; $i++) {
+            $this->assertTrue(Leads::receber($this->app, $this->site, self::VALIDO, '2001:db8:1:2::' . dechex($i))['ok']);
+        }
+        $r = Leads::receber($this->app, $this->site, self::VALIDO, '2001:db8:1:2:aaaa:bbbb:cccc:dddd');
+        $this->assertFalse($r['ok']);
+        $this->assertSame(429, $r['status']);
     }
 
     public function testCloudflareSoQuandoConfiado(): void
@@ -105,6 +119,18 @@ final class LeadsTest extends TestCase
         $this->assertSame(0, (int) $this->app->db()->valor("SELECT COUNT(*) FROM limites WHERE chave LIKE '%203.0.113%'"));
         $this->app->definirAgora($this->app->agora()->modify('+61 minutes'));
         $this->assertTrue(Leads::receber($this->app, $this->site, self::VALIDO, '203.0.113.77')['ok']);
+    }
+
+    /** A vaga reservada antes de gravar é devolvida quando os dados são recusados. */
+    public function testEnvioInvalidoNaoGastaOLimite(): void
+    {
+        for ($i = 0; $i < 8; $i++) {
+            $this->assertSame(422, Leads::receber($this->app, $this->site, ['telefone' => '12'] + self::VALIDO, '203.0.113.90')['status']);
+        }
+        for ($i = 0; $i < Leads::LIMITE_POR_HORA; $i++) {
+            $this->assertTrue(Leads::receber($this->app, $this->site, self::VALIDO, '203.0.113.90')['ok']);
+        }
+        $this->assertSame(429, Leads::receber($this->app, $this->site, self::VALIDO, '203.0.113.90')['status']);
     }
 
     public function testValidacaoDosCampos(): void

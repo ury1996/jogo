@@ -48,7 +48,28 @@ final class LimiteTaxa
         return max(0, $fim - $this->app->agora()->getTimestamp());
     }
 
-    /** Conta mais uma ocorrência; devolve a contagem na janela. */
+    /**
+     * Reserva uma tentativa ANTES do trabalho (conferir senha, gravar lead) e diz se ela cabe
+     * no limite. Conferir com excedido() e só registrar() depois deixava requisições
+     * simultâneas passarem todas pela conferência antes de qualquer uma ser contada.
+     * Quem desistir do trabalho (dados inválidos, login certo) devolve a vaga com descontar().
+     */
+    public function consumir(string $chave, int $maximo, int $janelaSegundos): bool
+    {
+        return $this->registrar($chave, $janelaSegundos) <= $maximo;
+    }
+
+    /** Devolve uma tentativa reservada por consumir()/registrar() (nunca abaixo de zero). */
+    public function descontar(string $chave): void
+    {
+        $this->app->db()->executar('UPDATE limites SET contagem = contagem - 1 WHERE chave = ? AND contagem > 0', [$chave]);
+    }
+
+    /**
+     * Conta mais uma ocorrência; devolve a contagem na janela incluindo esta. O incremento e a
+     * leitura ficam na mesma transação (a linha fica travada até o fim), então duas
+     * requisições simultâneas nunca leem o mesmo número.
+     */
     public function registrar(string $chave, int $janelaSegundos): int
     {
         $db = $this->app->db();
@@ -76,8 +97,10 @@ final class LimiteTaxa
                 }
                 continue;
             }
-            $db->executar('UPDATE limites SET contagem = contagem + 1 WHERE chave = ?', [$chave]);
-            return (int) $db->valor('SELECT contagem FROM limites WHERE chave = ?', [$chave]);
+            return (int) $db->transacao(static function (Db $db) use ($chave): int {
+                $db->executar('UPDATE limites SET contagem = contagem + 1 WHERE chave = ?', [$chave]);
+                return (int) $db->valor('SELECT contagem FROM limites WHERE chave = ?', [$chave]);
+            });
         }
         return $this->contagem($chave, $janelaSegundos);
     }

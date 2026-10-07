@@ -24,6 +24,13 @@ final class LeadsApiTest extends TestCase
         $this->c = new ClienteApi($this->app);
         $this->c->login('admin@rankly.teste', 'senha-forte-123');
         $this->site = $this->c->post('/api/sites', ['nicho' => 'clinicas', 'modelo' => 'moderno', 'dados' => ['nome' => 'Sorriso Vivo']])->dados()['site'];
+        $this->publicar();
+    }
+
+    /** Marca o site como publicado (só sites no ar recebem leads). */
+    private function publicar(string $status = 'publicado'): void
+    {
+        $this->app->db()->executar('UPDATE sites SET status = ? WHERE id = ?', [$status, (int) $this->site['id']]);
     }
 
     protected function tearDown(): void
@@ -77,6 +84,42 @@ final class LeadsApiTest extends TestCase
         $this->assertSame(429, $r->status);
         $this->assertSame('limite', $r->dados()['erro']['codigo']);
         $this->assertSame('3600', $r->obterCabecalho('Retry-After'));
+    }
+
+    /** Regressão: rascunho e arquivado não recebem leads pela API pública (como no /_lead). */
+    public function testLeadSoParaSitePublicado(): void
+    {
+        $visitante = new ClienteApi($this->app);
+        foreach (['rascunho', 'arquivado'] as $status) {
+            $this->publicar($status);
+            $r = $visitante->post('/api/lead/sorrisovivo', self::LEAD);
+            $this->assertSame(404, $r->status, $status);
+            $this->assertFalse($r->dados()['ok']);
+        }
+        $this->assertSame(0, (int) $this->app->db()->valor('SELECT COUNT(*) FROM leads'));
+        $this->assertSame(0, (int) $this->app->db()->valor("SELECT COUNT(*) FROM tarefas WHERE tipo = 'email_lead'"));
+    }
+
+    /**
+     * Regressão: página de outra origem (ou iframe isolado, Origin "null") não consegue usar o
+     * navegador dos visitantes dela para enviar leads ao site — por fetch nem por formulário.
+     */
+    public function testLeadDeOutraOrigemRecusado(): void
+    {
+        $visitante = new ClienteApi($this->app);
+        foreach (['https://mal.example', 'null', 'https://sorrisovivo.sites.teste.mal.example', 'http://sorrisovivo.sites.teste'] as $origem) {
+            $r = $visitante->post('/api/lead/sorrisovivo', self::LEAD, ['Origin' => $origem]);
+            $this->assertSame(403, $r->status, $origem);
+            $this->assertSame('origem', $r->dados()['erro']['codigo']);
+            $this->assertNull($r->obterCabecalho('Access-Control-Allow-Origin'));
+            $r = $visitante->req('POST', '/api/lead/sorrisovivo', null, ['Accept' => 'text/html', 'Origin' => $origem], self::LEAD);
+            $this->assertSame(403, $r->status);
+            $this->assertStringContainsString('text/html', (string) $r->obterCabecalho('Content-Type'));
+        }
+        $this->assertSame(0, (int) $this->app->db()->valor('SELECT COUNT(*) FROM leads'));
+        // A própria origem e envios sem Origin continuam.
+        $this->assertSame(200, $visitante->post('/api/lead/sorrisovivo', self::LEAD, ['Origin' => 'https://sorrisovivo.sites.teste'])->status);
+        $this->assertSame(200, $visitante->post('/api/lead/sorrisovivo', self::LEAD)->status);
     }
 
     public function testCorsSoParaAOrigemDoSite(): void

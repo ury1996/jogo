@@ -196,6 +196,8 @@ export function criarPainelDados(ed) {
     try {
       const resp = await fetch(`https://viacep.com.br/ws/${digitos}/json/`, { signal: controle.signal, credentials: 'omit' });
       const endereco = op.enderecoDoViaCep(resp.ok ? await resp.json() : null);
+      // A resposta chegou depois de a pessoa mudar o CEP (ou de fechar o editor): descarta.
+      if (buscaCep !== controle || ed.desmontado || cep.entrada.value.replace(/\D/g, '') !== digitos) return;
       if (!endereco) {
         statusCep.textContent = 'Não encontramos este CEP. Confira os números ou preencha o endereço abaixo.';
         return;
@@ -221,8 +223,15 @@ export function criarPainelDados(ed) {
     }
   }
   cep.entrada.addEventListener('input', () => {
-    if (op.cepCompleto(cep.entrada.value)) consultarCep();
-    else statusCep.textContent = '';
+    if (op.cepCompleto(cep.entrada.value)) {
+      consultarCep();
+    } else {
+      // CEP incompleto: a consulta anterior (de outro CEP) não vale mais.
+      buscaCep?.abort();
+      buscaCep = null;
+      ultimoCep = '';
+      statusCep.textContent = '';
+    }
   });
 
   /* ---------------------------------------------------------------- horários */

@@ -21,8 +21,6 @@ final class Auth
     private const FALHAS_MAX = 5;
     private const FALHAS_MAX_IP = 30;
     private const JANELA = 900; // 15 min
-    /** Hash de uma senha qualquer: compara mesmo quando o e-mail não existe (tempo uniforme). */
-    private const HASH_FALSO = '$2y$10$LGM7RlYALFuXSOVyKtQsSOe0y5CJeP7ViaZL62Cwc.OzdQxqMnbbi';
 
     public function login(Contexto $ctx, array $p): Resposta
     {
@@ -37,7 +35,14 @@ final class Auth
         $limites = new LimiteTaxa($app);
         $chave = LimiteTaxa::chave('login', $email, $ipHash);
         $chaveIp = LimiteTaxa::chave('login-ip', $ipHash);
-        if ($limites->excedido($chave, self::FALHAS_MAX, self::JANELA) || $limites->excedido($chaveIp, self::FALHAS_MAX_IP, self::JANELA)) {
+        // A tentativa é contada ANTES do password_verify (lento): tentativas simultâneas não
+        // passam todas por uma conferência que ainda não viu nenhuma delas.
+        $cabe = $limites->consumir($chave, self::FALHAS_MAX, self::JANELA);
+        if ($cabe && !$limites->consumir($chaveIp, self::FALHAS_MAX_IP, self::JANELA)) {
+            $limites->descontar($chave); // barrada pelo limite do IP: esta senha nem foi testada
+            $cabe = false;
+        }
+        if (!$cabe) {
             $espera = max($limites->segundosRestantes($chave, self::JANELA), $limites->segundosRestantes($chaveIp, self::JANELA), 60);
             throw new ErroHttp(429, 'muitas_tentativas',
                 'Muitas tentativas de entrar. Aguarde ' . (int) ceil($espera / 60) . ' minuto(s) e tente de novo, ou use "Esqueci a senha".',
@@ -45,16 +50,17 @@ final class Auth
         }
 
         $u = mb_strlen($senha, 'UTF-8') <= Usuarios::SENHA_MAX ? Usuarios::porEmail($app, $email) : null;
-        $confere = password_verify($senha, $u !== null ? (string) $u['senha_hash'] : self::HASH_FALSO);
+        // E-mail inexistente também passa por um password_verify de mesmo custo (tempo uniforme).
+        $confere = password_verify($senha, $u !== null ? (string) $u['senha_hash'] : Usuarios::hashFalso($app));
         if ($u === null || !$confere || (int) $u['ativo'] !== 1) {
-            $limites->registrar($chave, self::JANELA);
-            $limites->registrar($chaveIp, self::JANELA);
+            // Falha: a tentativa já foi contada nos dois limites.
             if ($u !== null) {
                 Eventos::registrar($app, null, (int) $u['id'], 'auth.falha', []);
             }
             throw new ErroHttp(401, 'credenciais', 'E-mail ou senha incorretos.');
         }
         $limites->limpar($chave);
+        $limites->descontar($chaveIp); // login certo não conta contra o IP (escritórios atrás do mesmo IP)
 
         $atualizar = ['ultimo_login_em' => $app->agoraSql()];
         if (password_needs_rehash((string) $u['senha_hash'], PASSWORD_DEFAULT)) {
@@ -101,11 +107,14 @@ final class Auth
         $limites = new LimiteTaxa($app);
         $chave = LimiteTaxa::chave('esqueci', $email);
         $chaveIp = LimiteTaxa::chave('esqueci-ip', $ipHash);
-        if ($limites->excedido($chave, 3, 3600) || $limites->excedido($chaveIp, 10, 3600)) {
+        // Contado antes do trabalho (ver login): pedidos simultâneos não furam o limite.
+        if (!$limites->consumir($chave, 3, 3600)) {
             return Resposta::json(['ok' => true]);
         }
-        $limites->registrar($chave, 3600);
-        $limites->registrar($chaveIp, 3600);
+        if (!$limites->consumir($chaveIp, 10, 3600)) {
+            $limites->descontar($chave);
+            return Resposta::json(['ok' => true]);
+        }
 
         $u = Usuarios::porEmail($app, $email);
         if ($u !== null && (int) $u['ativo'] === 1) {
