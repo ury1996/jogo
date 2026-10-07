@@ -160,6 +160,25 @@ final class ValidadorTest extends TestCase
         $this->assertNotEmpty($foto['chaves']);
     }
 
+    public function testNomesDeEquipeDeExemploViramAviso(): void
+    {
+        $doc = SiteExemplo::documento($this->app, 'clinicas', 'classico');
+        $r = $this->validar($doc);
+        $this->assertSame([], $r['erros'], 'não bloqueia');
+        $aviso = self::com($r['avisos'], 'equipe_padrao');
+        $this->assertCount(1, $aviso);
+        $this->assertContains('equipe.1.n', $aviso[0]['chaves']);
+        $this->assertIsInt($aviso[0]['secao']);
+        $this->assertStringContainsString('nomes da equipe', $aviso[0]['mensagem']);
+
+        foreach (['1', '2', '3'] as $id) {
+            $doc['textos']["equipe.$id.n"] = "Dra. Profissional $id";
+        }
+        $this->assertSame([], self::com($this->validar($doc)['avisos'], 'equipe_padrao'));
+        // Modelo sem equipe na página: nada a avisar.
+        $this->assertSame([], self::com($this->validar(SiteExemplo::documento($this->app, 'clinicas', 'direto'))['avisos'], 'equipe_padrao'));
+    }
+
     public function testTextosPadraoAlteradosDesdeAUltimaPublicacao(): void
     {
         $doc = SiteExemplo::documento($this->app);

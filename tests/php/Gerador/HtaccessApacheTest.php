@@ -57,7 +57,8 @@ final class HtaccessApacheTest extends TestCase
         self::$conf = $dir . '/apache.conf';
         $carregar = '';
         foreach (['mpm_prefork' => 'mod_mpm_prefork.so', 'authz_core' => 'mod_authz_core.so', 'dir' => 'mod_dir.so', 'mime' => 'mod_mime.so',
-            'rewrite' => 'mod_rewrite.so', 'headers' => 'mod_headers.so', 'env' => 'mod_env.so', 'php' => $php] as $nome => $so) {
+            'rewrite' => 'mod_rewrite.so', 'headers' => 'mod_headers.so', 'env' => 'mod_env.so', 'filter' => 'mod_filter.so',
+            'deflate' => 'mod_deflate.so', 'php' => $php] as $nome => $so) {
             $carregar .= "LoadModule {$nome}_module {$modulos}/{$so}\n";
         }
         file_put_contents(self::$conf, "ServerRoot \"/etc/apache2\"\nServerName localhost\nListen 127.0.0.1:" . self::$porta . "\n"
@@ -125,6 +126,10 @@ final class HtaccessApacheTest extends TestCase
         $this->assertStringContainsString('<title>Clínica Sorriso Vivo', $r['corpo']);
         $this->assertSame('no-cache', $r['cab']['cache-control']);
         $this->assertSame('nosniff', $r['cab']['x-content-type-options']);
+        // HTML comprimido quando o navegador aceita (meta de peso transferido, PDF §9.5).
+        $gzip = $this->http($h, '/', [], ['Accept-Encoding: gzip']);
+        $this->assertSame('gzip', $gzip['cab']['content-encoding'] ?? null);
+        $this->assertStringContainsString('<title>Clínica Sorriso Vivo', (string) gzdecode($gzip['corpo']));
         $pasta = $this->http($h, '/privacidade');
         $this->assertSame(301, $pasta['status']);
         $this->assertStringEndsWith('/privacidade/', $pasta['cab']['location']);

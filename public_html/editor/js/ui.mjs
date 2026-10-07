@@ -7,6 +7,7 @@
 //
 // Auxiliares compartilhados com as telas do editor (EDITOR-TELA usa os mesmos):
 //   icone(nome), anexar(pai, ...filhos), navegar(hash), campo({...}), carregando(), estadoVazio({...})
+//   menuAcoes({ rotulo, itens }) — botão "Mais ações" com menu acessível (setas, Esc, clique fora)
 //   tempoRelativo(data), formatarDataHora(data), formatarTamanho(bytes)
 //   mascaraTelefone(valor), problemaWhatsapp(valor), UFS, CORES_SUGERIDAS
 //   corDominante(pixels), corDominanteDaImagem(arquivo), problemaArquivoLogo(arquivo)
@@ -72,6 +73,10 @@ const ICONES = {
   lido: '<path d="M228.44,89.34l-96-64a8,8,0,0,0-8.88,0l-96,64A8,8,0,0,0,24,96V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V96A8,8,0,0,0,228.44,89.34ZM96.72,152,40,192V111.53Zm16.37,8h29.82l56.63,40H56.46Zm46.19-8L216,111.53V192ZM128,41.61l81.91,54.61-67,47.78H113.11l-67-47.78Z"/>',
   naoLido: '<path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"/>',
   pessoas: '<path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"/>',
+  reticencias: '<path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm56-12a12,12,0,1,0,12,12A12,12,0,0,0,196,116ZM60,116a12,12,0,1,0,12,12A12,12,0,0,0,60,116Z"/>',
+  sol: '<path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/>',
+  lua: '<path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"/>',
+  meiaLua: '<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM40,128a88.1,88.1,0,0,1,80-87.63V215.63A88.1,88.1,0,0,1,40,128Zm96,87.63V40.37a88,88,0,0,1,0,175.26Z"/>',
 };
 
 const NS_SVG = 'http://www.w3.org/2000/svg';
@@ -424,6 +429,94 @@ export function confirmar(mensagem, opcoes = {}) {
       aoFechar: () => resolver(ok),
     });
   });
+}
+
+/* ------------------------------------------------------------------ menu de ações */
+
+/**
+ * Botão com menu suspenso ("Mais ações"). itens: [{ rotulo, icone, fn, href, alvo, perigo }]
+ * (null/false são ignorados). Teclado: Enter/Espaço/↓ abre e foca o 1º item; ↑/↓/Home/End
+ * navegam; Esc fecha e devolve o foco ao botão; Tab fecha. Devolve { elemento, fechar }.
+ */
+export function menuAcoes({ rotulo = 'Mais ações', itens = [], icone: nomeIcone = 'reticencias', classeBotao = 'icone-btn' } = {}) {
+  menuAcoes.contador = (menuAcoes.contador ?? 0) + 1;
+  const contador = menuAcoes.contador;
+  const idMenu = `menu-acoes-${contador}`;
+  const botao = el('button', {
+    type: 'button', class: classeBotao, 'aria-label': rotulo, title: rotulo,
+    'aria-haspopup': 'menu', 'aria-expanded': 'false', 'aria-controls': idMenu,
+  }, icone(nomeIcone));
+  const menu = el('div', { class: 'mais-acoes__menu', role: 'menu', id: idMenu, hidden: true, 'aria-label': rotulo });
+  const elemento = el('div', { class: 'mais-acoes' }, botao, menu);
+
+  for (const item of itens) {
+    if (!item) continue;
+    const classes = ['mais-acoes__item', item.perigo && 'mais-acoes__item--perigo'];
+    const conteudo = [item.icone ? icone(item.icone) : null, el('span', null, item.rotulo)];
+    const e = item.href
+      ? el('a', { class: classes, role: 'menuitem', href: item.href, target: item.alvo ?? null, rel: item.alvo === '_blank' ? 'noopener' : null, tabindex: '-1' }, ...conteudo)
+      : el('button', { type: 'button', class: classes, role: 'menuitem', tabindex: '-1' }, ...conteudo);
+    e.addEventListener('click', (ev) => {
+      if (!item.href) ev.preventDefault();
+      fechar({ devolverFoco: !item.href });
+      item.fn?.(ev);
+    });
+    menu.append(e);
+  }
+  const itensMenu = () => [...menu.querySelectorAll('[role="menuitem"]')];
+
+  function aoClicarFora(ev) {
+    if (!elemento.contains(ev.target)) fechar({ devolverFoco: false });
+  }
+  function abrir(focar = 'primeiro') {
+    if (!menu.hidden) return;
+    menu.hidden = false;
+    botao.setAttribute('aria-expanded', 'true');
+    document.addEventListener('pointerdown', aoClicarFora, true);
+    const lista = itensMenu();
+    (focar === 'ultimo' ? lista[lista.length - 1] : lista[0])?.focus();
+  }
+  function fechar({ devolverFoco = true } = {}) {
+    if (menu.hidden) return;
+    menu.hidden = true;
+    botao.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('pointerdown', aoClicarFora, true);
+    if (devolverFoco) botao.focus();
+  }
+  botao.addEventListener('click', () => (menu.hidden ? abrir() : fechar()));
+  botao.addEventListener('keydown', (ev) => {
+    if (ev.key === 'ArrowDown') {
+      ev.preventDefault();
+      abrir('primeiro');
+    } else if (ev.key === 'ArrowUp') {
+      ev.preventDefault();
+      abrir('ultimo');
+    }
+  });
+  menu.addEventListener('keydown', (ev) => {
+    const lista = itensMenu();
+    const i = lista.indexOf(document.activeElement);
+    if (ev.key === 'Escape') {
+      ev.preventDefault();
+      ev.stopPropagation();
+      fechar();
+    } else if (ev.key === 'ArrowDown') {
+      ev.preventDefault();
+      lista[(i + 1) % lista.length]?.focus();
+    } else if (ev.key === 'ArrowUp') {
+      ev.preventDefault();
+      lista[(i - 1 + lista.length) % lista.length]?.focus();
+    } else if (ev.key === 'Home') {
+      ev.preventDefault();
+      lista[0]?.focus();
+    } else if (ev.key === 'End') {
+      ev.preventDefault();
+      lista[lista.length - 1]?.focus();
+    } else if (ev.key === 'Tab') {
+      fechar({ devolverFoco: false });
+    }
+  });
+  return { elemento, botao, fechar };
 }
 
 /* ------------------------------------------------------------------ peças de formulário e estados */

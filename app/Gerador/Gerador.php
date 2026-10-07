@@ -201,6 +201,10 @@ final class Gerador
         }
         $tipos = array_map(static fn (array $s): string => $s['tipo'], $m->secoes());
         $css = Css::podar(Css::montar($m->lib, $tipos, $m->preparado['cssPaleta'], $doc['estilo']['fonte']), $classes);
+        // Ícones repetidos viram um sprite <symbol>/<use> por página (peso do HTML), menos os
+        // que o CSS estiliza por dentro.
+        $raiz = explode(' ', $m->preparado['classesRaiz']);
+        $corpos = array_map(static fn (string $c): string => Sprite::aplicar($c, $css, $raiz), $corpos);
         $arquivos = [];
         if (strlen($css) <= Css::LIMITE_EMBUTIDO) {
             $cssTag = ['inline' => $css];

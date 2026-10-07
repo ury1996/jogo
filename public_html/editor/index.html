@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f2f4f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0e1014" media="(prefers-color-scheme: dark)">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="same-origin">
+  <meta name="description" content="Construtor Rankly: crie e edite sites de negócios locais em minutos.">
+  <title>Construtor Rankly</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2315181e'/%3E%3Ctext x='16' y='22.5' font-family='Arial,sans-serif' font-size='18' font-weight='700' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+  <link rel="preload" href="/api/fontes/dm-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/editor.css">
+  <link rel="stylesheet" href="css/tela.css">
+  <link rel="modulepreload" href="js/api.mjs">
+  <link rel="modulepreload" href="js/ui.mjs">
+  <script type="module" src="js/app.mjs"></script>
+</head>
+<body data-layout="carregando">
+  <a class="pular" href="#conteudo" id="pular-conteudo">Pular para o conteúdo</a>
+  <header class="app-cab" id="app-cab" hidden></header>
+  <main class="app-conteudo" id="conteudo" tabindex="-1">
+    <div class="carregando-tela">
+      <div class="carregando" role="status"><span class="giro" aria-hidden="true"></span><span>Carregando o Construtor…</span></div>
+    </div>
+    <noscript>
+      <div class="pagina pagina--estreita">
+        <p class="aviso-inline aviso-inline--alerta">O Construtor Rankly precisa do JavaScript ligado no navegador.</p>
+      </div>
+    </noscript>
+  </main>
+  <div id="anuncio" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <div id="avisos" class="avisos" aria-live="polite" aria-relevant="additions"></div>
+</body>
+</html>

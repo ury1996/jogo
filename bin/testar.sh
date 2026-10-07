@@ -5,7 +5,7 @@
 # Uso: bin/testar.sh [--mysql] [--apache] [--sem-e2e]
 #   --mysql    PHPUnit também no MariaDB local (banco rankly_teste), além do SQLite
 #   --apache   testa o sites/.htaccess no Apache de verdade (precisa de apache2 + mod_php)
-#   --sem-e2e  pula o Playwright
+#   --sem-e2e  pula o Playwright (que usa o MariaDB rankly_teste, ou SQLite se ele não responder)
 
 set -uo pipefail
 
@@ -40,15 +40,16 @@ etapa() {
   fi
 }
 
-# Node 22 não aceita pasta em "node --test tests/js/" (script do package.json): passa os arquivos.
-etapa "JS (node --test)" node --test tests/js/*.test.mjs
+# Node 22 não aceita pasta em "node --test tests/js/" (script do package.json): passa um glob
+# (entre aspas: quem expande é o próprio node, inclusive subpastas).
+etapa "JS (node --test)" node --test 'tests/js/**/*.test.mjs'
 etapa "PHP (PHPUnit, SQLite)" env RANKLY_TESTE_APACHE="$APACHE" vendor/bin/phpunit -c tests/php/phpunit.xml
 if [ "$MYSQL" = "1" ]; then
   etapa "PHP (PHPUnit, MariaDB)" env RANKLY_TESTE_MYSQL=1 vendor/bin/phpunit -c tests/php/phpunit.xml
 fi
 etapa "Paridade JS≡PHP" npm run --silent paridade
 if [ "$COM_E2E" = "1" ] && [ -f tests/e2e/playwright.config.mjs ]; then
-  etapa "Ponta a ponta (Playwright)" npm run --silent e2e
+  etapa "Ponta a ponta (Playwright)" npx --no-install playwright test --config tests/e2e/playwright.config.mjs
 elif [ "$COM_E2E" = "1" ]; then
   echo
   echo "(tests/e2e/playwright.config.mjs não existe: ponta a ponta pulado)"

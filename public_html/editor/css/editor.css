@@ -36,6 +36,7 @@
    .selo                    etiqueta curta: .selo--pri .selo--ok .selo--alerta .selo--perigo .selo--ponto
    .lista-arrastavel        lista reordenável: > .lista-arrastavel__item (.lista-arrastavel__alca,
                             --ativo, --arrastando, --soltar-antes, --soltar-depois)
+   .mais-acoes              menu suspenso (ver ui.menuAcoes()): > .mais-acoes__menu > .mais-acoes__item(--perigo)
    .cor-bolinhas            cores sugeridas: > .cor-bolinha[aria-pressed] (+ .cor-bolinha--livre com
                             <input type="color">, .cor-bolinha--logo)
    .previa-mini             moldura de miniatura (ver previa.miniatura())
@@ -95,7 +96,8 @@
   --ui-sombra-1: 0 1px 2px rgba(16, 24, 40, 0.05), 0 1px 3px rgba(16, 24, 40, 0.08);
   --ui-sombra-2: 0 6px 18px rgba(16, 24, 40, 0.1), 0 2px 6px rgba(16, 24, 40, 0.06);
   --ui-sombra-3: 0 24px 64px rgba(10, 14, 22, 0.28), 0 4px 14px rgba(10, 14, 22, 0.12);
-  --ui-anel: 0 0 0 3px rgba(36, 87, 214, 0.32);
+  --ui-anel: 0 0 0 2px var(--ui-sup), 0 0 0 4px var(--ui-pri);
+  --ui-anel-suave: 0 0 0 3px rgba(36, 87, 214, 0.32);
   --ui-raio-p: 8px;
   --ui-raio: 10px;
   --ui-raio-g: 14px;
@@ -138,7 +140,7 @@
     --ui-sombra-1: 0 1px 2px rgba(0, 0, 0, 0.4);
     --ui-sombra-2: 0 8px 22px rgba(0, 0, 0, 0.45);
     --ui-sombra-3: 0 24px 64px rgba(0, 0, 0, 0.6);
-    --ui-anel: 0 0 0 3px rgba(94, 142, 255, 0.4);
+    --ui-anel: 0 0 0 2px var(--ui-sup), 0 0 0 4px var(--ui-pri); --ui-anel-suave: 0 0 0 3px rgba(94, 142, 255, 0.4);
   }
 }
 :root[data-tema="escuro"] {
@@ -150,7 +152,7 @@
   --ui-ok: #52c891; --ui-ok-suave: #14301f; --ui-alerta: #f2b740; --ui-alerta-suave: #322710; --ui-alerta-borda: #5c4818;
   --ui-toast: #2a303a; --ui-fundo-modal: rgba(0, 0, 0, 0.62); --ui-pontos: #262b33;
   --ui-sombra-1: 0 1px 2px rgba(0, 0, 0, 0.4); --ui-sombra-2: 0 8px 22px rgba(0, 0, 0, 0.45);
-  --ui-sombra-3: 0 24px 64px rgba(0, 0, 0, 0.6); --ui-anel: 0 0 0 3px rgba(94, 142, 255, 0.4);
+  --ui-sombra-3: 0 24px 64px rgba(0, 0, 0, 0.6); --ui-anel: 0 0 0 2px var(--ui-sup), 0 0 0 4px var(--ui-pri); --ui-anel-suave: 0 0 0 3px rgba(94, 142, 255, 0.4);
 }
 
 /* ---------- 2. Base ---------- */
@@ -343,7 +345,8 @@ select.campo__entrada {
 }
 .campo__entrada::placeholder { color: var(--ui-texto-3); font-weight: 400; }
 .campo__entrada:hover { border-color: var(--ui-texto-3); }
-.campo__entrada:focus { outline: none; border-color: var(--ui-pri); box-shadow: var(--ui-anel); }
+.campo__entrada:focus { outline: none; border-color: var(--ui-pri); box-shadow: var(--ui-anel-suave); }
+.campo__entrada:focus-visible { box-shadow: 0 0 0 1px var(--ui-pri), var(--ui-anel-suave); }
 .campo--erro .campo__entrada { border-color: var(--ui-perigo); }
 .campo--erro .campo__entrada:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--ui-perigo) 28%, transparent); }
 .campo__ajuda { font-size: 13px; color: var(--ui-texto-2); }
@@ -366,7 +369,7 @@ select.campo__entrada {
 }
 .aba:hover { color: var(--ui-texto); }
 .aba[aria-selected="true"] { color: var(--ui-pri-tinta); border-bottom-color: var(--ui-pri); }
-.aba:focus-visible { outline: none; box-shadow: inset var(--ui-anel); border-radius: 6px 6px 0 0; }
+.aba:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--ui-pri); border-radius: 6px 6px 0 0; }
 .aba .ico { width: 16px; height: 16px; }
 
 /* ---------- 8. Cards de opção e miniaturas ---------- */
@@ -525,13 +528,14 @@ button.card-opcao:hover, a.card-opcao:hover { transform: translateY(-2px); }
 }
 .cor-bolinha:hover { transform: scale(1.08); }
 .cor-bolinha:focus-visible { outline: none; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14), var(--ui-anel); }
-.cor-bolinha[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--ui-sup), 0 0 0 4px var(--ui-texto); }
-.cor-bolinha[aria-pressed="true"]::after {
+.cor-bolinha[aria-pressed="true"], .cor-bolinha[data-ativa="true"] { box-shadow: 0 0 0 2px var(--ui-sup), 0 0 0 4px var(--ui-texto); }
+.cor-bolinha[aria-pressed="true"]::after, .cor-bolinha[data-ativa="true"]::after {
   content: ""; position: absolute; inset: 0; margin: auto; width: 12px; height: 7px;
   border: solid var(--cor-check, #fff); border-width: 0 0 2.5px 2.5px; transform: translateY(-2px) rotate(-45deg);
 }
 .cor-bolinha--livre { background: conic-gradient(from 0deg, #ff4d4d, #ffb84d, #f4f44d, #4dd97a, #4db8ff, #7a5cff, #e04dd9, #ff4d4d); }
-.cor-bolinha--livre[aria-pressed="true"] { background: var(--cor); }
+.cor-bolinha--livre[aria-pressed="true"], .cor-bolinha--livre[data-ativa="true"] { background: var(--cor); }
+.cor-bolinha--livre:focus-within { box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14), var(--ui-anel); }
 .cor-bolinha--livre input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; border: 0; padding: 0; }
 .cor-bolinha--logo::before {
   content: "logo"; position: absolute; left: 50%; bottom: -15px; transform: translateX(-50%);
@@ -760,6 +764,72 @@ button.card-opcao:hover, a.card-opcao:hover { transform: translateY(-2px); }
   .modal { max-height: calc(100dvh - 24px); }
   .tela-login__card { padding: 24px 20px; }
   .avisos { bottom: 16px; }
+}
+
+/* ---------- 22. Complementos das telas (login, painel, assistente, leads, prévias) ---------- */
+
+.cab-login { display: grid; gap: 6px; }
+.cab-login .continuar__ico { margin-bottom: 6px; }
+.tela-login__conteudo { display: grid; gap: 20px; }
+
+.app-tela { display: block; }
+
+/* WhatsApp flutuante dos sites dentro das prévias: preso à área visível da moldura
+   (no site publicado ele é fixo na janela; aqui não pode escapar para a interface). */
+.rk[data-previa] > .rk-wa { position: sticky; bottom: 18px; margin: -58px 18px 0 auto; }
+@container site (max-width: 760px) {
+  .rk[data-previa] > .rk-wa { margin-top: -54px; }
+}
+
+/* Cards de nicho/modelo em grade ocupam a célula inteira. */
+.grade-item { display: flex; min-width: 0; }
+.grade-item > .card-opcao { width: 100%; }
+.grade-nichos .card-opcao__titulo { font-size: 17px; }
+
+.selo--contagem { min-width: 20px; height: 20px; padding: 0 6px; justify-content: center; font-size: 11px; margin-left: 2px; }
+
+.assistente .passos { margin-bottom: 24px; }
+.assistente .link-voltar { margin-bottom: 12px; }
+.continuar-espaco:empty { display: none; }
+
+.cor-bolinhas { gap: 8px; }
+.cor-bolinha { width: 28px; height: 28px; }
+.cor-bolinha--logo { margin-bottom: 12px; }
+
+.logo-escolha__info { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+
+.lead__info { display: grid; gap: 2px; min-width: 0; }
+.lead__contatos > span { display: inline-flex; align-items: center; gap: 4px; }
+.lead__contatos .ico { width: 15px; height: 15px; color: var(--ui-texto-3); }
+.lead__origem .ico { width: 15px; height: 15px; }
+.lead__data { display: block; margin-top: 2px; }
+.lista-leads { margin: 0; padding: 0; list-style: none; }
+.lista-sites { margin: 0; padding: 0; list-style: none; }
+
+@media (max-width: 759px) {
+  .modal.modal--tela-cheia { max-height: none; height: 100dvh; }
+  .modal-fundo:has(.modal--tela-cheia) { align-items: stretch; }
+  .previa-moldura--celular .previa-moldura__site { outline-width: 6px; border-radius: 20px; }
+  .site-linha { align-items: start; gap: 12px 14px; padding: 14px; }
+  .site-linha__avatar { width: 40px; height: 40px; font-size: 17px; border-radius: 10px; }
+  .app-marca__nome { display: none; }
+  .app-cab__sair { display: none; }
+  .pagina__cab > .btn { width: 100%; }
+  .dados-negocio__acoes { flex-direction: column-reverse; }
+  .dados-negocio__acoes > .btn { width: 100%; }
+  .continuar__acoes { width: 100%; }
+  .continuar__acoes > .btn { flex: 1; }
+  .barra-ferramentas__resumo { flex-basis: 100%; }
+  .grade-nichos { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .grade-nichos .card-opcao__corpo { padding: 10px 12px 12px; }
+  .grade-nichos .card-opcao__titulo { font-size: 15px; }
+  .grade-nichos .card-opcao__desc { font-size: 12.5px; }
+  .passos { gap: 6px 10px; font-size: 12.5px; }
+  .passo + .passo::before { width: 10px; margin-right: 4px; }
+  .passo:not(.passo--atual) > a > span:not(.passo__num):not(.sr-only),
+  .passo:not(.passo--atual) > span:not(.passo__num):not(.sr-only) {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+  }
 }
 
 /* ---------- 21. Animações ---------- */

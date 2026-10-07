@@ -49,6 +49,23 @@ final class PublicadorTest extends TestCase
         $this->assertSame(['2-abcd5678', '1-abcd1234'], $this->p->listar('sorriso'));
     }
 
+    /** Processo de longa vida (PHP-FPM, php -S): a troca do link aparece na hora no roteador. */
+    public function testServidorEstaticoVeATrocaApesarDoCacheDeRealpath(): void
+    {
+        $this->p->gravar('sorriso', '1-aaaa1111', ['index.html' => 'v1'], []);
+        $this->p->gravar('sorriso', '2-bbbb2222', ['index.html' => 'v2'], []);
+        $this->p->apontar('sorriso', '1-aaaa1111');
+        $servidor = new \Rankly\Gerador\ServidorEstatico($this->dir);
+        $this->assertStringEndsWith('/1-aaaa1111', (string) $servidor->pastaDoSite('sorriso'));
+        $this->assertStringEndsWith('/1-aaaa1111', (string) realpath($this->dir . '/sorriso'), 'realpath agora está em cache');
+        // A troca acontece em OUTRO processo (a API), como na produção.
+        $codigo = 'require ' . var_export(dirname(__DIR__, 3) . '/vendor/autoload.php', true) . ';'
+            . ' (new Rankly\\Gerador\\Publicador(' . var_export($this->dir, true) . '))->apontar("sorriso", "2-bbbb2222");';
+        exec(escapeshellarg(PHP_BINARY) . ' -r ' . escapeshellarg($codigo), $saida, $status);
+        $this->assertSame(0, $status, implode("\n", $saida));
+        $this->assertStringEndsWith('/2-bbbb2222', (string) $servidor->pastaDoSite('sorriso'));
+    }
+
     public function testFalhaNaGravacaoNaoDeixaReleaseNemMudaOAr(): void
     {
         $this->p->gravar('sorriso', '1-aaaa0000', ['index.html' => 'v1'], []);

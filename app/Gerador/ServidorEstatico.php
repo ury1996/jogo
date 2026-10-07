@@ -36,7 +36,11 @@ final class ServidorEstatico
         if (!Slug::valido($slug)) {
             return null;
         }
-        $real = realpath($this->dirSites . '/' . $slug);
+        $link = $this->dirSites . '/' . $slug;
+        // O cache de realpath do PHP (por processo, realpath_cache_ttl = 120 s) guardaria o
+        // destino antigo do link depois de uma troca atômica [M10]: limpa só este caminho.
+        clearstatcache(true, $link);
+        $real = realpath($link);
         return $real !== false && is_dir($real) ? $real : null;
     }
 

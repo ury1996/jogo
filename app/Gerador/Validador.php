@@ -57,6 +57,7 @@ final class Validador
         $this->dados($m);
         $this->registro($m);
         $this->alegacoes($m);
+        $this->equipePadrao($m);
         $this->rastreamento($bruto);
         $this->preparo($m);
         $this->fotos($m);
@@ -161,9 +162,9 @@ final class Validador
         $registro = $m->doc['dados']['registro'];
         $rotulo = Texto::colapsarEspacos($esp['rotuloRegistro'] ?? '') ?: (Texto::colapsarEspacos($esp['conselho'] ?? '') ?: 'conselho profissional');
         if (Texto::colapsarEspacos($registro['numero']) === '') {
-            $this->erro('registro_obrigatorio', "Informe o número de registro no {$rotulo}. Ele é obrigatório para esta profissão e aparece no rodapé do site.", ['chave' => 'dados.registro.numero']);
+            $this->erro('registro_obrigatorio', "Informe o número de registro profissional ({$rotulo}). Ele é obrigatório para esta profissão e aparece no rodapé do site.", ['chave' => 'dados.registro.numero']);
         } elseif (Texto::colapsarEspacos($registro['uf']) === '' && Texto::colapsarEspacos($m->doc['dados']['uf']) === '') {
-            $this->aviso('registro_uf', "Informe a UF do registro no {$rotulo} (ex.: SP).", ['chave' => 'dados.registro.uf']);
+            $this->aviso('registro_uf', "Informe a UF do registro profissional ({$rotulo}), por exemplo SP.", ['chave' => 'dados.registro.uf']);
         }
     }
 
@@ -206,6 +207,31 @@ final class Validador
         foreach ($pendentes as $grupo => $extra) {
             $this->erro('alegacao_padrao', self::ALEGACOES[$grupo], $extra);
         }
+    }
+
+    /**
+     * Nomes de profissionais ainda de exemplo (equipe.{id}.n exibidos com o texto padrão): não
+     * bloqueiam (§2.4 só trata dep/num/aval/cli), mas publicar pessoas fictícias como equipe de
+     * uma profissão regulada é arriscado — vira aviso.
+     */
+    private function equipePadrao(Montagem $m): void
+    {
+        $chaves = [];
+        $secao = null;
+        foreach ($m->chavesExibidas() as $chave => $secoes) {
+            $chave = (string) $chave;
+            if (preg_match('/^equipe\.[a-z0-9]+\.n$/D', $chave) && Textos::ehPadrao($m->doc, $chave)
+                && Texto::colapsarEspacos(Textos::textoEfetivo($m->doc, $m->lib, $chave, $m->vars)) !== '') {
+                $chaves[] = $chave;
+                $secao ??= $secoes[0];
+            }
+        }
+        if ($chaves === []) {
+            return;
+        }
+        $exemplo = Texto::colapsarEspacos(Textos::textoEfetivo($m->doc, $m->lib, $chaves[0], $m->vars));
+        $this->aviso('equipe_padrao', 'Os nomes da equipe ainda são os de exemplo (como "' . $exemplo . '"). Troque pelos nomes reais dos profissionais antes de divulgar o site.',
+            ['chave' => $chaves[0], 'chaves' => $chaves, 'secao' => $secao]);
     }
 
     /**
