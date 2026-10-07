@@ -24,6 +24,8 @@ A lógica que monta o HTML existe em JS (`public_html/editor/js/compartilhado/`)
 
 Documentos:
 
+- [`docs/COMO-TESTAR.md`](docs/COMO-TESTAR.md): passo a passo para rodar no seu computador (com SQLite)
+  e testar o fluxo completo, do assistente ao lead.
 - [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md): contrato técnico (formatos, regras, rotas, tabelas).
   Em caso de dúvida, vale ele.
 - [`docs/especificacao-v0.2.md`](docs/especificacao-v0.2.md): especificação atualizada, escrita para
@@ -149,8 +151,7 @@ O ponta a ponta sobe um ambiente isolado: banco `rankly_teste` no MariaDB local 
 `RANKLY_E2E_BANCO=sqlite`, ou automaticamente se o MariaDB não responder), pasta temporária e dois
 `php -S` em portas livres. `RANKLY_E2E_MANTER=1` guarda a pasta no fim para inspeção.
 
-Observação: `npm test` usa `node --test tests/js/`, que o Node 22 não aceita (pasta em vez de
-arquivo). Use o comando com glob acima ou `bin/testar.sh`.
+`npm test` roda os testes JS (com o glob acima).
 
 ---
 
