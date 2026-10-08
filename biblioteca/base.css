@@ -890,6 +890,173 @@ textarea.rk-input { min-height: 112px; resize: vertical; }
 .rk-pular:focus, .rk-pular:focus-visible { transform: none; }
 .rk-pular-alvo { display: block; height: 0; overflow: hidden; outline: none; }
 
+/* ---------- 14b. Pares de fontes e acabamentos acrescentados (Elegante, Suave, Impacto) ----------
+   Referências: escritórios de advocacia de alto padrão (serifa fina, linhas, fotos em arco),
+   clínicas (formas orgânicas, tons leves) e empresas/agências (tipografia grande, contraste). */
+
+.f-nobre {
+  --ft: "Cormorant Garamond", "Cormorant Garamond Reserva", Garamond, Georgia, "Times New Roman", serif;
+  --fb: "Mulish", "Mulish Reserva", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --ft-peso: 500; --ft-ls: -0.005em; --ft-lh: 1.08; --ft-escala: 1.12;
+}
+.f-clara {
+  --ft: "Plus Jakarta Sans", "Plus Jakarta Sans Reserva", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --fb: "Plus Jakarta Sans", "Plus Jakarta Sans Reserva", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --ft-peso: 700; --ft-ls: -0.03em; --ft-lh: 1.1; --ft-escala: 0.92;
+}
+.f-geometrica {
+  --ft: "Sora", "Sora Reserva", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --fb: "Sora", "Sora Reserva", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --ft-peso: 600; --ft-ls: -0.035em; --ft-lh: 1.05; --ft-escala: 0.92;
+}
+
+.k-elegante {
+  --r: 0px; --rc: 0px; --ri: 50%; --rs: 0px; --rf: 0px;
+  --sh: 0 1px 1px color-mix(in srgb, var(--ink) 4%, transparent), 0 24px 48px -36px color-mix(in srgb, var(--ink) 40%, transparent);
+  --sh-hover: 0 2px 2px color-mix(in srgb, var(--ink) 4%, transparent), 0 34px 60px -34px color-mix(in srgb, var(--ink) 46%, transparent);
+  --sh-selo: 0 1px 2px color-mix(in srgb, var(--ink) 6%, transparent), 0 24px 48px -26px color-mix(in srgb, var(--ink) 42%, transparent);
+  --btn-tt: uppercase; --btn-ls: 0.2em; --btn-fs: 0.74rem; --btn-peso: 600; --btn-pad: 1.35em 2.4em;
+}
+.k-suave {
+  --r: 999px; --rc: 34px; --ri: 50%; --rs: 22px; --rf: 18px;
+  --sh: 0 2px 4px color-mix(in srgb, var(--p-dark) 5%, transparent), 0 26px 50px -30px color-mix(in srgb, var(--p-dark) 34%, transparent);
+  --sh-hover: 0 4px 8px color-mix(in srgb, var(--p-dark) 6%, transparent), 0 40px 70px -32px color-mix(in srgb, var(--p-dark) 42%, transparent);
+  --sh-selo: 0 4px 10px color-mix(in srgb, var(--p-dark) 8%, transparent), 0 26px 50px -22px color-mix(in srgb, var(--p-dark) 40%, transparent);
+  --btn-tt: none; --btn-ls: 0; --btn-fs: 0.975rem; --btn-peso: 600; --btn-pad: 1em 1.9em;
+}
+.k-impacto {
+  --r: 4px; --rc: 8px; --ri: 6px; --rs: 6px; --rf: 4px;
+  --sh: 0 1px 0 color-mix(in srgb, var(--ink) 8%, transparent), 0 18px 40px -26px color-mix(in srgb, var(--ink) 44%, transparent);
+  --sh-hover: 0 2px 0 color-mix(in srgb, var(--ink) 8%, transparent), 0 30px 56px -26px color-mix(in srgb, var(--ink) 54%, transparent);
+  --sh-selo: 0 2px 0 color-mix(in srgb, var(--ink) 8%, transparent), 0 22px 44px -22px color-mix(in srgb, var(--ink) 46%, transparent);
+  --btn-tt: none; --btn-ls: -0.005em; --btn-fs: 1rem; --btn-peso: 700; --btn-pad: 1em 1.6em;
+}
+/* Impacto: títulos maiores (o tamanho é o recurso visual principal). */
+.rk.k-impacto {
+  --t-h1: calc(clamp(2.5rem, 0.9rem + 5.6cqi, 5.4rem) * var(--ft-escala));
+  --t-h2: calc(clamp(1.95rem, 0.95rem + 3.1cqi, 3.5rem) * var(--ft-escala));
+}
+.rk.k-elegante { --t-h2: calc(clamp(1.9rem, 1.05rem + 2.7cqi, 3.2rem) * var(--ft-escala)); }
+
+/* rótulo acima do título */
+.k-elegante .rk-eyebrow {
+  text-transform: uppercase; letter-spacing: 0.26em; font-size: 0.7rem; font-weight: 600;
+}
+.k-elegante .rk-eyebrow::before {
+  content: ""; flex: none; width: 7px; height: 7px; transform: rotate(45deg);
+  border: 1px solid currentColor;
+}
+.k-elegante .rk-eyebrow::after {
+  content: ""; flex: none; width: 40px; height: 1px; background: currentColor; opacity: 0.55;
+}
+.k-suave .rk-eyebrow {
+  padding: 0.38em 1em 0.38em 0.42em;
+  border: 1px solid color-mix(in srgb, var(--acento) 30%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  font-weight: 600; letter-spacing: 0.01em;
+}
+.k-suave .rk-eyebrow::before {
+  content: ""; flex: none; width: 18px; height: 18px; border-radius: 50%;
+  background: radial-gradient(circle, var(--acento) 0 3px, var(--acento-suave) 3.5px 100%);
+}
+.k-impacto .rk-eyebrow { text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.72rem; font-weight: 700; }
+.k-impacto .rk-eyebrow::before { content: ""; flex: none; width: 24px; height: 3px; background: var(--acento); }
+
+/* títulos */
+.k-impacto :is(.rk-h1, .rk-h2) { text-wrap: balance; }
+.k-elegante .rk-h1 { font-weight: 400; }
+
+/* botões */
+.k-elegante .rk-btn { min-height: 52px; }
+.k-elegante .rk-btn:hover { background: color-mix(in srgb, var(--btn-bg) 82%, #000000); }
+.k-elegante .rk-btn--sec { border-color: color-mix(in srgb, var(--fg) 45%, transparent); }
+.k-suave .rk-btn { box-shadow: 0 14px 28px -16px color-mix(in srgb, var(--btn-bg) 90%, transparent); }
+.k-suave .rk-btn:hover { transform: translateY(-2px); }
+.k-suave .rk-btn--sec { box-shadow: none; background: var(--btn2-bg); border-color: color-mix(in srgb, var(--fg) 16%, transparent); }
+.k-impacto .rk-btn .rk-i { order: 2; }
+.k-impacto .rk-btn:hover { transform: translateY(-2px); }
+.k-impacto .rk-btn--sec { border-width: 2px; border-color: var(--fg); }
+.k-elegante .rk-link { text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.72rem; font-weight: 600; }
+.k-impacto .rk-link { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; font-weight: 800; }
+
+/* cards */
+.k-elegante .rk-card { border-color: var(--line); }
+.k-elegante .rk-card::after {
+  content: ""; position: absolute; left: -1px; right: -1px; top: -1px; height: 2px;
+  background: var(--acento); transform: scaleX(0); transform-origin: left; transition: transform 0.35s ease;
+}
+.k-suave .rk-card { box-shadow: var(--sh); }
+.k-impacto .rk-card { border-color: var(--line); box-shadow: none; }
+@media (hover: hover) {
+  .k-elegante .rk-card:not(.rk-card--estatico):hover { box-shadow: var(--sh-hover); }
+  .k-elegante .rk-card:not(.rk-card--estatico):hover::after { transform: scaleX(1); }
+  .k-suave .rk-card:not(.rk-card--estatico):hover { transform: translateY(-6px); box-shadow: var(--sh-hover); }
+  .k-impacto .rk-card:not(.rk-card--estatico):hover {
+    transform: translate(-3px, -3px);
+    border-color: var(--fg);
+    box-shadow: 6px 6px 0 var(--acento);
+  }
+}
+
+/* selos */
+.k-elegante .rk-selo { border: 1px solid var(--line); border-top: 2px solid var(--acento); }
+.k-impacto .rk-selo { border: 2px solid var(--ink); box-shadow: 5px 5px 0 var(--p); }
+
+/* ícones */
+.k-elegante .rk-ic { border: 1px solid color-mix(in srgb, var(--acento) 55%, transparent); }
+.k-elegante .rk-ic svg { width: 46%; height: 46%; }
+.k-suave .rk-ic { background: var(--acento-suave); box-shadow: inset 0 0 0 6px color-mix(in srgb, #ffffff 55%, transparent); }
+.k-impacto .rk-ic { background: var(--solido); color: var(--solido-fg); }
+
+/* fotos: arco (Elegante), mancha orgânica (Suave), bloco listrado (Impacto) */
+.k-elegante .rk-foto--deco { border-radius: 50% 50% 0 0 / 22% 22% 0 0; }
+.k-elegante .rk-foto--deco::before {
+  inset: calc(-1 * var(--deco-d)) var(--deco-d) var(--deco-d) calc(-1 * var(--deco-d));
+  border: 1px solid var(--acento);
+  border-radius: inherit;
+}
+.k-suave .rk-foto--deco::before {
+  inset: 10% -9% -8% 12%;
+  border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
+  background: var(--deco);
+}
+.k-impacto .rk-foto--deco::before {
+  inset: auto calc(-1 * var(--deco-d)) calc(-1 * var(--deco-d)) 28%;
+  height: 62%;
+  border-radius: var(--rc);
+  background: repeating-linear-gradient(135deg, var(--acento) 0 2px, transparent 2px 11px);
+  opacity: 0.85;
+}
+
+/* lista com checagem */
+.k-elegante .rk-check__ic { border: 1px solid color-mix(in srgb, var(--acento) 60%, transparent); }
+.k-elegante .rk-check__ic svg { width: 62%; height: 62%; }
+.k-suave .rk-check__ic { background: var(--solido); color: var(--solido-fg); }
+.k-suave .rk-check__ic svg { width: 64%; height: 64%; }
+.k-impacto .rk-check__ic { border-radius: 3px; background: var(--solido); color: var(--solido-fg); }
+.k-impacto .rk-check__ic svg { width: 64%; height: 64%; }
+
+/* menu */
+.k-elegante .rk-menu__lista a { text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.7rem; font-weight: 600; }
+.k-elegante .rk-menu__lista a::after { height: 1px; }
+.k-impacto .rk-menu__lista a { font-weight: 600; }
+.k-suave .rk-redes a, .k-elegante .rk-redes a { border-radius: 50%; }
+.k-suave .rk-logo__ini { border-radius: 50%; }
+.k-elegante .rk-logo__ini { border-radius: 0; background: transparent; color: var(--acento); border: 1px solid var(--acento); }
+
+/* utilitários usados pelas opções novas */
+.rk-fantasma {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--fg) 16%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
 /* ---------- 15. Responsivo (convertido em @media na publicação) ---------- */
 
 @container site (max-width: 1060px) {

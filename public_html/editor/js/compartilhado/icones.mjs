@@ -5,7 +5,7 @@ import { comoLista, comoMapa, ehMapa, normalizar, pegar, temChave, textoDe } fro
 import { nichoDe, registroListas } from './documento.mjs';
 import { textoEfetivo } from './textos.mjs';
 
-export const PESOS = { classico: 'fino', moderno: 'duotone', direto: 'preenchido' };
+export const PESOS = { classico: 'fino', moderno: 'duotone', direto: 'preenchido', elegante: 'fino', suave: 'duotone', impacto: 'preenchido' };
 export const ICONE_RESERVA = 'circulo';
 const RE_NORMALIZADA = /^[a-z0-9]+( [a-z0-9]+)*$/;
 

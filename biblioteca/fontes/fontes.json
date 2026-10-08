@@ -28,6 +28,27 @@
       "texto": "Nunito",
       "descricao": "Arredondada e leve",
       "indicado": "Clínicas, saúde, serviços para família"
+    },
+    "nobre": {
+      "nome": "Nobre",
+      "titulos": "Cormorant Garamond",
+      "texto": "Mulish",
+      "descricao": "Serifa fina e elegante",
+      "indicado": "Advocacia, finanças, estética de alto padrão"
+    },
+    "clara": {
+      "nome": "Clara",
+      "titulos": "Plus Jakarta Sans",
+      "texto": "Plus Jakarta Sans",
+      "descricao": "Limpa e acolhedora",
+      "indicado": "Clínicas, saúde, laboratórios"
+    },
+    "geometrica": {
+      "nome": "Geométrica",
+      "titulos": "Sora",
+      "texto": "Sora",
+      "descricao": "Larga e tecnológica",
+      "indicado": "Empresas, tecnologia, agências"
     }
   },
   "arquivos": [
@@ -83,6 +104,38 @@
       "familia": "Nunito",
       "arquivo": "nunito-latin-wght-normal.woff2",
       "peso": "200 1000",
+      "estilo": "normal",
+      "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+      "licenca": "OFL-1.1"
+    },
+    {
+      "familia": "Cormorant Garamond",
+      "arquivo": "cormorant-garamond-latin-wght-normal.woff2",
+      "peso": "300 700",
+      "estilo": "normal",
+      "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+      "licenca": "OFL-1.1"
+    },
+    {
+      "familia": "Mulish",
+      "arquivo": "mulish-latin-wght-normal.woff2",
+      "peso": "200 1000",
+      "estilo": "normal",
+      "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+      "licenca": "OFL-1.1"
+    },
+    {
+      "familia": "Plus Jakarta Sans",
+      "arquivo": "plus-jakarta-sans-latin-wght-normal.woff2",
+      "peso": "200 800",
+      "estilo": "normal",
+      "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+      "licenca": "OFL-1.1"
+    },
+    {
+      "familia": "Sora",
+      "arquivo": "sora-latin-wght-normal.woff2",
+      "peso": "100 800",
       "estilo": "normal",
       "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
       "licenca": "OFL-1.1"
@@ -176,6 +229,66 @@
         "size-adjust": "98.13%",
         "ascent-override": "103.02%",
         "descent-override": "35.97%",
+        "line-gap-override": "0.00%"
+      }
+    },
+    "Cormorant Garamond": {
+      "familia": "Cormorant Garamond Reserva",
+      "base": "serifada",
+      "local": [
+        "Times New Roman",
+        "Liberation Serif",
+        "Tinos"
+      ],
+      "ajustes": {
+        "size-adjust": "95.82%",
+        "ascent-override": "96.43%",
+        "descent-override": "29.95%",
+        "line-gap-override": "0.00%"
+      }
+    },
+    "Mulish": {
+      "familia": "Mulish Reserva",
+      "base": "sem-serifa",
+      "local": [
+        "Arial",
+        "Liberation Sans",
+        "Arimo"
+      ],
+      "ajustes": {
+        "size-adjust": "101.71%",
+        "ascent-override": "98.81%",
+        "descent-override": "24.58%",
+        "line-gap-override": "0.00%"
+      }
+    },
+    "Plus Jakarta Sans": {
+      "familia": "Plus Jakarta Sans Reserva",
+      "base": "sem-serifa",
+      "local": [
+        "Arial",
+        "Liberation Sans",
+        "Arimo"
+      ],
+      "ajustes": {
+        "size-adjust": "105.75%",
+        "ascent-override": "98.16%",
+        "descent-override": "20.99%",
+        "line-gap-override": "0.00%"
+      }
+    },
+    "Sora": {
+      "familia": "Sora Reserva",
+      "base": "sem-serifa",
+      "local": [
+        "Arial",
+        "Liberation Sans",
+        "Arimo"
+      ],
+      "ajustes": {
+        "size-adjust": "113.97%",
+        "ascent-override": "85.11%",
+        "descent-override": "25.44%",
         "line-gap-override": "0.00%"
       }
     }

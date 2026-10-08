@@ -10,7 +10,7 @@ namespace Rankly\Preparo;
  */
 final class Icones
 {
-    public const PESOS = ['classico' => 'fino', 'moderno' => 'duotone', 'direto' => 'preenchido'];
+    public const PESOS = ['classico' => 'fino', 'moderno' => 'duotone', 'direto' => 'preenchido', 'elegante' => 'fino', 'suave' => 'duotone', 'impacto' => 'preenchido'];
     public const ICONE_RESERVA = 'circulo';
 
     private static function listaDeIcones(mixed $icones): array

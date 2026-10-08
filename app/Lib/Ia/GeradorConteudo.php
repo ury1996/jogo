@@ -27,8 +27,8 @@ final class GeradorConteudo
     /** Campos escalares que a IA não escreve (rótulos de botão e afins ficam com o padrão). */
     private const CAMPOS_FORA = ['cta', 'cta2', 'botao', 'link', 'mapa'];
 
-    /** Grupos inteiros fora: alegação (nota do Google). */
-    private const GRUPOS_FORA = ['aval'];
+    /** Grupos inteiros fora: alegação (nota do Google) e rótulos dos atalhos (presos aos dados: WhatsApp, horário, endereço). */
+    private const GRUPOS_FORA = ['aval', 'atalhos'];
 
     /** Chaves escalares fora. */
     private const CHAVES_FORA = ['rodape.texto'];

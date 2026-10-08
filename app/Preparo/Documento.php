@@ -11,8 +11,8 @@ namespace Rankly\Preparo;
 final class Documento
 {
     public const VERSAO_ESQUEMA = 2;
-    public const ACABAMENTOS = ['classico', 'moderno', 'direto'];
-    public const FONTES = ['classica', 'editorial', 'moderna', 'amigavel'];
+    public const ACABAMENTOS = ['classico', 'moderno', 'direto', 'elegante', 'suave', 'impacto'];
+    public const FONTES = ['classica', 'editorial', 'moderna', 'amigavel', 'nobre', 'clara', 'geometrica'];
     public const DIAS = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
     public const REDES = ['instagram', 'facebook', 'linkedin', 'youtube', 'google'];
     public const RE_ID_ITEM = '/^[a-z0-9]+$/D';

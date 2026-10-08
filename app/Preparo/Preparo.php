@@ -397,6 +397,7 @@ final class Preparo
         $e = [
             'acabamento' => $acabamento, 'fonte' => $fonte,
             'classico' => $acabamento === 'classico', 'moderno' => $acabamento === 'moderno', 'direto' => $acabamento === 'direto',
+            'elegante' => $acabamento === 'elegante', 'suave' => $acabamento === 'suave', 'impacto' => $acabamento === 'impacto',
         ];
         $menu = self::montarMenu($validas, $nicho);
         $modo = ['editor' => $op['modo'] === 'editor', 'publicar' => $op['modo'] === 'publicar'];

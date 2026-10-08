@@ -5,8 +5,8 @@ import { comoLista, comoMapa, ehMapa, pegar, temChave, textoDe } from './texto.m
 import { COR_PADRAO, normalizarCor } from './paleta.mjs';
 
 export const VERSAO_ESQUEMA = 2;
-export const ACABAMENTOS = ['classico', 'moderno', 'direto'];
-export const FONTES = ['classica', 'editorial', 'moderna', 'amigavel'];
+export const ACABAMENTOS = ['classico', 'moderno', 'direto', 'elegante', 'suave', 'impacto'];
+export const FONTES = ['classica', 'editorial', 'moderna', 'amigavel', 'nobre', 'clara', 'geometrica'];
 export const DIAS = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
 export const REDES = ['instagram', 'facebook', 'linkedin', 'youtube', 'google'];
 export const RE_ID_ITEM = /^[a-z0-9]+$/;

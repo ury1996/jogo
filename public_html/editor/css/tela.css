@@ -241,6 +241,12 @@
 .ed-amostra--moderno > span:last-child { border-radius: 999px; }
 .ed-amostra--direto > span:first-child { border-radius: 4px; box-shadow: 3px 3px 0 var(--ui-pri); }
 .ed-amostra--direto > span:last-child { border-radius: 3px; }
+.ed-amostra--elegante > span:first-child { border-radius: 999px 999px 0 0; background: transparent; border: 1px solid var(--ui-texto); }
+.ed-amostra--elegante > span:last-child { border-radius: 0; height: 1px; align-self: center; }
+.ed-amostra--suave > span:first-child { border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%; opacity: .55; }
+.ed-amostra--suave > span:last-child { border-radius: 999px; }
+.ed-amostra--impacto > span:first-child { border-radius: 2px; background: var(--ui-texto); }
+.ed-amostra--impacto > span:last-child { border-radius: 2px; height: 4px; align-self: end; }
 
 /* Dados */
 .ed-cep__status:empty { display: none; }

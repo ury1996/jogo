@@ -10,9 +10,13 @@
     "e2e": "playwright test --config tests/e2e/playwright.config.mjs"
   },
   "devDependencies": {
+    "@fontsource-variable/cormorant-garamond": "^5.3.0",
     "@fontsource-variable/dm-sans": "^5.2.0",
     "@fontsource-variable/manrope": "^5.2.0",
+    "@fontsource-variable/mulish": "^5.3.0",
     "@fontsource-variable/nunito": "^5.2.0",
+    "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
+    "@fontsource-variable/sora": "^5.3.0",
     "@fontsource-variable/source-sans-3": "^5.2.0",
     "@fontsource/dm-serif-display": "^5.2.0",
     "@fontsource/libre-caslon-text": "^5.2.0",

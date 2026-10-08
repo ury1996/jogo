@@ -25,6 +25,9 @@ export const PARES = {
   editorial: { nome: 'Editorial', titulos: 'DM Serif Display', texto: 'DM Sans', descricao: 'Serifa marcante', indicado: 'Estética, consultorias, marcas sofisticadas' },
   moderna: { nome: 'Moderna', titulos: 'Manrope', texto: 'Manrope', descricao: 'Sem serifa, firme', indicado: 'Empresas, tecnologia, conversão' },
   amigavel: { nome: 'Amigável', titulos: 'Nunito', texto: 'Nunito', descricao: 'Arredondada e leve', indicado: 'Clínicas, saúde, serviços para família' },
+  nobre: { nome: 'Nobre', titulos: 'Cormorant Garamond', texto: 'Mulish', descricao: 'Serifa fina e elegante', indicado: 'Advocacia, finanças, estética de alto padrão' },
+  clara: { nome: 'Clara', titulos: 'Plus Jakarta Sans', texto: 'Plus Jakarta Sans', descricao: 'Limpa e acolhedora', indicado: 'Clínicas, saúde, laboratórios' },
+  geometrica: { nome: 'Geométrica', titulos: 'Sora', texto: 'Sora', descricao: 'Larga e tecnológica', indicado: 'Empresas, tecnologia, agências' },
 };
 
 /** Arquivos copiados (só estilo normal; o editor não oferece itálico). */
@@ -36,6 +39,10 @@ export const ORIGENS = [
   { familia: 'DM Sans', pacote: '@fontsource-variable/dm-sans', arquivo: 'dm-sans-latin-wght-normal.woff2' },
   { familia: 'Manrope', pacote: '@fontsource-variable/manrope', arquivo: 'manrope-latin-wght-normal.woff2' },
   { familia: 'Nunito', pacote: '@fontsource-variable/nunito', arquivo: 'nunito-latin-wght-normal.woff2' },
+  { familia: 'Cormorant Garamond', pacote: '@fontsource-variable/cormorant-garamond', arquivo: 'cormorant-garamond-latin-wght-normal.woff2' },
+  { familia: 'Mulish', pacote: '@fontsource-variable/mulish', arquivo: 'mulish-latin-wght-normal.woff2' },
+  { familia: 'Plus Jakarta Sans', pacote: '@fontsource-variable/plus-jakarta-sans', arquivo: 'plus-jakarta-sans-latin-wght-normal.woff2' },
+  { familia: 'Sora', pacote: '@fontsource-variable/sora', arquivo: 'sora-latin-wght-normal.woff2' },
 ];
 
 /**

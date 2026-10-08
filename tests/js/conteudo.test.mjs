@@ -626,10 +626,11 @@ describe('ícones (§3.7, PDF cap. 8)', () => {
 
 describe('fontes (§3.8, [M16])', () => {
   test('pares do contrato, na ordem, com arquivos de cada família', () => {
-    assert.deepEqual(Object.keys(fontes.pares), ['classica', 'editorial', 'moderna', 'amigavel']);
+    assert.deepEqual(Object.keys(fontes.pares), ['classica', 'editorial', 'moderna', 'amigavel', 'nobre', 'clara', 'geometrica']);
     const familias = {
       classica: ['Libre Caslon Text', 'Source Sans 3'], editorial: ['DM Serif Display', 'DM Sans'],
       moderna: ['Manrope', 'Manrope'], amigavel: ['Nunito', 'Nunito'],
+      nobre: ['Cormorant Garamond', 'Mulish'], clara: ['Plus Jakarta Sans', 'Plus Jakarta Sans'], geometrica: ['Sora', 'Sora'],
     };
     for (const [id, par] of Object.entries(fontes.pares)) {
       assert.deepEqual([par.titulos, par.texto], familias[id], id);
@@ -641,7 +642,9 @@ describe('fontes (§3.8, [M16])', () => {
   test('arquivos woff2 latin copiados, com peso e estilo', () => {
     const esperados = ['libre-caslon-text-latin-400-normal.woff2', 'libre-caslon-text-latin-700-normal.woff2',
       'source-sans-3-latin-wght-normal.woff2', 'dm-serif-display-latin-400-normal.woff2', 'dm-sans-latin-wght-normal.woff2',
-      'manrope-latin-wght-normal.woff2', 'nunito-latin-wght-normal.woff2'];
+      'manrope-latin-wght-normal.woff2', 'nunito-latin-wght-normal.woff2',
+      'cormorant-garamond-latin-wght-normal.woff2', 'mulish-latin-wght-normal.woff2',
+      'plus-jakarta-sans-latin-wght-normal.woff2', 'sora-latin-wght-normal.woff2'];
     assert.deepEqual(fontes.arquivos.map((a) => a.arquivo).sort(), [...esperados].sort());
     for (const a of fontes.arquivos) {
       const buf = fs.readFileSync(path.join(BIB, 'fontes', a.arquivo));

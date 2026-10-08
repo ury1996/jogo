@@ -11,6 +11,9 @@ const ACABAMENTOS = [
   { id: 'classico', nome: 'Clássico', descricao: 'Cantos retos e linhas finas' },
   { id: 'moderno', nome: 'Moderno', descricao: 'Cantos arredondados e blocos suaves' },
   { id: 'direto', nome: 'Direto', descricao: 'Blocos de cor e botões fortes' },
+  { id: 'elegante', nome: 'Elegante', descricao: 'Linhas finas, fotos em arco e ar de alto padrão' },
+  { id: 'suave', nome: 'Suave', descricao: 'Formas orgânicas, cantos bem redondos e tons leves' },
+  { id: 'impacto', nome: 'Impacto', descricao: 'Títulos grandes, contraste forte e cantos secos' },
 ];
 const TOKENS_FAIXA = ['--p', '--p-dark', '--p-soft2', '--p-soft', '--p-tint', '--deep'];
 

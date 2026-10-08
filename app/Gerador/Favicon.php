@@ -13,7 +13,7 @@ use Rankly\Preparo\Texto;
 final class Favicon
 {
     /** Raio do quadrado conforme o acabamento (num viewBox de 64). */
-    private const RAIOS = ['classico' => 6, 'moderno' => 18, 'direto' => 13];
+    private const RAIOS = ['classico' => 6, 'moderno' => 18, 'direto' => 13, 'elegante' => 2, 'suave' => 26, 'impacto' => 8];
 
     /**
      * @param string|null $arquivoLogo imagem raster do logo (png/webp/jpg) ou null

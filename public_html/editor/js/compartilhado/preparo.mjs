@@ -506,7 +506,10 @@ export function prepararSite(docEntrada, lib, opcoes) {
   const contexto = montarContexto(doc, biblioteca, acabamento);
   const u = montarUtilitarios(biblioteca, acabamento);
   const d = montarDados(doc, biblioteca, op, contexto.vars, u);
-  const e = { acabamento, fonte, classico: acabamento === 'classico', moderno: acabamento === 'moderno', direto: acabamento === 'direto' };
+  const e = {
+    acabamento, fonte, classico: acabamento === 'classico', moderno: acabamento === 'moderno', direto: acabamento === 'direto',
+    elegante: acabamento === 'elegante', suave: acabamento === 'suave', impacto: acabamento === 'impacto',
+  };
   const menu = montarMenu(validas, nicho);
   const modo = { editor: op.modo === 'editor', publicar: op.modo === 'publicar' };
   const parciais = comoMapa(biblioteca.parciais);

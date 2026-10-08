@@ -4,7 +4,7 @@ import { criarDocumento, registroCampos, registroListas } from '../../public_htm
 import { itensLista } from '../../public_html/editor/js/compartilhado/textos.mjs';
 import { documentoV1, midiaDeTeste } from './funcoes.mjs';
 
-export const ACABAMENTOS = ['classico', 'moderno', 'direto'];
+export const ACABAMENTOS = ['classico', 'moderno', 'direto', 'elegante', 'suave', 'impacto'];
 export const CORES = ['#c23b6e', '#f5d90a', '#1b2a4a', '#777777'];
 
 const MIDIA = midiaDeTeste();
