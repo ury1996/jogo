@@ -85,6 +85,39 @@ Deixe esse terminal aberto (Ctrl+C desliga). Ele sobe duas coisas:
 
 Use **Chrome ou Firefox** (o Safari não abre endereços `*.localhost`).
 
+## 3.1 Ligar a IA (Gemini, grátis)
+
+A IA escreve os textos e o SEO do site a partir de uma descrição do negócio. Sem chave, o sistema
+funciona igual, só sem os botões de IA.
+
+1. Entre em <https://aistudio.google.com/apikey> com uma conta Google e clique em
+   **Create API key** (Criar chave de API). Copie a chave.
+2. Em `config/config.php`, preencha a chave dentro de `'ia'`:
+
+   ```php
+   'ia' => [
+       'provedor' => 'gemini',
+       'chave' => 'COLE-A-CHAVE-AQUI',
+       'modelo' => 'gemini-2.5-flash',
+       'modelo_reserva' => 'gemini-2.5-flash-lite',
+       'tempo_limite' => 90,
+       'limite_por_hora' => 30,
+   ],
+   ```
+
+   Se o seu `config.php` foi copiado antes desta versão e não tem o bloco `'ia'`, copie-o do
+   `config/config.exemplo.php`. Outra opção é deixar a chave fora do arquivo, numa variável de
+   ambiente: `GEMINI_API_KEY=sua-chave bin/dev.sh`.
+3. Reinicie o `bin/dev.sh` (Ctrl+C e rode de novo).
+
+Para testar sem chave nenhuma, use `'provedor' => 'simulado'`: aparecem textos marcados
+"[IA simulada]", só para ver o fluxo funcionando.
+
+Cuidados com o plano gratuito: tem limite de pedidos por minuto e por dia (quando estoura, o
+sistema tenta o modelo reserva e, se ainda assim falhar, avisa para tentar de novo em alguns
+minutos), e o Google pode usar o conteúdo enviado para melhorar os produtos dele. O sistema só
+envia dados do negócio (nome, cidade, ramo e a descrição), nunca dados de clientes ou leads.
+
 ---
 
 ## 4. Testar o fluxo completo
@@ -108,10 +141,12 @@ Aparece o painel **Meus sites**, vazio.
    o que facilita o teste do item 4.6.)*
 4. **Dados**: preencha nome (ex.: "Clínica Teste Sorriso"), cidade, estado e WhatsApp.
    Repare que a prévia à direita muda a cada tecla. Teste também trocar a cor.
+   Com a IA ligada, aparece o campo **O que você quer no site?**: escreva algo como
+   "Clínica odontológica focada em implantes e ortodontia, atendemos convênios e aos sábados".
 
    ![Passo 3 do assistente](img/como-testar/2-dados.jpg)
 
-5. Clique em **Gerar meu site**.
+5. Clique em **Gerar meu site**. Com descrição, a IA leva de 10 a 40 segundos escrevendo os textos.
 
 ### 4.3 Editar
 
@@ -130,6 +165,10 @@ Coisas para experimentar:
 - **Lista de serviços**: passe o mouse na seção de serviços e use **Adicionar** / **Remover** item.
 - **Estilo**: troque cor, acabamento (Clássico, Moderno, Direto) e fontes.
 - **Computador / Celular** no alto, e **Visualizar** para ver sem as ferramentas (Esc volta).
+- **IA**: **Escrever com IA** na barra do alto reescreve o site inteiro; o ícone de brilho na
+  barrinha de cada seção reescreve só aquela seção. **Desfazer** volta ao que estava. A IA não
+  escreve números, depoimentos, nota do Google nem nomes da equipe: isso continua para você
+  conferir na publicação.
 
 O status embaixo do nome do site mostra **Salvando…** e **Salvo**: o salvamento é automático.
 

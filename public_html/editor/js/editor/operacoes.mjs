@@ -741,3 +741,23 @@ export function atalhoHistorico(ev) {
 }
 
 export { nichoDe, especialidade, itensLista, limitesLista };
+
+/* ---------------------------------------------------------------- IA */
+
+// Mesmas regras de app/Lib/Ia/GeradorConteudo.php: botões, nota do Google, números,
+// depoimentos, clientes e equipe ficam fora do que a IA escreve.
+const IA_CAMPOS_FORA = ['cta', 'cta2', 'botao', 'link', 'mapa'];
+const IA_LISTAS = { serv: ['t', 'd'], dif: ['t', 'd'], passos: ['t', 'd'], faq: ['q', 'a'], sobrel: ['t'] };
+
+/** A seção tem algum texto que a IA pode reescrever? (mostra o botão "Reescrever com IA"). */
+export function secaoTemTextosIa(lib, tipo) {
+  for (const [chave, def] of Object.entries(registroCampos(lib))) {
+    if (def.dono !== tipo || !['texto', 'texto-longo'].includes(def.tipo ?? 'texto')) continue;
+    if (def.grupo) {
+      if (!IA_CAMPOS_FORA.includes(def.campo) && def.grupo !== 'aval' && chave !== 'rodape.texto') return true;
+    } else if ((IA_LISTAS[def.lista] ?? []).includes(def.campo)) {
+      return true;
+    }
+  }
+  return false;
+}

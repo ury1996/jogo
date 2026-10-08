@@ -25,6 +25,10 @@ export function criarBarra(ed) {
     type: 'button', class: 'icone-btn', 'aria-label': 'Histórico de publicações', title: 'Histórico de publicações',
     'aria-haspopup': 'dialog', onclick: () => ed.abrirVersoes(),
   }, icone('historico'));
+  const ia = el('button', {
+    type: 'button', class: 'btn btn--fantasma ed-barra__ia', hidden: true, 'aria-haspopup': 'dialog',
+    title: 'Escrever os textos do site com IA', onclick: () => ed.abrirIa(),
+  }, icone('brilho'), el('span', { class: 'ed-barra__rotulo' }, 'Escrever com IA'));
   const visualizar = el('button', { type: 'button', class: 'btn btn--fantasma ed-barra__visualizar', onclick: () => ed.definirVisualizar(true) },
     icone('olho'), el('span', { class: 'ed-barra__rotulo' }, 'Visualizar'));
   const publicar = el('button', { type: 'button', class: 'btn btn--primario ed-barra__publicar', 'aria-haspopup': 'dialog' },
@@ -38,7 +42,7 @@ export function criarBarra(ed) {
     el('div', { class: 'editor__barra-dir' },
       el('div', { class: 'ed-barra__historia', role: 'group', 'aria-label': 'Desfazer e refazer' }, desfazer, refazer),
       el('span', { class: 'ed-barra__sep', 'aria-hidden': 'true' }),
-      historico, visualizar, publicar));
+      historico, ia, visualizar, publicar));
 
   function janelaConflito() {
     const c = ed.estado.conflito;
@@ -91,5 +95,5 @@ export function criarBarra(ed) {
     atualizarStatus();
   }
 
-  return { elemento, atualizar, atualizarStatus, focarPublicar: () => publicar.focus(), focarVisualizar: () => visualizar.focus() };
+  return { elemento, mostrarIa: (sim) => { ia.hidden = !sim; }, atualizar, atualizarStatus, focarPublicar: () => publicar.focus(), focarVisualizar: () => visualizar.focus() };
 }

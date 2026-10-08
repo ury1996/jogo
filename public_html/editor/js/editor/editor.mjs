@@ -32,6 +32,7 @@ import { abrirSeletorIcone } from './seletor-icones.mjs';
 import { abrirGaleriaOpcoes, abrirGaleriaAdicionar, abrirTrocarModelo } from './galerias.mjs';
 import { fluxoPublicar } from './publicar.mjs';
 import { abrirVersoes } from './versoes.mjs';
+import { iaDisponivel, abrirJanelaIa } from '../ia.mjs';
 
 const ID_CSS_TELA = 'ed-css-tela';
 
@@ -179,6 +180,10 @@ export async function montar(alvo, { siteId } = {}) {
     abrirTrocarModelo: () => abrirTrocarModelo(ed),
     abrirVersoes: () => abrirVersoes(ed),
     publicar: (botao) => fluxoPublicar(ed, botao),
+    abrirIa(indice = null) {
+      const s = Number.isInteger(indice) ? estado.doc.secoes[indice] : null;
+      abrirJanelaIa(ed, s ? { escopo: s.tipo, nomeSecao: op.nomeSecao(lib, s.tipo) } : {});
+    },
 
     passarOpcao(indice, delta) {
       const s = estado.doc.secoes[indice];
@@ -372,6 +377,12 @@ export async function montar(alvo, { siteId } = {}) {
   tela.renderizar();
   barra.atualizar();
   painel.atualizar();
+  iaDisponivel().then((sim) => {
+    if (ed.desmontado) return;
+    ed.iaDisponivel = sim;
+    barra.mostrarIa(sim);
+    tela.posicionar?.();
+  });
   estado.pronto?.then?.((r) => {
     if (r?.recuperado && !r.conflito) aviso('Recuperamos alterações que não tinham chegado ao servidor.', { acao: { rotulo: 'Desfazer', fn: desfazer } });
   }).catch(() => {});

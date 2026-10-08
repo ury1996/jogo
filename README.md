@@ -127,6 +127,24 @@ Documentos:
 
 ---
 
+## IA (textos e SEO a partir de uma descrição)
+
+O assistente e o editor têm "Escrever com IA": a pessoa descreve o negócio e a IA preenche os
+textos do site (títulos, serviços, diferenciais, passos, perguntas frequentes) e o título e a
+descrição para o Google, com palavras-chave locais.
+
+- Provedor configurável em `config.php` → `'ia'`: `gemini` (chave grátis em
+  <https://aistudio.google.com/apikey>, ou variável de ambiente `GEMINI_API_KEY`), `simulado`
+  (textos de teste, sem internet) ou `desligado`. Sem chave, os botões somem.
+- Código: `app/Lib/Ia/` (provedores e `GeradorConteudo`), `app/Api/Ia.php`
+  (`GET /api/ia`, `POST /api/sites/{id}/ia`), `public_html/editor/js/ia.mjs`.
+- Travas do servidor, valham o que valerem as instruções dadas à IA: só chaves de conteúdo que
+  existem e dentro do limite de caracteres; nunca números, depoimentos, nota do Google, clientes
+  nem nomes da equipe; termos proibidos do conselho do nicho são descartados; nome e cidade viram
+  `{nome}`/`{cidade}`; listas respeitam mínimo e máximo de itens; limite de pedidos por usuário
+  por hora. O resultado entra no editor como uma alteração desfazível.
+- Se o modelo principal estourar a cota gratuita ou cair, o sistema tenta o `modelo_reserva`.
+
 ## Testes
 
 Tudo de uma vez:

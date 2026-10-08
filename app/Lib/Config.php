@@ -49,6 +49,14 @@ final class Config
             'max_megapixels' => 40,
             'sessao_dias' => 7,
             'tamanho_max_documento_kb' => 512,
+            'ia' => [
+                'provedor' => 'gemini',
+                'chave' => '',
+                'modelo' => 'gemini-2.5-flash',
+                'modelo_reserva' => 'gemini-2.5-flash-lite',
+                'tempo_limite' => 90,
+                'limite_por_hora' => 30,
+            ],
         ];
     }
 

@@ -38,6 +38,7 @@ final class Api
         $leads = new Leads();
         $pub = new Publicacao();
         $versoes = new Versoes();
+        $ia = new Ia();
         $publica = ['publica' => true];
         // Sem token CSRF (ainda não há sessão), mas só aceitas da própria origem do editor:
         // sem isso, uma página de terceiros faz o navegador da vítima entrar na conta do
@@ -69,6 +70,9 @@ final class Api
         $r->post("/api/sites/{$id}/reverter", [$pub, 'reverter']);
         $r->get("/api/sites/{$id}/versoes", [$versoes, 'listar']);
         $r->get("/api/sites/{$id}/versoes/{n:\d+}", [$versoes, 'obter']);
+
+        $r->get('/api/ia', [$ia, 'estado']);
+        $r->post("/api/sites/{$id}/ia", [$ia, 'gerar']);
 
         $r->get("/api/sites/{$id}/leads", [$leads, 'listar']);
         $r->get("/api/sites/{$id}/leads.csv", [$leads, 'csv']);

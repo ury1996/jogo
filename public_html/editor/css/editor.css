@@ -842,3 +842,12 @@ button.card-opcao:hover, a.card-opcao:hover { transform: translateY(-2px); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }
+
+/* ---------------------------------------------------------------- IA (escrever o site) */
+.ia-janela { display: flex; flex-direction: column; gap: 8px; }
+.ia-janela__descricao { width: 100%; min-height: 128px; resize: vertical; font: inherit; line-height: 1.5; }
+.ia-janela__contador { align-self: flex-end; font-size: .8125rem; color: var(--ui-texto-3); font-variant-numeric: tabular-nums; }
+.ia-janela__regras { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 6px; font-size: .875rem; color: var(--ui-texto-2); }
+.ia-janela__regras li { display: flex; gap: 8px; align-items: flex-start; }
+.ia-janela__regras svg { flex: none; width: 16px; height: 16px; margin-top: 2px; color: var(--ui-ok); }
+.ed-barra__ia svg { color: var(--ui-pri); }

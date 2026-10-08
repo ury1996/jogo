@@ -25,6 +25,8 @@ final class Aplicacao
     private ?Log $log = null;
     private ?Mailer $mailer = null;
     private ?object $gerador = null;
+    private ?\Rankly\Lib\Ia\Provedor $ia = null;
+    private bool $iaDefinida = false;
 
     private function __construct(private readonly array $config, private readonly string $raiz)
     {
@@ -207,6 +209,45 @@ final class Aplicacao
     public function definirGerador(?object $gerador): void
     {
         $this->gerador = $gerador;
+    }
+
+    /**
+     * Provedor de IA configurado (ia.provedor), ou null se desligado / sem chave.
+     * "gemini" usa ia.chave ou a variável de ambiente GEMINI_API_KEY.
+     */
+    public function ia(): ?\Rankly\Lib\Ia\Provedor
+    {
+        if ($this->iaDefinida) {
+            return $this->ia;
+        }
+        $this->iaDefinida = true;
+        $provedor = (string) $this->config('ia.provedor', 'gemini');
+        if ($provedor === 'simulado') {
+            return $this->ia = new \Rankly\Lib\Ia\Simulado();
+        }
+        if ($provedor !== 'gemini') {
+            return $this->ia = null;
+        }
+        $chave = trim((string) $this->config('ia.chave', ''));
+        if ($chave === '') {
+            $chave = trim((string) (getenv('GEMINI_API_KEY') ?: ''));
+        }
+        if ($chave === '') {
+            return $this->ia = null;
+        }
+        return $this->ia = new \Rankly\Lib\Ia\Gemini(
+            $chave,
+            (string) $this->config('ia.modelo', 'gemini-2.5-flash'),
+            (string) $this->config('ia.modelo_reserva', ''),
+            max(10, (int) $this->config('ia.tempo_limite', 90)),
+        );
+    }
+
+    /** Troca o provedor de IA (testes). */
+    public function definirIa(?\Rankly\Lib\Ia\Provedor $ia): void
+    {
+        $this->ia = $ia;
+        $this->iaDefinida = true;
     }
 
     /** Segredo para o HMAC dos IPs (segredo_ip; em dev, cai para segredo_app). */

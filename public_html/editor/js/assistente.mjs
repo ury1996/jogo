@@ -25,6 +25,7 @@ import {
 import { criarDocumento, aplicarModelo, receitaModelo } from './compartilhado/documento.mjs';
 import { normalizarCor } from './compartilhado/paleta.mjs';
 import { EstadoEditor } from './estado.mjs';
+import { iaDisponivel, pedirConteudo, aplicarPatchIa, guardarDescricao, resumoResultado, MIN_DESCRICAO, MAX_DESCRICAO } from './ia.mjs';
 
 export const MAX_NOME = 60;
 export const MAX_CIDADE = 40;
@@ -36,7 +37,7 @@ const MODELO_MINIATURA_NICHO = 'moderno';
 
 /** Estado vazio do assistente. */
 export function estadoInicial() {
-  return { nicho: null, especialidade: null, modelo: null, dados: { nome: '', cidade: '', uf: '', whatsapp: '' }, cor: null };
+  return { nicho: null, especialidade: null, modelo: null, dados: { nome: '', cidade: '', uf: '', whatsapp: '' }, cor: null, descricao: '' };
 }
 
 /** Dados de exemplo do nicho (nome, cidade, UF, WhatsApp + exemplo.dados: telefone, e-mail, endereço…). */
@@ -158,6 +159,7 @@ function lerSessao() {
       modelo: typeof e.modelo === 'string' ? e.modelo : null,
       dados: { ...base.dados, ...(e.dados && typeof e.dados === 'object' ? e.dados : {}) },
       cor: normalizarCor(e.cor),
+      descricao: typeof e.descricao === 'string' ? e.descricao.slice(0, MAX_DESCRICAO) : '',
     };
   } catch {
     return estadoInicial();
@@ -564,6 +566,25 @@ function passoDados(alvo, lib, limpeza) {
   });
   const cWhats = campo({ rotulo: 'WhatsApp', entrada: whatsapp, ajuda: 'Com DDD. Os botões do site abrem uma conversa com este número.' });
 
+  /* ---------- descrição para a IA (só aparece se a IA estiver configurada) */
+  const descricao = el('textarea', {
+    name: 'descricao', rows: 4, maxlength: MAX_DESCRICAO,
+    placeholder: 'Ex.: Clínica odontológica focada em implantes e ortodontia. Atendemos convênios e aos sábados.',
+  });
+  descricao.value = estado.descricao ?? '';
+  const cDescricao = campo({
+    rotulo: 'O que você quer no site?', entrada: descricao, opcional: true, max: MAX_DESCRICAO,
+    ajuda: 'Descreva o negócio, os serviços e os diferenciais. A IA escreve os textos e o SEO do site a partir disso. Vazio usa os textos prontos do nicho.',
+  });
+  cDescricao.elemento.hidden = true;
+  iaDisponivel().then((sim) => {
+    cDescricao.elemento.hidden = !sim;
+  });
+  descricao.addEventListener('input', () => {
+    estado.descricao = descricao.value;
+    guardar();
+  });
+
   /* ---------- cor */
   const cores = el('div', { class: 'cor-bolinhas', role: 'group', 'aria-labelledby': 'cor-rotulo' });
   const avisoCor = el('p', { class: 'aviso-inline aviso-inline--alerta', role: 'status', hidden: true },
@@ -738,6 +759,7 @@ function passoDados(alvo, lib, limpeza) {
     el('div', { class: 'campo__linha' }, cCidade.elemento, cUf.elemento),
     cEspecialidade?.elemento,
     cWhats.elemento,
+    cDescricao.elemento,
     el('div', { class: 'campo' },
       el('span', { class: 'campo__rotulo', id: 'cor-rotulo' }, 'Cor principal'),
       cores,
@@ -798,9 +820,30 @@ function passoDados(alvo, lib, limpeza) {
         falhaLogo = e?.mensagem ?? 'Não foi possível enviar o logo.';
       }
     }
+    let resultadoIa = null;
+    let falhaIa = null;
+    const textoIa = cDescricao.elemento.hidden ? '' : descricao.value.trim();
+    if (textoIa.length >= MIN_DESCRICAO) {
+      try {
+        guardarDescricao(criado.id, textoIa);
+        progresso.textContent = 'A IA está escrevendo os textos do seu site… isso leva de 10 a 40 segundos.';
+        const patch = await pedirConteudo(criado.id, textoIa, 'site');
+        const atual = (await api.get(`/sites/${criado.id}`)).site;
+        await api.put(`/sites/${criado.id}`, { revisao: atual.revisao, documento: aplicarPatchIa(atual.documento, patch) });
+        resultadoIa = patch;
+      } catch (e) {
+        if (e?.status === 401) return;
+        falhaIa = e?.mensagem ?? 'A IA não respondeu.';
+      }
+    }
     recomecar();
     navegar(`#/site/${criado.id}`);
     aviso('Seu site está pronto. Clique em qualquer texto para editar.', { tipo: 'ok', duracao: 8000 });
+    if (resultadoIa) {
+      aviso(resumoResultado(resultadoIa), { tipo: 'ok', duracao: 10000 });
+      for (const a of resultadoIa.avisos ?? []) aviso(a, { duracao: 10000 });
+    }
+    if (falhaIa) aviso(`O site foi criado com os textos prontos do nicho, mas a IA falhou: ${falhaIa} Tente de novo pelo botão "Escrever com IA" no editor.`, { tipo: 'erro', duracao: 12000 });
     if (falhaLogo) aviso(`O site foi criado, mas o logo não foi enviado: ${falhaLogo} Envie de novo na aba Dados.`, { tipo: 'erro', duracao: 10000 });
   });
 

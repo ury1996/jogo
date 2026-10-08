@@ -278,7 +278,7 @@ export function criarTela(ed) {
     const s = doc.secoes[indice];
     if (!s) return;
     const { posicao, total } = op.posicaoOpcao(lib, s.tipo, s.opcao);
-    const assinatura = `${indice}|${s.tipo}|${s.opcao}|${doc.secoes.length}|${ed.estado.podeDesfazer}`;
+    const assinatura = `${indice}|${s.tipo}|${s.opcao}|${doc.secoes.length}|${ed.estado.podeDesfazer}|${ed.iaDisponivel}`;
     if (assinatura === assinaturaBarrinha && barrinha.childElementCount > 0) return;
     assinaturaBarrinha = assinatura;
     const nome = op.nomeSecao(lib, s.tipo);
@@ -290,6 +290,7 @@ export function criarTela(ed) {
       total > 1 ? botaoBarra('Próxima opção', 'direita', () => ed.passarOpcao(indice, 1)) : null,
       el('span', { class: 'ed-barrinha__sep', 'aria-hidden': 'true' }),
       botaoBarra('Ver todas as opções', 'grade', () => ed.abrirGaleriaOpcoes(indice)),
+      ed.iaDisponivel && op.secaoTemTextosIa(lib, s.tipo) ? botaoBarra('Reescrever com IA', 'brilho', () => ed.abrirIa(indice)) : null,
       botaoBarra('Mover para cima', 'setaCima', () => ed.moverSecao(indice, -1), { desabilitado: !op.podeMoverSecao(doc, lib, indice, -1) }),
       botaoBarra('Mover para baixo', 'setaBaixo', () => ed.moverSecao(indice, 1), { desabilitado: !op.podeMoverSecao(doc, lib, indice, 1) }),
       botaoBarra('Remover seção', 'lixeira', () => ed.removerSecao(indice), {

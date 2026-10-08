@@ -76,4 +76,19 @@ return [
 
     // Sessão do editor: expira após N dias sem uso.
     'sessao_dias' => 7,
+
+    // IA que escreve os textos do site a partir de uma descrição do negócio.
+    // provedor: "gemini" (Google AI Studio), "simulado" (textos de teste, sem internet) ou
+    // "desligado" (esconde os botões de IA). A chave é criada em https://aistudio.google.com/apikey
+    // e também pode vir da variável de ambiente GEMINI_API_KEY (tem prioridade se 'chave' estiver vazia).
+    // Sem chave, o provedor gemini fica indisponível e o editor esconde os botões.
+    // modelo_reserva é usado quando o principal estoura a cota gratuita ou está fora do ar.
+    'ia' => [
+        'provedor' => 'gemini',
+        'chave' => '',
+        'modelo' => 'gemini-2.5-flash',
+        'modelo_reserva' => 'gemini-2.5-flash-lite',
+        'tempo_limite' => 90,          // segundos por pedido
+        'limite_por_hora' => 30,       // pedidos por usuário por hora
+    ],
 ];
