@@ -117,15 +117,14 @@ export function nichosOrdenados(lib) {
 }
 
 /** Modelos na ordem de apresentação (Clássico, Moderno, Direto; outros depois). */
-export function modelosOrdenados(lib) {
+export function modelosOrdenados(lib, nicho = null) {
   const ordem = ['classico', 'moderno', 'direto'];
+  const posicao = (m) => (Number.isFinite(m.ordem) ? m.ordem : (ordem.indexOf(m.id) < 0 ? 99 : ordem.indexOf(m.id)));
   return Object.values(mapa(lib?.modelos))
     .filter((m) => m && typeof m === 'object' && typeof m.id === 'string')
-    .sort((a, b) => {
-      const ia = ordem.indexOf(a.id);
-      const ib = ordem.indexOf(b.id);
-      return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || String(a.nome).localeCompare(String(b.nome), 'pt-BR');
-    });
+    // Modelos com "nichos" são exclusivos daqueles nichos.
+    .filter((m) => !nicho || !Array.isArray(m.nichos) || m.nichos.includes(nicho))
+    .sort((a, b) => posicao(a) - posicao(b) || String(a.nome).localeCompare(String(b.nome), 'pt-BR'));
 }
 
 /** Nome do par de fontes ("Editorial") ou "". */

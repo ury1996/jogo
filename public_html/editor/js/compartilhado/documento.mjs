@@ -67,8 +67,10 @@ export function fontePadrao(lib) {
 }
 
 function estiloPadrao(lib, nicho, modeloId) {
-  const padroes = comoMapa(pegar(comoMapa(nicho.padroesPorModelo), modeloId));
   const modelo = comoMapa(pegar(comoMapa(comoMapa(lib).modelos), modeloId));
+  // Cor e fonte: do nicho para este modelo; senão o padrão do próprio modelo (modelos exclusivos de um nicho).
+  const doNicho = pegar(comoMapa(nicho.padroesPorModelo), modeloId);
+  const padroes = comoMapa(ehMapa(doNicho) ? doNicho : modelo.padrao);
   return {
     cor: normalizarCor(padroes.cor) ?? COR_PADRAO,
     fonte: fonteValida(lib, padroes.fonte) ? padroes.fonte : fontePadrao(lib),
@@ -368,4 +370,15 @@ export function definicaoCampo(registro, chave) {
   if (partes.length === 2) return pegar(registro, chave) ?? null;
   if (partes.length === 3) return pegar(registro, `${partes[0]}.*.${partes[2]}`) ?? null;
   return null;
+}
+
+/**
+ * O modelo pode ser usado neste nicho? Modelo sem "nichos" vale para todos; com "nichos",
+ * só para os listados (modelos exclusivos de um nicho).
+ */
+export function modeloDoNicho(lib, modeloId, nichoId) {
+  const modelo = pegar(comoMapa(comoMapa(lib).modelos), modeloId);
+  if (!ehMapa(modelo)) return false;
+  const nichos = pegar(modelo, 'nichos');
+  return !Array.isArray(nichos) || nichos.includes(nichoId);
 }

@@ -68,7 +68,8 @@ final class Sites
         if (!is_string($nichoId) || !isset($lib['nichos'][$nichoId])) {
             throw ErroHttp::invalido('Escolha um tipo de negócio válido.', ['campo' => 'nicho']);
         }
-        if (!is_string($modeloId) || !isset($lib['modelos'][$modeloId])) {
+        if (!is_string($modeloId) || !isset($lib['modelos'][$modeloId])
+            || (is_string($nichoId ?? null) && !Documento::modeloDoNicho($lib, $modeloId, $nichoId))) {
             throw ErroHttp::invalido('Escolha um modelo válido.', ['campo' => 'modelo']);
         }
         $nicho = $lib['nichos'][$nichoId];

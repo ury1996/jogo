@@ -55,6 +55,9 @@ final class ValidadorDocumento
         if (!is_string($modelo) || !isset($lib['modelos'][$modelo])) {
             throw self::erro('Modelo desconhecido.', 'modelo');
         }
+        if (is_string($doc['nicho'] ?? null) && !Documento::modeloDoNicho($lib, $modelo, $doc['nicho'])) {
+            throw self::erro('Este modelo não é do tipo de negócio do site.', 'modelo');
+        }
         $esp = $doc['especialidade'] ?? null;
         if ($esp !== null && $esp !== '') {
             $ids = array_map(static fn ($e): mixed => is_array($e) ? ($e['id'] ?? null) : null, (array) ($lib['nichos'][$nicho]['especialidades'] ?? []));

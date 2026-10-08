@@ -100,8 +100,10 @@ final class Documento
 
     private static function estiloPadrao(mixed $lib, array $nicho, string $modeloId): array
     {
-        $padroes = Texto::comoMapa(Texto::pegar(Texto::comoMapa(Texto::pegar($nicho, 'padroesPorModelo')), $modeloId));
         $modelo = Texto::comoMapa(Texto::pegar(Texto::comoMapa(Texto::pegar(Texto::comoMapa($lib), 'modelos')), $modeloId));
+        // Cor e fonte: do nicho para este modelo; senão o padrão do próprio modelo (modelos exclusivos de um nicho).
+        $doNicho = Texto::pegar(Texto::comoMapa(Texto::pegar($nicho, 'padroesPorModelo')), $modeloId);
+        $padroes = Texto::comoMapa(Texto::ehMapa($doNicho) ? $doNicho : Texto::pegar($modelo, 'padrao'));
         $fonte = Texto::pegar($padroes, 'fonte');
         $acabamento = Texto::pegar($modelo, 'acabamento');
         return [
@@ -178,6 +180,20 @@ final class Documento
             'registro' => ['numero' => $t($r, 'numero'), 'uf' => $t($r, 'uf'), 'responsavel' => $t($r, 'responsavel')],
             'redes' => $redesCompletas,
         ];
+    }
+
+    /**
+     * O modelo pode ser usado neste nicho? Modelo sem "nichos" vale para todos; com "nichos",
+     * só para os listados (modelos exclusivos de um nicho).
+     */
+    public static function modeloDoNicho(mixed $lib, string $modeloId, string $nichoId): bool
+    {
+        $modelo = Texto::pegar(Texto::comoMapa(Texto::pegar(Texto::comoMapa($lib), 'modelos')), $modeloId);
+        if (!Texto::ehMapa($modelo)) {
+            return false;
+        }
+        $nichos = Texto::pegar($modelo, 'nichos');
+        return !is_array($nichos) || !array_is_list($nichos) || in_array($nichoId, $nichos, true);
     }
 
     /** A seção e a opção existem na biblioteca? */

@@ -1,7 +1,7 @@
 // Galerias com miniaturas REAIS (o site do cliente renderizado de verdade, reduzido):
 //   - opções de uma seção (PDF §7.4 "Ver todas as opções")
 //   - adicionar seção (tipos que ainda não estão no site)
-//   - trocar modelo (os 3 modelos, como passo desfazível)
+//   - trocar modelo (os modelos do nicho, como passo desfazível)
 
 import { el, icone, modal, aviso } from '../ui.mjs';
 import { miniatura } from '../previa.mjs';
@@ -114,7 +114,7 @@ export function abrirTrocarModelo(ed) {
   const doc = ed.estado.doc;
   const minis = [];
   let janela = null;
-  const cartoes = modelosOrdenados(lib).map((m) => {
+  const cartoes = modelosOrdenados(lib, ed.estado.doc.nicho).map((m) => {
     const ativo = m.id === doc.modelo;
     const mini = miniatura(ativo ? doc : op.trocarModelo(doc, lib, m.id), lib, { midia: ed.estado.midia });
     minis.push(mini);

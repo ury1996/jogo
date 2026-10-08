@@ -325,7 +325,7 @@ async function passoNicho(alvo, lib, limpeza) {
     continuar,
     el('div', { class: 'cab-assistente' },
       el('h1', { class: 'titulo-pagina titulo-assistente' }, 'Qual é o tipo do seu negócio?'),
-      el('p', { class: 'subtitulo' }, 'Cada tipo tem 3 modelos prontos, com seções e textos pensados para ele. Depois é só trocar o que quiser.')),
+      el('p', { class: 'subtitulo' }, 'Cada tipo tem modelos prontos, com seções e textos pensados para ele. Depois é só trocar o que quiser.')),
     grade));
 
   for (const nicho of nichosOrdenados(lib)) {
@@ -472,7 +472,7 @@ async function passoModelo(alvo, lib, limpeza, { siteId = null } = {}) {
       el('a', { class: 'link-voltar', href: '#/novo' }, icone('voltar'), 'Trocar tipo de negócio'),
       el('div', { class: 'cab-assistente' },
         el('h1', { class: 'titulo-pagina titulo-assistente' }, `Escolha um modelo de ${nichoNoTitulo(lib, nichoId)}`),
-        el('p', { class: 'subtitulo' }, 'Os três já vêm com seções e textos para o seu tipo de negócio. Muda a estrutura e o estilo; dá para trocar depois.')),
+        el('p', { class: 'subtitulo' }, 'Todos já vêm com seções e textos para o seu tipo de negócio. Muda a estrutura e o estilo; dá para trocar depois.')),
     ]
     : [
       el('a', { class: 'link-voltar', href: `#/site/${siteId}` }, icone('voltar'), 'Voltar ao editor'),
@@ -482,7 +482,7 @@ async function passoModelo(alvo, lib, limpeza, { siteId = null } = {}) {
     ];
   alvo.replaceChildren(el('div', { class: 'pagina assistente' }, ...cab, grade));
 
-  for (const modelo of modelosOrdenados(lib)) {
+  for (const modelo of modelosOrdenados(lib, nichoId)) {
     const ativo = novo ? estado.modelo === modelo.id : emUso === modelo.id;
     const ehEmUso = !novo && emUso === modelo.id;
     const doc = docDoModelo(modelo.id);
