@@ -32,6 +32,9 @@ Documentos:
 
 - [`docs/DEMONSTRACAO.md`](docs/DEMONSTRACAO.md): modo demonstração (Codespaces, Docker, servidor de
   testes), tudo num endereço só.
+- [`docs/HOSPEDAGEM.md`](docs/HOSPEDAGEM.md): instalar numa hospedagem comum da Hostinger, sem SSH
+  e sem VPS: dois arquivos pelo Gerenciador de Arquivos e um instalador pela internet
+  (`bin/empacotar-hospedagem.php` gera o pacote).
 - [`docs/HOSTINGER-VPS.md`](docs/HOSTINGER-VPS.md): servidor de testes sempre no ar numa VPS da
   Hostinger (ou qualquer Ubuntu), com HTTPS, instalado e atualizado por `bin/instalar-vps.sh`.
 - [`docs/COMO-TESTAR.md`](docs/COMO-TESTAR.md): passo a passo para rodar no seu computador (com SQLite)
@@ -234,6 +237,10 @@ docs/                ARQUITETURA.md, especificacao-v0.2.md
 ---
 
 ## Implantação na Hostinger (Cloud Professional)
+
+> **Caminho mais simples, já testado:** [`docs/HOSPEDAGEM.md`](docs/HOSPEDAGEM.md) instala tudo num
+> subdomínio, com os sites em `/s/nome-do-site/` (sem curinga). Os passos abaixo são para a
+> instalação completa, com um subdomínio por site.
 
 O plano tem PHP, MySQL, cron, SSH e servidor LiteSpeed (lê os `.htaccess`). Os passos abaixo
 seguem o desenho do sistema; os itens marcados com **(confirmar)** dependem do painel da Hostinger e

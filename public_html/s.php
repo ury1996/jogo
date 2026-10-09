@@ -11,8 +11,9 @@ declare(strict_types=1);
 
 header_remove('X-Powered-By');
 
+$raizProjeto = require __DIR__ . '/rankly-raiz.php';
 /** @var \Rankly\Aplicacao $app */
-$app = require dirname(__DIR__) . '/app/bootstrap.php';
+$app = require $raizProjeto . '/app/bootstrap.php';
 
 $uri = (string) ($_SERVER['REQUEST_URI'] ?? '/');
 $caminho = (string) (parse_url($uri, PHP_URL_PATH) ?: '/');
@@ -29,7 +30,7 @@ if ($app->config('sites_no_caminho', false) !== true || $partes === null) {
 
 if ($partes[1] === '/_lead') {
     $slugDoCaminho = $partes[0];
-    require dirname(__DIR__) . '/sites/_lead.php';
+    require $raizProjeto . '/sites/_lead.php';
     exit;
 }
 

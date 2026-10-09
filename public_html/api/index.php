@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 try {
     /** @var \Rankly\Aplicacao $app */
-    $app = require dirname(__DIR__, 2) . '/app/bootstrap.php';
+    $app = require (require dirname(__DIR__) . '/rankly-raiz.php') . '/app/bootstrap.php';
 } catch (\Throwable $e) {
     // Configuração ausente/inválida: responde sem expor detalhes e registra no log do PHP.
     error_log('Rankly: falha ao iniciar a API: ' . $e->getMessage());
