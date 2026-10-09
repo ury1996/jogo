@@ -9,7 +9,7 @@ import { Api, estado, completarDocumento, dadosDoNegocio } from './apoio/ambient
 async function abrirEditor(page, playwright, { nicho = 'clinicas', modelo = 'moderno', nome = 'Clínica Revisão' } = {}) {
   const e = estado();
   const api = await Api.entrar(playwright.request);
-  const { site } = await api.criarSite({ nicho, modelo, dados: { nome, cidade: 'Jundiaí', uf: 'SP', whatsapp: '(11) 98765-4321' } });
+  const { site } = await api.criarSite({ nicho, modelo, fotosExemplo: false, dados: { nome, cidade: 'Jundiaí', uf: 'SP', whatsapp: '(11) 98765-4321' } });
   const login = await page.request.post(`${e.api}/api/auth/login`, { data: { email: e.usuario.email, senha: e.usuario.senha } });
   expect(login.ok()).toBeTruthy();
   await page.goto(`${e.api}/editor/#/sites`);

@@ -27,13 +27,13 @@ test('entrar, criar pelo assistente, editar, publicar e receber o contato', asyn
   await page.getByRole('button', { name: /^Advocacia/ }).click();
   await expect(page.getByRole('heading', { name: /Escolha um modelo/ })).toBeVisible();
   await page.getByRole('listitem', { name: 'Direto' }).getByRole('button', { name: 'Usar este modelo' }).click();
-  const dados = page.getByRole('form', { name: 'Conte sobre o seu negócio' });
+  const dados = page.getByRole('form', { name: 'Quase pronto: o seu negócio' });
   await expect(dados).toBeVisible();
   await dados.getByLabel('Nome da empresa').fill(NOME);
   await dados.getByLabel('Cidade').fill('Campinas');
   await dados.getByLabel('Estado').selectOption('SP');
   await dados.getByLabel('WhatsApp', { exact: true }).fill('(19) 99876-5432');
-  await dados.getByRole('button', { name: 'Gerar meu site' }).click();
+  await dados.getByRole('button', { name: /^Gerar / }).click();
 
   // Editor: troca o título principal direto no site.
   await expect(page).toHaveURL(/#\/site\/\d+$/);
