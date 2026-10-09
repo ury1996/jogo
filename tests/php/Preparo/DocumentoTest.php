@@ -11,7 +11,7 @@ use Rankly\Preparo\Documento;
 final class DocumentoTest extends TestCase
 {
     private const CHAVES = ['versaoEsquema', 'nicho', 'especialidade', 'modelo', 'estilo', 'dados', 'secoes', 'textos', 'listas', 'imagens',
-        'icones', 'confirmados', 'rastreamento', 'seo'];
+        'icones', 'iconesExtras', 'confirmados', 'rastreamento', 'seo'];
 
     private static ?array $lib = null;
 

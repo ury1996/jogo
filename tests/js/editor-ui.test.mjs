@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { fileURLToPath } from 'node:url';
 import {
   mascaraTelefone, problemaWhatsapp, corDominante, tempoRelativo, problemaArquivoLogo, corClaraDemais,
-  formatarTamanho, CORES_SUGERIDAS, UFS,
+  formatarTamanho, CORES_SUGERIDAS, UFS, porcentagemEstimada, novaEstimativa, TETO_ESTIMATIVA,
 } from '../../public_html/editor/js/ui.mjs';
 import { cssSite, cssFontes, nichosOrdenados, modelosOrdenados, tiposOrdenados } from '../../public_html/editor/js/biblioteca.mjs';
 import { paletaEscopada, opcoesPreparo } from '../../public_html/editor/js/previa.mjs';
@@ -183,4 +183,28 @@ test('paleta escopada por prévia e opções do preparo no modo editor', () => {
   assert.equal(o.urlMidia, '/api/media/{id}/{w}');
   assert.deepEqual(o.midia, { m_1: {} });
   assert.equal(o.ano, new Date().getFullYear());
+});
+
+/* ------------------------------------------------------------------ botão-barra de progresso */
+
+test('porcentagem estimada: começa em 0, ~80% no tempo esperado, anda sempre e não passa de 95% sem resposta', () => {
+  assert.equal(porcentagemEstimada(0, 30000), 0);
+  assert.ok(porcentagemEstimada(30000, 30000) >= 78 && porcentagemEstimada(30000, 30000) <= 82);
+  let anterior = -1;
+  for (let t = 0; t <= 120000; t += 1000) {
+    const p = porcentagemEstimada(t, 30000);
+    assert.ok(p >= anterior, `não volta (${t} ms)`);
+    assert.ok(p <= TETO_ESTIMATIVA);
+    anterior = p;
+  }
+  assert.equal(porcentagemEstimada(10 * 60000, 30000), TETO_ESTIMATIVA - 1, 'tarefa muito lenta fica parada perto do teto');
+  assert.ok(porcentagemEstimada(5000, 15000) > porcentagemEstimada(5000, 35000), 'estimativa curta anda mais rápido');
+  assert.equal(porcentagemEstimada(-5, 'x'), 0, 'entradas ruins não quebram');
+});
+
+test('nova estimativa: média com a última duração, dentro de limites', () => {
+  assert.equal(novaEstimativa(null, 20000), 20000);
+  assert.equal(novaEstimativa(30000, 20000), 25000);
+  assert.equal(novaEstimativa(30000, 1), 17500, 'mínimo de 5 s');
+  assert.equal(novaEstimativa(undefined, 10 * 60000), 180000, 'máximo de 3 min');
 });

@@ -108,4 +108,13 @@ return [
         'chave' => '',
         'limite_por_hora' => 120,      // buscas + importações por usuário por hora (o Pixabay aceita 100/min por chave)
     ],
+
+    // Ícones do Iconify no seletor de ícones (sem chave). O ícone escolhido fica no documento do site;
+    // o site publicado não depende do Iconify. 'colecoes' vazio = todas as aceitas (Lib\Iconify::COLECOES).
+    'iconify' => [
+        'ativo' => true,
+        'api' => 'https://api.iconify.design',
+        'colecoes' => [],
+        'limite_por_hora' => 300,
+    ],
 ];

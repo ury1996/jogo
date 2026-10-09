@@ -29,6 +29,8 @@ final class Aplicacao
     private bool $iaDefinida = false;
     private ?\Rankly\Lib\Pixabay $bancoImagens = null;
     private bool $bancoImagensDefinido = false;
+    private ?\Rankly\Lib\Iconify $iconify = null;
+    private bool $iconifyDefinido = false;
 
     private function __construct(private readonly array $config, private readonly string $raiz)
     {
@@ -273,6 +275,51 @@ final class Aplicacao
             $chave = trim((string) (getenv('PIXABAY_API_KEY') ?: ''));
         }
         return $this->bancoImagens = $chave === '' ? null : new \Rankly\Lib\Pixabay($chave, $this->dirVar('cache') . '/pixabay');
+    }
+
+    /**
+     * Ícones do Iconify, ou null se desligado (iconify.ativo). Com IA configurada, termos em
+     * português são traduzidos para a busca (que é em inglês). Cache em var/cache/iconify.
+     */
+    public function iconify(): ?\Rankly\Lib\Iconify
+    {
+        if ($this->iconifyDefinido) {
+            return $this->iconify;
+        }
+        $this->iconifyDefinido = true;
+        if ($this->config('iconify.ativo', true) !== true) {
+            return $this->iconify = null;
+        }
+        $colecoes = $this->config('iconify.colecoes', []);
+        $tradutor = function (string $termo): array {
+            $ia = $this->ia();
+            if ($ia === null) {
+                return [];
+            }
+            $r = $ia->gerarJson(
+                'Você traduz termos de busca de ícones do português para o inglês. Responda com até 3 palavras-chave curtas '
+                . 'em inglês, do jeito que nomes de ícones costumam ser escritos (ex.: "advogado" → ["gavel", "scale", "law"]; '
+                . '"dentista" → ["tooth", "dental"]; "casa" → ["house", "home"]).',
+                'Termo: ' . $termo,
+                ['type' => 'object', 'properties' => ['termos' => ['type' => 'array', 'items' => ['type' => 'string']]], 'required' => ['termos']],
+            );
+            return is_array($r['termos'] ?? null) ? $r['termos'] : [];
+        };
+        return $this->iconify = new \Rankly\Lib\Iconify(
+            (string) $this->config('iconify.api', \Rankly\Lib\Iconify::API_PADRAO),
+            $this->dirVar('cache') . '/iconify',
+            is_array($colecoes) ? array_values($colecoes) : [],
+            12,
+            null,
+            $tradutor,
+        );
+    }
+
+    /** Troca o cliente do Iconify (testes: transporte falso; null = desligado). */
+    public function definirIconify(?\Rankly\Lib\Iconify $iconify): void
+    {
+        $this->iconify = $iconify;
+        $this->iconifyDefinido = true;
     }
 
     /** Troca o cliente do banco de imagens (testes: transporte falso ou null = sem chave). */

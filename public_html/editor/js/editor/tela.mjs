@@ -10,7 +10,7 @@
 //                                   definirVisualizar(b), rolarPara(i), elementoSecao(i),
 //                                   elementosChave(chave), posicionar(), desligar() }
 
-import { el, icone, aviso } from '../ui.mjs';
+import { el, icone, aviso, anexar } from '../ui.mjs';
 import { prepararSite } from '../compartilhado/preparo.mjs';
 import { injetarCssSite } from '../biblioteca.mjs';
 import { opcoesPreparo, paletaEscopada, escalar, LARGURA_COMPUTADOR, LARGURA_CELULAR } from '../previa.mjs';
@@ -283,7 +283,9 @@ export function criarTela(ed) {
     assinaturaBarrinha = assinatura;
     const nome = op.nomeSecao(lib, s.tipo);
     barrinha.setAttribute('aria-label', `Seção ${nome}`);
-    barrinha.replaceChildren(
+    // anexar() pula os null (replaceChildren nativo escreveria "null" na barra).
+    barrinha.replaceChildren();
+    anexar(barrinha,
       el('span', { class: 'ed-barrinha__nome' }, nome),
       total > 1 ? botaoBarra('Opção anterior', 'esquerda', () => ed.passarOpcao(indice, -1)) : null,
       total > 1 ? el('span', { class: 'ed-barrinha__pos', 'aria-label': `Opção ${posicao} de ${total}` }, `${posicao}/${total}`) : null,

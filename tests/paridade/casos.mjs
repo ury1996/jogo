@@ -137,6 +137,26 @@ export function gerarCasos(lib) {
   const icones = copia(base);
   icones.icones = { 'serv.1': 'dente', 'serv.2': 'nao-existe', 'dif.1': 'relogio', 'hero.ic': 'x' };
   add('icones/manuais', icones);
+  // Ícones do Iconify guardados no documento: usados, não usados, ids e desenhos inválidos.
+  const desenho = (d) => `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="${d}"/></svg>`;
+  const iconify = copia(base);
+  iconify.icones = { 'serv.1': 'mdi:tooth', 'serv.2': 'ph:heart', 'dif.1': 'tabler:x-y', 'hero.ic': 'mdi:tooth', 'serv.3': 'ph:sem-desenho' };
+  iconify.iconesExtras = {
+    'mdi:tooth': { nome: 'tooth', svg: { fino: desenho('M1 1h2v2H1z') } },
+    'ph:heart': { svg: { fino: desenho('M2 2h4'), duotone: desenho('M3 3h4'), preenchido: desenho('M4 4h4'), bold: 'x' } },
+    'tabler:x-y': { nome: 7, svg: { preenchido: desenho('M5 5h1'), fino: '' } },
+    'ph:sem-desenho': { nome: 'vazio', svg: { fino: '', duotone: 3 } },
+    'mdi:nao-usado': { nome: 'nao usado', svg: { fino: desenho('M0 0h1') } },
+    'PH:Maiusculo': { svg: { fino: desenho('M0 0h1') } },
+    'semprefixo': { svg: { fino: desenho('M0 0h1') } },
+    'mdi:lista': ['x'],
+  };
+  iconify.icones['serv.4'] = 'PH:Maiusculo';
+  add('icones/iconify', iconify);
+  const iconifyRuim = copia(base);
+  iconifyRuim.icones = { 'serv.1': 'mdi:tooth' };
+  iconifyRuim.iconesExtras = 'x';
+  add('icones/iconify-malformado', iconifyRuim);
 
   // 4. textos com caracteres especiais
   const especiais = copia(base);

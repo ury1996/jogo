@@ -890,6 +890,26 @@ button.card-opcao:hover, a.card-opcao:hover { transform: translateY(-2px); }
   .btn--ia { border: 1px solid ButtonText; }
 }
 
+/* Botão que vira barra de progresso (barraNoBotao): fundo claro, a parte cheia cresce da
+   esquerda com a cor do botão e o texto troca de cor exatamente onde a barra está. */
+.btn.btn--barra, .btn.btn--barra:hover, .btn.btn--barra[disabled] {
+  overflow: hidden; isolation: isolate; opacity: 1; cursor: progress; filter: none;
+  background: var(--ui-pri-suave); border-color: var(--ui-pri-borda); color: var(--ui-pri-tinta);
+  box-shadow: none; transform: none;
+}
+.btn--barra::before, .btn--barra::after { content: none; }
+.btn-barra__texto { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.btn-barra__cheio {
+  position: absolute; inset: -1px; display: flex; align-items: center; justify-content: center;
+  background: var(--ui-pri); color: var(--ui-pri-texto);
+  clip-path: inset(0 calc(100% - var(--barra, 0%)) 0 0);
+  transition: clip-path 0.25s linear;
+}
+.btn--ia.btn--barra .btn-barra__cheio { background: linear-gradient(115deg, var(--ui-ia-1), var(--ui-ia-2)); color: var(--ui-ia-texto); }
+@media (forced-colors: active) {
+  .btn-barra__cheio { background: Highlight; color: HighlightText; }
+}
+
 /* Faixa "os textos ainda são de exemplo" (acima da tela do editor). */
 .ed-faixa-ia {
   grid-area: faixa; display: flex; align-items: center; gap: 12px; min-width: 0;

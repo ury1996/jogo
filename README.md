@@ -150,6 +150,21 @@ Documentos:
   Chave grátis em <https://pixabay.com/api/docs/> (`PIXABAY_API_KEY` no `.env`, ou
   `'pixabay' => ['chave' => …]` no config). Passo a passo em `docs/COMO-TESTAR.md` §3.3.
 
+## Ícones: biblioteca e Iconify
+
+- Cada item de lista (serviços, diferenciais…) ganha um ícone automático pelo título, da biblioteca
+  própria (`biblioteca/icones/icones.json`, Phosphor e Healthicons, em três pesos que seguem o
+  acabamento do modelo).
+- Clicando num ícone, o seletor mostra os da biblioteca e, embaixo, a mesma busca no
+  **[Iconify](https://iconify.design)**: mais de 200 mil ícones de coleções abertas (Phosphor,
+  Material, Tabler, Lucide…), só as monocromáticas com licença MIT, ISC, Apache 2.0 ou CC0. Pode
+  digitar em português: o editor manda dicas em inglês tiradas da biblioteca e, com a IA ligada, o
+  termo é traduzido uma vez (fica em cache).
+- O servidor busca e monta o SVG (`GET /api/icones/buscar`, `Lib/Iconify.php`) só com elementos de
+  desenho; o ícone escolhido fica **dentro do documento** (`iconesExtras`) e o servidor confere o
+  desenho de novo ao salvar. O site publicado não depende do Iconify. Phosphor vem nos três pesos e
+  segue o acabamento; as demais coleções têm um desenho só. Liga/desliga em `'iconify'` no config.
+
 ## IA (textos e SEO a partir de uma descrição)
 
 O assistente e o editor têm "Escrever com IA": a pessoa descreve o negócio e a IA preenche os

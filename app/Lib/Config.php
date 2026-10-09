@@ -64,6 +64,13 @@ final class Config
                 'chave' => '',
                 'limite_por_hora' => 120,
             ],
+            // Ícones do Iconify no seletor de ícones (Lib\Iconify). colecoes vazio = todas as aceitas.
+            'iconify' => [
+                'ativo' => true,
+                'api' => 'https://api.iconify.design',
+                'colecoes' => [],
+                'limite_por_hora' => 300,
+            ],
             // Atualização automática na hospedagem (Lib\Atualizador, ligada pelo instalar.php).
             'atualizacao' => [
                 'automatica' => true,

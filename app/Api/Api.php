@@ -77,6 +77,8 @@ final class Api
         $r->get('/api/ia', [$ia, 'estado']);
         $r->post("/api/sites/{$id}/ia", [$ia, 'gerar']);
 
+        $r->get('/api/icones/buscar', [new Icones(), 'buscar']);
+
         $r->get('/api/banco-imagens', [$banco, 'estado']);
         $r->get('/api/banco-imagens/buscar', [$banco, 'buscar']);
         $r->post('/api/banco-imagens/importar', [$banco, 'importar']);

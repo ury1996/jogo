@@ -11,7 +11,7 @@ import {
 const lib = carregarBiblioteca(fileURLToPath(new URL('../fixtures/biblioteca-mini', import.meta.url)));
 
 const CHAVES_DOC = ['versaoEsquema', 'nicho', 'especialidade', 'modelo', 'estilo', 'dados', 'secoes', 'textos', 'listas', 'imagens',
-  'icones', 'confirmados', 'rastreamento', 'seo'];
+  'icones', 'iconesExtras', 'confirmados', 'rastreamento', 'seo'];
 
 test('criarDocumento: estilo padrão do nicho + acabamento do modelo + WhatsApp flutuante; dados completos', () => {
   const doc = criarDocumento({ nicho: 'clinicas', modelo: 'classico', dados: { nome: 'X' } }, lib);

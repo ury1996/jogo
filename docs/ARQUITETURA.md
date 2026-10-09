@@ -114,7 +114,8 @@ bin/                           ← dev.sh, testar.sh
   "textos":  { "hero.titulo": "Cuidado com o seu sorriso…" },  // só o que foi editado
   "listas":  { "serv": ["1", "2", "nk3f"] },                     // [M2] ordem dos itens; ausente = padrão do nicho
   "imagens": { "hero.img": "m_91c0de2a", "serv.1.img": "m_0a1b2c3d" },
-  "icones":  { "serv.1": "tooth" },    // só escolhas manuais; ausente = automático
+  "icones":  { "serv.1": "tooth", "serv.2": "mdi:tooth" },    // só escolhas manuais; ausente = automático
+  "iconesExtras": { "mdi:tooth": { "nome": "tooth", "svg": { "fino": "<svg …>" } } },  // Iconify: só os usados
   "confirmados": ["num", "aval"],      // [M-checklist] grupos de "alegações" confirmadas pelo usuário
   "rastreamento": { "gtm": "", "ga4": "", "metaPixel": "" },
   "seo": { "titulo": null, "descricao": null }
@@ -634,6 +635,13 @@ cabeçalho `X-CSRF-Token` (exceto login, esqueci, redefinir e leads públicos). 
   `POST /api/banco-imagens/importar {site_id, foto_id}` → mídia com `origem = "pixabay:{id}"` e `credito`.
   Download só de `pixabay.com`/`cdn.pixabay.com` (redirecionamentos conferidos); CSP do editor libera esses hosts em `img-src`.
 - Validação da publicação: aviso `fotos_exemplo` com as fotos de exemplo ainda exibidas.
+- Ícones do Iconify (`Lib/Iconify.php`): `GET /api/icones/buscar?q=&dicas=` → `{icones: [{id, nome, colecao, svg}], colecoes}`.
+  Coleções monocromáticas com licença MIT/ISC/Apache-2.0/CC0 (`Iconify::COLECOES`), Phosphor nos pesos
+  light/duotone/fill (→ fino/duotone/preenchido). SVG montado com lista fechada de elementos e atributos de
+  desenho; `Iconify::svgValido()` confere o mesmo formato no `ValidadorDocumento` (até 60 por documento).
+  `Documento::migrar` mantém só os `iconesExtras` usados em `icones`; `Icones::definicaoIcone/svgDoIcone`
+  (paridade JS ≡ PHP) acham o ícone na biblioteca ou no documento. Cache de 7 dias em `var/cache/iconify`
+  (tradução pela IA sem prazo); limite por usuário em `iconify.limite_por_hora`.
 
 ### 6.1 Bundle da biblioteca
 

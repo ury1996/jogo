@@ -10,6 +10,14 @@ export const FONTES = ['classica', 'editorial', 'moderna', 'amigavel', 'nobre', 
 export const DIAS = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
 export const REDES = ['instagram', 'facebook', 'linkedin', 'youtube', 'google'];
 export const RE_ID_ITEM = /^[a-z0-9]+$/;
+/** Ícone do Iconify guardado no documento: "prefixo:nome" (doc.icones e doc.iconesExtras). */
+export const RE_ID_ICONE_EXTRA = /^[a-z0-9]+(?:-[a-z0-9]+)*:[a-z0-9]+(?:-[a-z0-9]+)*$/;
+export const PESOS_ICONE = ['fino', 'duotone', 'preenchido'];
+
+/** Id de ícone do Iconify (até 100 caracteres)? */
+export function idIconeExtraValido(id) {
+  return typeof id === 'string' && id.length <= 100 && RE_ID_ICONE_EXTRA.test(id);
+}
 const RE_NOME_LISTA = /^[a-z]+$/;
 
 // Ordem das opções do catálogo (§3.2), usada para migrar documentos v1 quando a
@@ -201,6 +209,7 @@ export function criarDocumento(entrada, lib) {
     listas: {},
     imagens: {},
     icones: {},
+    iconesExtras: {},
     confirmados: [],
     rastreamento: { gtm: '', ga4: '', metaPixel: '' },
     seo: { titulo: null, descricao: null },
@@ -243,6 +252,28 @@ function mapaDeTextos(mapa, converter) {
     if (typeof valor !== 'string') continue;
     const nova = converter(chave);
     if (!temChave(r, nova)) r[nova] = valor;
+  }
+  return r;
+}
+
+/**
+ * Ícones do Iconify guardados no documento: só os que algum item usa (doc.icones), com id válido
+ * e pelo menos um desenho; cada um vira { nome, svg: { fino?, duotone?, preenchido? } }.
+ */
+export function extrasDeIcones(mapa, icones) {
+  const usados = new Set(Object.values(comoMapa(icones)).filter((v) => typeof v === 'string'));
+  const r = {};
+  for (const [id, v] of Object.entries(comoMapa(mapa))) {
+    if (!usados.has(id) || !idIconeExtraValido(id)) continue;
+    const def = comoMapa(v);
+    const svgs = comoMapa(def.svg);
+    const svg = {};
+    for (const p of PESOS_ICONE) {
+      const s = pegar(svgs, p);
+      if (typeof s === 'string' && s !== '') svg[p] = s;
+    }
+    if (Object.keys(svg).length === 0) continue;
+    r[id] = { nome: typeof def.nome === 'string' ? def.nome : id, svg };
   }
   return r;
 }
@@ -305,6 +336,7 @@ export function migrar(doc, lib) {
   const seo = comoMapa(d.seo);
   const confirmados = [];
   for (const g of comoLista(d.confirmados)) if (typeof g === 'string' && !confirmados.includes(g)) confirmados.push(g);
+  const icones = mapaDeTextos(d.icones, converter);
   return {
     versaoEsquema: VERSAO_ESQUEMA,
     nicho: textoDe(d.nicho),
@@ -316,7 +348,8 @@ export function migrar(doc, lib) {
     textos: mapaDeTextos(d.textos, converter),
     listas: migrarListas(d.listas),
     imagens: mapaDeTextos(d.imagens, converter),
-    icones: mapaDeTextos(d.icones, converter),
+    icones,
+    iconesExtras: extrasDeIcones(d.iconesExtras, icones),
     confirmados,
     rastreamento: { gtm: textoDe(r.gtm), ga4: textoDe(r.ga4), metaPixel: textoDe(r.metaPixel) },
     seo: {

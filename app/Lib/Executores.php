@@ -107,7 +107,8 @@ final class Executores
     /**
      * Limpeza diária: leads além da retenção (LGPD), tokens de senha vencidos, limites
      * antigos, sessões vencidas, tarefas concluídas há mais de 30 dias e mídia órfã
-     * (sem uso em documento nem versão) com mais de 30 dias. Reagenda para o dia seguinte.
+     * (sem uso em documento nem versão) com mais de 30 dias e buscas de ícones com mais de 7 dias.
+     * Reagenda para o dia seguinte.
      */
     public static function limpezaDiaria(Aplicacao $app): void
     {
@@ -126,6 +127,7 @@ final class Executores
                 [$app->agoraSql('-30 days')],
             ),
             'midia' => Midia::limparOrfas($app, 30),
+            'iconify' => Iconify::limparCache($app->dirVar('cache') . '/iconify'),
         ];
         $app->log()->info('Limpeza diária concluída.', $resumo);
         // Próxima execução (a tarefa atual ainda está "executando", então enfileira direto).

@@ -11,7 +11,7 @@
 //   re-renderiza. Texto apagado volta ao padrão com aviso (Desfazer deixa vazio).
 
 import { aviso } from '../ui.mjs';
-import { iconeDoItem, svg } from '../compartilhado/icones.mjs';
+import { iconeDoItem, svgDoIcone } from '../compartilhado/icones.mjs';
 import { itensLista } from '../compartilhado/textos.mjs';
 import * as op from './operacoes.mjs';
 
@@ -84,7 +84,7 @@ export function ligarEdicaoTexto(ed) {
     const doc = ed.estado.doc;
     const pos = itensLista(doc, lib, lista).indexOf(id);
     const iconeId = iconeDoItem(doc, lib, lista, id, pos < 0 ? 0 : pos);
-    const marcado = svg(lib, iconeId, doc.estilo?.acabamento);
+    const marcado = svgDoIcone(doc, lib, iconeId, doc.estilo?.acabamento);
     for (const span of alvo.querySelectorAll('[data-ic]')) {
       if (span.dataset.ic !== `${lista}.${id}` || span.dataset.edIcone === iconeId) continue;
       span.innerHTML = marcado; // SVG da biblioteca (confiável, já normalizado)

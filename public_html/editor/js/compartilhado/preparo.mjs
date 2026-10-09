@@ -7,7 +7,7 @@ import {
 } from './texto.mjs';
 import { cssPaleta, gerarPaleta, normalizarCor, TEXTO_CLARO } from './paleta.mjs';
 import { calcularFundos } from './tons.mjs';
-import { acharIcone, ICONE_RESERVA, iconeDoItem, svg as svgIcone, svgDaDefinicao } from './icones.mjs';
+import { definicaoIcone, ICONE_RESERVA, iconeDoItem, svgDoIcone, svgDaDefinicao } from './icones.mjs';
 import {
   digitosNacionais, formatarHorarios, formatarRegistro, formatarTelefone, horariosTexto, inicial, inicialPessoa,
   linhasEndereco, linkTelefone, linkWhatsapp, rotuloRede, urlRede, validarEmail, validarWhatsapp,
@@ -280,8 +280,8 @@ function montarContexto(doc, lib, acabamento) {
     let valor = null;
     if (def.tipo === 'icone') {
       const manual = pegar(iconesDoc, chave);
-      const id = typeof manual === 'string' && acharIcone(lib, manual) !== null ? manual : ICONE_RESERVA;
-      valor = { id, svg: svgIcone(lib, id, acabamento) };
+      const id = typeof manual === 'string' && definicaoIcone(doc, lib, manual) !== null ? manual : ICONE_RESERVA;
+      valor = { id, svg: svgDoIcone(doc, lib, id, acabamento) };
     } else if (ehCampoTexto(def)) {
       valor = textoEfetivo(doc, lib, chave, vars);
     }
@@ -299,7 +299,7 @@ function montarContexto(doc, lib, acabamento) {
       for (const { campo, def } of campos) {
         if (def.tipo === 'icone') {
           const iconeId = iconeDoItem(doc, lib, lista, id, pos, vars);
-          icone = { id: iconeId, svg: svgIcone(lib, iconeId, acabamento) };
+          icone = { id: iconeId, svg: svgDoIcone(doc, lib, iconeId, acabamento) };
         } else if (ehCampoTexto(def)) {
           textos[campo] = textoEfetivo(doc, lib, `${lista}.${id}.${campo}`, vars);
         }

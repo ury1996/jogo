@@ -9,7 +9,7 @@
 
 import { comoLista, comoMapa, colapsarEspacos, ehMapa, normalizar, pegar, textoDe } from '../compartilhado/texto.mjs';
 import {
-  aplicarModelo, especialidade, nichoDe, registroCampos, registroListas, definicaoCampo, DIAS,
+  aplicarModelo, especialidade, nichoDe, registroCampos, registroListas, definicaoCampo, DIAS, extrasDeIcones, idIconeExtraValido,
 } from '../compartilhado/documento.mjs';
 import {
   aplicarEdicaoTexto, contextoVariaveis, itensLista, limitesLista, substituirVariaveis, textoEfetivo, textoPadrao,
@@ -429,17 +429,25 @@ export function listarIcones(lib, { categoria = 'geral', busca = '' } = {}) {
     .map(({ i }) => i);
 }
 
-/** Grava (ou, com null, remove → "Automático") a escolha manual do ícone. */
-export function definirIcone(doc, chave, iconeId) {
+/**
+ * Grava (ou, com null, remove → "Automático") a escolha manual do ícone. `extra` = ícone do
+ * Iconify ({ nome, svg }) que vai junto para doc.iconesExtras; os que nenhum item usa mais saem.
+ */
+export function definirIcone(doc, chave, iconeId, extra = null) {
   const icones = { ...comoMapa(comoMapa(doc).icones) };
+  const extras = { ...comoMapa(comoMapa(doc).iconesExtras) };
   if (iconeId === null || iconeId === undefined || iconeId === '') {
     if (!(chave in icones)) return doc;
     delete icones[chave];
   } else {
-    if (icones[chave] === iconeId) return doc;
+    const comExtra = ehMapa(extra) && idIconeExtraValido(iconeId);
+    if (icones[chave] === iconeId && (!comExtra || iconeId in extras)) return doc;
     icones[chave] = iconeId;
+    if (comExtra) extras[iconeId] = { nome: typeof extra.nome === 'string' ? extra.nome : iconeId, svg: { ...comoMapa(extra.svg) } };
   }
-  return { ...doc, icones };
+  const novo = { ...doc, icones };
+  if (Object.keys(extras).length > 0 || 'iconesExtras' in comoMapa(doc)) novo.iconesExtras = extrasDeIcones(extras, icones);
+  return novo;
 }
 
 /* ================================================================== imagens */

@@ -3,7 +3,7 @@
 // do conselho, sem números/depoimentos inventados); aqui ele vira UMA alteração desfazível.
 
 import api from './api.mjs';
-import { el, icone, modal, aviso } from './ui.mjs';
+import { el, icone, modal, aviso, barraNoBotao } from './ui.mjs';
 
 export const MIN_DESCRICAO = 10;
 export const MAX_DESCRICAO = 1500;
@@ -34,6 +34,21 @@ export const TONS = Object.freeze([
 
 /** Tom válido (desconhecido → automático). */
 export const tomValido = (tom) => (TONS.some((t) => t.id === tom) ? tom : '');
+
+/** Etapas mostradas no botão enquanto a IA trabalha (a porcentagem é estimada pelo tempo). */
+export const ETAPAS_IA = Object.freeze([
+  { ate: 55, rotulo: 'Escrevendo os textos' },
+  { ate: 85, rotulo: 'Revisando os textos' },
+  { ate: 101, rotulo: 'Finalizando' },
+]);
+
+/** Liga a barra de porcentagem no botão que pediu os textos (site inteiro leva mais que uma seção). */
+export function barraIa(botao, { escopo = 'site', aoEtapa = null } = {}) {
+  const site = escopo === 'site';
+  return barraNoBotao(botao, {
+    chave: site ? 'ia-site' : 'ia-secao', estimativaMs: site ? 35000 : 15000, etapas: ETAPAS_IA, aoEtapa,
+  });
+}
 
 /** Pede os textos ao servidor. escopo = "site" ou o tipo de uma seção; tom = id de TONS. */
 export function pedirConteudo(siteId, descricao, escopo = 'site', tom = '') {
@@ -369,7 +384,7 @@ export function abrirJanelaIa(ed, { escopo = 'site', nomeSecao = '' } = {}) {
       { rotulo: 'Cancelar', tipo: 'fantasma' },
       {
         rotulo: deSecao ? 'Reescrever' : 'Escrever com IA', tipo: 'primario', icone: 'brilho',
-        fn: async () => {
+        fn: async (_janela, botao) => {
           const descricao = campo.value.trim();
           if (descricao.length < MIN_DESCRICAO) {
             erro.textContent = 'Conte um pouco mais sobre o negócio (pelo menos uma frase).';
@@ -382,16 +397,23 @@ export function abrirJanelaIa(ed, { escopo = 'site', nomeSecao = '' } = {}) {
           guardarTom(ed.siteId, tom);
           campo.disabled = true;
           progresso.textContent = 'Salvando as últimas alterações…';
+          const barra = barraIa(botao, {
+            escopo,
+            aoEtapa: (rotulo) => { progresso.textContent = `${rotulo}… isso leva de 15 a 60 segundos.`; },
+          });
+          barra.fixar('Salvando');
           try {
             await ed.estado.salvar();
-            progresso.textContent = 'A IA está escrevendo e revisando os textos… isso leva de 15 a 60 segundos.';
+            barra.liberar();
             const patch = await pedirConteudo(ed.siteId, descricao, escopo, tom);
             if (ed.desmontado) return true;
             ed.estado.aplicar((d) => aplicarPatchIa(d, patch), { rotulo: deSecao ? `IA: ${nomeSecao}` : 'Textos escritos pela IA' });
+            await barra.concluir();
             aviso(resumoResultado(patch), { tipo: 'ok', duracao: 9000 });
             for (const a of patch.avisos ?? []) aviso(a, { duracao: 9000 });
             return true;
           } catch (e) {
+            barra.falhar();
             if (e?.status === 401) return true;
             erro.textContent = e?.mensagem ?? 'A IA não respondeu. Tente de novo.';
             erro.hidden = false;

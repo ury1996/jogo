@@ -110,8 +110,8 @@ final class Preparo
             $valor = null;
             if (Texto::pegar($def, 'tipo') === 'icone') {
                 $manual = Texto::pegar($iconesDoc, $chave);
-                $id = is_string($manual) && Icones::acharIcone($lib, $manual) !== null ? $manual : Icones::ICONE_RESERVA;
-                $valor = ['id' => $id, 'svg' => Icones::svg($lib, $id, $acabamento)];
+                $id = is_string($manual) && Icones::definicaoIcone($doc, $lib, $manual) !== null ? $manual : Icones::ICONE_RESERVA;
+                $valor = ['id' => $id, 'svg' => Icones::svgDoIcone($doc, $lib, $id, $acabamento)];
             } elseif (self::ehCampoTexto($def)) {
                 $valor = Textos::textoEfetivo($doc, $lib, $chave, $vars);
             }
@@ -133,7 +133,7 @@ final class Preparo
                 foreach ($campos as ['campo' => $campo, 'def' => $def]) {
                     if (Texto::pegar($def, 'tipo') === 'icone') {
                         $iconeId = Icones::iconeDoItem($doc, $lib, $lista, $id, $pos, $vars);
-                        $icone = ['id' => $iconeId, 'svg' => Icones::svg($lib, $iconeId, $acabamento)];
+                        $icone = ['id' => $iconeId, 'svg' => Icones::svgDoIcone($doc, $lib, $iconeId, $acabamento)];
                     } elseif (self::ehCampoTexto($def)) {
                         $textos[$campo] = Textos::textoEfetivo($doc, $lib, $lista . '.' . $id . '.' . $campo, $vars);
                     }

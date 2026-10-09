@@ -315,6 +315,15 @@
 .ed-icones__item--auto .ed-icones__nome { font-weight: 750; color: var(--ui-pri-tinta); }
 .ed-icones__nome { font-size: 11.5px; line-height: 1.2; color: var(--ui-texto-2); overflow-wrap: anywhere; }
 .ed-icones__vazio { font-size: 14px; color: var(--ui-texto-2); text-align: center; padding: 24px 8px; }
+.ed-icones__colecao { font-size: 10.5px; line-height: 1.1; color: var(--ui-texto-3); }
+.ed-icones__iconify { display: grid; gap: 8px; padding-top: 12px; border-top: 1px solid var(--ui-borda); }
+.ed-icones__iconify[hidden] { display: none; }
+.ed-icones__iconify-cab { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.ed-icones__iconify-titulo { margin: 0; font-size: 14px; font-weight: 700; color: var(--ui-texto); }
+.ed-icones__iconify-fonte { font-size: 12px; color: var(--ui-texto-3); }
+.ed-icones__estado { margin: 0; font-size: 13px; color: var(--ui-texto-2); }
+.ed-icones__grade--iconify { max-height: min(40vh, 340px); }
+.ed-icones__grade[hidden] { display: none; }
 
 .ed-foto { display: grid; gap: 12px; }
 .ed-foto__previa { border-radius: var(--ui-raio); overflow: hidden; background: var(--ui-sup-3); display: grid; place-items: center; max-height: 46vh; }

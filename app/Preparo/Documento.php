@@ -16,10 +16,13 @@ final class Documento
     public const DIAS = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
     public const REDES = ['instagram', 'facebook', 'linkedin', 'youtube', 'google'];
     public const RE_ID_ITEM = '/^[a-z0-9]+$/D';
+    /** Ícone do Iconify guardado no documento: "prefixo:nome" (doc.icones e doc.iconesExtras). */
+    public const RE_ID_ICONE_EXTRA = '/^[a-z0-9]+(?:-[a-z0-9]+)*:[a-z0-9]+(?:-[a-z0-9]+)*$/D';
+    public const PESOS_ICONE = ['fino', 'duotone', 'preenchido'];
     private const RE_NOME_LISTA = '/^[a-z]+$/D';
 
     /** Campos do documento que são mapas (viram {} no JSON mesmo vazios). */
-    private const MAPAS = ['textos', 'listas', 'imagens', 'icones'];
+    private const MAPAS = ['textos', 'listas', 'imagens', 'icones', 'iconesExtras'];
 
     /** Ordem das opções do catálogo (§3.2), para migrar v1 quando a biblioteca não traz o tipo. */
     private const CATALOGO = [
@@ -293,6 +296,7 @@ final class Documento
             'listas' => [],
             'imagens' => [],
             'icones' => [],
+            'iconesExtras' => [],
             'confirmados' => [],
             'rastreamento' => ['gtm' => '', 'ga4' => '', 'metaPixel' => ''],
             'seo' => ['titulo' => null, 'descricao' => null],
@@ -338,6 +342,50 @@ final class Documento
             return $m[1] . '.' . ((int) $m[2] + 1);
         }
         return $chave;
+    }
+
+    /** Id de ícone do Iconify (até 100 caracteres)? */
+    public static function idIconeExtraValido(mixed $id): bool
+    {
+        return is_string($id) && strlen($id) <= 100 && preg_match(self::RE_ID_ICONE_EXTRA, $id) === 1;
+    }
+
+    /**
+     * Ícones do Iconify guardados no documento: só os que algum item usa (doc.icones), com id válido
+     * e pelo menos um desenho; cada um vira ['nome' => …, 'svg' => [fino?, duotone?, preenchido?]].
+     *
+     * @param array<string, string> $icones
+     */
+    public static function extrasDeIcones(mixed $mapa, array $icones): array
+    {
+        $usados = [];
+        foreach ($icones as $v) {
+            if (is_string($v)) {
+                $usados[$v] = true;
+            }
+        }
+        $r = [];
+        foreach (Texto::comoMapa($mapa) as $id => $v) {
+            $id = (string) $id;
+            if (!isset($usados[$id]) || !self::idIconeExtraValido($id)) {
+                continue;
+            }
+            $def = Texto::comoMapa($v);
+            $svgs = Texto::comoMapa(Texto::pegar($def, 'svg'));
+            $svg = [];
+            foreach (self::PESOS_ICONE as $p) {
+                $s = Texto::pegar($svgs, $p);
+                if (is_string($s) && $s !== '') {
+                    $svg[$p] = $s;
+                }
+            }
+            if ($svg === []) {
+                continue;
+            }
+            $nome = Texto::pegar($def, 'nome');
+            $r[$id] = ['nome' => is_string($nome) ? $nome : $id, 'svg' => $svg];
+        }
+        return $r;
     }
 
     private static function mapaDeTextos(mixed $mapa, bool $v1): array
@@ -447,6 +495,7 @@ final class Documento
         }
         $titulo = Texto::pegar($seo, 'titulo');
         $descricao = Texto::pegar($seo, 'descricao');
+        $icones = self::mapaDeTextos(Texto::pegar($d, 'icones'), $v1);
         return [
             'versaoEsquema' => self::VERSAO_ESQUEMA,
             'nicho' => Texto::textoDe(Texto::pegar($d, 'nicho')),
@@ -458,7 +507,8 @@ final class Documento
             'textos' => self::mapaDeTextos(Texto::pegar($d, 'textos'), $v1),
             'listas' => self::migrarListas(Texto::pegar($d, 'listas')),
             'imagens' => self::mapaDeTextos(Texto::pegar($d, 'imagens'), $v1),
-            'icones' => self::mapaDeTextos(Texto::pegar($d, 'icones'), $v1),
+            'icones' => $icones,
+            'iconesExtras' => self::extrasDeIcones(Texto::pegar($d, 'iconesExtras'), $icones),
             'confirmados' => $confirmados,
             'rastreamento' => [
                 'gtm' => Texto::textoDe(Texto::pegar($r, 'gtm')),

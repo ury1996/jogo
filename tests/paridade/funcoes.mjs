@@ -31,6 +31,10 @@ export const FUNCOES = {
   'Icones.escolherIcone': icones.escolherIcone,
   'Icones.iconeDoItem': icones.iconeDoItem,
   'Icones.svg': icones.svg,
+  'Icones.svgDoIcone': icones.svgDoIcone,
+  'Icones.definicaoIcone': icones.definicaoIcone,
+  'Documento.extrasDeIcones': documento.extrasDeIcones,
+  'Documento.idIconeExtraValido': documento.idIconeExtraValido,
   'Dados.soDigitos': dados.soDigitos,
   'Dados.validarWhatsapp': dados.validarWhatsapp,
   'Dados.formatarTelefone': dados.formatarTelefone,
@@ -183,6 +187,22 @@ export function gerarChamadas(lib, docBase) {
   const ids = (Array.isArray(lib?.icones?.icones) ? lib.icones.icones : []).map((i) => i.id);
   for (const id of [...ids.slice(0, 5), ...utilitarios.slice(0, 5), 'nao-existe']) {
     for (const acabamento of ['classico', 'moderno', 'direto', 'outro']) add('Icones.svg', '$lib', id, acabamento);
+  }
+
+  {
+    const svgX = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M1 1h2"/></svg>';
+    const docX = { icones: { 'serv.1': 'mdi:tooth', 'serv.2': 'ph:heart' }, iconesExtras: { 'mdi:tooth': { nome: 'tooth', svg: { fino: svgX } }, 'ph:heart': { svg: { duotone: svgX, preenchido: `${svgX} ` } } } };
+    for (const id of ['mdi:tooth', 'ph:heart', 'ph:nao-tem', 'circulo', ids[0] ?? 'x', '', 'a:b:c']) {
+      add('Icones.definicaoIcone', docX, '$lib', id);
+      for (const acabamento of ['classico', 'moderno', 'direto']) add('Icones.svgDoIcone', docX, '$lib', id, acabamento);
+    }
+    add('Icones.svgDoIcone', null, '$lib', 'mdi:tooth', 'moderno');
+    add('Documento.extrasDeIcones', docX.iconesExtras, docX.icones);
+    add('Documento.extrasDeIcones', docX.iconesExtras, {});
+    add('Documento.extrasDeIcones', [], { a: 'mdi:tooth' });
+    for (const id of ['mdi:tooth', 'material-symbols:dentistry-outline', 'a1:b2-c3', 'mdi:', ':x', 'MDI:x', 'mdi:x_y', 'mdi:x:y', 'mdi:-x', `mdi:${'a'.repeat(120)}`, 7, null]) {
+      add('Documento.idIconeExtraValido', id);
+    }
   }
 
   const telefones = ['(11) 98765-4321', '11987654321', '+55 11 98765-4321', '5511987654321', '011 98765-4321', '(11) 3456-7890',

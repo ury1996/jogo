@@ -248,6 +248,19 @@ test('ícones: categoria do negócio primeiro, busca sem acento, grava/remove a 
   const auto = op.definirIcone(com, 'serv.1', null);
   assert.equal('serv.1' in auto.icones, false, 'Automático remove a chave');
   assert.equal(op.definirIcone(auto, 'serv.1', null), auto);
+
+  // Iconify: o desenho vai para iconesExtras e sai quando nenhum item usa mais.
+  const svg = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M1 1"/></svg>';
+  const comExtra = op.definirIcone(auto, 'serv.1', 'mdi:tooth', { nome: 'tooth', svg: { fino: svg } });
+  assert.equal(comExtra.icones['serv.1'], 'mdi:tooth');
+  assert.deepEqual(comExtra.iconesExtras, { 'mdi:tooth': { nome: 'tooth', svg: { fino: svg } } });
+  const dois = op.definirIcone(comExtra, 'serv.2', 'mdi:tooth');
+  assert.deepEqual(Object.keys(dois.iconesExtras), ['mdi:tooth'], 'segundo item reaproveita o desenho');
+  const troca = op.definirIcone(dois, 'serv.1', 'tooth');
+  assert.deepEqual(Object.keys(troca.iconesExtras), ['mdi:tooth'], 'ainda usado no serv.2');
+  const nenhum = op.definirIcone(troca, 'serv.2', null);
+  assert.deepEqual(nenhum.iconesExtras, {}, 'ninguém usa: sai do documento');
+  assert.deepEqual(op.definirIcone(auto, 'serv.1', 'Ruim:X', { svg: { fino: svg } }).iconesExtras, {}, 'id inválido não guarda desenho');
 });
 
 test('imagens: liga/desliga mídia; redução para 2400 px; HEIC com mensagem clara', () => {

@@ -2,7 +2,7 @@
 // PARIDADE OBRIGATÓRIA com app/Preparo/Icones.php.
 
 import { comoLista, comoMapa, ehMapa, normalizar, pegar, temChave, textoDe } from './texto.mjs';
-import { nichoDe, registroListas } from './documento.mjs';
+import { idIconeExtraValido, nichoDe, registroListas } from './documento.mjs';
 import { textoEfetivo } from './textos.mjs';
 
 export const PESOS = { classico: 'fino', moderno: 'duotone', direto: 'preenchido', elegante: 'fino', suave: 'duotone', impacto: 'preenchido' };
@@ -67,6 +67,24 @@ export function acharIcone(lib, id) {
   return ehMapa(util) ? util : null;
 }
 
+/** Ícone do Iconify guardado no documento (doc.iconesExtras[id]) ou null. */
+export function iconeExtra(doc, id) {
+  if (!idIconeExtraValido(id)) return null;
+  const def = pegar(comoMapa(comoMapa(doc).iconesExtras), id);
+  return ehMapa(def) && ehMapa(def.svg) ? def : null;
+}
+
+/** Definição do ícone: biblioteca (lista principal ou utilitários) ou Iconify do documento. */
+export function definicaoIcone(doc, lib, id) {
+  return acharIcone(lib, id) ?? iconeExtra(doc, id);
+}
+
+/** SVG do ícone (biblioteca ou Iconify do documento) no peso do acabamento. */
+export function svgDoIcone(doc, lib, id, acabamento) {
+  const def = definicaoIcone(doc, lib, id);
+  return def === null ? '' : svgDaDefinicao(def, acabamento);
+}
+
 /** Campo de texto de onde a lista tira o ícone automático (manifesto: "automatico"; padrão "t"). */
 export function campoAutomatico(lib, lista) {
   const campos = comoMapa(comoMapa(pegar(registroListas(lib), textoDe(lista))).campos);
@@ -78,14 +96,14 @@ export function campoAutomatico(lib, lista) {
 }
 
 /**
- * Ícone do item: manual (doc.icones["lista.id"], se existir na biblioteca) →
+ * Ícone do item: manual (doc.icones["lista.id"], se existir na biblioteca ou no Iconify do documento) →
  * automático pelo texto → nicho.iconesPadrao[lista][posição % n] → "circulo".
  * `posicao` é a posição do item na lista efetiva, começando em 0.
  */
 export function iconeDoItem(doc, lib, lista, id, posicao, contexto) {
   const nomeLista = textoDe(lista);
   const manual = pegar(comoMapa(comoMapa(doc).icones), `${nomeLista}.${textoDe(id)}`);
-  if (typeof manual === 'string' && acharIcone(lib, manual) !== null) return manual;
+  if (typeof manual === 'string' && definicaoIcone(doc, lib, manual) !== null) return manual;
   const titulo = textoEfetivo(doc, lib, `${nomeLista}.${textoDe(id)}.${campoAutomatico(lib, nomeLista)}`, contexto);
   const automatico = escolherIcone(titulo, comoMapa(lib).icones);
   if (automatico !== null) return automatico;

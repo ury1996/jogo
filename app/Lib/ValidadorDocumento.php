@@ -76,6 +76,7 @@ final class ValidadorDocumento
         self::listas($doc['listas'] ?? [], $listas);
         self::imagens($doc['imagens'] ?? [], $registro, $midiasDoSite);
         self::icones($doc['icones'] ?? []);
+        self::iconesExtras($doc['iconesExtras'] ?? [], $doc['icones'] ?? []);
         self::outros($doc);
 
         $normalizado = Documento::migrar($doc, $lib);
@@ -327,8 +328,41 @@ final class ValidadorDocumento
         }
         foreach ($mapa as $chave => $id) {
             $chave = (string) $chave;
-            if (!preg_match(self::RE_ICONE_CHAVE, $chave) || !is_string($id) || !preg_match('/^[a-z0-9-]{1,48}$/D', $id)) {
+            if (!preg_match(self::RE_ICONE_CHAVE, $chave) || !is_string($id)
+                || (!preg_match('/^[a-z0-9-]{1,48}$/D', $id) && !Documento::idIconeExtraValido($id))) {
                 throw self::erro("Ícone inválido em {$chave}.", $chave);
+            }
+        }
+    }
+
+    /**
+     * Ícones do Iconify guardados no documento: no máximo 60, id "prefixo:nome", nome curto e cada
+     * desenho exatamente no formato que o servidor monta (Iconify::svgValido). Os que nenhum item
+     * usa são descartados depois, na normalização.
+     */
+    private static function iconesExtras(mixed $extras, mixed $icones): void
+    {
+        $mapa = self::mapa($extras, 'iconesExtras');
+        if (count($mapa) > 60) {
+            throw self::erro('Ícones do Iconify demais no documento (máximo de 60).', 'iconesExtras');
+        }
+        foreach ($mapa as $id => $def) {
+            $id = (string) $id;
+            if (!Documento::idIconeExtraValido($id) || !is_array($def) || ($def !== [] && array_is_list($def))) {
+                throw self::erro('Ícone do Iconify inválido.', 'iconesExtras');
+            }
+            $nome = $def['nome'] ?? null;
+            if ($nome !== null && (!is_string($nome) || mb_strlen($nome, 'UTF-8') > 100)) {
+                throw self::erro('Nome de ícone do Iconify inválido.', 'iconesExtras');
+            }
+            $svg = $def['svg'] ?? null;
+            if (!is_array($svg) || $svg === [] || array_is_list($svg)) {
+                throw self::erro('Ícone do Iconify sem desenho.', 'iconesExtras');
+            }
+            foreach ($svg as $peso => $desenho) {
+                if (!in_array($peso, Documento::PESOS_ICONE, true) || !Iconify::svgValido($desenho)) {
+                    throw self::erro('O desenho de um ícone do Iconify não é aceito. Escolha o ícone de novo.', 'iconesExtras');
+                }
             }
         }
     }

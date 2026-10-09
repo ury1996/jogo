@@ -27,7 +27,7 @@ import { normalizarCor } from './compartilhado/paleta.mjs';
 import { comFotosDeExemplo } from './compartilhado/fotos.mjs';
 import { EstadoEditor } from './estado.mjs';
 import {
-  iaDisponivel, pedirConteudo, aplicarPatchIa, guardarDescricao, guardarTom, seletorTom, tomValido, resumoResultado, MIN_DESCRICAO, MAX_DESCRICAO,
+  iaDisponivel, pedirConteudo, aplicarPatchIa, barraIa, guardarDescricao, guardarTom, seletorTom, tomValido, resumoResultado, MIN_DESCRICAO, MAX_DESCRICAO,
   chipsExemplos, linhaDica, rotuloGerar, placeholderDescricao,
 } from './ia.mjs';
 
@@ -832,6 +832,7 @@ function passoDados(alvo, lib, limpeza) {
   /* ---------- gerar */
   const gerar = el('button', { type: 'submit', class: 'btn btn--primario btn--grande dados-negocio__gerar' });
   function atualizarBotaoGerar() {
+    if (gerar.classList.contains('btn--barra')) return; // a barra de progresso está no lugar do rótulo
     const rotulo = rotuloGerar({ ia: iaLigada, descricao: descricao.value });
     const comIa = rotulo !== rotuloGerar();
     if (gerar.dataset.rotulo === rotulo) return;
@@ -875,14 +876,20 @@ function passoDados(alvo, lib, limpeza) {
       primeiro.focus();
       return;
     }
+    const textoIa = iaLigada ? descricao.value.trim() : '';
+    const comIa = textoIa.length >= MIN_DESCRICAO;
     gerar.disabled = true;
     gerar.setAttribute('aria-busy', 'true');
     progresso.textContent = 'Criando o seu site…';
+    // Com IA, o botão inteiro vira a barra de porcentagem até o site ficar pronto.
+    const barra = comIa ? barraIa(gerar, { escopo: 'site', aoEtapa: (rotulo) => { progresso.textContent = `${rotulo}…`; } }) : null;
+    barra?.fixar('Criando o site');
     let criado = null;
     try {
       const r = await api.post('/sites', corpoCriacao(lib, estado));
       criado = r.site;
     } catch (e) {
+      barra?.falhar();
       gerar.disabled = false;
       gerar.removeAttribute('aria-busy');
       progresso.textContent = '';
@@ -894,6 +901,7 @@ function passoDados(alvo, lib, limpeza) {
     if (logo) {
       try {
         progresso.textContent = 'Enviando o logo…';
+        barra?.fixar('Enviando o logo');
         const fd = new FormData();
         fd.append('arquivo', logo.arquivo, logo.arquivo.name);
         fd.append('site_id', String(criado.id));
@@ -904,27 +912,28 @@ function passoDados(alvo, lib, limpeza) {
         const documento = { ...criado.documento, dados: { ...criado.documento.dados, logo: m.midia.id } };
         await api.put(`/sites/${criado.id}`, { revisao: criado.revisao, documento });
       } catch (e) {
-        if (e?.status === 401) return;
+        if (e?.status === 401) return barra?.falhar();
         falhaLogo = e?.mensagem ?? 'Não foi possível enviar o logo.';
       }
     }
     let resultadoIa = null;
     let falhaIa = null;
-    const textoIa = iaLigada ? descricao.value.trim() : '';
-    if (textoIa.length >= MIN_DESCRICAO) {
+    if (comIa) {
       try {
         guardarDescricao(criado.id, textoIa);
         guardarTom(criado.id, estado.tom);
         progresso.textContent = 'A IA está escrevendo e revisando os textos do seu site… isso leva de 15 a 60 segundos.';
+        barra?.liberar();
         const patch = await pedirConteudo(criado.id, textoIa, 'site', estado.tom);
         const atual = (await api.get(`/sites/${criado.id}`)).site;
         await api.put(`/sites/${criado.id}`, { revisao: atual.revisao, documento: aplicarPatchIa(atual.documento, patch) });
         resultadoIa = patch;
       } catch (e) {
-        if (e?.status === 401) return;
+        if (e?.status === 401) return barra?.falhar();
         falhaIa = e?.mensagem ?? 'A IA não respondeu.';
       }
     }
+    await barra?.concluir(falhaIa ? 'Site criado' : 'Pronto');
     recomecar();
     navegar(`#/site/${criado.id}`);
     aviso('Seu site está pronto. Clique em qualquer texto para editar.', { tipo: 'ok', duracao: 8000 });

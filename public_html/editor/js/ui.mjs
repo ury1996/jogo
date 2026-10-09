@@ -353,7 +353,7 @@ export function modal(opcoes = {}) {
         b.disabled = true;
         b.setAttribute('aria-busy', 'true');
         try {
-          r = await acao.fn(api);
+          r = await acao.fn(api, b);
         } catch (e) {
           aviso(e?.mensagem ?? e?.message ?? 'Algo deu errado. Tente de novo.', { tipo: 'erro' });
           r = false;
@@ -590,6 +590,142 @@ export function campo({ rotulo, entrada, ajuda = '', opcional = false, max = 0, 
   }
   atualizarContador();
   return { elemento, entrada, definirErro, atualizarContador, definirAjuda(t) { textoAjuda.textContent = t; textoAjuda.hidden = !t; } };
+}
+
+/* ------------------------------------------------------------------ botão que vira barra de progresso */
+
+/** Teto da estimativa: a barra nunca chega a 100% antes de a resposta chegar. */
+export const TETO_ESTIMATIVA = 95;
+
+/**
+ * Porcentagem estimada (0…TETO_ESTIMATIVA) depois de `decorridoMs`, para uma tarefa que costuma
+ * levar `estimativaMs`. Curva que desacelera: ~80% no tempo esperado, ~94% no dobro, sem nunca
+ * parar de andar nem passar do teto.
+ */
+export function porcentagemEstimada(decorridoMs, estimativaMs) {
+  const t = Math.max(0, Number(decorridoMs) || 0);
+  const e = Math.max(1000, Number(estimativaMs) || 0);
+  return Math.min(TETO_ESTIMATIVA, Math.floor(TETO_ESTIMATIVA * (1 - Math.exp((-1.85 * t) / e))));
+}
+
+/** Nova estimativa depois de uma tarefa que levou `duracaoMs` (média que pesa mais as recentes). */
+export function novaEstimativa(anteriorMs, duracaoMs, { min = 5000, max = 180000 } = {}) {
+  const d = Math.min(max, Math.max(min, Number(duracaoMs) || 0));
+  const a = Number(anteriorMs);
+  return Math.round(Number.isFinite(a) && a > 0 ? a * 0.5 + d * 0.5 : d);
+}
+
+function lerNumeroLocal(chave) {
+  try {
+    const v = Number(localStorage.getItem(chave));
+    return Number.isFinite(v) && v > 0 ? v : null;
+  } catch {
+    return null;
+  }
+}
+
+function gravarNumeroLocal(chave, valor) {
+  try {
+    localStorage.setItem(chave, String(valor));
+  } catch {
+    /* modo privado: fica a estimativa padrão */
+  }
+}
+
+/**
+ * O botão inteiro vira uma barra que enche da esquerda para a direita, com o texto e a
+ * porcentagem por cima (ex.: "Escrevendo os textos… 42%"). Para tarefas que respondem de uma vez
+ * (a IA): a porcentagem é estimada pelo tempo que as últimas levaram neste navegador (`chave`) e
+ * segura em 95% até a resposta; `concluir()` enche até 100% e devolve o botão ao normal.
+ *
+ * etapas: [{ ate: 60, rotulo: 'Escrevendo os textos' }, …] — o rótulo muda conforme a porcentagem.
+ * aoEtapa(rotulo): chamado quando a etapa muda (para uma região aria-live; o botão não anuncia
+ * cada número).
+ */
+export function barraNoBotao(botao, { chave = '', estimativaMs = 30000, etapas = [{ ate: 100, rotulo: 'Trabalhando' }], aoEtapa = null } = {}) {
+  const chaveLocal = chave ? `rk-duracao-${chave}` : '';
+  const estimativa = (chaveLocal && lerNumeroLocal(chaveLocal)) || estimativaMs;
+  const originais = [...botao.childNodes];
+  const largura = botao.offsetWidth;
+  const texto = el('span', { class: 'btn-barra__texto' });
+  const textoCheio = el('span', { class: 'btn-barra__texto' });
+  const cheio = el('span', { class: 'btn-barra__cheio', 'aria-hidden': 'true' }, textoCheio);
+  const inicio = Date.now();
+  let atual = -1;
+  let etapaAtual = null;
+  let rotuloFixo = null;
+  let acabou = false;
+
+  botao.removeAttribute('aria-busy'); // a barra substitui o giro
+  botao.classList.add('btn--barra');
+  botao.disabled = true;
+  if (largura > 0) botao.style.minWidth = `${largura}px`;
+  botao.replaceChildren(texto, cheio);
+
+  function mostrar(p, rotulo) {
+    const linha = `${rotulo}… ${p}%`;
+    botao.style.setProperty('--barra', `${p}%`);
+    if (texto.textContent !== linha) {
+      texto.textContent = linha;
+      textoCheio.textContent = linha;
+    }
+  }
+
+  function passo() {
+    if (acabou) return;
+    const p = porcentagemEstimada(Date.now() - inicio, estimativa);
+    const etapa = etapas.find((e) => p < e.ate) ?? etapas[etapas.length - 1];
+    if (etapa !== etapaAtual) {
+      etapaAtual = etapa;
+      if (!rotuloFixo) aoEtapa?.(etapa.rotulo);
+    }
+    if (p !== atual) {
+      atual = p;
+      mostrar(p, rotuloFixo ?? etapa.rotulo);
+    }
+  }
+
+  function restaurar() {
+    acabou = true;
+    clearInterval(relogio);
+    botao.classList.remove('btn--barra');
+    botao.style.removeProperty('--barra');
+    botao.style.minWidth = '';
+    botao.replaceChildren(...originais);
+    botao.disabled = false;
+  }
+
+  passo();
+  const relogio = setInterval(passo, 200);
+
+  return {
+    /** Mostra um rótulo fixo (ex.: "Salvando") até `liberar()`; a porcentagem continua. */
+    fixar(rotulo) {
+      rotuloFixo = rotulo;
+      atual = -1;
+      passo();
+    },
+    liberar() {
+      rotuloFixo = null;
+      atual = -1;
+      etapaAtual = null;
+      passo();
+    },
+    /** Enche até 100%, guarda quanto levou e devolve o botão ao normal. */
+    async concluir(rotulo = 'Pronto') {
+      if (acabou) return;
+      acabou = true;
+      clearInterval(relogio);
+      if (chaveLocal) gravarNumeroLocal(chaveLocal, novaEstimativa(lerNumeroLocal(chaveLocal), Date.now() - inicio));
+      mostrar(100, rotulo);
+      await new Promise((r) => setTimeout(r, 450));
+      restaurar();
+    },
+    /** Volta ao normal na hora (erro ou cancelamento). */
+    falhar() {
+      if (botao.classList.contains('btn--barra')) restaurar();
+    },
+  };
 }
 
 /** Indicador de carregamento (anunciado aos leitores de tela). */

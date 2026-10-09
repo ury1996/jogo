@@ -93,6 +93,29 @@ final class Icones
         return Texto::ehMapa($util) ? $util : null;
     }
 
+    /** Ícone do Iconify guardado no documento (doc.iconesExtras[id]) ou null. */
+    public static function iconeExtra(mixed $doc, mixed $id): ?array
+    {
+        if (!Documento::idIconeExtraValido($id)) {
+            return null;
+        }
+        $def = Texto::pegar(Texto::comoMapa(Texto::pegar(Texto::comoMapa($doc), 'iconesExtras')), $id);
+        return Texto::ehMapa($def) && Texto::ehMapa(Texto::pegar($def, 'svg')) ? $def : null;
+    }
+
+    /** Definição do ícone: biblioteca (lista principal ou utilitários) ou Iconify do documento. */
+    public static function definicaoIcone(mixed $doc, mixed $lib, mixed $id): ?array
+    {
+        return self::acharIcone($lib, $id) ?? self::iconeExtra($doc, $id);
+    }
+
+    /** SVG do ícone (biblioteca ou Iconify do documento) no peso do acabamento. */
+    public static function svgDoIcone(mixed $doc, mixed $lib, mixed $id, mixed $acabamento): string
+    {
+        $def = self::definicaoIcone($doc, $lib, $id);
+        return $def === null ? '' : self::svgDaDefinicao($def, $acabamento);
+    }
+
     /** Campo de texto de onde a lista tira o ícone automático (manifesto: "automatico"; padrão "t"). */
     public static function campoAutomatico(mixed $lib, string $lista): string
     {
@@ -108,14 +131,14 @@ final class Icones
     }
 
     /**
-     * Ícone do item: manual (doc.icones["lista.id"], se existir na biblioteca) →
+     * Ícone do item: manual (doc.icones["lista.id"], se existir na biblioteca ou no Iconify do documento) →
      * automático pelo texto → nicho.iconesPadrao[lista][posição % n] → "circulo".
      * `$posicao` é a posição do item na lista efetiva, começando em 0.
      */
     public static function iconeDoItem(mixed $doc, mixed $lib, string $lista, string $id, int $posicao, ?array $contexto = null): string
     {
         $manual = Texto::pegar(Texto::comoMapa(Texto::pegar(Texto::comoMapa($doc), 'icones')), $lista . '.' . $id);
-        if (is_string($manual) && self::acharIcone($lib, $manual) !== null) {
+        if (is_string($manual) && self::definicaoIcone($doc, $lib, $manual) !== null) {
             return $manual;
         }
         $titulo = Textos::textoEfetivo($doc, $lib, $lista . '.' . $id . '.' . self::campoAutomatico($lib, $lista), $contexto);
