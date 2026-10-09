@@ -4,6 +4,7 @@
  * Processa a fila de tarefas [M14]. Agende no cron a cada minuto (ou a cada 5):
  *   * * * * * php /caminho/app/cli/cron.php >> /caminho/var/logs/cron.log 2>&1
  * Opções: --limite=N (padrão 50), --republicar-todos (enfileira republicação dos sites publicados).
+ * Na hospedagem com atualização automática, também confere se há versão nova (Lib\Atualizador).
  */
 
 declare(strict_types=1);
@@ -16,6 +17,7 @@ if (PHP_SAPI !== 'cli') {
 /** @var \Rankly\Aplicacao $app */
 $app = require dirname(__DIR__) . '/bootstrap.php';
 
+use Rankly\Lib\Atualizador;
 use Rankly\Lib\Executores;
 
 $opcoes = getopt('', ['limite:', 'republicar-todos']);
@@ -30,6 +32,17 @@ if ($trava === false || !flock($trava, LOCK_EX | LOCK_NB)) {
 
 $codigo = 0;
 try {
+    // Versão nova (ou o fim de uma atualização): depois de trocar o código, este processo
+    // ainda tem as classes antigas na memória — encerra e deixa o resto para a próxima rodada.
+    $atualizador = new Atualizador($app);
+    $trocou = !$atualizador->posPendente();
+    $msg = $atualizador->talvezAtualizar();
+    if ($msg !== null) {
+        echo gmdate('Y-m-d H:i:s') . " UTC · {$msg}\n";
+        if ($trocou && $atualizador->posPendente()) {
+            exit(0);
+        }
+    }
     Executores::registrarTodos($app);
     Executores::agendarLimpeza($app);
     if (isset($opcoes['republicar-todos'])) {

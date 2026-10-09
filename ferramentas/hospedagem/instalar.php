@@ -11,7 +11,9 @@
  *   2. pede o banco MySQL, o primeiro usuário e (opcional) as chaves da IA, do Pixabay e o e-mail;
  *   3. põe o sistema FORA da pasta pública (ao lado da public_html, onde a internet não alcança)
  *      e copia para a pasta do subdomínio só a parte web (editor, API);
- *   4. grava a configuração, cria as tabelas e o usuário e apaga o pacote e a si mesmo.
+ *   4. grava a configuração, cria as tabelas e o usuário e apaga o pacote e a si mesmo;
+ *   5. (opcional) com um token do GitHub só de leitura, liga a atualização automática: o cron
+ *      confere a cada 5 minutos se o GitHub publicou versão nova e se atualiza sozinho.
  *
  * Atualizar: envie o pacote novo e este arquivo de novo e abra a mesma página. Com o sistema
  * instalado, ele pede o e-mail e a senha de um administrador antes de mexer em qualquer coisa.
@@ -23,6 +25,8 @@ declare(strict_types=1);
 const PACOTE = 'rankly-hospedagem.zip';
 const PASTA_PROJETO = 'rankly-sistema';
 const PHP_MINIMO = '8.2.0';
+/** Repositório de onde a hospedagem busca as versões novas (atualização automática). */
+const REPO_GITHUB = 'ury1996/jogo';
 
 error_reporting(E_ALL);
 ini_set('display_errors', '0');
@@ -242,6 +246,7 @@ function configNova(array $c): string
         ],
         'ia' => ['provedor' => $c['gemini'] !== '' ? 'gemini' : 'desligado', 'chave' => $c['gemini']],
         'pixabay' => ['chave' => $c['pixabay']],
+        'atualizacao' => ['github_repo' => REPO_GITHUB, 'github_token' => $c['github'], 'dir_web' => $c['dir_web']],
     ];
     return "<?php\n\n// Gerado pelo instalador em " . gmdate('Y-m-d H:i') . " UTC. Os valores que faltam vêm dos padrões\n"
         . "// (app/Lib/Config.php). Guarde uma cópia deste arquivo: ele tem as senhas e os segredos.\n\n"
@@ -324,7 +329,11 @@ if (($_POST['acao'] ?? '') === 'instalar' && ($instalado === null || !empty($_SE
         'gemini' => preg_replace('/\s+/', '', post('gemini')), 'pixabay' => preg_replace('/\s+/', '', post('pixabay')),
         'smtp_host' => post('smtp_host') ?: 'smtp.hostinger.com', 'smtp_porta' => post('smtp_porta') ?: '465',
         'smtp_usuario' => post('smtp_usuario'), 'smtp_senha' => (string) ($_POST['smtp_senha'] ?? ''),
+        'github' => preg_replace('/\s+/', '', post('github')), 'dir_web' => $web,
     ];
+    if ($c['github'] !== '' && !preg_match('/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/', $c['github'])) {
+        $erros[] = 'O token do GitHub não parece certo (começa com github_pat_). Copie de novo.';
+    }
     if ($instalado === null) {
         if ($c['db_nome'] === '' || $c['db_usuario'] === '') {
             $erros[] = 'Preencha o nome do banco e o usuário do banco.';
@@ -419,7 +428,11 @@ if (($_POST['acao'] ?? '') === 'instalar' && ($instalado === null || !empty($_SE
                 file_put_contents($arqConfig, configNova($c));
                 @chmod($arqConfig, 0600);
             } else {
-                $trocas = ['url_editor' => $url, 'dominio_sites' => $host, 'protocolo_sites' => $esquema];
+                $trocas = ['url_editor' => $url, 'dominio_sites' => $host, 'protocolo_sites' => $esquema,
+                    'atualizacao.dir_web' => $web, 'atualizacao.github_repo' => REPO_GITHUB];
+                if ($c['github'] !== '') {
+                    $trocas['atualizacao.github_token'] = $c['github'];
+                }
                 if ($c['gemini'] !== '') {
                     $trocas['ia.chave'] = $c['gemini'];
                     $trocas['ia.provedor'] = 'gemini';
@@ -464,6 +477,7 @@ if (($_POST['acao'] ?? '') === 'instalar' && ($instalado === null || !empty($_SE
             @unlink($web . '/' . PACOTE);
             $feito = ['atualizacao' => $instalado !== null, 'email' => $c['email'], 'republicados' => $republicados, 'falhas' => $falhas,
                 'cron' => phpDoCron() . ' ' . $projeto . '/app/cli/cron.php', 'projeto' => $projeto,
+                'automatica' => $c['github'] !== '' || ($instalado !== null && (string) ($app->config('atualizacao.github_token', '')) !== ''),
                 'apagou' => @unlink(__FILE__)];
             $_SESSION = [];
         } catch (Throwable $e) {
@@ -520,10 +534,13 @@ details summary{cursor:pointer;font-weight:600}a{color:var(--pri)}
   </div>
   <div class="cartao">
     <h2 style="margin-top:0">Último passo (recomendado): tarefa agendada</h2>
-    <p>Garante o envio dos e-mails que falharem e a limpeza diária. No painel: <strong>Avançado → Cron Jobs</strong>,
+    <p>Garante o envio dos e-mails que falharem, a limpeza diária e a atualização automática. No painel: <strong>Avançado → Cron Jobs</strong>,
     tipo <strong>Personalizado</strong>, a cada minuto (ou a cada 5), com o comando:</p>
     <p><code><?= h($feito['cron']) ?></code></p>
     <p class="ajuda">Se o painel recusar o caminho do PHP, use o que ele sugerir para a versão 8.2/8.3.</p>
+  </div>
+  <div class="cartao">
+    <p style="margin:0"><?= $feito['automatica'] ? 'Atualização automática <strong>ligada</strong>: com a tarefa agendada acima, as versões novas chegam sozinhas.' : 'Atualização automática desligada (sem token do GitHub). Para ligar depois, rode o instalador de novo e informe o token.' ?></p>
   </div>
   <div class="cartao">
     <p style="margin:0">Arquivos do sistema: <code><?= h($feito['projeto']) ?></code> (fora da pasta pública).
@@ -590,6 +607,11 @@ details summary{cursor:pointer;font-weight:600}a{color:var(--pri)}
       <p class="ajuda"><?= $instalado === null ? 'Dá para colocar depois rodando o instalador de novo.' : 'Deixe em branco para manter as atuais.' ?> Como pegar: guia COMO-TESTAR, parte 3.</p>
       <label for="gemini">Chave da IA (Google Gemini)</label><input id="gemini" name="gemini" placeholder="AQ.… ou AIza…">
       <label for="pixabay">Chave do banco de imagens (Pixabay)</label><input id="pixabay" name="pixabay" placeholder="12345678-…">
+    </div>
+    <div class="cartao">
+      <h2 style="margin-top:0">Atualização automática (opcional)</h2>
+      <p class="ajuda">Com um token do GitHub <strong>só de leitura</strong>, cada versão nova que passar nos testes chega aqui sozinha em até 5 minutos (precisa da tarefa agendada ligada). Como criar: guia HOSPEDAGEM, parte 7.<?= $instalado !== null ? ' Deixe em branco para manter o atual.' : '' ?></p>
+      <label for="github">Token do GitHub</label><input id="github" name="github" placeholder="github_pat_…">
     </div>
     <?php if ($instalado === null): ?>
     <div class="cartao">

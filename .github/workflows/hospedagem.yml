@@ -1,0 +1,66 @@
+# A cada envio: roda os testes e, se passarem, publica o pacote da hospedagem na release
+# "hospedagem". A hospedagem (cron + Lib\Atualizador) confere essa release a cada 5 minutos e se
+# atualiza sozinha. Versão com teste falhando nunca chega lá.
+name: Pacote para a hospedagem
+
+on:
+  push:
+    branches: [main, claude/jolly-hawking-m0fur7]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pacote-hospedagem
+  cancel-in-progress: true
+
+jobs:
+  testar-e-publicar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: gd, zip, mbstring, pdo_sqlite, pdo_mysql, curl, exif
+          tools: composer:v2
+          coverage: none
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Dependências PHP
+        run: composer install --no-interaction --no-progress
+
+      - name: Testes PHP
+        run: vendor/bin/phpunit -c tests/php/phpunit.xml
+
+      - name: Testes JS
+        run: node --test 'tests/js/**/*.test.mjs'
+
+      - name: Paridade JS ≡ PHP
+        run: node tests/paridade/comparar.mjs
+
+      - name: Montar o pacote
+        run: php bin/empacotar-hospedagem.php
+
+      - name: Publicar na release "hospedagem"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          SHA=$(git rev-parse --short HEAD)
+          NOTAS="Pacote testado para a hospedagem (gerado pelo GitHub Actions).
+          Ramo: ${GITHUB_REF_NAME}
+          codigo=${SHA}"
+          if ! gh release view hospedagem >/dev/null 2>&1; then
+            gh release create hospedagem --title "Pacote para a hospedagem" --notes "aguardando" --prerelease --target "$GITHUB_SHA"
+          fi
+          # Primeiro o arquivo, depois o texto com o commit: a hospedagem só vê a versão nova
+          # quando o arquivo dela já está lá.
+          gh release upload hospedagem dist/rankly-hospedagem.zip dist/instalar.php --clobber
+          gh release edit hospedagem --title "Pacote ${SHA}" --notes "$NOTAS"
+          echo "Publicado: ${SHA}" >> "$GITHUB_STEP_SUMMARY"

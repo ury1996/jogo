@@ -34,10 +34,10 @@ final class Aplicacao
     {
     }
 
-    /** null → carrega config/config.php (ou o arquivo em RANKLY_CONFIG). */
-    public static function iniciar(?array $config = null): self
+    /** null → carrega config/config.php (ou o arquivo em RANKLY_CONFIG). $raiz: só para testes. */
+    public static function iniciar(?array $config = null, ?string $raiz = null): self
     {
-        $raiz = dirname(__DIR__);
+        $raiz ??= dirname(__DIR__);
         if ($config === null) {
             $arquivo = getenv('RANKLY_CONFIG');
             $config = Config::carregarArquivo(is_string($arquivo) && $arquivo !== '' ? $arquivo : $raiz . '/config/config.php');

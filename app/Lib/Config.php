@@ -64,6 +64,15 @@ final class Config
                 'chave' => '',
                 'limite_por_hora' => 120,
             ],
+            // Atualização automática na hospedagem (Lib\Atualizador, ligada pelo instalar.php).
+            'atualizacao' => [
+                'automatica' => true,
+                'github_repo' => '',
+                'github_token' => '',
+                'tag' => 'hospedagem',
+                'dir_web' => '',
+                'intervalo_min' => 5,
+            ],
         ];
     }
 
