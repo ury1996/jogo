@@ -41,6 +41,13 @@ if ($caminho === '/api' || str_starts_with($caminho, '/api/')) {
     return true;
 }
 
+// Modo demonstração: sites publicados em /s/{slug}/ (s.php responde 404 fora desse modo).
+if ($caminho === '/s' || str_starts_with($caminho, '/s/')) {
+    $_SERVER['SCRIPT_NAME'] = '/s.php';
+    require $raizWeb . '/s.php';
+    return true;
+}
+
 if ($caminho === '/' || $caminho === '/index.php') {
     header('Location: /editor/', true, 302);
     return true;

@@ -14,6 +14,10 @@ DirectoryIndex index.php index.html
   RewriteRule ^api/index\.php$ - [L]
   RewriteRule ^api(/|$) api/index.php [L,QSA]
 
+  # Modo demonstração (sites_no_caminho): sites publicados em /s/{slug}/
+  RewriteRule ^s\.php$ - [L]
+  RewriteRule ^s/ s.php [L,QSA]
+
   # /editor → /editor/
   RewriteRule ^editor$ /editor/ [R=301,L]
 </IfModule>

@@ -194,7 +194,12 @@ final class Leads
     /** A origem é a do próprio site (subdomínio ou domínio próprio ativo, com ou sem www)? */
     private static function origemPermitida(Aplicacao $app, array $site, string $origem): bool
     {
-        $permitidas = [$app->urlSite((string) $site['slug'])];
+        // Origem (esquema://host[:porta]) do endereço do site; no modo demonstração o site fica
+        // num caminho (/s/{slug}) do mesmo host do editor.
+        $url = parse_url($app->urlSite((string) $site['slug']));
+        $permitidas = [is_array($url) && isset($url['scheme'], $url['host'])
+            ? $url['scheme'] . '://' . $url['host'] . (isset($url['port']) ? ':' . $url['port'] : '')
+            : $app->urlSite((string) $site['slug'])];
         foreach ($app->db()->todos("SELECT dominio FROM dominios WHERE site_id = ? AND status = 'ativo'", [(int) $site['id']]) as $d) {
             $permitidas[] = 'https://' . $d['dominio'];
             $permitidas[] = 'https://www.' . $d['dominio'];

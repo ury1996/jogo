@@ -7,6 +7,8 @@
  * - fetch/XHR: JSON {ok:true} ou {ok:false, erro:{codigo, mensagem}};
  * - formulário sem JavaScript: 303 para /obrigado/ (ou uma página simples com o erro).
  * Se a pasta sites/ não estiver dentro do projeto, defina RANKLY_RAIZ com a raiz do projeto.
+ * No modo demonstração (sites_no_caminho) quem inclui este arquivo é public_html/s.php, com
+ * $slugDoCaminho definido: o site vem do caminho (/s/{slug}/_lead), não do host.
  */
 
 declare(strict_types=1);
@@ -46,10 +48,12 @@ try {
 
 $req = Requisicao::doGlobais();
 $host = strtolower((string) ($req->cabecalho('host') ?? ''));
-$erro = static function (int $status, string $codigo, string $mensagem) use ($req): Resposta {
+$slugDoCaminho = isset($slugDoCaminho) && is_string($slugDoCaminho) ? $slugDoCaminho : null;
+$raizDoSite = $slugDoCaminho !== null ? '/s/' . $slugDoCaminho . '/' : '/';
+$erro = static function (int $status, string $codigo, string $mensagem) use ($req, $raizDoSite): Resposta {
     return $req->querJson()
         ? Resposta::json(['ok' => false, 'erro' => ['codigo' => $codigo, 'mensagem' => $mensagem]], $status)
-        : \Rankly\Api\Leads::paginaErro($mensagem, $status, null, '/');
+        : \Rankly\Api\Leads::paginaErro($mensagem, $status, null, $raizDoSite);
 };
 
 try {
@@ -64,16 +68,27 @@ try {
         if ($porta !== null) {
             $hostOrigem .= ':' . $porta;
         }
-        if ($hostOrigem !== $host) {
+        // No modo demonstração o host público (url_editor) pode ser diferente do que chega ao
+        // PHP atrás de um proxy (Codespaces, túnel): aceita os dois.
+        $hostsAceitos = [$host];
+        if ($slugDoCaminho !== null) {
+            $editor = parse_url((string) $app->config('url_editor', ''));
+            if (is_array($editor) && isset($editor['host'])) {
+                $hostsAceitos[] = strtolower($editor['host']) . (isset($editor['port']) ? ':' . $editor['port'] : '');
+            }
+        }
+        if (!in_array($hostOrigem, $hostsAceitos, true)) {
             $resposta = $erro(403, 'origem', 'Envio recusado: use o formulário do próprio site.');
         }
     }
     if (!isset($resposta)) {
-        $site = \Rankly\Lib\Sites::porHost($app, $host);
+        $site = $slugDoCaminho !== null
+            ? \Rankly\Lib\Sites::porSlug($app, $slugDoCaminho)
+            : \Rankly\Lib\Sites::porHost($app, $host);
         if ($site === null || $site['status'] !== 'publicado') {
             $resposta = $erro(404, 'site_nao_encontrado', 'Site não encontrado.');
         } else {
-            $resposta = \Rankly\Api\Leads::responderPublico($app, $req, $site, '/obrigado/');
+            $resposta = \Rankly\Api\Leads::responderPublico($app, $req, $site, $raizDoSite . 'obrigado/');
         }
     }
 } catch (\Throwable $e) {

@@ -1,0 +1,15 @@
+.git
+vendor
+node_modules
+var
+media/*
+sites/*
+!sites/.htaccess
+!sites/_lead.php
+!sites/_roteador.php
+!sites/router-dev.php
+config/config.php
+test-results
+playwright-report
+tests/e2e/saida
+tests/paridade/saida

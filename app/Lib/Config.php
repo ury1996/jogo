@@ -18,6 +18,7 @@ final class Config
             'url_editor' => 'http://localhost:8080',
             'dominio_sites' => 'localhost:8081',
             'protocolo_sites' => 'http',
+            'sites_no_caminho' => false,
             'db' => [
                 'driver' => 'mysql',
                 'dsn' => 'mysql:host=127.0.0.1;port=3306;dbname=rankly;charset=utf8mb4',

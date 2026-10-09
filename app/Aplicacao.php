@@ -187,9 +187,15 @@ final class Aplicacao
         return $this->mailer ??= new Mailer($this);
     }
 
-    /** protocolo_sites://{slug}.{dominio_sites} */
+    /**
+     * protocolo_sites://{slug}.{dominio_sites}; no modo demonstração (sites_no_caminho),
+     * {url_editor}/s/{slug} — tudo num endereço só, sem subdomínios.
+     */
     public function urlSite(string $slug): string
     {
+        if ($this->config('sites_no_caminho', false) === true) {
+            return rtrim((string) $this->config('url_editor', ''), '/') . '/s/' . $slug;
+        }
         return $this->config('protocolo_sites', 'https') . '://' . $slug . '.' . $this->config('dominio_sites');
     }
 

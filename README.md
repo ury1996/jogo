@@ -1,7 +1,7 @@
 # Construtor Rankly
 
 Construtor de sites por nicho da Sites Rankly. A pessoa escolhe o nicho (advocacia, finanças,
-empresas, clínicas), um modelo (Clássico, Moderno ou Direto) e preenche os dados do negócio. O
+empresas, clínicas), um modelo (4 exclusivos do nicho ou um dos gerais: Clássico, Moderno, Direto) e preenche os dados do negócio. O
 sistema monta um site de uma página com textos do nicho já escritos, paleta calculada a partir de
 uma cor, fontes e ícones escolhidos automaticamente. Depois disso, a pessoa edita os textos e as fotos
 direto na página e publica.
@@ -22,8 +22,16 @@ Três partes:
 A lógica que monta o HTML existe em JS (`public_html/editor/js/compartilhado/`) e em PHP
 (`app/Preparo/`). Um teste de paridade confere que as duas saídas são iguais byte a byte.
 
+**Para abrir e testar rápido** (ou mandar um link para outras pessoas testarem): veja
+[`docs/DEMONSTRACAO.md`](docs/DEMONSTRACAO.md) — com um clique no GitHub Codespaces, ou
+`docker compose up` no seu computador.
+
+[![Abrir no GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/ury1996/jogo?ref=claude/jolly-hawking-m0fur7)
+
 Documentos:
 
+- [`docs/DEMONSTRACAO.md`](docs/DEMONSTRACAO.md): modo demonstração (Codespaces, Docker, servidor de
+  testes), tudo num endereço só.
 - [`docs/COMO-TESTAR.md`](docs/COMO-TESTAR.md): passo a passo para rodar no seu computador (com SQLite)
   e testar o fluxo completo, do assistente ao lead.
 - [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md): contrato técnico (formatos, regras, rotas, tabelas).

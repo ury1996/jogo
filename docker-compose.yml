@@ -1,0 +1,16 @@
+# Modo demonstração com um comando:  docker compose up
+# Abra http://localhost:8080/editor/  (demo@rankly.app / demo12345)
+# Para a IA de verdade: GEMINI_API_KEY=sua-chave docker compose up
+services:
+  rankly:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      RANKLY_URL: ${RANKLY_URL:-}
+    volumes:
+      - rankly-dados:/dados
+    restart: unless-stopped
+volumes:
+  rankly-dados:
