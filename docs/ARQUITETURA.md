@@ -22,7 +22,9 @@ Editor (navegador, JS puro, módulos ES)  ⇄  API (PHP 8.2+)  →  Gerador est�
 - O editor renderiza a prévia com **mustache.js** + `compartilhado/preparo.mjs`.
 - O servidor publica com **mustache.php** + `app/Preparo/Preparo.php`.
 - Os dois produzem **o mesmo HTML byte a byte** para o mesmo documento (`modo: "publicar"`).
-- O site publicado é uma pasta estática servida por link simbólico atômico `[M10]`.
+- O site publicado é uma pasta estática servida por link simbólico atômico `[M10]`. Onde o PHP não
+  pode criar links (hospedagem compartilhada), a release no ar fica anotada em
+  `sites/.releases/{slug}/.no-ar` e os sites são servidos pelo PHP (`sites_no_caminho`).
 
 ---
 

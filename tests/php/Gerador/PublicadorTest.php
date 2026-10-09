@@ -147,4 +147,68 @@ final class PublicadorTest extends TestCase
         $this->assertFalse(file_exists($this->dir . '/sorriso'));
         $this->assertSame(['1-ffff0000'], $this->p->listar('sorriso'));
     }
+
+    /** Hospedagem que bloqueia symlink(): a release no ar fica anotada em .no-ar. */
+    public function testSemLinksSimbolicosUsaOArquivoNoAr(): void
+    {
+        $p = new Publicador($this->dir, false);
+        $servidor = new \Rankly\Gerador\ServidorEstatico($this->dir);
+        $p->gravar('sorriso', '1-aaaa0001', ['index.html' => 'v1'], []);
+        $p->gravar('sorriso', '2-aaaa0002', ['index.html' => 'v2'], []);
+        $this->assertNull($servidor->pastaDoSite('sorriso'));
+
+        $this->assertSame(['anterior' => null, 'legado' => null], $p->apontar('sorriso', '1-aaaa0001'));
+        $this->assertFalse(file_exists($this->dir . '/sorriso') || is_link($this->dir . '/sorriso'), 'nenhum link criado');
+        $this->assertSame('1-aaaa0001', $p->releaseAtual('sorriso'));
+        $this->assertSame("1-aaaa0001\n", file_get_contents($this->dir . '/.releases/sorriso/.no-ar'));
+        $this->assertStringEndsWith('/1-aaaa0001', (string) $servidor->pastaDoSite('sorriso'));
+        $this->assertSame(200, $servidor->responder('sorriso', 'GET', '/')->status);
+
+        $this->assertSame('1-aaaa0001', $p->apontar('sorriso', '2-aaaa0002')['anterior']);
+        $this->assertStringEndsWith('/2-aaaa0002', (string) $servidor->pastaDoSite('sorriso'));
+        $this->assertSame([], glob($this->dir . '/.releases/sorriso/.no-ar.tmp-*') ?: [], 'nenhum temporário sobra');
+        $this->assertSame(['2-aaaa0002', '1-aaaa0001'], $p->listar('sorriso'), '.no-ar não é release');
+
+        $p->gravar('sorriso', '3-aaaa0003', ['index.html' => 'v3'], []);
+        $p->apontar('sorriso', '1-aaaa0001'); // reverter para uma antiga
+        $this->assertSame(['2-aaaa0002'], $p->limpar('sorriso', 1), 'a mais nova e a do ar ficam');
+        $p->restaurar('sorriso', '3-aaaa0003');
+        $this->assertSame('3-aaaa0003', $p->releaseAtual('sorriso'));
+
+        $p->despublicar('sorriso');
+        $this->assertNull($p->releaseAtual('sorriso'));
+        $this->assertNull($servidor->pastaDoSite('sorriso'));
+        $this->assertSame(['3-aaaa0003', '1-aaaa0001'], $p->listar('sorriso'));
+    }
+
+    /** Instalação que muda de servidor: de link para .no-ar e de volta, sem deixar sobra que confunda. */
+    public function testTrocaEntreLinkEArquivoNoAr(): void
+    {
+        $this->p->gravar('sorriso', '1-bbbb0001', ['index.html' => 'v1'], []);
+        $this->p->gravar('sorriso', '2-bbbb0002', ['index.html' => 'v2'], []);
+        $this->p->gravar('sorriso', '3-bbbb0003', ['index.html' => 'v3'], []);
+        $this->p->apontar('sorriso', '1-bbbb0001');
+        $semLinks = new Publicador($this->dir, false);
+        $this->assertSame('1-bbbb0001', $semLinks->apontar('sorriso', '2-bbbb0002')['anterior']);
+        $this->assertFalse(is_link($this->dir . '/sorriso'), 'o link antigo sai');
+        $this->assertSame('2-bbbb0002', $this->p->releaseAtual('sorriso'));
+
+        $this->assertSame('2-bbbb0002', $this->p->apontar('sorriso', '3-bbbb0003')['anterior']);
+        $this->assertTrue(is_link($this->dir . '/sorriso'));
+        $this->assertFileDoesNotExist($this->dir . '/.releases/sorriso/.no-ar', 'o .no-ar velho sai');
+        $this->assertSame('v3', file_get_contents($this->dir . '/sorriso/index.html'));
+    }
+
+    public function testSemLinksMigraPastaLegada(): void
+    {
+        mkdir($this->dir . '/sorriso');
+        file_put_contents($this->dir . '/sorriso/index.html', 'legado');
+        $p = new Publicador($this->dir, false);
+        $p->gravar('sorriso', '3-cccc0003', ['index.html' => 'novo'], []);
+        $r = $p->apontar('sorriso', '3-cccc0003', 2);
+        $this->assertFalse(file_exists($this->dir . '/sorriso'));
+        $this->assertSame('3-cccc0003', $p->releaseAtual('sorriso'));
+        $p->restaurar('sorriso', $r['legado']);
+        $this->assertSame('legado', file_get_contents($p->pastaNoAr('sorriso') . '/index.html'));
+    }
 }

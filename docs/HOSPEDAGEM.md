@@ -172,6 +172,7 @@ a versão nova. O ZIP e o instalador são apagados no fim.
 | "Fora da raiz do endereço" | Abra o instalador direto no subdomínio (`https://editor.seudominio.com.br/instalar.php`), não em `seudominio.com.br/editor/instalar.php`. |
 | "Usuário ou senha do banco incorretos" / "banco não existe" | Copie de novo os dados da parte 3, com o prefixo `u…_` no nome e no usuário. |
 | Aviso "Endereço sem HTTPS" | Espere o SSL do subdomínio ficar pronto (parte 1) e abra a página com `https://`. |
+| "Links simbólicos… Peça ao suporte para liberar" | Versão antiga do instalador. Baixe de novo **os dois arquivos** (ZIP e `instalar.php`), substitua os que estão na pasta e recarregue a página. |
 | Depois de instalar, a página dá erro 500 | Confira a versão do PHP (parte 2). O registro de erros fica em `rankly-sistema/var/logs/`. |
 | Esqueci a senha | Na tela de entrada do editor, use "Esqueci minha senha" (com o e-mail configurado), ou peça a outro administrador. |
 | As atualizações automáticas pararam | Veja `rankly-sistema/var/atualizacao.json` ("ultimoErro"). Em geral é o token vencido: crie outro (parte 7) e rode o instalador de novo informando-o. Confira também se a tarefa agendada (parte 6) está ativa e se o último "Pacote para a hospedagem" na aba Actions do GitHub está verde. |
@@ -194,6 +195,9 @@ Hostinger" do `README.md`.
   `hospedagem`, com `codigo=<commit>` no texto) e `app/Lib/Atualizador.php` (chamado pelo
   `app/cli/cron.php`; à mão: `php app/cli/atualizar.php` ou `--estado`). A troca do código acontece
   num cron e as migrações e a republicação no seguinte, já com o código novo carregado.
+- Sem links simbólicos: a Hostinger bloqueia `symlink()` no PHP. O `Publicador` percebe sozinho e
+  anota a publicação no ar em `sites/.releases/{slug}/.no-ar` (troca por `rename()`, igualmente
+  atômica); o `ServidorEstatico` lê por ele. Publicar, reverter e despublicar funcionam igual.
 - A parte web acha o projeto pelo `rankly-raiz.php` da pasta pública. O instalador grava nele o
   caminho absoluto.
 - Configuração gerada: `ambiente` `prod`, `sites_no_caminho` `true`, MySQL, segredos aleatórios,

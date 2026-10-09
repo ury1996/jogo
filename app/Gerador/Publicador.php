@@ -15,6 +15,11 @@ use Rankly\Lib\Slug;
  * A troca é um rename() de um link temporário sobre sites/{slug}: o visitante vê a versão
  * antiga inteira ou a nova inteira, nunca um site pela metade. Só mexe em disco; o banco
  * fica com o Gerador.
+ *
+ * Sem links simbólicos (hospedagem compartilhada que bloqueia symlink()): a release no ar fica
+ * anotada em sites/.releases/{slug}/.no-ar, trocado também por rename(). Nesse modo os sites
+ * só são servidos pelo PHP (ServidorEstatico, via pastaNoAr()), que é o caso do modo
+ * sites_no_caminho usado na hospedagem.
  */
 final class Publicador
 {
@@ -22,9 +27,15 @@ final class Publicador
     private const RE_RELEASE = '/^(\d{1,9})-([a-z0-9]{4,32})$/D';
     /** Pastas parciais (publicação interrompida) mais velhas que isto são apagadas. */
     private const PARCIAL_VELHA_SEGUNDOS = 3600;
+    /** Arquivo com o nome da release no ar, quando não há link simbólico. */
+    public const ARQUIVO_NO_AR = '.no-ar';
 
-    public function __construct(private readonly string $dirSites)
+    private readonly bool $usarLinks;
+
+    /** $usarLinks null: usa links simbólicos se o PHP tiver a função symlink(). */
+    public function __construct(private readonly string $dirSites, ?bool $usarLinks = null)
     {
+        $this->usarLinks = $usarLinks ?? function_exists('symlink');
     }
 
     /** Nome novo de release: {versao}-{8 hex}. */
@@ -65,7 +76,7 @@ final class Publicador
         return $this->dirReleases($slug) . '/' . $release;
     }
 
-    /** Caminho público do site (o link simbólico). */
+    /** Caminho público do site (o link simbólico; sem links, não existe). */
     public function caminhoSite(string $slug): string
     {
         $this->exigirSlug($slug);
@@ -115,23 +126,74 @@ final class Publicador
         return $final;
     }
 
-    /** Release para onde sites/{slug} aponta agora (null se não houver link). */
+    /** Release no ar: a do link sites/{slug} ou, sem link, a anotada em .no-ar (null se nenhuma). */
     public function releaseAtual(string $slug): ?string
     {
         $link = $this->caminhoSite($slug);
-        if (!is_link($link)) {
-            return null;
+        if (is_link($link)) {
+            $nome = basename((string) readlink($link));
+            return self::releaseValida($nome) ? $nome : null;
         }
-        $alvo = (string) readlink($link);
-        $nome = basename($alvo);
-        return self::releaseValida($nome) ? $nome : null;
+        if (file_exists($link)) {
+            return null; // pasta antiga (antes das releases)
+        }
+        $arquivo = $this->arquivoNoAr($slug);
+        clearstatcache(true, $arquivo);
+        $nome = is_file($arquivo) ? trim((string) @file_get_contents($arquivo)) : '';
+        return self::releaseValida($nome) && is_dir($this->dirRelease($slug, $nome)) ? $nome : null;
+    }
+
+    /** Pasta real com os arquivos do site no ar (link, pasta antiga ou .no-ar), ou null. */
+    public function pastaNoAr(string $slug): ?string
+    {
+        $link = $this->caminhoSite($slug);
+        // O cache de realpath do PHP (por processo, realpath_cache_ttl = 120 s) guardaria o
+        // destino antigo do link depois de uma troca atômica [M10]: limpa só este caminho.
+        clearstatcache(true, $link);
+        if (is_link($link) || file_exists($link)) {
+            $real = realpath($link);
+            return $real !== false && is_dir($real) ? $real : null;
+        }
+        $release = $this->releaseAtual($slug);
+        $real = $release !== null ? realpath($this->dirRelease($slug, $release)) : false;
+        return $real !== false && is_dir($real) ? $real : null;
+    }
+
+    private function arquivoNoAr(string $slug): string
+    {
+        return $this->dirReleases($slug) . '/' . self::ARQUIVO_NO_AR;
+    }
+
+    /** Grava .no-ar por arquivo temporário + rename (quem lê vê o nome antigo ou o novo inteiro). */
+    private function gravarNoAr(string $slug, string $release): bool
+    {
+        $arquivo = $this->arquivoNoAr($slug);
+        $tmp = $arquivo . '.tmp-' . bin2hex(random_bytes(4));
+        if (@file_put_contents($tmp, $release . "\n", LOCK_EX) === false) {
+            return false;
+        }
+        @chmod($tmp, 0644);
+        if (!@rename($tmp, $arquivo)) {
+            @unlink($tmp);
+            return false;
+        }
+        return true;
+    }
+
+    private function apagarNoAr(string $slug): void
+    {
+        $arquivo = $this->arquivoNoAr($slug);
+        if (is_file($arquivo)) {
+            @unlink($arquivo);
+        }
     }
 
     /**
-     * Aponta sites/{slug} para a release (troca atômica por rename de um link temporário).
-     * Se sites/{slug} for uma PASTA real (publicação antiga, antes das releases), ela é
-     * movida para .releases/{slug}/{versaoLegado}-legado{hex} antes; o nome é devolvido em
-     * 'legado' para o Gerador registrar.
+     * Aponta sites/{slug} para a release (troca atômica por rename de um link temporário; sem
+     * links simbólicos, por rename do arquivo .no-ar). Se sites/{slug} for uma PASTA real
+     * (publicação antiga, antes das releases), ela é movida para
+     * .releases/{slug}/{versaoLegado}-legado{hex} antes; o nome é devolvido em 'legado' para o
+     * Gerador registrar.
      *
      * @return array{anterior: ?string, legado: ?string}
      */
@@ -143,10 +205,12 @@ final class Publicador
         }
         $link = $this->caminhoSite($slug);
         $anterior = $this->releaseAtual($slug);
-        $tmp = $this->dirSites . '/.tmp-' . $slug . '-' . bin2hex(random_bytes(4));
-        $alvo = self::PASTA_RELEASES . '/' . $slug . '/' . $release;
-        if (!@symlink($alvo, $tmp)) {
-            throw new \RuntimeException('Não foi possível criar o link simbólico do site (o servidor permite links simbólicos?).');
+        $tmp = null;
+        if ($this->usarLinks) {
+            $tmp = $this->dirSites . '/.tmp-' . $slug . '-' . bin2hex(random_bytes(4));
+            if (!@symlink(self::PASTA_RELEASES . '/' . $slug . '/' . $release, $tmp)) {
+                $tmp = null; // symlink() bloqueado: usa o .no-ar
+            }
         }
         $legado = null;
         try {
@@ -158,14 +222,20 @@ final class Publicador
             } elseif (!is_link($link) && file_exists($link)) {
                 throw new \RuntimeException("sites/{$slug} existe e não é uma pasta nem um link.");
             }
-            if (!@rename($tmp, $link)) {
+            $trocou = $tmp !== null ? @rename($tmp, $link) : $this->gravarNoAr($slug, $release);
+            if (!$trocou) {
                 if ($legado !== null) {
                     @rename($this->dirReleases($slug) . '/' . $legado, $link); // devolve a pasta antiga ao ar
                 }
                 throw new \RuntimeException('Não foi possível trocar a versão publicada do site.');
             }
+            if ($tmp !== null) {
+                $this->apagarNoAr($slug); // sobra de quando não havia links
+            } elseif (is_link($link)) {
+                @unlink($link); // link de antes: agora vale o .no-ar
+            }
         } catch (\Throwable $e) {
-            if (is_link($tmp)) {
+            if ($tmp !== null && is_link($tmp)) {
                 @unlink($tmp);
             }
             throw $e;
@@ -173,26 +243,24 @@ final class Publicador
         return ['anterior' => $anterior, 'legado' => $legado];
     }
 
-    /** Volta o link para $release (ou remove o link, se null). Usado para desfazer uma troca. */
+    /** Volta o site para $release (ou o tira do ar, se null). Usado para desfazer uma troca. */
     public function restaurar(string $slug, ?string $release): void
     {
         if ($release !== null && is_dir($this->dirRelease($slug, $release))) {
             $this->apontar($slug, $release);
             return;
         }
-        $link = $this->caminhoSite($slug);
-        if (is_link($link)) {
-            @unlink($link);
-        }
+        $this->despublicar($slug);
     }
 
-    /** Tira o site do ar (remove o link; as releases ficam). */
+    /** Tira o site do ar (remove o link e o .no-ar; as releases ficam). */
     public function despublicar(string $slug): void
     {
         $link = $this->caminhoSite($slug);
         if (is_link($link)) {
             @unlink($link);
         }
+        $this->apagarNoAr($slug);
     }
 
     /**
@@ -239,6 +307,11 @@ final class Publicador
         foreach (glob($dir . '/.*.parcial', GLOB_ONLYDIR) ?: [] as $parcial) {
             if ((int) @filemtime($parcial) < time() - self::PARCIAL_VELHA_SEGUNDOS) {
                 self::apagarArvore($parcial);
+            }
+        }
+        foreach (glob($dir . '/' . self::ARQUIVO_NO_AR . '.tmp-*') ?: [] as $tmp) {
+            if ((int) @filemtime($tmp) < time() - self::PARCIAL_VELHA_SEGUNDOS) {
+                @unlink($tmp);
             }
         }
         foreach (glob($this->dirSites . '/.tmp-' . $slug . '-*') ?: [] as $tmp) {

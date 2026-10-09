@@ -142,23 +142,6 @@ function arquivosEstranhos(string $web): array
     return $estranhos;
 }
 
-/** Testa se o PHP consegue criar links simbólicos (o sistema usa para trocar a versão publicada). */
-function linksSimbolicosFuncionam(string $base): bool
-{
-    if (!function_exists('symlink')) {
-        return false;
-    }
-    $dir = $base . '/.rk-teste-' . bin2hex(random_bytes(3));
-    if (!@mkdir($dir, 0755, true)) {
-        return false;
-    }
-    @mkdir($dir . '/alvo');
-    @file_put_contents($dir . '/alvo/x.txt', 'ok');
-    $ok = @symlink('alvo', $dir . '/link') && @file_get_contents($dir . '/link/x.txt') === 'ok';
-    apagarArvore($dir);
-    return $ok;
-}
-
 /** Requisitos: lista de [ok, obrigatório, texto, como resolver]. */
 function requisitos(string $web, string $base): array
 {
@@ -178,8 +161,6 @@ function requisitos(string $web, string $base): array
     $pai = is_dir($base) ? $base : dirname($base);
     $r[] = [is_writable($pai), true, 'Gravar fora da pasta pública (' . $pai . ')',
         'Esta hospedagem não deixa o PHP gravar fora da pasta pública. Fale com o suporte da hospedagem.'];
-    $r[] = [is_writable($pai) && linksSimbolicosFuncionam($pai), true, 'Links simbólicos (troca da versão publicada dos sites)',
-        'A hospedagem bloqueia a função symlink do PHP. Peça ao suporte para liberar.'];
     $r[] = [is_file($web . '/' . PACOTE), true, 'Pacote ' . PACOTE . ' nesta pasta', 'Envie o arquivo ' . PACOTE . ' para esta mesma pasta.'];
     return $r;
 }
