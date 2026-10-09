@@ -82,12 +82,14 @@ return [
     // "desligado" (esconde os botões de IA). A chave é criada em https://aistudio.google.com/apikey
     // e também pode vir da variável de ambiente GEMINI_API_KEY (tem prioridade se 'chave' estiver vazia).
     // Sem chave, o provedor gemini fica indisponível e o editor esconde os botões.
-    // modelo_reserva é usado quando o principal estoura a cota gratuita ou está fora do ar.
+    // modelo_reserva: um ou mais modelos (separados por vírgula), tentados na ordem quando o principal
+    // estoura a cota gratuita, está fora do ar ou deixou de existir (o Google aposenta modelos antigos;
+    // os nomes "-latest" sempre apontam para o mais novo). Lista: https://ai.google.dev/gemini-api/docs/models
     'ia' => [
         'provedor' => 'gemini',
         'chave' => '',
-        'modelo' => 'gemini-2.5-flash',
-        'modelo_reserva' => 'gemini-2.5-flash-lite',
+        'modelo' => 'gemini-3.8-flash',
+        'modelo_reserva' => 'gemini-3.5-flash-lite,gemini-flash-latest',
         'tempo_limite' => 90,          // segundos por pedido
         'limite_por_hora' => 30,       // pedidos por usuário por hora
     ],

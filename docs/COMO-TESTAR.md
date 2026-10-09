@@ -107,9 +107,21 @@ Cada chave vai **logo depois do sinal de igual**, sem espaços e sem aspas. Exem
 preenchido (chaves inventadas):
 
 ```
-GEMINI_API_KEY=AIzaSyB1a2b3c4d5e6f7g8h9i0jKlMnOpQrStUv
+GEMINI_API_KEY=AQ.Xy12ab34cd56ef78gh90ij12kl34mn56op78qr90
 PIXABAY_API_KEY=12345678-abcdef0123456789abcdef012
 ```
+
+> **Atenção: não cole só as chaves.** Cada linha precisa do **nome** (`GEMINI_API_KEY=` ou
+> `PIXABAY_API_KEY=`) antes da chave. Um arquivo assim **não funciona**, porque o Docker não sabe
+> qual chave é qual:
+>
+> ```
+> 12345678-abcdef0123456789abcdef012
+> AQ.Xy12ab34cd56ef78gh90ij12kl34mn56op78qr90
+> ```
+>
+> Dica para não trocar: a do **Pixabay** começa com números e um traço (`12345678-…`); a do
+> **Gemini** começa com `AQ.` ou `AIza`.
 
 O `.env` fica só no seu computador: ele não vai para o GitHub nem para dentro do sistema publicado.
 Não mande as chaves para ninguém.
@@ -120,8 +132,9 @@ Não mande as chaves para ninguém.
 2. Na primeira vez, aceite os termos do Google AI Studio.
 3. Clique em **Create API key** (ou **Criar chave de API**). Se ele pedir um projeto, escolha
    **Create API key in new project** (Criar chave em um novo projeto).
-4. Aparece uma chave que começa com `AIza…`. Clique em **Copy** (Copiar).
-5. Cole no `.env`, na linha `GEMINI_API_KEY=` (ficando `GEMINI_API_KEY=AIza…`) e salve.
+4. Aparece uma chave que começa com `AQ.` (as mais novas) ou `AIza` (as mais antigas). Clique em
+   **Copy** (Copiar).
+5. Cole no `.env`, na linha `GEMINI_API_KEY=` (ficando `GEMINI_API_KEY=AQ.…`) e salve.
 
 Sobre o plano gratuito: tem limite de pedidos por minuto e por dia (se estourar, o sistema tenta um
 modelo reserva e, se ainda assim falhar, avisa para tentar de novo em alguns minutos), e o Google
@@ -379,8 +392,10 @@ Para mostrar o sistema para alguém de fora do seu computador, veja
 | `Cannot connect to the Docker daemon` / `error during connect` | O Docker Desktop está fechado: abra e espere o **Engine running**. |
 | `no configuration file provided: not found` | O terminal não está na pasta do projeto (a que tem o `docker-compose.yml`). Use `cd` até ela. |
 | `port is already allocated` / porta 8080 ocupada | Outro programa usa a 8080. No `.env`, acrescente `RANKLY_PORTA=8090` e abra <http://localhost:8090/editor/>. |
-| O quadro mostra `IA: simulado` mesmo com a chave | O arquivo não se chama exatamente `.env` (veja se não ficou `.env.txt`), a linha tem espaço ou aspas, ou o sistema não foi religado depois de salvar. |
-| A IA responde "chave inválida" | Copie a chave de novo em <https://aistudio.google.com/apikey> (ela começa com `AIza`). |
+| O quadro mostra `IA: simulado` (ou `Fotos: … desligado`) mesmo com a chave | Falta o nome antes da chave (a linha tem de ser `GEMINI_API_KEY=…` / `PIXABAY_API_KEY=…`, parte 3.1), o arquivo não se chama exatamente `.env` (veja se não ficou `.env.txt`), a linha tem espaço ou aspas, ou o sistema não foi religado depois de salvar. |
+| A IA responde "chave inválida" | Copie a chave de novo em <https://aistudio.google.com/apikey> (ela começa com `AQ.` ou `AIza`). |
+| A IA responde "o modelo de IA configurado não existe mais" | O Google aposentou o modelo. Baixe a versão nova do projeto (parte 6) ou, no `.env`, acrescente `GEMINI_MODELO=` com um modelo da lista em <https://ai.google.dev/gemini-api/docs/models> (ex.: `GEMINI_MODELO=gemini-flash-latest`) e religue. |
+| A IA responde "instável no momento" | O Google está com muita procura naquele modelo (acontece no plano grátis). Espere um minuto e clique de novo; o sistema já tenta outros modelos sozinho. |
 | "O banco de imagens ainda não está ligado" | Falta a `PIXABAY_API_KEY` no `.env` (parte 3.3), ou o sistema não foi religado. |
 | "A chave do Pixabay é inválida" | Confira se copiou o código inteiro da seção **key (required)** em <https://pixabay.com/api/docs/>, com a conta aberta. |
 | O formulário "envia" mas o contato não aparece | Espere 3 s depois de abrir a página antes de enviar; e não mais de 5 envios por hora do mesmo computador. |

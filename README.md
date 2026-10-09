@@ -161,7 +161,8 @@ descrição para o Google, com palavras-chave locais.
   nem nomes da equipe; termos proibidos do conselho do nicho são descartados; nome e cidade viram
   `{nome}`/`{cidade}`; listas respeitam mínimo e máximo de itens; limite de pedidos por usuário
   por hora. O resultado entra no editor como uma alteração desfazível.
-- Se o modelo principal estourar a cota gratuita ou cair, o sistema tenta o `modelo_reserva`.
+- Se o modelo principal estourar a cota gratuita, cair ou for aposentado pelo Google, o sistema tenta
+  os modelos de `modelo_reserva` (um ou vários, separados por vírgula), na ordem.
 
 ## Testes
 

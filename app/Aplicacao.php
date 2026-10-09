@@ -245,8 +245,8 @@ final class Aplicacao
         }
         return $this->ia = new \Rankly\Lib\Ia\Gemini(
             $chave,
-            (string) $this->config('ia.modelo', 'gemini-2.5-flash'),
-            (string) $this->config('ia.modelo_reserva', ''),
+            (string) $this->config('ia.modelo', 'gemini-3.8-flash'),
+            implode(',', (array) $this->config('ia.modelo_reserva', '')),
             max(10, (int) $this->config('ia.tempo_limite', 90)),
         );
     }

@@ -220,6 +220,14 @@ final class IaTest extends TestCase
             $this->assertFalse($e->temporario);
             $this->assertStringContainsString('chave', $e->getMessage());
         }
+        $vistos = [];
+        $varias = new Gemini('x', 'velho', ' r1 , r2,velho', 30, function (string $url) use (&$vistos, $ok): array {
+            $vistos[] = preg_replace('~.*/models/([^:]+):.*~', '$1', $url);
+            return count($vistos) < 3 ? [count($vistos) === 1 ? 404 : 503, '{}'] : [200, $ok];
+        });
+        $varias->gerarJson('i', 'p', []);
+        $this->assertSame(['velho', 'r1', 'r2'], $vistos, 'Vários modelos reserva, separados por vírgula, na ordem');
+
         $foraDoAr = new Gemini('x', 'm', 'r', 30, fn (): array => [0, '']);
         try {
             $foraDoAr->gerarJson('i', 'p', []);

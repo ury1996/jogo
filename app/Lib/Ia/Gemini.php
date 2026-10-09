@@ -8,7 +8,8 @@ namespace Rankly\Lib\Ia;
  * Google Gemini pela API REST (generateContent), com resposta em JSON.
  *
  * - A chave vai no cabeçalho x-goog-api-key (nunca na URL, para não cair em logs).
- * - Cota estourada (429), instabilidade (5xx) ou modelo indisponível (404) → tenta o modelo reserva.
+ * - Cota estourada (429), instabilidade (5xx) ou modelo indisponível (404) → tenta os modelos reserva
+ *   (um ou vários, separados por vírgula), na ordem.
  * - Se a API recusar o esquema (400), repete sem responseSchema e valida a resposta do nosso lado.
  */
 final class Gemini implements Provedor
@@ -35,7 +36,7 @@ final class Gemini implements Provedor
 
     public function gerarJson(string $instrucoes, string $pedido, array $esquema): array
     {
-        $modelos = array_values(array_unique(array_filter([$this->modelo, $this->modeloReserva])));
+        $modelos = array_values(array_unique(array_filter(array_map('trim', explode(',', $this->modelo . ',' . $this->modeloReserva)))));
         $ultimo = null;
         foreach ($modelos as $modelo) {
             try {

@@ -53,8 +53,8 @@ final class Config
             'ia' => [
                 'provedor' => 'gemini',
                 'chave' => '',
-                'modelo' => 'gemini-2.5-flash',
-                'modelo_reserva' => 'gemini-2.5-flash-lite',
+                'modelo' => 'gemini-3.8-flash',
+                'modelo_reserva' => 'gemini-3.5-flash-lite,gemini-flash-latest',
                 'tempo_limite' => 90,
                 'limite_por_hora' => 30,
             ],
