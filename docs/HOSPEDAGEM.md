@@ -47,7 +47,10 @@ Você precisa de:
 - **`rankly-hospedagem.zip`**: o sistema (uns 12 MB);
 - **`instalar.php`**: o instalador.
 
-Para gerar uma versão nova no seu computador, com o Docker Desktop, rode na pasta do projeto:
+**Onde baixar:** em <https://github.com/ury1996/jogo/releases/tag/hospedagem> (logado no GitHub),
+na lista **Assets**. O GitHub atualiza essa página sozinho a cada versão que passa nos testes.
+
+Outra opção é gerar no seu computador, com o Docker Desktop. Na pasta do projeto, rode
 `docker compose run --rm --no-deps rankly php bin/empacotar-hospedagem.php`. Os dois arquivos
 aparecem na pasta `dist/`.
 
