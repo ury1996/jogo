@@ -13,6 +13,11 @@ if (PHP_SAPI !== 'cli') {
     http_response_code(404);
     exit;
 }
+if (PHP_VERSION_ID < 80200) {
+    fwrite(STDERR, 'O cron está rodando com o PHP ' . PHP_VERSION . ', mas o sistema precisa do 8.2 ou mais novo. '
+        . "No painel, use o tipo de tarefa \"PHP\" (que segue a versão escolhida para o site) ou o caminho do PHP 8.3.\n");
+    exit(1);
+}
 
 /** @var \Rankly\Aplicacao $app */
 $app = require dirname(__DIR__) . '/bootstrap.php';

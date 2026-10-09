@@ -91,14 +91,17 @@ O instalador:
 
 ## 6. Tarefa agendada (recomendado)
 
-A tela final mostra um comando. No hPanel: **Avançado → Cron Jobs** → tipo **Personalizado**
-(Custom) → cole o comando → frequência **a cada minuto** (ou a cada 5 minutos) → salvar.
+A tela final mostra o caminho do arquivo. No hPanel: **Avançado → Cron Jobs**:
 
-O comando é parecido com este:
+1. **Jeito 1 — tipo "PHP"** (recomendado, usa a mesma versão do PHP do site): no campo do arquivo,
+   cole o caminho mostrado, parecido com
+   `/home/u123456789/domains/seudominio.com.br/rankly-sistema/app/cli/cron.php`.
+2. **Jeito 2 — tipo "Personalizado"** (Custom), se o jeito 1 não aceitar: cole
+   `/usr/bin/php /home/u123456789/domains/seudominio.com.br/rankly-sistema/app/cli/cron.php`.
+3. Frequência **a cada minuto** (ou a cada 5 minutos) → salvar.
 
-```
-/opt/alt/php83/usr/bin/php /home/u123456789/domains/seudominio.com.br/rankly-sistema/app/cli/cron.php
-```
+Para conferir, depois de alguns minutos clique em **Ver saída** (View output) na tarefa. Se aparecer
+"O cron está rodando com o PHP 7.x/8.0/8.1", o comando usou um PHP antigo: troque para o jeito 1.
 
 Sem o cron o sistema funciona, inclusive o e-mail de contato, que sai na hora. O cron serve de
 garantia: reenvia o que falhou e faz a limpeza diária dos dados antigos.

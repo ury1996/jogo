@@ -159,18 +159,6 @@ function linksSimbolicosFuncionam(string $base): bool
     return $ok;
 }
 
-/** Binário do PHP para o cron (CloudLinux/alt-php da Hostinger), pelo palpite mais provável. */
-function phpDoCron(): string
-{
-    $v = PHP_MAJOR_VERSION . PHP_MINOR_VERSION;
-    foreach (["/opt/alt/php{$v}/usr/bin/php", '/usr/local/bin/php', '/usr/bin/php'] as $c) {
-        if (@is_executable($c)) {
-            return $c;
-        }
-    }
-    return "/opt/alt/php{$v}/usr/bin/php";
-}
-
 /** Requisitos: lista de [ok, obrigatório, texto, como resolver]. */
 function requisitos(string $web, string $base): array
 {
@@ -476,7 +464,7 @@ if (($_POST['acao'] ?? '') === 'instalar' && ($instalado === null || !empty($_SE
             apagarArvore($temp);
             @unlink($web . '/' . PACOTE);
             $feito = ['atualizacao' => $instalado !== null, 'email' => $c['email'], 'republicados' => $republicados, 'falhas' => $falhas,
-                'cron' => phpDoCron() . ' ' . $projeto . '/app/cli/cron.php', 'projeto' => $projeto,
+                'projeto' => $projeto,
                 'automatica' => $c['github'] !== '' || ($instalado !== null && (string) ($app->config('atualizacao.github_token', '')) !== ''),
                 'apagou' => @unlink(__FILE__)];
             $_SESSION = [];
@@ -534,10 +522,11 @@ details summary{cursor:pointer;font-weight:600}a{color:var(--pri)}
   </div>
   <div class="cartao">
     <h2 style="margin-top:0">Último passo (recomendado): tarefa agendada</h2>
-    <p>Garante o envio dos e-mails que falharem, a limpeza diária e a atualização automática. No painel: <strong>Avançado → Cron Jobs</strong>,
-    tipo <strong>Personalizado</strong>, a cada minuto (ou a cada 5), com o comando:</p>
-    <p><code><?= h($feito['cron']) ?></code></p>
-    <p class="ajuda">Se o painel recusar o caminho do PHP, use o que ele sugerir para a versão 8.2/8.3.</p>
+    <p>Garante o envio dos e-mails que falharem, a limpeza diária e a atualização automática. No painel:
+    <strong>Avançado → Cron Jobs</strong> (ou procure "Cron" na barra lateral), frequência <strong>a cada minuto</strong> (ou a cada 5 minutos):</p>
+    <p><strong>Jeito 1 — tipo "PHP":</strong> no campo do arquivo, cole<br><code><?= h($feito['projeto']) ?>/app/cli/cron.php</code></p>
+    <p><strong>Jeito 2 — tipo "Personalizado"</strong> (se o jeito 1 não aceitar): cole o comando<br><code>/usr/bin/php <?= h($feito['projeto']) ?>/app/cli/cron.php</code></p>
+    <p class="ajuda">Para conferir: depois de uns minutos, clique em "Ver saída" (View output) na lista de tarefas. Vazio ou uma linha com a data é bom sinal; uma mensagem de erro, me mande.</p>
   </div>
   <div class="cartao">
     <p style="margin:0"><?= $feito['automatica'] ? 'Atualização automática <strong>ligada</strong>: com a tarefa agendada acima, as versões novas chegam sozinhas.' : 'Atualização automática desligada (sem token do GitHub). Para ligar depois, rode o instalador de novo e informe o token.' ?></p>
