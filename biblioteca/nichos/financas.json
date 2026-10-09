@@ -12,7 +12,14 @@
       "conselho": "CRC",
       "registroObrigatorio": true,
       "rotuloRegistro": "CRC",
-      "iconesCategoria": "financas"
+      "iconesCategoria": "financas",
+      "copy": {
+        "tom": "tecnico",
+        "publico": "MEIs, pequenas empresas e profissionais liberais que querem impostos e obrigações em dia",
+        "desejos": ["não ter surpresa com o fisco", "entender quanto paga e por quê", "resposta rápida às dúvidas"],
+        "receios": ["multas e atrasos", "contador que não responde", "abrir empresa no regime errado"],
+        "objecoes": ["atendem on-line?", "como funciona a troca de contador?", "ajudam a abrir a empresa?"]
+      }
     },
     {
       "id": "consultoria-financeira",
@@ -22,7 +29,14 @@
       "conselho": "",
       "registroObrigatorio": false,
       "rotuloRegistro": "Registro profissional",
-      "iconesCategoria": "financas"
+      "iconesCategoria": "financas",
+      "copy": {
+        "tom": "acolhedor",
+        "publico": "famílias e pequenos empresários que querem organizar as contas e planejar o futuro",
+        "desejos": ["sair das dívidas", "saber para onde vai o dinheiro", "começar a guardar e investir"],
+        "receios": ["ser julgado pela situação", "plano complicado de seguir", "conflito de interesse na venda de produtos"],
+        "objecoes": ["como é cobrada a consultoria?", "quanto tempo dura o acompanhamento?", "atendem on-line?"]
+      }
     },
     {
       "id": "credito",
@@ -32,9 +46,20 @@
       "conselho": "",
       "registroObrigatorio": false,
       "rotuloRegistro": "Certificação",
-      "iconesCategoria": "financas"
+      "iconesCategoria": "financas",
+      "copy": {
+        "tom": "direto",
+        "publico": "quem quer comprar o imóvel, trocar dívidas caras ou conseguir crédito com segurança",
+        "desejos": ["comparar opções de vários bancos", "alguém que cuida da papelada", "entender as condições antes de assinar"],
+        "receios": ["golpes e cobranças antecipadas", "juros escondidos", "processo demorado"],
+        "objecoes": ["cobram alguma taxa antecipada?", "com quais bancos trabalham?", "quais documentos são necessários?"]
+      }
     }
   ],
+  "copy": {
+    "comoDecidem": "Quem procura ajuda com dinheiro quer segurança e clareza: se o profissional entende o caso dele, se explica sem jargão, se responde rápido e como cobra. Desconfia de promessas fáceis.",
+    "evitar": ["sua vida financeira nas melhores mãos", "soluções financeiras completas", "excelência contábil", "o parceiro ideal"]
+  },
   "exemplo": {
     "nome": "Ponto Certo Contabilidade",
     "cidade": "Ribeirão Preto",

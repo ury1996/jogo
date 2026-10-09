@@ -163,6 +163,17 @@ descrição para o Google, com palavras-chave locais.
   por hora. O resultado entra no editor como uma alteração desfazível.
 - Se o modelo principal estourar a cota gratuita, cair ou for aposentado pelo Google, o sistema tenta
   os modelos de `modelo_reserva` (um ou vários, separados por vírgula), na ordem.
+- Como a IA escreve (copy "de agência"): primeiro uma **estratégia** (público, desejo, receio,
+  promessa central e provas tiradas da descrição) e depois os textos a partir dela; cada campo vai
+  com o seu **papel** na página e um tamanho-alvo; o **guia de copy do ramo** (`copy` em
+  `biblioteca/nichos/*.json`: público, desejos, receios, objeções, clichês a evitar e tom
+  recomendado) e o **tom de voz** escolhido no editor (automático, acolhedor, sofisticado, direto,
+  técnico ou leve) entram nas instruções.
+- **Revisão automática** (`'revisao' => true`): o `RevisorCopy` aponta o que um redator mandaria
+  refazer (clichê ou alegação que a descrição não sustenta, a mesma expressão em vários campos,
+  cidade demais, título genérico, frase cortada, passou do limite, termo proibido, lista
+  incompleta) e só esses campos voltam para a IA numa segunda rodada. Correção que piora (ex.:
+  passa a usar um termo proibido) é descartada e fica o rascunho. Leva de 15 a 60 segundos no total.
 
 ## Testes
 

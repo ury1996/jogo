@@ -12,9 +12,20 @@
       "conselho": "OAB",
       "registroObrigatorio": true,
       "rotuloRegistro": "OAB",
-      "iconesCategoria": "juridico"
+      "iconesCategoria": "juridico",
+      "copy": {
+        "tom": "tecnico",
+        "publico": "pessoas e empresas que enfrentam uma questão jurídica e precisam de orientação clara",
+        "desejos": ["entender a própria situação e as opções", "ser acompanhado em cada etapa", "resolver com segurança"],
+        "receios": ["linguagem difícil", "ficar sem notícias do processo", "custos que não foram explicados"],
+        "objecoes": ["como funciona a primeira consulta?", "atendem on-line?", "quais documentos devo levar?"]
+      }
     }
   ],
+  "copy": {
+    "comoDecidem": "Quem procura advogado está preocupado e quer clareza: se o escritório atua exatamente no problema dele, se vai explicar cada etapa em linguagem simples, se responde rápido e como é o primeiro atendimento.",
+    "evitar": ["justiça para todos", "seus direitos em boas mãos", "excelência jurídica", "soluções jurídicas completas", "tradição e modernidade"]
+  },
   "exemplo": {
     "nome": "Moraes & Lima Advogados",
     "cidade": "Campinas",

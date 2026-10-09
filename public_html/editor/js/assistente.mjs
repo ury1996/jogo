@@ -27,7 +27,7 @@ import { normalizarCor } from './compartilhado/paleta.mjs';
 import { comFotosDeExemplo } from './compartilhado/fotos.mjs';
 import { EstadoEditor } from './estado.mjs';
 import {
-  iaDisponivel, pedirConteudo, aplicarPatchIa, guardarDescricao, resumoResultado, MIN_DESCRICAO, MAX_DESCRICAO,
+  iaDisponivel, pedirConteudo, aplicarPatchIa, guardarDescricao, guardarTom, seletorTom, tomValido, resumoResultado, MIN_DESCRICAO, MAX_DESCRICAO,
   chipsExemplos, linhaDica, rotuloGerar, placeholderDescricao,
 } from './ia.mjs';
 
@@ -41,7 +41,7 @@ const MODELO_MINIATURA_NICHO = 'moderno';
 
 /** Estado vazio do assistente. */
 export function estadoInicial() {
-  return { nicho: null, especialidade: null, modelo: null, dados: { nome: '', cidade: '', uf: '', whatsapp: '' }, cor: null, descricao: '' };
+  return { nicho: null, especialidade: null, modelo: null, dados: { nome: '', cidade: '', uf: '', whatsapp: '' }, cor: null, descricao: '', tom: '' };
 }
 
 /** Dados de exemplo do nicho (nome, cidade, UF, WhatsApp + exemplo.dados: telefone, e-mail, endereço…). */
@@ -164,6 +164,7 @@ function lerSessao() {
       dados: { ...base.dados, ...(e.dados && typeof e.dados === 'object' ? e.dados : {}) },
       cor: normalizarCor(e.cor),
       descricao: typeof e.descricao === 'string' ? e.descricao.slice(0, MAX_DESCRICAO) : '',
+      tom: tomValido(e.tom),
     };
   } catch {
     return estadoInicial();
@@ -616,6 +617,7 @@ function passoDados(alvo, lib, limpeza) {
     exemplosVaga,
     descricao,
     el('div', { class: 'ia-janela__rodape' }, dica.elemento, contadorDescricao),
+    seletorTom({ valor: estado.tom, id: 'ia-cartao-tom', aoMudar: (t) => { estado.tom = t; guardar(); } }),
     el('div', { class: 'ia-cartao__listas' },
       el('div', null,
         el('p', { class: 'ia-cartao__lista-titulo' }, 'A IA escreve'),
@@ -912,8 +914,9 @@ function passoDados(alvo, lib, limpeza) {
     if (textoIa.length >= MIN_DESCRICAO) {
       try {
         guardarDescricao(criado.id, textoIa);
-        progresso.textContent = 'A IA está escrevendo os textos do seu site… isso leva de 10 a 40 segundos.';
-        const patch = await pedirConteudo(criado.id, textoIa, 'site');
+        guardarTom(criado.id, estado.tom);
+        progresso.textContent = 'A IA está escrevendo e revisando os textos do seu site… isso leva de 15 a 60 segundos.';
+        const patch = await pedirConteudo(criado.id, textoIa, 'site', estado.tom);
         const atual = (await api.get(`/sites/${criado.id}`)).site;
         await api.put(`/sites/${criado.id}`, { revisao: atual.revisao, documento: aplicarPatchIa(atual.documento, patch) });
         resultadoIa = patch;

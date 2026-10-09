@@ -41,6 +41,8 @@ test('patch sem SEO mantém o SEO atual; contagem e resumo', () => {
   assert.equal(contarAlteracoes(patch), 1);
   assert.match(resumoResultado(patch), /1 texto\./);
   assert.match(resumoResultado(patch), /dentista em jundiaí/);
+  assert.doesNotMatch(resumoResultado(patch), /Revisou/);
+  assert.match(resumoResultado({ ...patch, revisados: 3 }), /Revisou 3 trechos/);
 });
 
 test('"Reescrever com IA" aparece só em seções com textos que a IA escreve', () => {

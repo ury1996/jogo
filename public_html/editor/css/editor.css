@@ -966,6 +966,21 @@ button.card-opcao:hover, a.card-opcao:hover { transform: translateY(-2px); }
 .ia-chip:hover { background: var(--ui-ia-suave); border-color: var(--ui-ia-2); }
 .ia-chip:focus-visible { outline: none; box-shadow: var(--ui-anel); }
 
+/* Tom de voz (assistente e janela "Escrever com IA"): chips de opção única. */
+.ia-tons { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; gap: 6px; }
+.ia-tons__rotulo { padding: 0; font-size: 12.5px; font-weight: 650; color: var(--ui-texto-2); }
+.ia-tons__lista { display: flex; flex-wrap: wrap; gap: 6px; }
+.ia-tom { position: relative; display: inline-flex; }
+.ia-tons__radio { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.ia-tom span {
+  display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px; border-radius: 999px;
+  border: 1px solid var(--ui-borda); background: var(--ui-sup); color: var(--ui-texto-2);
+  font: 600 13px/1 var(--ui-fonte); transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+.ia-tom:hover span { border-color: var(--ui-ia-2); }
+.ia-tons__radio:checked + span { background: var(--ui-ia-suave); border-color: var(--ui-ia-2); color: var(--ui-ia-tinta); font-weight: 700; }
+.ia-tons__radio:focus-visible + span { box-shadow: var(--ui-anel); }
+
 /* Dica de qualidade ao vivo. */
 .ia-dica { display: flex; gap: 7px; align-items: flex-start; margin: 0; font-size: 13px; line-height: 1.4; color: var(--ui-texto-2); }
 .ia-dica__ponto { flex: none; width: 8px; height: 8px; margin-top: 5px; border-radius: 50%; background: var(--ui-texto-3); }

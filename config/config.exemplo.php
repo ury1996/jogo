@@ -92,6 +92,7 @@ return [
         'modelo_reserva' => 'gemini-3.5-flash-lite,gemini-flash-latest',
         'tempo_limite' => 90,          // segundos por pedido
         'limite_por_hora' => 30,       // pedidos por usuário por hora
+        'revisao' => true,             // 2ª rodada: a IA reescreve os textos que o revisor de copy apontar
     ],
 
     // Banco de imagens Pixabay: "Buscar no banco de imagens" no editor baixa a foto para o site

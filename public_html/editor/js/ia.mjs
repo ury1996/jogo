@@ -19,9 +19,27 @@ export function iaDisponivel() {
   return disponibilidade;
 }
 
-/** Pede os textos ao servidor. escopo = "site" ou o tipo de uma seção. */
-export function pedirConteudo(siteId, descricao, escopo = 'site') {
-  return api.post(`/sites/${siteId}/ia`, { descricao, escopo });
+/**
+ * Tons de voz (os mesmos de GeradorConteudo::TONS no servidor). Vazio = o recomendado para o ramo
+ * (o guia de copy do nicho, em biblioteca/nichos).
+ */
+export const TONS = Object.freeze([
+  { id: '', rotulo: 'Automático', ajuda: 'O tom recomendado para o seu tipo de negócio' },
+  { id: 'acolhedor', rotulo: 'Acolhedor', ajuda: 'Próximo e caloroso, tranquiliza quem está inseguro' },
+  { id: 'sofisticado', rotulo: 'Sofisticado', ajuda: 'Elegante e seguro, poucas palavras bem escolhidas' },
+  { id: 'direto', rotulo: 'Direto', ajuda: 'Objetivo, frases curtas, foco no resultado' },
+  { id: 'tecnico', rotulo: 'Técnico', ajuda: 'Sério e preciso, transmite autoridade' },
+  { id: 'leve', rotulo: 'Leve', ajuda: 'Simpático e conversado, sem gírias' },
+]);
+
+/** Tom válido (desconhecido → automático). */
+export const tomValido = (tom) => (TONS.some((t) => t.id === tom) ? tom : '');
+
+/** Pede os textos ao servidor. escopo = "site" ou o tipo de uma seção; tom = id de TONS. */
+export function pedirConteudo(siteId, descricao, escopo = 'site', tom = '') {
+  const corpo = { descricao, escopo };
+  if (tomValido(tom)) corpo.tom = tom;
+  return api.post(`/sites/${siteId}/ia`, corpo);
 }
 
 /**
@@ -56,6 +74,21 @@ export function lerDescricao(siteId) {
 export function guardarDescricao(siteId, texto) {
   try {
     localStorage.setItem(chaveDescricao(siteId), texto);
+  } catch {
+    /* modo privado: tudo bem */
+  }
+}
+const chaveTom = (siteId) => `rk-ia-tom-${siteId}`;
+export function lerTom(siteId) {
+  try {
+    return tomValido(localStorage.getItem(chaveTom(siteId)) ?? '');
+  } catch {
+    return '';
+  }
+}
+export function guardarTom(siteId, tom) {
+  try {
+    localStorage.setItem(chaveTom(siteId), tomValido(tom));
   } catch {
     /* modo privado: tudo bem */
   }
@@ -242,6 +275,22 @@ export function chipsExemplos(textarea, { nicho, especialidade = null, aoMudar =
       }, icone('mais'), ex.rotulo))));
 }
 
+/**
+ * Escolha do tom de voz: chips de opção única (rádios nativos: setas do teclado funcionam).
+ * aoMudar(id) recebe o id de TONS ("" = automático).
+ */
+export function seletorTom({ valor = '', aoMudar = () => {}, id = 'ia-tom' } = {}) {
+  const atual = tomValido(valor);
+  return el('fieldset', { class: 'ia-tons' },
+    el('legend', { class: 'ia-tons__rotulo', id }, 'Tom de voz'),
+    el('div', { class: 'ia-tons__lista' },
+      TONS.map((t) => {
+        const radio = el('input', { type: 'radio', name: id, value: t.id, class: 'ia-tons__radio', onchange: () => aoMudar(t.id) });
+        radio.checked = t.id === atual;
+        return el('label', { class: 'ia-tom', title: t.ajuda }, radio, el('span', null, t.rotulo));
+      })));
+}
+
 /** Linha de dica ao vivo (texto + nível visual). Devolve { elemento, atualizar(texto) }. */
 export function linhaDica(id) {
   const texto = el('span');
@@ -264,6 +313,7 @@ export function resumoResultado(patch) {
   const partes = [];
   const n = contarAlteracoes(patch);
   partes.push(n === 1 ? 'A IA escreveu 1 texto.' : `A IA escreveu ${n} textos.`);
+  if (patch?.revisados > 0) partes.push(patch.revisados === 1 ? 'Revisou 1 trecho para soar mais natural.' : `Revisou ${patch.revisados} trechos para soar mais natural.`);
   if (patch?.palavrasChave?.length) partes.push(`Palavras-chave: ${patch.palavrasChave.slice(0, 5).join(', ')}.`);
   partes.push('Revise antes de publicar. Desfazer volta ao que estava.');
   return partes.join(' ');
@@ -292,6 +342,8 @@ export function abrirJanelaIa(ed, { escopo = 'site', nomeSecao = '' } = {}) {
   };
   campo.addEventListener('input', atualizarContador);
   atualizarContador();
+  let tom = lerTom(ed.siteId);
+  const tons = seletorTom({ valor: tom, aoMudar: (t) => { tom = t; }, id: 'ia-janela-tom' });
 
   const corpo = el('div', { class: 'ia-janela' },
     el('label', { class: 'campo__rotulo ia-janela__rotulo', for: 'ia-descricao' }, 'Conte sobre o seu negócio'),
@@ -300,6 +352,7 @@ export function abrirJanelaIa(ed, { escopo = 'site', nomeSecao = '' } = {}) {
     chipsExemplos(campo, { nicho: doc.nicho, especialidade: doc.especialidade, aoMudar: atualizarContador }),
     campo,
     el('div', { class: 'ia-janela__rodape' }, dica.elemento, contador),
+    tons,
     erro,
     el('ul', { class: 'ia-janela__regras' },
       el('li', null, icone('check'), deSecao ? 'Reescreve só os textos desta seção.' : 'Escreve títulos, textos, serviços, perguntas frequentes e o título e a descrição para o Google, com palavras-chave da sua cidade.'),
@@ -326,12 +379,13 @@ export function abrirJanelaIa(ed, { escopo = 'site', nomeSecao = '' } = {}) {
           }
           erro.hidden = true;
           guardarDescricao(ed.siteId, descricao);
+          guardarTom(ed.siteId, tom);
           campo.disabled = true;
           progresso.textContent = 'Salvando as últimas alterações…';
           try {
             await ed.estado.salvar();
-            progresso.textContent = 'A IA está escrevendo os textos… isso leva de 10 a 40 segundos.';
-            const patch = await pedirConteudo(ed.siteId, descricao, escopo);
+            progresso.textContent = 'A IA está escrevendo e revisando os textos… isso leva de 15 a 60 segundos.';
+            const patch = await pedirConteudo(ed.siteId, descricao, escopo, tom);
             if (ed.desmontado) return true;
             ed.estado.aplicar((d) => aplicarPatchIa(d, patch), { rotulo: deSecao ? `IA: ${nomeSecao}` : 'Textos escritos pela IA' });
             aviso(resumoResultado(patch), { tipo: 'ok', duracao: 9000 });

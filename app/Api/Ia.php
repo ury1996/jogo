@@ -44,6 +44,10 @@ final class Ia
         if ($escopo !== 'site' && !isset($lib['secoes'][$escopo])) {
             throw ErroHttp::invalido('Seção desconhecida.', ['campo' => 'escopo']);
         }
+        $tom = is_string($dados['tom'] ?? null) ? $dados['tom'] : '';
+        if ($tom !== '' && !isset(GeradorConteudo::TONS[$tom])) {
+            throw ErroHttp::invalido('Tom de voz desconhecido.', ['campo' => 'tom']);
+        }
 
         $limites = new LimiteTaxa($ctx->app);
         $chave = LimiteTaxa::chave('ia', (string) $u['id']);
@@ -54,14 +58,17 @@ final class Ia
         }
 
         try {
-            $patch = (new GeradorConteudo($ia))->gerar((array) $site['documento'], $lib, $descricao, $escopo);
+            // Rascunho + revisão são até dois pedidos à IA: o PHP não pode cortar no meio.
+            @set_time_limit(max(120, 2 * (int) $ctx->app->config('ia.tempo_limite', 90) + 30));
+            $gerador = new GeradorConteudo($ia, (bool) $ctx->app->config('ia.revisao', true));
+            $patch = $gerador->gerar((array) $site['documento'], $lib, $descricao, $escopo, $tom);
         } catch (ErroIa $e) {
             $limites->descontar($chave);
             $ctx->app->log()->aviso('ia: ' . $e->getMessage(), ['site' => (int) $site['id'], 'provedor' => $ia->nome()]);
             throw new ErroHttp($e->temporario ? 503 : 502, 'ia', $e->getMessage());
         }
         Eventos::registrar($ctx->app, (int) $site['id'], (int) $u['id'], 'site.ia', [
-            'escopo' => $escopo, 'provedor' => $ia->nome(), 'textos' => count($patch['textos']),
+            'escopo' => $escopo, 'provedor' => $ia->nome(), 'textos' => count($patch['textos']), 'revisados' => $patch['revisados'],
         ]);
         return Resposta::json($patch);
     }

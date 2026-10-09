@@ -117,3 +117,24 @@ test('placeholderDescricao usa a primeira frase do exemplo do nicho, sem [trecho
   for (const n of nichos) assert.ok(!placeholderDescricao(n.id).includes('['), n.id);
   assert.match(placeholderDescricao('desconhecido'), /^Ex\.:/);
 });
+
+test('tom de voz: os mesmos do servidor, desconhecido vira automático, e todo ramo recomenda um tom válido', async () => {
+  const { TONS, tomValido, lerTom, guardarTom } = await import('../../public_html/editor/js/ia.mjs');
+  const php = readFileSync(fileURLToPath(new URL('../../app/Lib/Ia/GeradorConteudo.php', import.meta.url)), 'utf8');
+  const doServidor = [...php.slice(php.indexOf('public const TONS'), php.indexOf('];', php.indexOf('public const TONS'))).matchAll(/'([a-z]+)' =>/g)].map((m) => m[1]);
+  assert.deepEqual(TONS.map((t) => t.id), ['', ...doServidor]);
+  assert.equal(tomValido('direto'), 'direto');
+  assert.equal(tomValido('gritante'), '');
+  assert.equal(tomValido(undefined), '');
+  for (const n of nichos) {
+    for (const e of n.especialidades ?? []) {
+      assert.ok(doServidor.includes(e.copy?.tom), `${n.id}/${e.id}: copy.tom`);
+      for (const campo of ['desejos', 'receios', 'objecoes']) assert.ok(e.copy[campo]?.length >= 2, `${n.id}/${e.id}: copy.${campo}`);
+      assert.ok(e.copy.publico, `${n.id}/${e.id}: copy.publico`);
+    }
+    assert.ok(n.copy?.comoDecidem && n.copy?.evitar?.length, `${n.id}: copy do nicho`);
+  }
+  // Sem localStorage (Node): lê automático e guardar não quebra.
+  assert.equal(lerTom(1), '');
+  guardarTom(1, 'leve');
+});

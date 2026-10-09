@@ -9,6 +9,7 @@ use Rankly\Aplicacao;
 use Rankly\Lib\Ia\ErroIa;
 use Rankly\Lib\Ia\Gemini;
 use Rankly\Lib\Ia\GeradorConteudo;
+use Rankly\Lib\Ia\RevisorCopy;
 use Rankly\Lib\Ia\Simulado;
 use Rankly\Preparo\Textos;
 use Rankly\Testes\Lib\AmbienteTeste;
@@ -237,8 +238,145 @@ final class IaTest extends TestCase
         }
     }
 
+    public function testInstrucoesLevamEstrategiaPapelTomEGuiaDoRamo(): void
+    {
+        $pedidos = [];
+        $this->app->definirIa(new Simulado(function (string $instr, string $pedido, array $esquema) use (&$pedidos): array {
+            $pedidos[] = [$instr, $pedido, $esquema];
+            return self::resposta();
+        }));
+        $url = '/api/sites/' . $this->site['id'] . '/ia';
+        $this->assertSame(200, $this->c->post($url, ['descricao' => 'Clínica odontológica focada em implantes.'])->status);
+        [$instr, $pedido, $esquema] = $pedidos[0];
+        // Sem tom escolhido: o recomendado para odontologia (guia de copy da biblioteca).
+        $this->assertStringContainsString('TOM DE VOZ: acolhedor', $instr);
+        $this->assertStringContainsString('excelência', $instr, 'Clichês a evitar');
+        $this->assertStringContainsString('medo de dor e de agulha', $pedido, 'Guia do ramo vai no pedido');
+        $this->assertStringContainsString('"papel": "promessa principal do site', $pedido);
+        $this->assertMatchesRegularExpression('/"alvo": \d+/', $pedido);
+        $this->assertStringContainsString('"cidade": "Jundiaí"', $pedido, 'Cidade sem a UF (a UF vai à parte)');
+        // A estratégia vem antes dos textos; textos na ordem de leitura da página.
+        $this->assertSame('estrategia', $esquema['propertyOrdering'][0]);
+        $ordem = $esquema['properties']['textos']['propertyOrdering'];
+        $this->assertLessThan(array_search('cta.titulo', $ordem, true), array_search('hero.titulo', $ordem, true));
+
+        $this->assertSame(200, $this->c->post($url, ['descricao' => 'Clínica odontológica focada em implantes.', 'tom' => 'sofisticado'])->status);
+        $this->assertStringContainsString('TOM DE VOZ: sofisticado', end($pedidos)[0]);
+        $this->assertSame(422, $this->c->post($url, ['descricao' => 'Clínica odontológica focada em implantes.', 'tom' => 'berrante'])->status);
+    }
+
+    public function testRevisorApontaOQueUmRedatorMandariaRefazer(): void
+    {
+        $escalares = [
+            'hero.titulo' => ['max' => 90, 'campo' => 'titulo'],
+            'hero.texto' => ['max' => 200, 'campo' => 'texto'],
+            'sobre.texto' => ['max' => 420, 'campo' => 'texto'],
+            'equipe.texto' => ['max' => 220, 'campo' => 'texto'],
+            'faq.texto' => ['max' => 220, 'campo' => 'texto'],
+            'cta.titulo' => ['max' => 80, 'campo' => 'titulo'],
+            'dep.titulo' => ['max' => 80, 'campo' => 'titulo'],
+            'cli.titulo' => ['max' => 60, 'campo' => 'titulo'],
+            'faq.titulo' => ['max' => 80, 'campo' => 'titulo'],
+            'hero.selo' => ['max' => 40, 'campo' => 'selo'],
+            'faq.ajuda' => ['max' => 120, 'campo' => 'ajuda'],
+        ];
+        $listas = ['passos' => ['campos' => ['t' => ['max' => 40], 'd' => ['max' => 160]], 'min' => 3, 'max' => 3, 'rotulo' => 'passo']];
+        $ctx = ['nome' => 'Sorriso Vivo', 'cidade' => 'Jundiaí', 'proibidos' => ['sem dor', 'o melhor'], 'evitar' => ['sorriso perfeito']];
+        $resposta = [
+            'textos' => [
+                'hero.titulo' => 'Dentista em Jundiaí',
+                'hero.texto' => 'Atendimento humanizado com tecnologia de ponta para você.',
+                'sobre.texto' => 'Atendimento humanizado para toda a família, com cuidado em cada etapa e',
+                'equipe.texto' => 'Equipe com atendimento humanizado e escuta.',
+                'faq.texto' => str_repeat('Texto longo demais. ', 15),
+                'cta.titulo' => 'Agende Sua Avaliação Hoje',
+                'dep.titulo' => 'Pacientes de Jundiaí',
+                'cli.titulo' => 'Clientes de Jundiaí',
+                'faq.titulo' => 'Dúvidas de quem mora em Jundiaí',
+                'hero.selo' => '',
+                'faq.ajuda' => 'Atendimento humanizado também pelo WhatsApp.',
+            ],
+            'listas' => ['passos' => [['t' => 'Agende', 'd' => 'Tratamento sem dor.'], ['t' => 'Venha', 'd' => '']]],
+        ];
+        $p = RevisorCopy::avaliar($resposta, $escalares, $listas, $ctx, 'Clínica com atendimento humanizado em Jundiaí.', false);
+
+        $this->assertStringContainsString('genérico', implode(' ', $p['hero.titulo']));
+        $this->assertStringContainsString('"de ponta"', implode(' ', $p['hero.texto']));
+        $this->assertArrayNotHasKey('hero.selo', $p, 'Selo vazio é permitido');
+        $this->assertStringContainsString('frase completa', implode(' ', $p['sobre.texto']));
+        $this->assertStringContainsString('repete "atendimento humanizado"', implode(' ', $p['faq.ajuda']), 'Quarta vez da mesma expressão');
+        $this->assertSame(['faq.ajuda'], array_keys(array_filter($p, fn ($l) => str_contains(implode(' ', $l), 'repete'))), 'As três primeiras vezes passam');
+        $this->assertStringContainsString('o máximo é 220', implode(' ', $p['faq.texto']));
+        $this->assertStringContainsString('primeira letra maiúscula', implode(' ', $p['cta.titulo']));
+        // Cidade: até duas vezes fora dos campos de SEO; a terceira sobra.
+        $this->assertStringContainsString('tire a cidade', implode(' ', $p['faq.titulo']));
+        $this->assertArrayNotHasKey('dep.titulo', $p);
+        // Lista: termo proibido e itens de menos.
+        $this->assertStringContainsString('termo proibido "sem dor"', implode(' ', $p['lista:passos']));
+        $this->assertStringContainsString('precisa de 3 itens', implode(' ', $p['lista:passos']));
+        // Clichê que a própria descrição usa não é apontado como vago.
+        $this->assertStringNotContainsString('evite "atendimento humanizado"', json_encode($p, JSON_UNESCAPED_UNICODE));
+        // Graves (o filtro descartaria ou cortaria): só esses impedem trocar o rascunho pela correção.
+        $this->assertEqualsCanonicalizing(['faq.texto', 'lista:passos'], array_keys(RevisorCopy::graves($p)));
+    }
+
+    public function testRevisaoReescreveSoOsCamposApontadosENaoPiora(): void
+    {
+        $lib = $this->app->biblioteca();
+        $doc = $this->c->get('/api/sites/' . $this->site['id'])->dados()['site']['documento'];
+        $rascunho = self::resposta();
+        $rascunho['textos']['hero.titulo'] = 'Dentista em Jundiaí';
+        $rascunho['textos']['cta.titulo'] = 'Agende com quem entende de implantes';
+        $chamadas = [];
+        $ia = new Simulado(function (string $i, string $pedido, array $esquema) use (&$chamadas, $rascunho): array {
+            $chamadas[] = [$pedido, $esquema];
+            if (count($chamadas) === 1) {
+                return $rascunho;
+            }
+            return ['textos' => [
+                'hero.titulo' => 'Volte a sorrir com implantes dentários em Jundiaí',
+                'hero.texto' => 'Implantes sem dor e com resultado garantido.', // piora: continua proibido → fica o rascunho
+            ]];
+        });
+        $patch = (new GeradorConteudo($ia))->gerar($doc, $lib, 'Clínica odontológica focada em implantes, atende convênios.');
+        $this->assertCount(2, $chamadas);
+        [$pedido, $esquema] = $chamadas[1];
+        $this->assertStringContainsString('"problemas"', $pedido);
+        $this->assertStringContainsString('título genérico', $pedido);
+        $this->assertArrayHasKey('hero.titulo', $esquema['properties']['textos']['properties']);
+        $this->assertArrayNotHasKey('cta.titulo', $esquema['properties']['textos']['properties'], 'Campo bom não volta para a IA');
+        $this->assertArrayNotHasKey('estrategia', $esquema['properties']);
+        $this->assertSame('Volte a sorrir com implantes dentários em {cidade}', $patch['textos']['hero.titulo']);
+        $this->assertSame('Agende com quem entende de implantes', $patch['textos']['cta.titulo']);
+        $this->assertGreaterThanOrEqual(1, $patch['revisados']);
+
+        // Revisão desligada: um pedido só.
+        $chamadas = [];
+        $patch = (new GeradorConteudo($ia, false))->gerar($doc, $lib, 'Clínica odontológica focada em implantes, atende convênios.');
+        $this->assertCount(1, $chamadas);
+        $this->assertSame(0, $patch['revisados']);
+        $this->assertSame('Dentista em {cidade}', $patch['textos']['hero.titulo']);
+
+        // Revisão que falha: fica o rascunho, sem erro.
+        $n = 0;
+        $falha = new Simulado(function () use (&$n, $rascunho): array {
+            if (++$n === 2) {
+                throw new ErroIa('instável', true);
+            }
+            return $rascunho;
+        });
+        $patch = (new GeradorConteudo($falha))->gerar($doc, $lib, 'Clínica odontológica focada em implantes, atende convênios.');
+        $this->assertSame('Dentista em {cidade}', $patch['textos']['hero.titulo']);
+        $this->assertSame(0, $patch['revisados']);
+    }
+
     public function testCortarETermoProibido(): void
     {
+        // Texto longo: corta no fim da última frase completa (sem deixar frase pela metade).
+        $this->assertSame('Primeira frase completa. Segunda frase também.', GeradorConteudo::cortar('Primeira frase completa. Segunda frase também. Terceira frase que não cabe', 60));
+        $this->assertSame('Título sem ponto', GeradorConteudo::semPontoFinal('Título sem ponto.'));
+        $this->assertSame('Será?', GeradorConteudo::semPontoFinal('Será?'));
+        $this->assertSame('E então...', GeradorConteudo::semPontoFinal('E então...'));
         $this->assertSame('Atendimento para toda a', mb_substr('Atendimento para toda a família', 0, 23));
         $this->assertSame('Atendimento para toda', GeradorConteudo::cortar('Atendimento para toda a família', 23));
         $this->assertSame('curto', GeradorConteudo::cortar('curto', 10));

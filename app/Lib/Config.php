@@ -57,6 +57,7 @@ final class Config
                 'modelo_reserva' => 'gemini-3.5-flash-lite,gemini-flash-latest',
                 'tempo_limite' => 90,
                 'limite_por_hora' => 30,
+                'revisao' => true,
             ],
             'pixabay' => [
                 'chave' => '',

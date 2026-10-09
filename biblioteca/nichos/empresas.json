@@ -12,7 +12,14 @@
       "conselho": "CREA",
       "registroObrigatorio": true,
       "rotuloRegistro": "CREA",
-      "iconesCategoria": "empresas"
+      "iconesCategoria": "empresas",
+      "copy": {
+        "tom": "tecnico",
+        "publico": "síndicos, gestores de indústrias e comércios que precisam de projetos, laudos e manutenção em dia",
+        "desejos": ["instalação segura e dentro das normas", "documentação técnica em ordem", "um responsável que resolve rápido"],
+        "receios": ["parada da operação", "obra fora do prazo", "problema com fiscalização"],
+        "objecoes": ["emitem ART?", "atendem emergências?", "como é feito o orçamento?"]
+      }
     },
     {
       "id": "industria",
@@ -22,7 +29,14 @@
       "conselho": "",
       "registroObrigatorio": false,
       "rotuloRegistro": "Registro",
-      "iconesCategoria": "empresas"
+      "iconesCategoria": "empresas",
+      "copy": {
+        "tom": "tecnico",
+        "publico": "compradores de empresas e distribuidores que precisam de fornecimento confiável",
+        "desejos": ["produto dentro da especificação", "prazo cumprido", "atendimento técnico para tirar dúvidas"],
+        "receios": ["atraso na entrega", "variação de qualidade entre lotes", "fornecedor que some depois da venda"],
+        "objecoes": ["qual o pedido mínimo?", "fazem sob medida?", "entregam na minha região?"]
+      }
     },
     {
       "id": "servicos-empresariais",
@@ -32,9 +46,20 @@
       "conselho": "",
       "registroObrigatorio": false,
       "rotuloRegistro": "Registro",
-      "iconesCategoria": "empresas"
+      "iconesCategoria": "empresas",
+      "copy": {
+        "tom": "direto",
+        "publico": "síndicos e gestores que querem terceirizar sem dor de cabeça",
+        "desejos": ["serviço feito sem precisar cobrar", "equipe treinada e substituição rápida", "um contato que responde"],
+        "receios": ["faltas sem reposição", "rotatividade da equipe", "problemas trabalhistas"],
+        "objecoes": ["como é feita a supervisão?", "e se um funcionário faltar?", "qual o prazo para começar?"]
+      }
     }
   ],
+  "copy": {
+    "comoDecidem": "O comprador é técnico ou gestor: quer escopo claro, prazos cumpridos, segurança, documentação e alguém responsável que responda. Compara capacidade e confiabilidade, não adjetivos.",
+    "evitar": ["soluções completas", "qualidade e compromisso", "atendimento diferenciado", "líder de mercado", "referência no setor"]
+  },
   "exemplo": {
     "nome": "Vetor Engenharia e Manutenção",
     "cidade": "Sorocaba",

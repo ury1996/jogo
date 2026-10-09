@@ -240,8 +240,14 @@ Na tela de entrar, use **demo@rankly.app** e a senha **demo12345**. Aparece o pa
 
    ![Passo 3 do assistente](img/como-testar/3-dados.jpg)
 
-5. Clique em **Gerar meu site com IA**. A IA leva de 10 a 40 segundos escrevendo os textos. (Sem
-   descrição, o botão vira **Gerar com textos de exemplo**.)
+5. Escolha o **Tom de voz** logo abaixo da descrição (ou deixe **Automático**, que usa o tom
+   recomendado para o ramo) e clique em **Gerar meu site com IA**. A IA leva de 15 a 60 segundos:
+   primeiro escreve, depois revisa sozinha os trechos fracos (clichês, repetições, frases cortadas).
+   (Sem descrição, o botão vira **Gerar com textos de exemplo**.)
+
+   Dica: quanto mais fatos verdadeiros na descrição (bairro, horários, convênios, como é o
+   atendimento, para quem é), mais específica e convincente fica a copy. A IA não inventa o que
+   não estiver escrito.
 
 ### 5.3 Editar
 

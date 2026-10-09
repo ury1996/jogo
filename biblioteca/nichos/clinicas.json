@@ -12,7 +12,14 @@
       "conselho": "CRO",
       "registroObrigatorio": true,
       "rotuloRegistro": "CRO",
-      "iconesCategoria": "saude"
+      "iconesCategoria": "saude",
+      "copy": {
+        "tom": "acolhedor",
+        "publico": "adultos e famílias que adiaram o dentista por medo, falta de tempo ou vergonha do sorriso",
+        "desejos": ["sorrir e mastigar sem desconforto", "entender o tratamento e quanto tempo leva", "ser atendido sem pressa e sem julgamento"],
+        "receios": ["medo de dor e de agulha", "tratamento longo e caro", "ser empurrado para procedimentos desnecessários"],
+        "objecoes": ["aceitam meu convênio?", "dá para parcelar ou fazer orçamento antes?", "quanto tempo dura o tratamento?"]
+      }
     },
     {
       "id": "medicina",
@@ -22,7 +29,14 @@
       "conselho": "CRM",
       "registroObrigatorio": true,
       "rotuloRegistro": "CRM",
-      "iconesCategoria": "saude"
+      "iconesCategoria": "saude",
+      "copy": {
+        "tom": "acolhedor",
+        "publico": "adultos e idosos que querem consulta sem longa espera e um médico que explique com calma",
+        "desejos": ["ser ouvido com atenção", "resolver consultas e exames no mesmo lugar", "acompanhamento contínuo"],
+        "receios": ["espera longa", "consulta corrida", "não entender o diagnóstico"],
+        "objecoes": ["atendem meu convênio?", "precisa de encaminhamento?", "fazem exames no local?"]
+      }
     },
     {
       "id": "estetica",
@@ -32,7 +46,14 @@
       "conselho": "",
       "registroObrigatorio": false,
       "rotuloRegistro": "Registro profissional",
-      "iconesCategoria": "saude"
+      "iconesCategoria": "saude",
+      "copy": {
+        "tom": "sofisticado",
+        "publico": "mulheres e homens que querem se cuidar com segurança e resultado natural",
+        "desejos": ["sentir-se bem com a própria aparência", "resultado natural", "protocolo pensado para o seu caso"],
+        "receios": ["ficar artificial", "procedimento feito sem avaliação", "profissional sem formação"],
+        "objecoes": ["como é a avaliação?", "quantas sessões são necessárias?", "quem faz o procedimento?"]
+      }
     },
     {
       "id": "fisioterapia",
@@ -42,7 +63,14 @@
       "conselho": "CREFITO",
       "registroObrigatorio": true,
       "rotuloRegistro": "CREFITO",
-      "iconesCategoria": "saude"
+      "iconesCategoria": "saude",
+      "copy": {
+        "tom": "direto",
+        "publico": "quem sente dor, está se recuperando de cirurgia ou lesão, ou quer voltar ao esporte",
+        "desejos": ["voltar a se mexer sem dor", "um plano claro de recuperação", "atenção individual em cada sessão"],
+        "receios": ["sessões coletivas e apressadas", "tratamento que não evolui", "não saber quanto tempo vai levar"],
+        "objecoes": ["precisa de pedido médico?", "atendem convênio?", "quanto dura cada sessão?"]
+      }
     },
     {
       "id": "psicologia",
@@ -52,9 +80,20 @@
       "conselho": "CRP",
       "registroObrigatorio": true,
       "rotuloRegistro": "CRP",
-      "iconesCategoria": "saude"
+      "iconesCategoria": "saude",
+      "copy": {
+        "tom": "acolhedor",
+        "publico": "adultos e adolescentes que querem cuidar da saúde emocional e não sabem por onde começar",
+        "desejos": ["um espaço seguro para falar", "entender o que sente", "lidar melhor com a ansiedade e os desafios"],
+        "receios": ["ser julgado", "não se adaptar ao profissional", "sigilo"],
+        "objecoes": ["como funciona a primeira sessão?", "o atendimento on-line funciona?", "com que frequência são as sessões?"]
+      }
     }
   ],
+  "copy": {
+    "comoDecidem": "Antes de marcar, a pessoa procura confiança: quem é o profissional responsável, se o lugar é limpo e organizado, se vai ser bem tratada, se é perto e fácil de agendar, e se aceita o convênio dela.",
+    "evitar": ["sorriso perfeito", "saúde em primeiro lugar", "cuidando de você", "tecnologia de ponta", "estrutura completa", "profissionais altamente qualificados"]
+  },
   "exemplo": {
     "nome": "Clínica Sorriso Vivo",
     "cidade": "Jundiaí",
