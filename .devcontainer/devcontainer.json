@@ -11,8 +11,8 @@
     "GEMINI_API_KEY": {
       "description": "Opcional: chave da IA (https://aistudio.google.com/apikey). Sem ela, a IA funciona em modo simulado."
     },
-    "PEXELS_API_KEY": {
-      "description": "Opcional: chave grátis do banco de imagens Pexels (https://www.pexels.com/api/). Sem ela, a busca de fotos fica desligada."
+    "PIXABAY_API_KEY": {
+      "description": "Opcional: chave grátis do banco de imagens Pixabay (https://pixabay.com/api/docs/). Sem ela, a busca de fotos fica desligada."
     }
   },
   "customizations": {

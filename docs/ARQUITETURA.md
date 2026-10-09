@@ -626,8 +626,10 @@ cabeçalho `X-CSRF-Token` (exceto login, esqueci, redefinir e leads públicos). 
 - `POST /api/sites` já preenche os espaços (as fotos viram mídias do site, `origem = "exemplo:{id}"`,
   hard link quando possível); `"fotosExemplo": false` desliga. `POST /api/sites/{id}/fotos-exemplo {revisao}`
   completa os espaços vazios (troca de modelo). `GET /api/fotos-exemplo/{id}-{w}.webp` serve as prévias do assistente.
-- Banco de imagens: `GET /api/pexels` (`{disponivel}`), `GET /api/pexels/buscar?q=&pagina=&orientacao=`,
-  `POST /api/pexels/importar {site_id, foto_id}` → mídia com `origem = "pexels:{id}"` e `credito`.
+- Banco de imagens (Pixabay, `Lib/Pixabay.php`): `GET /api/banco-imagens` (`{disponivel}`),
+  `GET /api/banco-imagens/buscar?q=&pagina=&orientacao=` (respostas em cache por 24 h em `var/cache/pixabay`),
+  `POST /api/banco-imagens/importar {site_id, foto_id}` → mídia com `origem = "pixabay:{id}"` e `credito`.
+  Download só de `pixabay.com`/`cdn.pixabay.com` (redirecionamentos conferidos); CSP do editor libera esses hosts em `img-src`.
 - Validação da publicação: aviso `fotos_exemplo` com as fotos de exemplo ainda exibidas.
 
 ### 6.1 Bundle da biblioteca

@@ -1,6 +1,6 @@
-// Banco de imagens (Pexels): janela "Biblioteca de imagens" para buscar uma foto e trazê-la
-// para dentro do site. O servidor faz a busca (GET /api/pexels/buscar) e a importação
-// (POST /api/pexels/importar → {midia} igual ao upload, com origem e crédito do fotógrafo);
+// Banco de imagens (Pixabay): janela "Biblioteca de imagens" para buscar uma foto e trazê-la
+// para dentro do site. O servidor faz a busca (GET /api/banco-imagens/buscar) e a importação
+// (POST /api/banco-imagens/importar → {midia} igual ao upload, com origem e crédito do autor);
 // aqui a foto escolhida vira UMA alteração desfazível, pelo mesmo caminho do upload.
 //
 // Funções puras (testadas no node): termoSugerido, sugestoesDoNicho, rotuloFoto.
@@ -111,7 +111,7 @@ let disponibilidade = null;
 
 /** O banco de imagens está ligado no servidor? (consulta uma vez por carregamento). */
 export function bancoDisponivel() {
-  disponibilidade ??= api.get('/pexels').then((r) => Boolean(r?.disponivel)).catch(() => {
+  disponibilidade ??= api.get('/banco-imagens').then((r) => Boolean(r?.disponivel)).catch(() => {
     disponibilidade = null;
     return false;
   });
@@ -120,11 +120,11 @@ export function bancoDisponivel() {
 
 export function buscarFotos(termo, pagina = 1) {
   const q = new URLSearchParams({ q: termo, pagina: String(pagina) });
-  return api.get(`/pexels/buscar?${q}`);
+  return api.get(`/banco-imagens/buscar?${q}`);
 }
 
 export function importarFoto(siteId, fotoId) {
-  return api.post('/pexels/importar', { site_id: siteId, foto_id: fotoId });
+  return api.post('/banco-imagens/importar', { site_id: siteId, foto_id: fotoId });
 }
 
 /* ================================================================== janela */
@@ -148,8 +148,8 @@ export function abrirBancoImagens({ siteId, contexto = {}, aoEscolher, disponive
   fechar = () => janela.fechar();
 
   const rodape = el('p', { class: 'fb-rodape' },
-    'Fotos do ', el('a', { href: 'https://www.pexels.com', target: '_blank', rel: 'noopener noreferrer' }, 'Pexels'),
-    '. A foto escolhida é copiada para o seu site com o crédito do fotógrafo.');
+    'Imagens do ', el('a', { href: 'https://pixabay.com/', target: '_blank', rel: 'noopener noreferrer' }, 'Pixabay'),
+    ' (uso grátis, inclusive comercial). A foto escolhida é copiada para o seu site com o crédito do autor.');
 
   const montar = (ligado) => {
     if (!ligado) {
@@ -157,9 +157,9 @@ export function abrirBancoImagens({ siteId, contexto = {}, aoEscolher, disponive
         icone('imagem'),
         el('p', { class: 'fb-desligado__titulo' }, 'O banco de imagens ainda não está ligado.'),
         el('p', null,
-          'Para ligar, crie uma chave grátis em ',
-          el('a', { href: 'https://www.pexels.com/api/', target: '_blank', rel: 'noopener noreferrer' }, 'pexels.com/api'),
-          ' e coloque-a na variável PEXELS_API_KEY do servidor (ou em pexels.chave no config.php).')),
+          'Para ligar, crie uma conta grátis no ',
+          el('a', { href: 'https://pixabay.com/api/docs/', target: '_blank', rel: 'noopener noreferrer' }, 'Pixabay'),
+          ', copie a sua chave da API e coloque-a no arquivo .env do sistema, na linha PIXABAY_API_KEY (passo a passo no guia "Como testar").')),
       rodape);
       return;
     }
@@ -237,7 +237,7 @@ export function abrirBancoImagens({ siteId, contexto = {}, aoEscolher, disponive
       const img = el('img', {
         src: foto.miniatura, alt: '', loading: 'lazy', decoding: 'async', class: 'fb-item__img', referrerpolicy: 'no-referrer',
       });
-      const autor = el('span', { class: 'fb-item__autor', 'aria-hidden': 'true' }, foto.autor ? `Foto: ${foto.autor}` : 'Pexels');
+      const autor = el('span', { class: 'fb-item__autor', 'aria-hidden': 'true' }, foto.autor ? `Imagem de ${foto.autor}` : 'Pixabay');
       const estado = el('span', { class: 'fb-item__estado', 'aria-hidden': 'true' }, el('span', { class: 'giro' }), 'Baixando…');
       const b = el('button', {
         type: 'button', class: 'fb-item__botao', 'aria-label': rotuloFoto(foto), title: foto.autor ? `Foto de ${foto.autor}` : null,

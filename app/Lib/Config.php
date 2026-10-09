@@ -58,7 +58,7 @@ final class Config
                 'tempo_limite' => 90,
                 'limite_por_hora' => 30,
             ],
-            'pexels' => [
+            'pixabay' => [
                 'chave' => '',
                 'limite_por_hora' => 120,
             ],

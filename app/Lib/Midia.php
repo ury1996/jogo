@@ -58,7 +58,7 @@ final class Midia
             'tipo' => (string) $linha['tipo'],
             'formato' => (string) ($linha['formato'] ?? 'webp'),
         ];
-        // Fotos de banco de imagens (Pexels) e de exemplo da biblioteca: origem e crédito do autor.
+        // Fotos de banco de imagens (Pixabay) e de exemplo da biblioteca: origem e crédito do autor.
         if (!empty($linha['origem'])) {
             $r['origem'] = (string) $linha['origem'];
         }

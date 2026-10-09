@@ -1,6 +1,6 @@
 // Fotos (PDF §7.3 + [M15]): escolher → reduzir no navegador → prévia local → enviar com
 // progresso → ligar ao documento. Também: remover foto, texto alternativo (PATCH) e
-// "Buscar no banco de imagens" (Pexels, ver fotos-banco.mjs), que entra pelo mesmo caminho.
+// "Buscar no banco de imagens" (Pixabay, ver fotos-banco.mjs), que entra pelo mesmo caminho.
 //
 // Caminho de uma foto:
 //   arquivo → createImageBitmap(imageOrientation "from-image") → canvas (máx. 2400 px no lado
@@ -124,7 +124,7 @@ export function ligarFotos(ed) {
         ed.estado.definirMidia(id, dados);
         ed.aplicar((d) => op.definirImagem(d, chave, id), { rotulo: 'Trocar foto' });
         ed.renderizar();
-        const credito = dados.credito ?? (foto?.autor ? `Foto: ${foto.autor} / Pexels` : '');
+        const credito = dados.credito ?? (foto?.autor ? `Imagem de ${foto.autor} por Pixabay` : '');
         ed.anunciar('Foto do banco de imagens aplicada.');
         aviso(`Foto aplicada.${credito ? ` ${credito}.` : ''}`, { tipo: 'ok', acao: { rotulo: 'Desfazer', fn: () => ed.desfazer() } });
       },

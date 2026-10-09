@@ -39,7 +39,7 @@ final class Api
         $pub = new Publicacao();
         $versoes = new Versoes();
         $ia = new Ia();
-        $pexels = new Pexels();
+        $banco = new BancoImagens();
         $publica = ['publica' => true];
         // Sem token CSRF (ainda não há sessão), mas só aceitas da própria origem do editor:
         // sem isso, uma página de terceiros faz o navegador da vítima entrar na conta do
@@ -77,9 +77,9 @@ final class Api
         $r->get('/api/ia', [$ia, 'estado']);
         $r->post("/api/sites/{$id}/ia", [$ia, 'gerar']);
 
-        $r->get('/api/pexels', [$pexels, 'estado']);
-        $r->get('/api/pexels/buscar', [$pexels, 'buscar']);
-        $r->post('/api/pexels/importar', [$pexels, 'importar']);
+        $r->get('/api/banco-imagens', [$banco, 'estado']);
+        $r->get('/api/banco-imagens/buscar', [$banco, 'buscar']);
+        $r->post('/api/banco-imagens/importar', [$banco, 'importar']);
 
         $r->get("/api/sites/{$id}/leads", [$leads, 'listar']);
         $r->get("/api/sites/{$id}/leads.csv", [$leads, 'csv']);

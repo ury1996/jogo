@@ -135,14 +135,15 @@ Documentos:
 
 ---
 
-## Fotos: exemplos e banco de imagens (Pexels)
+## Fotos: exemplos e banco de imagens (Pixabay)
 
 - Todo site nasce com **fotos de exemplo** do nicho em todos os espaços (`biblioteca/fotos/`, licença
   Unsplash), e as miniaturas do assistente mostram os modelos completos. A publicação avisa quantas
   ainda são de exemplo.
-- No editor, **Buscar no banco de imagens** pesquisa no Pexels e baixa a foto escolhida para o site
-  (`/api/pexels/*`, com crédito do fotógrafo). Chave grátis em <https://www.pexels.com/api/>
-  (`'pexels' => ['chave' => …]` no config ou `PEXELS_API_KEY`). Detalhes em `docs/COMO-TESTAR.md` §3.2–3.3.
+- No editor, **Buscar no banco de imagens** pesquisa no Pixabay e baixa a foto escolhida para o site
+  (`/api/banco-imagens/*`, com crédito do autor; buscas em cache por 24 h, como o Pixabay pede).
+  Chave grátis em <https://pixabay.com/api/docs/> (`PIXABAY_API_KEY` no `.env`, ou
+  `'pixabay' => ['chave' => …]` no config). Passo a passo em `docs/COMO-TESTAR.md` §3.3.
 
 ## IA (textos e SEO a partir de uma descrição)
 

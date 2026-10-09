@@ -13,3 +13,4 @@ test-results
 playwright-report
 tests/e2e/saida
 tests/paridade/saida
+.env

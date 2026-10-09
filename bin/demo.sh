@@ -9,7 +9,7 @@
 # Variáveis: PORTA (8080), RANKLY_URL (endereço público), RANKLY_DADOS (pasta dos dados),
 #            DEMO_EMAIL / DEMO_SENHA (usuário de teste; num endereço público a senha padrão é
 #            aleatória e fica em {dados}/acesso.txt), GEMINI_API_KEY (IA de verdade),
-#            PEXELS_API_KEY (banco de imagens Pexels).
+#            PIXABAY_API_KEY (banco de imagens Pixabay).
 
 set -euo pipefail
 
@@ -48,7 +48,7 @@ fi
 acesso="$(cat "$dados/acesso.txt" 2>/dev/null || printf 'E-mail: %s\nSenha: (a que foi definida na primeira vez)' "$DEMO_EMAIL")"
 
 ia="$(php -r '$app = require "app/bootstrap.php"; echo $app->config("ia.provedor");')"
-fotos="$(php -r '$app = require "app/bootstrap.php"; echo $app->pexels() !== null ? "Pexels ligado" : "desligado (defina PEXELS_API_KEY)";')"
+fotos="$(php -r '$app = require "app/bootstrap.php"; echo $app->bancoImagens() !== null ? "Pixabay ligado" : "desligado (defina PIXABAY_API_KEY)";')"
 
 pids=()
 encerrar() {

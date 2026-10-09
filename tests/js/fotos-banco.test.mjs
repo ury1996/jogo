@@ -1,4 +1,4 @@
-// Banco de imagens (Pexels) no editor: termo sugerido por nicho/espaço, chips de sugestões e
+// Banco de imagens (Pixabay) no editor: termo sugerido por nicho/espaço, chips de sugestões e
 // rótulo acessível das miniaturas (funções puras de editor/fotos-banco.mjs).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';

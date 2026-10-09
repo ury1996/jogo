@@ -92,12 +92,13 @@ return [
         'limite_por_hora' => 30,       // pedidos por usuário por hora
     ],
 
-    // Banco de imagens Pexels: "Buscar no banco de imagens" no editor baixa a foto para o site
-    // (com o crédito do fotógrafo). Chave grátis em https://www.pexels.com/api/ ; também pode vir
-    // da variável de ambiente PEXELS_API_KEY (usada se 'chave' estiver vazia). Sem chave, o editor
-    // mostra a opção com a explicação de como ligar.
-    'pexels' => [
+    // Banco de imagens Pixabay: "Buscar no banco de imagens" no editor baixa a foto para o site
+    // (com o crédito do autor). Chave grátis em https://pixabay.com/api/docs/ (com a conta aberta,
+    // a chave aparece na seção "Parameters", item "key"); também pode vir da variável de ambiente
+    // PIXABAY_API_KEY (usada se 'chave' estiver vazia). Sem chave, o editor mostra a opção com a
+    // explicação de como ligar.
+    'pixabay' => [
         'chave' => '',
-        'limite_por_hora' => 120,      // buscas + importações por usuário por hora (a cota grátis é 200/h)
+        'limite_por_hora' => 120,      // buscas + importações por usuário por hora (o Pixabay aceita 100/min por chave)
     ],
 ];

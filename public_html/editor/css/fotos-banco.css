@@ -1,11 +1,11 @@
-/* Banco de imagens (Pexels): janela "Biblioteca de imagens" (js/editor/fotos-banco.mjs).
+/* Banco de imagens (Pixabay): janela "Biblioteca de imagens" (js/editor/fotos-banco.mjs).
    Usa os tokens --ui-* de editor.css (claro e escuro).
      .modal--fotos-banco      janela larga
      .fb-cab                  título à esquerda, selo à direita
      .fb-busca                campo grande arredondado + botão "Buscar"
      .fb-chips .fb-chip       sugestões por nicho
      .fb-grade .fb-item       miniaturas (3 colunas; 2 no celular)
-     .fb-rodape               crédito "Fotos do Pexels" */
+     .fb-rodape               crédito "Imagens do Pixabay" */
 
 .modal--fotos-banco { width: min(860px, 100%); height: min(760px, calc(100dvh - 48px)); }
 

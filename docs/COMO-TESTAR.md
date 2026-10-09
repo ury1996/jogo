@@ -1,276 +1,345 @@
-# Como testar o Construtor Rankly no seu computador
+# Como testar o Construtor Rankly (com o Docker Desktop)
 
-Roteiro para ver o sistema funcionando de ponta a ponta: criar um site pelo assistente, editar,
-publicar, abrir o site e receber um contato. Leva uns 15 minutos na primeira vez.
+Este é o jeito padrão de rodar o sistema para testar: tudo dentro do **Docker Desktop**, sem
+instalar PHP, banco de dados nem nada além dele. Leva uns 20 minutos na primeira vez (a maior parte
+é o Docker baixando o que precisa) e 1 minuto nas próximas.
 
-> **Só quer abrir e testar, ou mandar para outra pessoa testar?** Use o modo demonstração
-> ([`DEMONSTRACAO.md`](DEMONSTRACAO.md)): um clique no GitHub Codespaces ou `docker compose up`.
+O que você vai fazer:
 
-Este roteiro usa **SQLite** (um arquivo no lugar do banco), então não precisa instalar MySQL.
-Em produção, use MySQL/MariaDB (veja o README).
+1. instalar o Docker Desktop (uma vez só);
+2. baixar o projeto;
+3. criar o arquivo `.env` com as duas chaves grátis (IA e banco de imagens);
+4. ligar o sistema com `docker compose up`;
+5. testar o fluxo completo: criar um site, editar, publicar e receber um contato.
 
----
-
-## 1. Instalar o que precisa (uma vez só)
-
-Você precisa de **PHP 8.2+** (com as extensões gd, mbstring e sqlite), **Composer** e **Git**.
-Node.js só é necessário para os testes automáticos (parte 5).
-
-**macOS** (com [Homebrew](https://brew.sh)):
-
-```bash
-brew install php composer git node
-```
-
-**Ubuntu / Debian**:
-
-```bash
-sudo apt update
-sudo apt install -y git unzip php-cli php-gd php-mbstring php-sqlite3 php-xml php-curl php-zip composer
-```
-
-**Windows**: use o **WSL** (Ubuntu dentro do Windows). No PowerShell como administrador rode
-`wsl --install`, reinicie, abra o "Ubuntu" e siga os comandos de Ubuntu acima. O sistema usa links
-simbólicos e scripts bash, que não funcionam bem no Windows puro.
-
-Confira se o PHP gera WebP (deve aparecer `bool(true)`):
-
-```bash
-php -r 'var_dump(function_exists("imagewebp"));'
-```
+Tudo fica num endereço só: o editor em <http://localhost:8080/editor/> e cada site publicado em
+`http://localhost:8080/s/nome-do-site/`.
 
 ---
 
-## 2. Baixar o projeto e configurar
+## 1. Instalar o Docker Desktop (uma vez só)
 
-```bash
+1. Baixe em <https://www.docker.com/products/docker-desktop/>:
+   - **Windows 10 ou 11:** "Download for Windows". Na instalação, deixe marcada a opção **Use WSL 2**.
+     Se o instalador pedir para reiniciar o computador, reinicie.
+   - **Mac:** escolha o chip do seu Mac: **Apple Silicon** (M1, M2, M3, M4) ou **Intel**
+     (menu  → Sobre este Mac mostra qual é).
+2. Abra o **Docker Desktop** e aceite os termos. Não precisa criar conta (pode clicar em "Skip"/"Pular").
+3. Espere aparecer **Engine running** (no canto de baixo, à esquerda, com a bolinha verde).
+   **O Docker Desktop precisa estar aberto sempre que for usar o sistema.**
+4. Confira no terminal:
+   - **Windows:** abra o **PowerShell** (menu Iniciar → digite "PowerShell").
+   - **Mac:** abra o **Terminal** (Spotlight → digite "Terminal").
+
+   Digite e aperte Enter:
+
+   ```
+   docker --version
+   ```
+
+   Tem que aparecer algo como `Docker version 27...`. Se aparecer "comando não encontrado", feche e
+   abra o terminal de novo (ou reinicie o computador).
+
+---
+
+## 2. Baixar o projeto
+
+Escolha um dos jeitos:
+
+**Sem programas extras (mais fácil):**
+
+1. No GitHub, abra o repositório `ury1996/jogo`.
+2. No botão que mostra o nome da branch (normalmente `main`), escolha `claude/jolly-hawking-m0fur7`.
+3. Clique no botão verde **Code** → **Download ZIP**.
+4. Descompacte o ZIP numa pasta fácil de achar, por exemplo `Documentos\construtor-rankly`.
+
+**Com Git:**
+
+```
 git clone https://github.com/ury1996/jogo.git construtor-rankly
 cd construtor-rankly
 git checkout claude/jolly-hawking-m0fur7
-composer install
-cp config/config.exemplo.php config/config.php
-mkdir -p var
 ```
 
-Abra `config/config.php` num editor de texto e troque as duas linhas do banco:
-
-```php
-'driver' => 'mysql',
-'dsn' => 'mysql:host=127.0.0.1;port=3306;dbname=rankly;charset=utf8mb4',
-```
-
-por:
-
-```php
-'driver' => 'sqlite',
-'dsn' => 'sqlite:' . __DIR__ . '/../var/rankly.sqlite',
-```
-
-Crie as tabelas e o seu usuário (a senha precisa ter 8 caracteres ou mais):
-
-```bash
-php app/cli/migrar.php
-php app/cli/criar-usuario.php --nome="Marcos" --email=marcos@teste.com --papel=admin --senha=senha12345
-```
+Para atualizar depois: baixe o ZIP de novo (ou `git pull`) e ligue com `docker compose up --build`
+(veja a parte 6).
 
 ---
 
-## 3. Ligar o sistema
+## 3. Criar o arquivo `.env` com as chaves
 
-```bash
-bin/dev.sh
+O arquivo `.env` guarda as duas chaves grátis que ligam os recursos externos:
+
+| Chave | O que liga | Sem ela |
+|---|---|---|
+| `GEMINI_API_KEY` | a **IA** que escreve os textos e o SEO do site (Google Gemini) | a IA funciona em "modo de teste": aparecem textos marcados "[IA simulada]" |
+| `PIXABAY_API_KEY` | o **banco de imagens** no editor (buscar e baixar fotos do Pixabay) | a busca de fotos fica desligada |
+
+Dá para ligar o sistema sem nenhuma das duas e preencher depois.
+
+### 3.1 Criar o arquivo
+
+Na pasta do projeto existe o arquivo **`.env.exemplo`**. Faça uma cópia dele com o nome **`.env`**:
+
+- **Windows:**
+  1. Abra a pasta do projeto no Explorador de Arquivos. Se não aparecer o `.env.exemplo`, ative
+     **Exibir → Mostrar → Itens ocultos** e **Extensões de nomes de arquivos**.
+  2. Clique com o botão direito no `.env.exemplo` → **Copiar**, e depois **Colar** na mesma pasta.
+  3. Renomeie a cópia para exatamente `.env` (ponto + env). O Windows pode avisar que o arquivo vai
+     ficar sem extensão: confirme com **Sim**.
+  4. Abra o `.env` com o **Bloco de Notas** (botão direito → Abrir com → Bloco de Notas).
+
+  Atenção: o nome não pode virar `.env.txt`. Se for criar pelo Bloco de Notas, em **Salvar como**
+  escolha **Tipo: Todos os arquivos** e digite `.env` no nome.
+- **Mac:** no Terminal, dentro da pasta do projeto, rode `cp .env.exemplo .env` e depois
+  `open -e .env` (abre no TextEdit). No Finder, arquivos que começam com ponto ficam ocultos:
+  aperte **Cmd + Shift + .** para vê-los.
+
+O `.env` aberto se parece com isto (as linhas com `#` são explicações):
+
+```
+GEMINI_API_KEY=
+PIXABAY_API_KEY=
 ```
 
-Deixe esse terminal aberto (Ctrl+C desliga). Ele sobe duas coisas:
+Cada chave vai **logo depois do sinal de igual**, sem espaços e sem aspas. Exemplo de como fica
+preenchido (chaves inventadas):
 
-- o **editor** em <http://localhost:8080/editor/>
-- os **sites publicados** em `http://{nome-do-site}.localhost:8081/`
+```
+GEMINI_API_KEY=AIzaSyB1a2b3c4d5e6f7g8h9i0jKlMnOpQrStUv
+PIXABAY_API_KEY=12345678-abcdef0123456789abcdef012
+```
 
-Use **Chrome ou Firefox** (o Safari não abre endereços `*.localhost`).
+O `.env` fica só no seu computador: ele não vai para o GitHub nem para dentro do sistema publicado.
+Não mande as chaves para ninguém.
 
-## 3.1 Ligar a IA (Gemini, grátis)
+### 3.2 Chave da IA (Google Gemini, grátis)
 
-A IA escreve os textos e o SEO do site a partir de uma descrição do negócio. Sem chave, o sistema
-funciona igual, só sem os botões de IA.
+1. Entre em <https://aistudio.google.com/apikey> com uma conta Google (Gmail serve).
+2. Na primeira vez, aceite os termos do Google AI Studio.
+3. Clique em **Create API key** (ou **Criar chave de API**). Se ele pedir um projeto, escolha
+   **Create API key in new project** (Criar chave em um novo projeto).
+4. Aparece uma chave que começa com `AIza…`. Clique em **Copy** (Copiar).
+5. Cole no `.env`, na linha `GEMINI_API_KEY=` (ficando `GEMINI_API_KEY=AIza…`) e salve.
 
-1. Entre em <https://aistudio.google.com/apikey> com uma conta Google e clique em
-   **Create API key** (Criar chave de API). Copie a chave.
-2. Em `config/config.php`, preencha a chave dentro de `'ia'`:
+Sobre o plano gratuito: tem limite de pedidos por minuto e por dia (se estourar, o sistema tenta um
+modelo reserva e, se ainda assim falhar, avisa para tentar de novo em alguns minutos), e o Google
+pode usar o conteúdo enviado para melhorar os produtos dele. O sistema só envia dados do negócio
+(nome, cidade, ramo e a descrição), nunca dados de clientes ou de contatos recebidos.
 
-   ```php
-   'ia' => [
-       'provedor' => 'gemini',
-       'chave' => 'COLE-A-CHAVE-AQUI',
-       'modelo' => 'gemini-2.5-flash',
-       'modelo_reserva' => 'gemini-2.5-flash-lite',
-       'tempo_limite' => 90,
-       'limite_por_hora' => 30,
-   ],
+### 3.3 Chave do banco de imagens (Pixabay, grátis)
+
+1. Crie uma conta em <https://pixabay.com> (botão **Join** / **Entrar**). Dá para usar a conta
+   Google. Confirme o e-mail se o Pixabay pedir.
+2. Com a conta aberta, entre em <https://pixabay.com/api/docs/>.
+3. Desça até a seção **Search Images** → **Parameters**. Na primeira linha da tabela,
+   **key (required)**, aparece **"Your API key:"** seguido de um código **em verde**, parecido com
+   `12345678-abcdef0123456789abcdef012`. Essa é a sua chave. (Se aparecer só um aviso pedindo para
+   entrar, a conta não está aberta: faça o login e recarregue a página.)
+4. Copie o código inteiro e cole no `.env`, na linha `PIXABAY_API_KEY=`, e salve.
+
+Sobre o Pixabay: as fotos podem ser usadas de graça, inclusive em sites comerciais, sem precisar dar
+crédito (o sistema guarda o nome do autor mesmo assim). O limite é de 100 buscas por minuto por
+chave, mais que suficiente. As buscas ficam guardadas por 24 horas, como o Pixabay pede, e a foto
+escolhida é copiada para dentro do site (o site publicado não depende do Pixabay).
+
+### 3.4 Conferir
+
+Salve o `.env` e siga para a parte 4. Quando o sistema ligar, o quadro do terminal mostra se cada
+recurso ficou ligado:
+
+```
+│ IA:     gemini                      ← ligada (sem chave: "simulado")
+│ Fotos:  banco de imagens Pixabay ligado
+```
+
+Mudou o `.env` com o sistema ligado? Desligue (Ctrl+C no terminal) e ligue de novo
+(`docker compose up`). O Docker só lê o `.env` ao ligar.
+
+---
+
+## 4. Ligar o sistema
+
+1. Abra o Docker Desktop e espere o **Engine running**.
+2. Abra o terminal **dentro da pasta do projeto**:
+   - **Windows:** abra a pasta no Explorador, clique com o botão direito num espaço vazio →
+     **Abrir no Terminal**. (Ou, no PowerShell: `cd "$HOME\Documents\construtor-rankly"`.)
+   - **Mac:** no Terminal, digite `cd ` (com espaço), arraste a pasta do projeto para dentro da
+     janela e aperte Enter.
+3. Rode:
+
+   ```
+   docker compose up
    ```
 
-   Se o seu `config.php` foi copiado antes desta versão e não tem o bloco `'ia'`, copie-o do
-   `config/config.exemplo.php`. Outra opção é deixar a chave fora do arquivo, numa variável de
-   ambiente: `GEMINI_API_KEY=sua-chave bin/dev.sh`.
-3. Reinicie o `bin/dev.sh` (Ctrl+C e rode de novo).
+4. Na primeira vez ele monta o sistema: leva de 3 a 10 minutos e mostra muitas linhas. Nas próximas,
+   segundos. Está pronto quando aparecer o quadro:
 
-Para testar sem chave nenhuma, use `'provedor' => 'simulado'`: aparecem textos marcados
-"[IA simulada]", só para ver o fluxo funcionando.
+   ```
+   ┌──────────────────────────────────────────────────────────────
+   │ Construtor Rankly · modo demonstração
+   │
+   │ Abra:   http://localhost:8080/editor/
+   │ E-mail: demo@rankly.app
+   │ Senha:  demo12345
+   ...
+   ```
 
-Cuidados com o plano gratuito: tem limite de pedidos por minuto e por dia (quando estoura, o
-sistema tenta o modelo reserva e, se ainda assim falhar, avisa para tentar de novo em alguns
-minutos), e o Google pode usar o conteúdo enviado para melhorar os produtos dele. O sistema só
-envia dados do negócio (nome, cidade, ramo e a descrição), nunca dados de clientes ou leads.
+5. Abra <http://localhost:8080/editor/> no navegador (Chrome, Edge, Firefox ou Safari).
 
-## 3.2 Ligar o banco de imagens (Pexels, grátis)
-
-No editor, ao clicar numa foto, a opção **Buscar no banco de imagens** abre a **Biblioteca de
-imagens**: você pesquisa (ex.: "consultório odontológico"), clica na foto e ela é baixada para dentro
-do sistema e já entra no site, com o crédito do fotógrafo guardado.
-
-1. Crie uma conta grátis em <https://www.pexels.com/api/> e clique em **Your API Key**. Copie a chave.
-2. Em `config/config.php`, dentro de `'pexels'`, preencha `'chave' => 'COLE-A-CHAVE-AQUI'`
-   (ou use a variável de ambiente `PEXELS_API_KEY`). Reinicie o `bin/dev.sh`.
-
-Sem a chave, a opção aparece com a explicação de como ligar. As fotos do Pexels podem ser usadas de
-graça, inclusive em sites comerciais.
-
-## 3.3 Fotos de exemplo
-
-Todo site novo já nasce com fotos em todos os espaços (fotos de exemplo de cada tipo de negócio,
-guardadas em `biblioteca/fotos/`), e as miniaturas do assistente mostram os modelos completos. O
-dono troca pelas fotos dele (ou do banco de imagens). Ao publicar, a lista de verificação avisa
-quantas fotos ainda são de exemplo — principalmente as da equipe, que devem ser dos profissionais
-de verdade. Para trocar a seleção de fotos: edite `ferramentas/fotos-exemplo.json` e rode
-`php ferramentas/construir-fotos.php`.
+**Deixe o terminal aberto** enquanto usa o sistema. Para desligar: **Ctrl+C** nesse terminal.
+No Docker Desktop, em **Containers**, também dá para ver o sistema rodando, os registros (Logs) e
+ligar/desligar pelo botão ▶ / ■.
 
 ---
 
-## 4. Testar o fluxo completo
+## 5. Testar o fluxo completo
 
-### 4.1 Entrar
+### 5.1 Entrar
 
-Abra <http://localhost:8080/editor/> e entre com o e-mail e a senha que você criou.
-Aparece o painel **Meus sites**, vazio.
+Na tela de entrar, use **demo@rankly.app** e a senha **demo12345**. Aparece o painel
+**Meus sites**, vazio.
 
-### 4.2 Criar um site pelo assistente
+### 5.2 Criar um site pelo assistente
 
 1. Clique em **Novo site**.
-2. **Tipo de negócio**: escolha **Clínicas**. As miniaturas são o site de verdade, em tamanho
-   reduzido.
+2. **Tipo de negócio:** escolha **Clínicas**. As miniaturas são o site de verdade, em tamanho
+   reduzido, já com fotos de exemplo.
 
    ![Passo 1 do assistente](img/como-testar/1-nicho.jpg)
 
-3. **Modelo**: cada tipo de negócio tem 7 modelos — 4 exclusivos dele (para Clínicas: Acolher,
-   Essência, Vital e Agenda) e os 3 gerais (Clássico, Moderno e Direto). Clique em **Ver prévia** em
-   qualquer um para ver o site inteiro (dá para alternar Computador/Celular). Depois clique em
-   **Usar este modelo** no **Clássico**.
-   *(Todos funcionam; o Clássico tem formulário de contato no fim da página, o que facilita o teste
-   do item 4.6.)*
-4. **Dados**: preencha nome (ex.: "Clínica Teste Sorriso"), cidade, estado e WhatsApp.
-   Repare que a prévia à direita muda a cada tecla. Teste também trocar a cor.
-   Com a IA ligada, aparece o campo **O que você quer no site?**: escreva algo como
-   "Clínica odontológica focada em implantes e ortodontia, atendemos convênios e aos sábados".
+3. **Modelo:** cada tipo de negócio tem 7 modelos: 4 exclusivos dele (em Clínicas: Acolher,
+   Essência, Vital e Agenda) e os 3 gerais (Clássico, Moderno e Direto). Clique em **Ver prévia**
+   para ver o site inteiro (dá para alternar Computador/Celular) e depois em **Usar este modelo**
+   no **Clássico**. (Todos funcionam. O Clássico tem formulário de contato no fim da página, o que
+   facilita o item 5.7.)
 
-   ![Passo 3 do assistente](img/como-testar/2-dados.jpg)
+   ![Passo 2 do assistente](img/como-testar/2-modelos.jpg)
 
-5. Clique em **Gerar meu site**. Com descrição, a IA leva de 10 a 40 segundos escrevendo os textos.
+4. **Seus dados:** o primeiro bloco é **"Conte sobre o seu negócio — a IA escreve o site"**.
+   Escreva com as suas palavras (ou clique num dos exemplos e troque os trechos entre colchetes),
+   por exemplo: *"Clínica odontológica focada em implantes e ortodontia. Atendemos convênios e aos
+   sábados. Público: famílias da região central."* Depois preencha nome (ex.: "Clínica Teste
+   Sorriso"), cidade, estado e WhatsApp. A prévia à direita muda a cada tecla. Teste também trocar
+   a cor.
 
-### 4.3 Editar
+   ![Passo 3 do assistente](img/como-testar/3-dados.jpg)
 
-![Editor](img/como-testar/3-editor.jpg)
+5. Clique em **Gerar meu site com IA**. A IA leva de 10 a 40 segundos escrevendo os textos. (Sem
+   descrição, o botão vira **Gerar com textos de exemplo**.)
+
+### 5.3 Editar
+
+![Editor](img/como-testar/4-editor.jpg)
 
 Coisas para experimentar:
 
-- **Texto**: clique no título grande e escreva outra coisa. Enter confirma. Os textos em caixa alta
-  (botões, rótulos) continuam com a caixa original guardada.
-- **Desfazer/refazer**: setas no alto, ou Ctrl+Z / Ctrl+Shift+Z.
-- **Foto**: clique num espaço de foto e envie uma imagem do seu computador.
-- **Ícone**: clique num ícone de serviço e escolha outro. Ou edite o título do serviço (ex.:
-  "Implantes") e veja o ícone mudar sozinho.
-- **Seções** (painel da esquerda): as setas ‹ › trocam o visual da seção sem perder o texto; arraste
-  para mudar a ordem; **Adicionar seção** no fim da lista.
-- **Lista de serviços**: passe o mouse na seção de serviços e use **Adicionar** / **Remover** item.
-- **Estilo**: troque cor, acabamento (Clássico, Moderno, Direto, Elegante, Suave, Impacto) e fontes
-  (7 pares).
-- **Visual das seções**: as setas ‹ › de cada seção mostram as opções (o Destaque, por exemplo, tem 8).
-- **Computador / Celular** no alto, e **Visualizar** para ver sem as ferramentas (Esc volta).
-- **IA**: **Escrever com IA** na barra do alto reescreve o site inteiro; o ícone de brilho na
+- **Texto:** clique no título grande e escreva outra coisa. Enter confirma.
+- **Desfazer/refazer:** setas no alto, ou Ctrl+Z / Ctrl+Shift+Z.
+- **IA:** o botão **Escrever com IA** (no alto) reescreve o site inteiro; o ícone de brilho na
   barrinha de cada seção reescreve só aquela seção. **Desfazer** volta ao que estava. A IA não
-  escreve números, depoimentos, nota do Google nem nomes da equipe: isso continua para você
-  conferir na publicação.
+  inventa números, depoimentos nem nomes da equipe.
+- **Seções** (painel da esquerda): as setas ‹ › trocam o visual da seção sem perder o texto (o
+  Destaque, por exemplo, tem 8 visuais); arraste para mudar a ordem; **Adicionar seção** no fim.
+- **Lista de serviços:** passe o mouse na seção de serviços e use **Adicionar** / **Remover** item.
+- **Estilo:** cor, acabamento (Clássico, Moderno, Direto, Elegante, Suave, Impacto) e fontes.
+- **Ícone:** clique num ícone de serviço e escolha outro.
+- **Computador / Celular** no alto, e **Visualizar** para ver sem as ferramentas (Esc volta).
 
 O status embaixo do nome do site mostra **Salvando…** e **Salvo**: o salvamento é automático.
 
-### 4.4 Publicar (a lista de verificação vai barrar, de propósito)
+### 5.4 Trocar uma foto (banco de imagens)
+
+1. Clique numa foto do site (por exemplo, a do destaque). Abre a janela da foto, com as opções
+   **Remover foto**, **Buscar no banco de imagens** e **Trocar foto** (enviar do seu computador).
+2. Clique em **Buscar no banco de imagens**. Abre a **Biblioteca de imagens**, já pesquisando um termo
+   do seu tipo de negócio (ex.: "consultório odontológico"). Os botões embaixo da busca são
+   sugestões; digite o que quiser e clique em **Buscar**.
+3. Clique numa foto: ela é baixada para dentro do sistema e já entra no site. **Desfazer** volta.
+
+![Biblioteca de imagens](img/como-testar/5-banco-imagens.jpg)
+
+Para usar uma foto sua, clique em **Trocar foto**. Sem a chave do Pixabay (parte 3.3), a
+biblioteca explica como ligar.
+
+Sobre as **fotos de exemplo:** todo site novo já nasce com fotos em todos os espaços, para o modelo
+ficar completo. Elas podem ficar no site, mas o ideal é trocar pelas do negócio, principalmente as da
+equipe, que devem ser dos profissionais de verdade. A publicação avisa quantas ainda são de exemplo.
+
+### 5.5 Publicar (a lista de verificação vai barrar, de propósito)
 
 Clique em **Publicar**. A lista de verificação aparece e **bloqueia** a publicação por dois motivos,
 como deve fazer:
 
-![Lista de verificação](img/como-testar/4-checklist.jpg)
+![Lista de verificação](img/como-testar/6-checklist.jpg)
 
-1. **Falta o registro profissional (CRO)**: clique em **Ir até lá**, preencha o número, a UF e o
+1. **Falta o registro profissional (CRO):** clique em **Ir até lá** e preencha o número, a UF e o
    responsável técnico.
-2. **Depoimentos de exemplo**: na aba **Seções**, passe o mouse em **Depoimentos** e clique na
+2. **Depoimentos de exemplo:** na aba **Seções**, passe o mouse em **Depoimentos** e clique na
    lixeira (ou edite os depoimentos com textos reais).
 
 Clique em **Publicar** de novo. Agora sobram só confirmações (números de exemplo, nota do Google):
 marque as caixas **Confirmo…** e clique em **Publicar agora**.
 
-### 4.5 Ver o site publicado
+### 5.6 Ver o site publicado
 
 Na janela **Site publicado!**, clique em **Abrir site**. O endereço é algo como
-`http://clinicatestesorriso.localhost:8081`.
+`http://localhost:8080/s/clinicatestesorriso/`.
 
-![Site publicado](img/como-testar/5-site.jpg)
+![Site publicado](img/como-testar/7-site.jpg)
 
 Confira também:
 
 - o rodapé com o CRO e o link **Política de privacidade** (página gerada automaticamente);
-- o site no celular: no Chrome, F12 → ícone de celular;
-- um endereço que não existe (ex.: `/teste`) mostra a página 404 do próprio site.
+- o site no celular: no Chrome, F12 → ícone de celular (ou abra o endereço no celular, se ele estiver
+  na mesma rede, trocando `localhost` pelo IP do computador);
+- um endereço que não existe (ex.: `/s/clinicatestesorriso/teste`) mostra a página 404 do próprio site.
 
-### 4.6 Enviar um contato e ver o lead
+### 5.7 Enviar um contato e ver o lead
 
 1. No site publicado, role até o formulário de contato.
-2. **Espere uns 3 segundos** depois de abrir a página (envios mais rápidos que isso são tratados como
-   robô e descartados sem aviso) e envie nome e telefone.
+2. **Espere uns 3 segundos** depois de abrir a página (envios mais rápidos são tratados como robô e
+   descartados sem aviso) e envie nome e telefone.
 3. Volte ao editor → **Meus sites** → no cartão do site, clique em **Contatos**.
 
-![Contatos recebidos](img/como-testar/6-leads.jpg)
+![Contatos recebidos](img/como-testar/8-leads.jpg)
 
-O e-mail de aviso ao dono não é enviado de verdade no computador: ele vira um arquivo `.eml` em
-`var/emails/` (abre no Outlook, Thunderbird ou num editor de texto). Pode levar até 1 minuto,
-porque é o cron do `bin/dev.sh` que envia.
+O e-mail de aviso ao dono não sai de verdade nos testes: ele vira um arquivo `.eml`. Para ver,
+no Docker Desktop: **Containers** → clique no sistema → aba **Files** → pasta `/dados/var/emails`
+(ou, no terminal, `docker compose exec rankly ls /dados/var/emails`). Pode levar até 1 minuto para
+aparecer.
 
-### 4.7 Outras coisas para testar
+### 5.8 Outras coisas para testar
 
-- **Voltar à publicação anterior**: publique uma segunda vez com uma mudança e use
+- **Voltar à publicação anterior:** publique uma segunda vez com uma mudança e use
   **Voltar à publicação anterior** na janela de publicação.
-- **Histórico de versões**: ícone de relógio no alto do editor.
-- **Duas abas**: abra o mesmo site em duas abas, edite nas duas e veja o aviso de conflito.
-- **Sem internet**: desligue a rede, edite, religue; a alteração é enviada sozinha.
-- **Esqueci a senha**: na tela de entrar; o link chega como arquivo em `var/emails/`.
+- **Histórico de versões:** ícone de relógio no alto do editor.
+- **Trocar de modelo:** **Trocar modelo** no fim do painel de seções. Textos e fotos continuam.
+- **Duas abas:** abra o mesmo site em duas abas, edite nas duas e veja o aviso de conflito.
 - **Tema escuro** do editor: botão ao lado do seu nome.
 
 ---
 
-## 5. Testes automáticos (opcional)
+## 6. No dia a dia
 
-Precisa de Node.js 22.
+Todos os comandos são rodados no terminal, dentro da pasta do projeto.
 
-```bash
-composer install            # inclui o PHPUnit
-npm install
-npx playwright install chromium
+| Quero… | Como |
+|---|---|
+| ligar | abrir o Docker Desktop e rodar `docker compose up` |
+| desligar | **Ctrl+C** no terminal (ou ■ no Docker Desktop) |
+| ligar sem ocupar o terminal | `docker compose up -d` (desligar: `docker compose down`) |
+| ver o que está acontecendo | `docker compose logs -f`, ou a aba **Logs** no Docker Desktop |
+| atualizar para uma versão nova do código | baixar o código novo e rodar `docker compose up --build` |
+| mudar uma chave | editar o `.env`, desligar e ligar de novo |
+| criar outro usuário | `docker compose exec rankly php app/cli/criar-usuario.php --nome="Fulano" --email=fulano@exemplo.com --papel=admin --senha=umasenhaforte` |
+| apagar tudo (sites, fotos, contatos) e começar do zero | `docker compose down -v` |
 
-npm test                                        # testes JS (~190)
-vendor/bin/phpunit -c tests/php/phpunit.xml      # testes PHP (~270)
-npm run paridade                                 # editor (JS) e servidor (PHP) geram o mesmo HTML
-RANKLY_E2E_BANCO=sqlite npm run e2e              # navegador de verdade: fluxo completo e os 12 sites
-```
+Os sites, fotos e contatos ficam guardados entre uma vez e outra (num "volume" do Docker chamado
+`rankly-dados`), até você rodar o `down -v`.
 
-Ou tudo de uma vez: `bin/testar.sh`. O teste ponta a ponta salva capturas dos 28 sites
-(4 nichos × 7 modelos, computador e celular) em `var/e2e/capturas/`.
+Para mostrar o sistema para alguém de fora do seu computador, veja
+[`DEMONSTRACAO.md`](DEMONSTRACAO.md) (túnel gratuito ou servidor de testes).
 
 ---
 
@@ -278,9 +347,39 @@ Ou tudo de uma vez: `bin/testar.sh`. O teste ponta a ponta salva capturas dos 28
 
 | Sintoma | Solução |
 |---|---|
-| `Dependências ausentes: rode "composer install"` | Rode `composer install` na pasta do projeto. |
-| `Não foi possível migrar o banco` | Confira as duas linhas do banco em `config/config.php` e se a pasta `var/` existe. |
-| Porta 8080 ou 8081 ocupada | `PORTA_EDITOR=8090 bin/dev.sh` (para os sites, mude também `dominio_sites` no `config.php`). |
-| O site publicado não abre | Use Chrome ou Firefox; confira se o `bin/dev.sh` continua rodando. |
+| `docker: command not found` / "não é reconhecido como comando" | O Docker Desktop não está instalado ou o terminal foi aberto antes da instalação: feche e abra o terminal (ou reinicie o computador). |
+| `Cannot connect to the Docker daemon` / `error during connect` | O Docker Desktop está fechado: abra e espere o **Engine running**. |
+| `no configuration file provided: not found` | O terminal não está na pasta do projeto (a que tem o `docker-compose.yml`). Use `cd` até ela. |
+| `port is already allocated` / porta 8080 ocupada | Outro programa usa a 8080. No `.env`, acrescente `RANKLY_PORTA=8090` e abra <http://localhost:8090/editor/>. |
+| O quadro mostra `IA: simulado` mesmo com a chave | O arquivo não se chama exatamente `.env` (veja se não ficou `.env.txt`), a linha tem espaço ou aspas, ou o sistema não foi religado depois de salvar. |
+| A IA responde "chave inválida" | Copie a chave de novo em <https://aistudio.google.com/apikey> (ela começa com `AIza`). |
+| "O banco de imagens ainda não está ligado" | Falta a `PIXABAY_API_KEY` no `.env` (parte 3.3), ou o sistema não foi religado. |
+| "A chave do Pixabay é inválida" | Confira se copiou o código inteiro da seção **key (required)** em <https://pixabay.com/api/docs/>, com a conta aberta. |
 | O formulário "envia" mas o contato não aparece | Espere 3 s depois de abrir a página antes de enviar; e não mais de 5 envios por hora do mesmo computador. |
-| Fotos não geram | `php -r 'var_dump(function_exists("imagewebp"));'` precisa dar `true` (instale `php-gd`). |
+| Esqueci a senha do usuário de teste | Ela é `demo12345` (é a do primeiro uso). Se mudou, crie outro usuário com o comando da parte 6. |
+
+---
+
+## Para quem desenvolve: testes automáticos e rodar sem Docker
+
+Os testes automáticos rodam fora do Docker e precisam de **PHP 8.2+** (com gd, mbstring, sqlite,
+curl), **Composer** e **Node.js 22**:
+
+```
+composer install
+npm install
+npx playwright install chromium
+
+npm test                                        # testes JS
+vendor/bin/phpunit -c tests/php/phpunit.xml      # testes PHP
+npm run paridade                                 # editor (JS) e servidor (PHP) geram o mesmo HTML
+RANKLY_E2E_BANCO=sqlite npm run e2e              # navegador de verdade: fluxo completo e os 28 sites
+```
+
+Ou tudo de uma vez: `bin/testar.sh`. O teste ponta a ponta salva capturas dos 28 sites
+(4 nichos × 7 modelos, computador e celular) em `var/e2e/capturas/`.
+
+Com PHP instalado, dá para rodar o mesmo modo demonstração sem Docker: `composer install` e
+`bin/demo.sh` (as chaves vão como variáveis de ambiente:
+`GEMINI_API_KEY=… PIXABAY_API_KEY=… bin/demo.sh`). A instalação de produção (Hostinger, MySQL,
+domínio dos sites) está no `README.md`.

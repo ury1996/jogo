@@ -4,17 +4,17 @@ O modo demonstração sobe o sistema inteiro **num endereço só**: o editor em 
 publicados em `/s/{nome-do-site}/`. Não precisa de MySQL (usa SQLite), nem de subdomínios, nem de
 configurar nada: o primeiro usuário é criado sozinho.
 
-Há três jeitos de usar, do mais fácil para o mais duradouro:
+O jeito padrão é o **Docker Desktop** (item 2, com o passo a passo em `COMO-TESTAR.md`). Os três jeitos:
 
 | Jeito | Precisa instalar | Link para outras pessoas | Os dados ficam |
 |---|---|---|---|
 | **1. GitHub Codespaces** | nada (abre no navegador) | sim, enquanto o Codespace estiver ligado | no Codespace |
-| **2. Docker no seu computador** | Docker Desktop | só com um túnel (item 2.6) | no seu computador |
+| **2. Docker Desktop no seu computador (padrão)** | Docker Desktop | só com um túnel (item 2.1) | no seu computador |
 | **3. Docker num servidor (VPS)** | Docker no servidor | sim, sempre no ar | no servidor |
 
 ---
 
-## 1. GitHub Codespaces (recomendado para testar e mostrar)
+## 1. GitHub Codespaces (sem instalar nada)
 
 O Codespaces é um computador na nuvem do próprio GitHub. Contas pessoais têm horas gratuitas por
 mês (o suficiente para testes; ele desliga sozinho após 30 minutos sem uso).
@@ -39,85 +39,27 @@ Os sites publicados ficam em `…/s/nome-do-site/` e também podem ser enviados.
 - **IA de verdade (Gemini):** em <https://github.com/settings/codespaces> → **New secret**, nome
   `GEMINI_API_KEY`, valor = a sua chave (veja o `COMO-TESTAR.md` §3.1), libere para o repositório
   `ury1996/jogo` e reinicie o Codespace. Sem a chave, a IA funciona em modo simulado.
-- **Banco de imagens (Pexels):** do mesmo jeito, crie o secret `PEXELS_API_KEY` com a chave grátis
-  de <https://www.pexels.com/api/>.
+- **Banco de imagens (Pixabay):** do mesmo jeito, crie o secret `PIXABAY_API_KEY` com a chave grátis
+  (como pegar: `COMO-TESTAR.md` §3.3).
 - **Mais usuários de teste:** no terminal do Codespace:
   `RANKLY_CONFIG=config/config.demo.php php app/cli/criar-usuario.php --nome="Fulano" --email=fulano@exemplo.com --papel=admin --senha=umasenha123`
 - **Recomeçar do zero:** apague a pasta `var/demo` e reinicie o Codespace.
 
 ---
 
-## 2. Docker no seu computador
+## 2. Docker Desktop no seu computador (o jeito padrão)
 
-O Docker é um programa que roda o sistema dentro de uma "caixa" pronta, com PHP e tudo o que ele
-precisa. Você não instala PHP, banco de dados nem nada além do próprio Docker.
+É o jeito padrão de rodar o sistema para testar. O passo a passo completo, com a instalação do
+Docker Desktop, o arquivo `.env` e como pegar as chaves grátis da IA (Gemini) e do banco de imagens
+(Pixabay), está em **[`COMO-TESTAR.md`](COMO-TESTAR.md)**. Em resumo:
 
-### 2.1 Instalar o Docker (uma vez só)
+1. instale e abra o Docker Desktop;
+2. baixe o projeto;
+3. copie `.env.exemplo` para `.env` e cole as chaves;
+4. na pasta do projeto, rode `docker compose up`;
+5. abra <http://localhost:8080/editor/> e entre com `demo@rankly.app` / `demo12345`.
 
-- **Windows 10/11 ou Mac:** baixe e instale o [Docker Desktop](https://www.docker.com/products/docker-desktop/).
-  No Mac, escolha a versão do seu processador (Apple/M1-M4 ou Intel). No Windows, aceite quando
-  ele pedir para ativar o WSL 2 e reinicie o computador se pedir.
-  Depois de instalar, **abra o Docker Desktop** e espere aparecer "Engine running" (a baleia fica
-  parada na barra de tarefas). Ele precisa estar aberto sempre que for usar o sistema.
-- **Linux (Ubuntu):** `curl -fsSL https://get.docker.com | sudo sh`
-
-Para conferir, abra um terminal (Windows: **PowerShell**; Mac: **Terminal**) e rode
-`docker --version`. Tem que aparecer um número de versão.
-
-### 2.2 Baixar o projeto
-
-Escolha um dos dois:
-
-- **Sem git:** no GitHub, abra o repositório `ury1996/jogo`, troque a branch (botão com o nome
-  `main`) para `claude/jolly-hawking-m0fur7`, clique em **Code** → **Download ZIP** e descompacte.
-- **Com git:** `git clone https://github.com/ury1996/jogo.git rankly` e depois
-  `cd rankly` e `git checkout claude/jolly-hawking-m0fur7`.
-
-### 2.3 Ligar
-
-Abra o terminal **dentro da pasta do projeto** (no Windows: abra a pasta no Explorador, clique com
-o botão direito num espaço vazio → **Abrir no Terminal**) e rode:
-
-```bash
-docker compose up
-```
-
-- Na primeira vez ele monta a "caixa": leva de 3 a 10 minutos (baixa uns 500 MB). Nas próximas, segundos.
-- Está pronto quando aparecer o quadro **"Construtor Rankly · modo demonstração"** com o endereço,
-  o e-mail e a senha.
-- Abra <http://localhost:8080/editor/> no navegador e entre com **demo@rankly.app** / **demo12345**.
-- Os sites que você publicar abrem em `http://localhost:8080/s/nome-do-site/`.
-
-### 2.4 No dia a dia
-
-| Quero… | Comando (na pasta do projeto) |
-|---|---|
-| desligar | **Ctrl+C** no terminal onde ele está rodando |
-| ligar de novo (os sites e contatos continuam lá) | `docker compose up` |
-| deixar ligado sem ocupar o terminal | `docker compose up -d` (e `docker compose down` para desligar) |
-| ver o que está acontecendo | `docker compose logs -f` |
-| atualizar para uma versão nova do código | baixe o código novo e rode `docker compose up --build` |
-| apagar tudo e começar do zero | `docker compose down -v` |
-
-### 2.5 Ajustes opcionais (arquivo `.env`)
-
-Crie um arquivo chamado `.env` (só isso, com o ponto na frente) na pasta do projeto, ao lado do
-`docker-compose.yml`, com as linhas que quiser:
-
-```
-GEMINI_API_KEY=cole-aqui-a-sua-chave
-PEXELS_API_KEY=cole-aqui-a-chave-do-pexels
-RANKLY_PORTA=8090
-```
-
-- `GEMINI_API_KEY` liga a IA de verdade (como criar a chave: `COMO-TESTAR.md` §3.1).
-- `PEXELS_API_KEY` liga o banco de imagens no editor (chave grátis: `COMO-TESTAR.md` §3.2).
-- `RANKLY_PORTA` muda a porta se a 8080 já estiver em uso no seu computador; aí o endereço vira
-  `http://localhost:8090/editor/`.
-
-Depois de mudar o `.env`, desligue e ligue de novo (`docker compose up`).
-
-### 2.6 Mostrar para alguém de fora, a partir do seu computador
+### 2.1 Mostrar para alguém de fora, a partir do seu computador
 
 O `localhost` só abre no seu próprio computador. Para alguém de fora acessar enquanto o seu
 computador estiver ligado, use um túnel gratuito, o
@@ -176,10 +118,11 @@ git clone https://github.com/ury1996/jogo.git /opt/rankly
 cd /opt/rankly
 git checkout claude/jolly-hawking-m0fur7
 
-# 3. Configuração: troque pelo seu endereço (e a chave da IA, se tiver)
+# 3. Configuração: troque pelo seu endereço e cole as chaves (como pegar: COMO-TESTAR.md §3)
 cat > .env <<'FIM'
 RANKLY_URL=https://teste.sitesrankly.com.br
 RANKLY_PORTA=127.0.0.1:8080
+PIXABAY_API_KEY=
 GEMINI_API_KEY=
 FIM
 
