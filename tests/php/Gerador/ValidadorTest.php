@@ -160,6 +160,25 @@ final class ValidadorTest extends TestCase
         $this->assertNotEmpty($foto['chaves']);
     }
 
+    public function testItemNovoComTextoModeloBloqueia(): void
+    {
+        $doc = SiteExemplo::documento($this->app, 'clinicas', 'classico');
+        $this->assertSame([], self::com($this->validar($doc)['erros'], 'item_texto_modelo'), 'Itens de exemplo do nicho não contam');
+        // Pergunta acrescentada e nunca escrita: "Nova pergunta?" iria ao ar.
+        $doc['listas']['faq'] = [...($doc['listas']['faq'] ?? ['1', '2', '3']), 'n9xk'];
+        $e = self::com($this->validar($doc)['erros'], 'item_texto_modelo');
+        $this->assertCount(1, $e);
+        $this->assertSame('faq.n9xk.q', $e[0]['chave']);
+        $this->assertSame(['faq.n9xk.q', 'faq.n9xk.a'], $e[0]['chaves']);
+        $this->assertStringContainsString('Nova pergunta?', $e[0]['mensagem']);
+        $this->assertIsInt($e[0]['secao']);
+        // Escrita a pergunta (e a resposta), libera.
+        $doc['textos']['faq.n9xk.q'] = 'Atendem aos sábados?';
+        $this->assertSame(['faq.n9xk.a'], self::com($this->validar($doc)['erros'], 'item_texto_modelo')[0]['chaves']);
+        $doc['textos']['faq.n9xk.a'] = 'Sim, das 8h às 12h.';
+        $this->assertSame([], self::com($this->validar($doc)['erros'], 'item_texto_modelo'));
+    }
+
     public function testNomesDeEquipeDeExemploViramAviso(): void
     {
         $doc = SiteExemplo::documento($this->app, 'clinicas', 'classico');

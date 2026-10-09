@@ -294,6 +294,17 @@ final class Dados
         return mb_strtoupper($m[0], 'UTF-8');
     }
 
+    /** Tratamentos que não contam para a inicial de uma pessoa ("Dra. Beatriz" → "B"). */
+    private const RE_TRATAMENTO = '/^(?:(?:dr|dra|prof|profa|sr|sra|srta|me|ma|eng|enga|adv|arq|pe|pr|psic|fisio|nutri)\.?ª?\.?\s+)+/iu';
+
+    /** Inicial de uma pessoa, sem o tratamento (Dr., Dra., Prof.…); só tratamento → a inicial dele. */
+    public static function inicialPessoa(mixed $nome): string
+    {
+        $t = trim(Texto::textoDe($nome));
+        $sem = self::inicial((string) preg_replace(self::RE_TRATAMENTO, '', $t));
+        return $sem !== '' ? $sem : self::inicial($t);
+    }
+
     /**
      * URL https do perfil (aceita URL, "@usuario", "usuario" ou "dominio.com/…").
      * Só https:// sai daqui (§12.1); o resto vira "".

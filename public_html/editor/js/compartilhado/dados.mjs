@@ -193,6 +193,15 @@ export function inicial(nome) {
   return m ? m[0].toUpperCase() : '';
 }
 
+/** Tratamentos que não contam para a inicial de uma pessoa ("Dra. Beatriz" → "B"). */
+const RE_TRATAMENTO = /^(?:(?:dr|dra|prof|profa|sr|sra|srta|me|ma|eng|enga|adv|arq|pe|pr|psic|fisio|nutri)\.?ª?\.?\s+)+/iu;
+
+/** Inicial de uma pessoa, sem o tratamento (Dr., Dra., Prof.…); só tratamento → a inicial dele. */
+export function inicialPessoa(nome) {
+  const t = textoDe(nome).trim();
+  return inicial(t.replace(RE_TRATAMENTO, '')) || inicial(t);
+}
+
 /**
  * URL https do perfil (aceita URL, "@usuario", "usuario" ou "dominio.com/…").
  * Só https:// sai daqui (§12.1); o resto vira "".

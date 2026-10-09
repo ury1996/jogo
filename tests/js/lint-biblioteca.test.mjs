@@ -243,7 +243,7 @@ export function esquemaView(lib) {
   }
   const camposItem = {};
   for (const [nome, ldef] of Object.entries(listas)) {
-    const item = { id: T, k: T, i: N, primeiro: B, ultimo: B, par: B };
+    const item = { id: T, k: T, i: N, primeiro: B, ultimo: B, par: B, ini: T };
     for (const [campo, def] of Object.entries(ldef.campos ?? {})) item[campo] = valor(def ?? {});
     camposItem[nome] = item;
     if (!temChave(grupos, nome)) grupos[nome] = {};

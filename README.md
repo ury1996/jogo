@@ -180,7 +180,7 @@ descrição para o Google, com palavras-chave locais.
 Tudo de uma vez:
 
 ```bash
-bin/testar.sh                # JS + PHPUnit (SQLite) + paridade + ponta a ponta
+bin/testar.sh                # JS + PHPUnit (SQLite) + paridade + estresse de layout + ponta a ponta
 bin/testar.sh --sem-e2e      # sem o Playwright
 bin/testar.sh --mysql        # PHPUnit também no MariaDB (banco rankly_teste)
 bin/testar.sh --apache       # testa o sites/.htaccess num Apache de verdade (apache2 + mod_php)
@@ -193,6 +193,7 @@ Cada suíte separada:
 | `node --test 'tests/js/**/*.test.mjs'` | Lógica compartilhada (paleta, tons, ícones, textos, listas, documento, preparo), estado do editor (desfazer, salvamento, conflito), operações da tela, lint dos templates e do CSS da biblioteca, conteúdo dos nichos. As aspas importam: o Node 22 expande o glob sozinho. |
 | `vendor/bin/phpunit -c tests/php/phpunit.xml` | PHP: Preparo, bibliotecas (banco, imagens, SVG, e-mail, tarefas, leads), API com SQLite e servidor embutido, gerador e publicador em pasta temporária. Suítes separadas com `--testsuite Preparo`, `Lib`, `Api` ou `Gerador`. |
 | `node tests/paridade/comparar.mjs` (ou `npm run paridade`) | Renderiza todos os nichos × modelos × especialidades, com variações de acabamento, fonte, cor, listas, dados e mídia, em JS e em PHP, e compara o HTML byte a byte. |
+| `npm run estresse` | Estresse de layout: cada uma das opções de seção com 3 a 10 itens nas listas variáveis, textos curtos e no limite (com palavras compridas, e-mail e endereço longos), sem fotos, dados mínimos e sem WhatsApp, em 1280, 900 e 390 px. Mede texto vazando ou cortado, sobreposição, linha órfã, item esticado com buraco e foto distorcida. `--capturas` salva as imagens dos casos com problema em `var/estresse/`; `--galeria=DIR` salva todas (para comparar antes e depois de mexer no CSS). |
 | `npx playwright test --config tests/e2e/playwright.config.mjs` (ou `npm run e2e`) | Navegador de verdade: entrar → assistente → editar → publicar → enviar o formulário → lead no painel; site sem erros nem violações de CSP; formulário sem JavaScript; páginas extras; consentimento com GTM; voltar à publicação anterior; os 12 modelos em 1280 e 390 px (peso, rolagem horizontal); casos difíceis do editor (conflito 409, foto enviada ao sair, CEP atrasado, teclado). |
 
 O ponta a ponta sobe um ambiente isolado: banco `rankly_teste` no MariaDB local (ou SQLite com

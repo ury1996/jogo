@@ -44,6 +44,7 @@ export const FUNCOES = {
   'Dados.formatarHorarios': dados.formatarHorarios,
   'Dados.formatarRegistro': dados.formatarRegistro,
   'Dados.inicial': dados.inicial,
+  'Dados.inicialPessoa': dados.inicialPessoa,
   'Dados.urlRede': dados.urlRede,
   'Textos.contextoVariaveis': textos.contextoVariaveis,
   'Textos.substituirVariaveis': textos.substituirVariaveis,
@@ -230,6 +231,7 @@ export function gerarChamadas(lib, docBase) {
   ];
   for (const e of especialidades) for (const r of registros) add('Dados.formatarRegistro', r, e);
   for (const n of ['Clínica Sorriso', 'ética', '  9 vidas', '¿Quién?', '', '—', 'ßeta', 'Ångström']) add('Dados.inicial', n);
+  for (const n of ['Dra. Beatriz Ramos', 'dr Felipe', 'Prof.ª Ana', 'Profª Ana', 'Dr. Dra. Lu', 'Dra.', 'Dr.', '  Sr. Édson', 'Drummond', 'Pedro', 'Ma. Clara', '']) add('Dados.inicialPessoa', n);
   const redes = ['@clinica.teste', 'clinica_teste', 'instagram.com/clinica', 'https://www.instagram.com/x/', 'http://facebook.com/x',
     'www.site.com.br', 'linkedin.com/in/fulano', 'javascript:alert(1)', 'https://x.com/"><script>', 'perfil com espaço', '', 'g.page/clinica'];
   for (const rede of ['instagram', 'facebook', 'linkedin', 'youtube', 'google']) for (const v of redes) add('Dados.urlRede', rede, v);

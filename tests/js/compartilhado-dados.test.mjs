@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  formatarCep, formatarEndereco, formatarHora, formatarHorarios, formatarRegistro, formatarTelefone, horariosTexto, inicial,
+  formatarCep, formatarEndereco, formatarHora, formatarHorarios, formatarRegistro, formatarTelefone, horariosTexto, inicial, inicialPessoa,
   linhasEndereco, linkTelefone, linkWhatsapp, soDigitos, urlRede, validarEmail, validarWhatsapp,
 } from '../../public_html/editor/js/compartilhado/dados.mjs';
 
@@ -70,6 +70,11 @@ test('registro conforme especialidade.rotuloRegistro', () => {
 
 test('inicial, e-mail e redes', () => {
   assert.equal(inicial('clínica'), 'C');
+  assert.equal(inicialPessoa('Dra. Beatriz Ramos'), 'B');
+  assert.equal(inicialPessoa('dr felipe'), 'F');
+  assert.equal(inicialPessoa('Prof.ª Ana'), 'A');
+  assert.equal(inicialPessoa('Drummond'), 'D');
+  assert.equal(inicialPessoa('Dra.'), 'D');
   assert.equal(inicial('  9 vidas'), '9');
   assert.equal(inicial('¿Ética?'), 'É');
   assert.equal(inicial('—'), '');

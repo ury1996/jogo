@@ -508,6 +508,7 @@ para cada seção (na ordem, incluindo header e rodapé):
     "hero": { "titulo": "…", "img": { "html": "<img …>", "vazio": false }, … },
     "serv": { "titulo": "…", "qtd": 4, "tem": true,
               "itens": [ { "id":"1", "k":"serv.1", "i":1, "primeiro":true, "ultimo":false, "par":false,
+                           "ini":"",          // inicial do campo "n" sem tratamento (Dra. Beatriz → B)
                            "t":"Ortodontia", "d":"…", "img": {"html":"…","vazio":true},
                            "ic": {"id":"braces", "svg":"<svg…>"} } ],
               "p1": { …item 1… }, "p2": { … }, "p3": { … } }      // atalhos posicionais (até p9)

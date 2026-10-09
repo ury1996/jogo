@@ -6,16 +6,15 @@
   </div>
   <div class="faq-lista faq-colunas" data-li="faq">
     {{#c.faq.itens}}
-    <details class="faq-item" data-it="{{id}}"{{#primeiro}} open{{/primeiro}}>
-      <summary class="faq-q">
+    <div class="faq-item" data-it="{{id}}">
+      <div class="faq-q">
         <span class="faq-num" aria-hidden="true"></span>
         <h3 class="faq-q__t" data-k="{{k}}.q">{{q}}</h3>
-        <span class="faq-q__ic" aria-hidden="true"><span class="faq-mais">{{{u.mais}}}</span><span class="faq-menos">{{{u.menos}}}</span></span>
-      </summary>
+      </div>
       <div class="faq-a">
         <p class="rk-p" data-k="{{k}}.a">{{a}}</p>
       </div>
-    </details>
+    </div>
     {{/c.faq.itens}}
   </div>
   <div class="faq-rodape">

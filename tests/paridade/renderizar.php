@@ -63,6 +63,7 @@ const FUNCOES = [
     'Dados.formatarHorarios' => [Dados::class, 'formatarHorarios'],
     'Dados.formatarRegistro' => [Dados::class, 'formatarRegistro'],
     'Dados.inicial' => [Dados::class, 'inicial'],
+    'Dados.inicialPessoa' => [Dados::class, 'inicialPessoa'],
     'Dados.urlRede' => [Dados::class, 'urlRede'],
     'Textos.contextoVariaveis' => [Textos::class, 'contextoVariaveis'],
     'Textos.substituirVariaveis' => [Textos::class, 'substituirVariaveis'],

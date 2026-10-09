@@ -9,7 +9,7 @@ import { cssPaleta, gerarPaleta, normalizarCor, TEXTO_CLARO } from './paleta.mjs
 import { calcularFundos } from './tons.mjs';
 import { acharIcone, ICONE_RESERVA, iconeDoItem, svg as svgIcone, svgDaDefinicao } from './icones.mjs';
 import {
-  digitosNacionais, formatarHorarios, formatarRegistro, formatarTelefone, horariosTexto, inicial,
+  digitosNacionais, formatarHorarios, formatarRegistro, formatarTelefone, horariosTexto, inicial, inicialPessoa,
   linhasEndereco, linkTelefone, linkWhatsapp, rotuloRede, urlRede, validarEmail, validarWhatsapp,
 } from './dados.mjs';
 import { contextoVariaveis, itensLista, limitesLista, substituirVariaveis, textoEfetivo } from './textos.mjs';
@@ -343,6 +343,7 @@ function montarC(ctx, opcaoDef, lcp, op) {
     const itens = info.itens.map((it, pos) => {
       const item = {
         id: it.id, k: `${lista}.${it.id}`, i: pos + 1, primeiro: pos === 0, ultimo: pos === n - 1, par: (pos + 1) % 2 === 0,
+        ini: inicialPessoa(it.textos.n ?? ''), // inicial do nome da pessoa (avatar sem foto)
       };
       for (const { campo, def } of info.campos) {
         if (def.tipo === 'imagem') item[campo] = imagem(`${lista}.${it.id}.${campo}`, rotuloImagem(def), it.altBase);

@@ -353,7 +353,8 @@
   justify-items: start;
   gap: 28px;
 }
-.rk-op--sobre-manifesto .sobre-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+/* --rk-lista: fluxo → itens correm como texto (a última linha incompleta é natural) */
+.rk-op--sobre-manifesto .sobre-chips { --rk-lista: fluxo; display: flex; flex-wrap: wrap; gap: 10px; }
 .rk-op--sobre-manifesto .sobre-chip {
   display: inline-flex;
   align-items: center;

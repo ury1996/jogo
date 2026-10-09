@@ -49,6 +49,7 @@ if [ "$MYSQL" = "1" ]; then
 fi
 etapa "Paridade JS≡PHP" npm run --silent paridade
 if [ "$COM_E2E" = "1" ] && [ -f tests/e2e/playwright.config.mjs ]; then
+  etapa "Estresse de layout (todas as seções)" npm run --silent estresse
   etapa "Ponta a ponta (Playwright)" npx --no-install playwright test --config tests/e2e/playwright.config.mjs
 elif [ "$COM_E2E" = "1" ]; then
   echo

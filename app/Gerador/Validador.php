@@ -58,6 +58,7 @@ final class Validador
         $this->registro($m);
         $this->alegacoes($m);
         $this->equipePadrao($m);
+        $this->itensComTextoModelo($m);
         $this->rastreamento($bruto);
         $this->preparo($m);
         $this->fotos($m);
@@ -232,6 +233,38 @@ final class Validador
         }
         $exemplo = Texto::colapsarEspacos(Textos::textoEfetivo($m->doc, $m->lib, $chaves[0], $m->vars));
         $this->aviso('equipe_padrao', 'Os nomes da equipe ainda são os de exemplo (como "' . $exemplo . '"). Troque pelos nomes reais dos profissionais antes de divulgar o site.',
+            ['chave' => $chaves[0], 'chaves' => $chaves, 'secao' => $secao]);
+    }
+
+    /**
+     * Item acrescentado à lista e nunca escrito ("Nova pergunta?", "Novo serviço"…): o texto-modelo
+     * de comum.novoItem iria ao ar. Bloqueia a publicação (com "Ir até lá" no primeiro campo).
+     * Depoimentos ficam com a trava de alegações, que já cobre os de exemplo.
+     */
+    private function itensComTextoModelo(Montagem $m): void
+    {
+        $nicho = Documento::nichoDe($m->doc, $m->lib);
+        $comum = Texto::comoMapa($m->lib['comum'] ?? []);
+        $novoItem = Texto::comoMapa($comum['novoItem'] ?? []);
+        $chaves = [];
+        $secao = null;
+        foreach ($m->chavesExibidas() as $chave => $secoes) {
+            $chave = (string) $chave;
+            $partes = explode('.', $chave);
+            if (count($partes) !== 3 || $partes[0] === 'dep' || !Textos::ehPadrao($m->doc, $chave)
+                || Texto::textoDaChave(Texto::comoMapa($novoItem[$partes[0]] ?? []), $partes[2]) === null
+                || Texto::textoDaChave(Texto::comoMapa($nicho['textos'] ?? []), $chave) !== null
+                || Texto::textoDaChave(Texto::comoMapa($comum['textos'] ?? []), $chave) !== null) {
+                continue;
+            }
+            $chaves[] = $chave;
+            $secao ??= $secoes[0];
+        }
+        if ($chaves === []) {
+            return;
+        }
+        $exemplo = Texto::colapsarEspacos(Textos::textoEfetivo($m->doc, $m->lib, $chaves[0], $m->vars));
+        $this->erro('item_texto_modelo', 'Há item novo ainda com o texto-modelo (como "' . $exemplo . '"). Escreva o texto ou remova o item antes de publicar.',
             ['chave' => $chaves[0], 'chaves' => $chaves, 'secao' => $secao]);
     }
 

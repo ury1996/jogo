@@ -189,6 +189,7 @@ final class Preparo
                     'primeiro' => $pos === 0,
                     'ultimo' => $pos === $n - 1,
                     'par' => ($pos + 1) % 2 === 0,
+                    'ini' => Dados::inicialPessoa($it['textos']['n'] ?? ''), // inicial do nome da pessoa (avatar sem foto)
                 ];
                 foreach ($info['campos'] as ['campo' => $campo, 'def' => $def]) {
                     $tipo = Texto::pegar($def, 'tipo');

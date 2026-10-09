@@ -97,7 +97,9 @@
 .rk :where(button) { background: none; border: 0; padding: 0; cursor: pointer; }
 .rk :where(summary) { list-style: none; cursor: pointer; }
 .rk :where(summary)::-webkit-details-marker { display: none; }
-.rk :where(h1, h2, h3, p, li, blockquote) { overflow-wrap: break-word; }
+/* Texto nunca vaza da caixa: palavra comprida (e-mail, endereço, nome longo) quebra quando não cabe,
+   inclusive dentro de flex/grid (o "anywhere" deixa o item encolher abaixo da maior palavra). */
+.rk { overflow-wrap: anywhere; }
 .rk :where(a, button, summary, input, textarea, select, [tabindex]):focus-visible {
   outline: 2px solid var(--destaque, var(--p-ink));
   outline-offset: 3px;

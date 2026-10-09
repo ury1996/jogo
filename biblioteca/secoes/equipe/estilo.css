@@ -218,9 +218,16 @@
   width: max-content;
   transform: translateX(-50%);
   font-size: clamp(5rem, 1rem + 15cqi, 15rem);
+  display: flex;
+  justify-content: center; /* palavra maior que a tela sai igual pelos dois lados */
+  max-width: 100cqi;
+  overflow: hidden;
   white-space: nowrap;
   text-transform: uppercase;
   -webkit-text-stroke-color: color-mix(in srgb, var(--acento) 30%, transparent);
+  /* Palavra comprida "sangra" pelas bordas esmaecendo (fica intencional, não cortada). */
+  -webkit-mask-image: linear-gradient(90deg, transparent, var(--fg) 12%, var(--fg) 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, var(--fg) 12%, var(--fg) 88%, transparent);
 }
 .k-elegante .rk-op--equipe-cards-horizontais .equipe-fantasma { font-weight: 400; letter-spacing: 0.02em; }
 .k-impacto .rk-op--equipe-cards-horizontais .equipe-fantasma { -webkit-text-stroke-width: 1.5px; font-weight: 800; }
@@ -368,5 +375,5 @@
   .rk-op--equipe-cards-horizontais .equipe-cards { margin-top: 0; gap: 12px; }
   .rk-op--equipe-cards-horizontais .equipe-card { grid-template-columns: 104px minmax(0, 1fr); gap: 16px; padding: 10px 14px 10px 10px; }
   .rk-op--equipe-cards-horizontais .equipe-card__wa { margin-top: 8px; }
-  .rk-op--equipe-cards-horizontais .equipe-fantasma { top: 0; transform: translate(-50%, -18%); font-size: 5.5rem; }
+  .rk-op--equipe-cards-horizontais .equipe-fantasma { display: none; }
 }

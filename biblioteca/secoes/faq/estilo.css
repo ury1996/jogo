@@ -232,33 +232,38 @@
 .rk-sec--faq.rk-op--faq-caixa .faq-item[open] .faq-q__t { color: var(--destaque); }
 
 /* ===================== duas-colunas ===================== */
-/* Título centralizado; perguntas numeradas (01, 02…) em duas colunas, separadas por linhas finas. */
+/* Título centralizado; perguntas numeradas (01, 02…) com as respostas sempre à vista, em duas
+   colunas que se equilibram sozinhas pela altura (CSS columns): qualquer quantidade de perguntas
+   (3 a 10) e qualquer tamanho de resposta fecham sem buracos nem linha sobrando. Sem abre-e-fecha
+   de propósito: abrir uma pergunta numa grade alinhada esticava a vizinha. */
 
 .rk-op--faq-duas-colunas .faq-cab { margin-bottom: clamp(36px, 4.4cqi, 60px); }
 .rk-sec--faq.rk-op--faq-duas-colunas .faq-colunas {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: block;
+  columns: 2;
   column-gap: clamp(32px, 5cqi, 72px);
-  row-gap: 0;
-  border: 0;
+  border-top: 1px solid var(--linha);
   counter-reset: faq;
 }
+/* 3 perguntas: uma coluna só fica mais elegante que 2 + 1. */
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-colunas:not(:has(> .faq-item:nth-child(4))) { columns: 1; max-width: 46rem; margin-inline: auto; }
 .rk-sec--faq.rk-op--faq-duas-colunas .faq-item {
   counter-increment: faq;
+  break-inside: avoid;
   border: 0;
   border-bottom: 1px solid var(--linha);
   border-radius: 0;
   background: transparent;
   box-shadow: none;
 }
-.rk-sec--faq.rk-op--faq-duas-colunas .faq-item[open] { border-color: var(--linha); box-shadow: none; }
-.rk-sec--faq.rk-op--faq-duas-colunas .faq-item:nth-child(-n+2) { border-top: 1px solid var(--linha); }
 .rk-sec--faq.rk-op--faq-duas-colunas .faq-q {
   display: grid;
-  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
+  grid-template-columns: 2.6rem minmax(0, 1fr);
   align-items: start;
   gap: 16px;
-  padding: 28px 0;
+  padding: 26px 0 10px;
 }
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-q:hover .faq-q__t { color: var(--fg); }
 .rk-sec--faq.rk-op--faq-duas-colunas .faq-num {
   font-family: var(--ft);
   font-weight: var(--ft-peso);
@@ -269,17 +274,7 @@
 }
 .rk-sec--faq.rk-op--faq-duas-colunas .faq-num::before { content: counter(faq, decimal-leading-zero) / ""; }
 .rk-sec--faq.rk-op--faq-duas-colunas .faq-q__t { padding-top: 0.08em; font-size: clamp(1.06rem, 0.98rem + 0.32cqi, 1.22rem); }
-.rk-sec--faq.rk-op--faq-duas-colunas .faq-q__ic {
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--linha);
-  border-radius: 50%;
-  background: transparent;
-  color: var(--fg);
-}
-.rk-sec--faq.rk-op--faq-duas-colunas .faq-q__ic svg { width: 16px; height: 16px; }
-.rk-sec--faq.rk-op--faq-duas-colunas .faq-item[open] .faq-q__ic { border-color: var(--solido); background: var(--solido); color: var(--solido-fg); }
-.rk-sec--faq.rk-op--faq-duas-colunas .faq-a { padding: 0 48px 30px calc(2.6rem + 16px); }
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-a { padding: 0 0 26px calc(2.6rem + 16px); }
 .rk-op--faq-duas-colunas .faq-rodape {
   display: flex;
   flex-wrap: wrap;
@@ -308,14 +303,10 @@
 .k-suave .rk-op--faq-caixa .faq-caixa { --faq-r: 22px; }
 
 .k-elegante .rk-sec--faq.rk-op--faq-duas-colunas .faq-num { font-size: 1.85rem; font-weight: 400; font-style: italic; }
-.k-elegante .rk-sec--faq.rk-op--faq-duas-colunas .faq-q { padding: 28px 0; }
-.k-elegante .rk-sec--faq.rk-op--faq-duas-colunas .faq-a { padding: 0 48px 30px calc(2.6rem + 16px); }
+.k-elegante .rk-sec--faq.rk-op--faq-duas-colunas .faq-q { padding: 30px 0 12px; }
+.k-elegante .rk-sec--faq.rk-op--faq-duas-colunas .faq-a { padding: 0 24px 30px calc(2.6rem + 16px); }
 .k-impacto .rk-sec--faq.rk-op--faq-duas-colunas .faq-num { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.04em; }
-.k-impacto .rk-sec--faq.rk-op--faq-duas-colunas .faq-item:nth-child(-n+2) { border-top: 2px solid var(--fg); }
-.k-impacto .rk-sec--faq.rk-op--faq-duas-colunas .faq-item[open] { border-color: var(--linha); box-shadow: none; }
-.k-impacto .rk-sec--faq.rk-op--faq-duas-colunas .faq-item[open]:nth-child(-n+2) { border-top-color: var(--fg); }
-.k-classico .rk-sec--faq.rk-op--faq-duas-colunas .faq-q__ic,
-.k-impacto .rk-sec--faq.rk-op--faq-duas-colunas .faq-q__ic { border-radius: var(--ri); }
+.k-impacto .rk-sec--faq.rk-op--faq-duas-colunas .faq-colunas { border-top: 2px solid var(--fg); }
 
 /* ===================== tablet ===================== */
 
@@ -358,10 +349,9 @@
   .k-elegante .rk-sec--faq.rk-op--faq-caixa .faq-a { padding: 0 18px 20px; }
 
   /* duas-colunas: uma coluna só */
-  .rk-sec--faq.rk-op--faq-duas-colunas .faq-colunas { grid-template-columns: minmax(0, 1fr); }
-  .rk-sec--faq.rk-op--faq-duas-colunas .faq-item:nth-child(2) { border-top: 0; }
+  .rk-sec--faq.rk-op--faq-duas-colunas .faq-colunas { columns: 1; }
   .rk-sec--faq.rk-op--faq-duas-colunas .faq-q,
-  .k-elegante .rk-sec--faq.rk-op--faq-duas-colunas .faq-q { grid-template-columns: 2.1rem minmax(0, 1fr) auto; gap: 12px; padding: 22px 0; }
+  .k-elegante .rk-sec--faq.rk-op--faq-duas-colunas .faq-q { grid-template-columns: 2.1rem minmax(0, 1fr); gap: 12px; padding: 22px 0 8px; }
   .rk-sec--faq.rk-op--faq-duas-colunas .faq-a,
   .k-elegante .rk-sec--faq.rk-op--faq-duas-colunas .faq-a { padding: 0 0 24px calc(2.1rem + 12px); }
   .rk-op--faq-duas-colunas .faq-rodape { flex-direction: column; }

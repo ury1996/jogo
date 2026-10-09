@@ -623,7 +623,7 @@
     margin: -34px 10px 0;
     transform: none;
   }
-  .rk-op--hero-centralizado .hero-num { gap: 4px; padding: 12px; }
+  .rk-op--hero-centralizado .hero-num { gap: 4px; min-width: 0; padding: 12px; }
   .rk-op--hero-centralizado .hero-num .rk-selo__v { font-size: 1.3rem; white-space: normal; }
   .rk-op--hero-centralizado .hero-num .rk-selo__l { font-size: 0.75rem; }
 

@@ -82,7 +82,7 @@
 }
 
 @container site (max-width: 760px) {
-  .rk-op--clientes-faixa .cli-lista { --cli-gap: 20px; row-gap: 16px; justify-content: flex-start; }
+  .rk-op--clientes-faixa .cli-lista { --cli-gap: 20px; --rk-lista: texto; row-gap: 16px; justify-content: flex-start; }
   /* duas colunas alinhadas à esquerda, como uma lista */
   .rk-op--clientes-faixa .cli-lista > .cli-item {
     flex: 0 0 calc((100% - var(--cli-gap)) / 2);

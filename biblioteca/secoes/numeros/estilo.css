@@ -25,7 +25,6 @@
   line-height: 1;
   letter-spacing: var(--ft-ls);
   color: var(--destaque);
-  white-space: nowrap;
 }
 .rk-sec--numeros .num-l {
   max-width: 17rem;
@@ -94,7 +93,7 @@
 }
 .rk-op--numeros-foto-fundo .num-v {
   font-weight: 300;
-  font-size: clamp(3.4rem, 1.6rem + 5.6cqi, 6.6rem);
+  font-size: clamp(3rem, 1rem + 5.2cqi, 6.6rem);
   line-height: 0.92;
   letter-spacing: -0.04em;
   color: var(--fg);
@@ -169,7 +168,8 @@
   .rk-sec--numeros { padding-block: 40px; }
   .rk-sec--numeros .num-faixa { grid-template-columns: minmax(0, 1fr); }
   .rk-sec--numeros .num-item {
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    /* A coluna do número cresce se o valor for comprido ("Sábados", "+1.200") em vez de quebrar. */
+    grid-template-columns: minmax(max-content, 0.8fr) minmax(0, 1.2fr);
     justify-items: start;
     align-items: center;
     gap: 16px;
@@ -177,7 +177,7 @@
     text-align: left;
   }
   .rk-sec--numeros .num-item + .num-item { border-left: 0; border-top: 1px solid var(--linha); }
-  .rk-sec--numeros .num-v { font-size: 2.15rem; white-space: normal; }
+  .rk-sec--numeros .num-v { font-size: 2.15rem; white-space: nowrap; }
   .rk-op--numeros-faixa-cor::after { display: none; }
   .k-moderno .rk-op--numeros-faixa-clara .num-v::after,
   .k-direto .rk-op--numeros-faixa-clara .num-v::after { margin: 12px 0 0; }
