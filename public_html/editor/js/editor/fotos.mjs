@@ -1,5 +1,6 @@
 // Fotos (PDF §7.3 + [M15]): escolher → reduzir no navegador → prévia local → enviar com
-// progresso → ligar ao documento. Também: remover foto e texto alternativo (PATCH).
+// progresso → ligar ao documento. Também: remover foto, texto alternativo (PATCH) e
+// "Buscar no banco de imagens" (Pexels, ver fotos-banco.mjs), que entra pelo mesmo caminho.
 //
 // Caminho de uma foto:
 //   arquivo → createImageBitmap(imageOrientation "from-image") → canvas (máx. 2400 px no lado
@@ -9,6 +10,7 @@
 import { api } from '../api.mjs';
 import { el, aviso, modal, campo } from '../ui.mjs';
 import * as op from './operacoes.mjs';
+import { abrirBancoImagens, bancoDisponivel } from './fotos-banco.mjs';
 
 const LADO_MAXIMO = 2400;
 const QUALIDADE_JPEG = 0.85;
@@ -82,6 +84,64 @@ export function ligarFotos(ed) {
 
   function rotuloDe(chave) {
     return op.definicaoDaChave(lib, chave)?.rotulo ?? 'Foto';
+  }
+
+  // Banco de imagens: consultado uma vez; sem chave, o espaço vazio continua abrindo direto o
+  // seletor de arquivos e a janela da foto mostra como ligar.
+  let bancoLigado = null;
+  bancoDisponivel().then((sim) => {
+    bancoLigado = sim;
+  });
+
+  /** Nicho, especialidade, rótulo do espaço e texto do item (ex.: nome do serviço) → termo sugerido. */
+  function contextoBusca(chave) {
+    const doc = ed.estado.doc;
+    const partes = String(chave).split('.');
+    let titulo = '';
+    if (partes.length === 3 && partes[0] === 'serv') {
+      try {
+        titulo = op.textoMostrado(doc, lib, `serv.${partes[1]}.t`) ?? '';
+      } catch {
+        titulo = '';
+      }
+    }
+    return { nicho: doc.nicho ?? '', especialidade: doc.especialidade ?? '', chave, rotulo: rotuloDe(chave), titulo };
+  }
+
+  /** Janela "Biblioteca de imagens": a foto importada entra como UMA alteração desfazível. */
+  function buscarNoBanco(chave) {
+    if (ed.envios.has(chave)) {
+      aviso('Espere a foto anterior terminar de enviar.');
+      return;
+    }
+    abrirBancoImagens({
+      siteId: ed.siteId,
+      contexto: contextoBusca(chave),
+      disponivel: bancoLigado,
+      aoEscolher: (midia, foto) => {
+        if (desligado) return;
+        const { id, ...dados } = midia;
+        ed.estado.definirMidia(id, dados);
+        ed.aplicar((d) => op.definirImagem(d, chave, id), { rotulo: 'Trocar foto' });
+        ed.renderizar();
+        const credito = dados.credito ?? (foto?.autor ? `Foto: ${foto.autor} / Pexels` : '');
+        ed.anunciar('Foto do banco de imagens aplicada.');
+        aviso(`Foto aplicada.${credito ? ` ${credito}.` : ''}`, { tipo: 'ok', acao: { rotulo: 'Desfazer', fn: () => ed.desfazer() } });
+      },
+    });
+  }
+
+  /** Espaço vazio com o banco ligado: escolher entre o computador e o banco de imagens. */
+  function escolherOrigem(chave) {
+    modal({
+      titulo: rotuloDe(chave),
+      descricao: 'De onde vem a foto?',
+      tamanho: 'pequeno',
+      acoes: [
+        { rotulo: 'Buscar no banco de imagens', icone: 'lupa', fn: () => setTimeout(() => buscarNoBanco(chave), 0) },
+        { rotulo: 'Enviar do computador', tipo: 'primario', icone: 'enviar', foco: true, fn: () => setTimeout(() => escolherEEnviar(chave), 0) },
+      ],
+    });
   }
 
   /** Envia uma foto para a chave (com prévia local e progresso). */
@@ -174,7 +234,8 @@ export function ligarFotos(ed) {
     }
     const midiaId = ed.estado.doc.imagens?.[chave];
     if (!midiaId) {
-      escolherEEnviar(chave);
+      if (bancoLigado) escolherOrigem(chave);
+      else escolherEEnviar(chave);
       return;
     }
     const midia = ed.estado.midia[midiaId] ?? {};
@@ -189,7 +250,7 @@ export function ligarFotos(ed) {
     });
     const corpo = el('div', { class: 'ed-foto' },
       el('div', { class: 'ed-foto__previa' }, el('img', { src, alt: '', class: 'ed-foto__img' })),
-      el('p', { class: 'ed-foto__meta' }, midia.largura ? `${midia.largura} × ${midia.altura} px` : ''),
+      el('p', { class: 'ed-foto__meta' }, [midia.largura ? `${midia.largura} × ${midia.altura} px` : '', midia.credito ?? ''].filter(Boolean).join(' · ')),
       campoAlt.elemento);
     let altInicial = midia.alt ?? '';
     const salvarAlt = async () => {
@@ -214,6 +275,14 @@ export function ligarFotos(ed) {
           fn: () => {
             ed.aplicar((d) => op.definirImagem(d, chave, null), { rotulo: 'Remover foto' });
             aviso('Foto removida.', { acao: { rotulo: 'Desfazer', fn: () => ed.desfazer() } });
+          },
+        },
+        {
+          rotulo: 'Buscar no banco de imagens',
+          icone: 'lupa',
+          fn: async () => {
+            await salvarAlt().catch(() => {});
+            setTimeout(() => buscarNoBanco(chave), 0);
           },
         },
         {
@@ -250,6 +319,7 @@ export function ligarFotos(ed) {
   return {
     abrirFoto,
     enviarFoto,
+    buscarNoBanco,
     desligar() {
       desligado = true;
       for (const c of cancelamentos) c.abort();

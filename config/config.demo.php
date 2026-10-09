@@ -15,6 +15,7 @@
  *   PORTA / PORT     porta do servidor (8080)
  *   RANKLY_DADOS     pasta dos dados (banco, fotos, sites publicados, logs). Padrão: var/demo
  *   GEMINI_API_KEY   chave da IA (sem chave, a IA funciona em modo "simulado")
+ *   PEXELS_API_KEY   chave do banco de imagens Pexels (grátis em https://www.pexels.com/api/)
  */
 
 $porta = (int) (getenv('PORTA') ?: getenv('PORT') ?: 8080);
@@ -71,5 +72,9 @@ return [
         'modelo_reserva' => 'gemini-2.5-flash-lite',
         'tempo_limite' => 90,
         'limite_por_hora' => 30,
+    ],
+    'pexels' => [
+        'chave' => (string) getenv('PEXELS_API_KEY'),
+        'limite_por_hora' => 120,
     ],
 ];

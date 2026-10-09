@@ -27,6 +27,8 @@ final class Aplicacao
     private ?object $gerador = null;
     private ?\Rankly\Lib\Ia\Provedor $ia = null;
     private bool $iaDefinida = false;
+    private ?\Rankly\Lib\Pexels $pexels = null;
+    private bool $pexelsDefinido = false;
 
     private function __construct(private readonly array $config, private readonly string $raiz)
     {
@@ -254,6 +256,30 @@ final class Aplicacao
     {
         $this->ia = $ia;
         $this->iaDefinida = true;
+    }
+
+    /**
+     * Banco de imagens Pexels, ou null sem chave (pexels.chave ou a variável de ambiente
+     * PEXELS_API_KEY quando a chave do config estiver vazia).
+     */
+    public function pexels(): ?\Rankly\Lib\Pexels
+    {
+        if ($this->pexelsDefinido) {
+            return $this->pexels;
+        }
+        $this->pexelsDefinido = true;
+        $chave = trim((string) $this->config('pexels.chave', ''));
+        if ($chave === '') {
+            $chave = trim((string) (getenv('PEXELS_API_KEY') ?: ''));
+        }
+        return $this->pexels = $chave === '' ? null : new \Rankly\Lib\Pexels($chave);
+    }
+
+    /** Troca o cliente do Pexels (testes: transporte falso ou null = sem chave). */
+    public function definirPexels(?\Rankly\Lib\Pexels $pexels): void
+    {
+        $this->pexels = $pexels;
+        $this->pexelsDefinido = true;
     }
 
     /** Segredo para o HMAC dos IPs (segredo_ip; em dev, cai para segredo_app). */

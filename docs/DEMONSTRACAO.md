@@ -39,6 +39,8 @@ Os sites publicados ficam em `…/s/nome-do-site/` e também podem ser enviados.
 - **IA de verdade (Gemini):** em <https://github.com/settings/codespaces> → **New secret**, nome
   `GEMINI_API_KEY`, valor = a sua chave (veja o `COMO-TESTAR.md` §3.1), libere para o repositório
   `ury1996/jogo` e reinicie o Codespace. Sem a chave, a IA funciona em modo simulado.
+- **Banco de imagens (Pexels):** do mesmo jeito, crie o secret `PEXELS_API_KEY` com a chave grátis
+  de <https://www.pexels.com/api/>.
 - **Mais usuários de teste:** no terminal do Codespace:
   `RANKLY_CONFIG=config/config.demo.php php app/cli/criar-usuario.php --nome="Fulano" --email=fulano@exemplo.com --papel=admin --senha=umasenha123`
 - **Recomeçar do zero:** apague a pasta `var/demo` e reinicie o Codespace.
@@ -104,10 +106,12 @@ Crie um arquivo chamado `.env` (só isso, com o ponto na frente) na pasta do pro
 
 ```
 GEMINI_API_KEY=cole-aqui-a-sua-chave
+PEXELS_API_KEY=cole-aqui-a-chave-do-pexels
 RANKLY_PORTA=8090
 ```
 
 - `GEMINI_API_KEY` liga a IA de verdade (como criar a chave: `COMO-TESTAR.md` §3.1).
+- `PEXELS_API_KEY` liga o banco de imagens no editor (chave grátis: `COMO-TESTAR.md` §3.2).
 - `RANKLY_PORTA` muda a porta se a 8080 já estiver em uso no seu computador; aí o endereço vira
   `http://localhost:8090/editor/`.
 

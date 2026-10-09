@@ -39,6 +39,7 @@ final class Api
         $pub = new Publicacao();
         $versoes = new Versoes();
         $ia = new Ia();
+        $pexels = new Pexels();
         $publica = ['publica' => true];
         // Sem token CSRF (ainda não há sessão), mas só aceitas da própria origem do editor:
         // sem isso, uma página de terceiros faz o navegador da vítima entrar na conta do
@@ -57,6 +58,7 @@ final class Api
 
         $r->get('/api/biblioteca', [$bib, 'bundle'], $publica);
         $r->get('/api/fontes/{arquivo}', [$bib, 'fonte'], $publica);
+        $r->get('/api/fotos-exemplo/{arquivo}', [$bib, 'fotoExemplo'], $publica);
 
         $r->get('/api/sites', [$sites, 'listar']);
         $r->post('/api/sites', [$sites, 'criar']);
@@ -64,6 +66,7 @@ final class Api
         $r->put("/api/sites/{$id}", [$sites, 'salvar']);
         $r->delete("/api/sites/{$id}", [$sites, 'arquivar']);
         $r->post("/api/sites/{$id}/duplicar", [$sites, 'duplicar']);
+        $r->post("/api/sites/{$id}/fotos-exemplo", [$sites, 'fotosExemplo']);
 
         $r->post("/api/sites/{$id}/validar", [$pub, 'validar']);
         $r->post("/api/sites/{$id}/publicar", [$pub, 'publicar']);
@@ -73,6 +76,10 @@ final class Api
 
         $r->get('/api/ia', [$ia, 'estado']);
         $r->post("/api/sites/{$id}/ia", [$ia, 'gerar']);
+
+        $r->get('/api/pexels', [$pexels, 'estado']);
+        $r->get('/api/pexels/buscar', [$pexels, 'buscar']);
+        $r->post('/api/pexels/importar', [$pexels, 'importar']);
 
         $r->get("/api/sites/{$id}/leads", [$leads, 'listar']);
         $r->get("/api/sites/{$id}/leads.csv", [$leads, 'csv']);

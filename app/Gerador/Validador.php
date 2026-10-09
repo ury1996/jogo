@@ -61,6 +61,7 @@ final class Validador
         $this->rastreamento($bruto);
         $this->preparo($m);
         $this->fotos($m);
+        $this->fotosDeExemplo($m);
         $this->cor($m, $bruto);
         $this->conformidade($m);
         $alterados = $this->textosPadraoAlterados($m);
@@ -306,6 +307,21 @@ final class Validador
             $this->aviso('foto_faltando', 'A seção "' . $m->nomeSecao($tipo) . '" tem ' . ($n === 1 ? '1 espaço de foto vazio' : "{$n} espaços de foto vazios")
                 . '. No site publicado eles aparecem como blocos de cor.', ['secao' => $indice, 'chave' => $chaves[0], 'chaves' => $chaves]);
         }
+    }
+
+    /** Fotos de exemplo ainda no site: pode publicar, mas o ideal é trocar (equipe, principalmente). */
+    private function fotosDeExemplo(Montagem $m): void
+    {
+        $chaves = array_merge(...array_values($m->fotosDeExemplo() ?: [[]]));
+        if ($chaves === []) {
+            return;
+        }
+        $n = count($chaves);
+        $equipe = count(array_filter($chaves, static fn (string $c): bool => str_starts_with($c, 'equipe.')));
+        $this->aviso('fotos_exemplo', ($n === 1 ? '1 foto ainda é de exemplo' : "{$n} fotos ainda são de exemplo")
+            . ' (banco de imagens). Troque pelas fotos do seu negócio quando puder'
+            . ($equipe > 0 ? ' — principalmente as da equipe, que devem ser dos profissionais de verdade.' : '.'),
+            ['chave' => $chaves[0], 'chaves' => $chaves]);
     }
 
     private function cor(Montagem $m, array $bruto): void

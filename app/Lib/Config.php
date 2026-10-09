@@ -58,6 +58,10 @@ final class Config
                 'tempo_limite' => 90,
                 'limite_por_hora' => 30,
             ],
+            'pexels' => [
+                'chave' => '',
+                'limite_por_hora' => 120,
+            ],
         ];
     }
 

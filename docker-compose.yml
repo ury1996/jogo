@@ -3,6 +3,7 @@
 #
 # Configuração opcional num arquivo .env ao lado deste (o Docker lê sozinho):
 #   GEMINI_API_KEY=sua-chave              IA de verdade (sem ela, IA simulada)
+#   PEXELS_API_KEY=sua-chave              banco de imagens Pexels (grátis em https://www.pexels.com/api/)
 #   RANKLY_URL=https://teste.exemplo.com  endereço público (servidor, túnel)
 #   RANKLY_PORTA=8090                     outra porta no seu computador (se a 8080 estiver ocupada)
 #   RANKLY_PORTA=127.0.0.1:8080           num servidor com Caddy/Nginx na frente (porta fechada para fora)
@@ -13,6 +14,7 @@ services:
       - "${RANKLY_PORTA:-8080}:8080"
     environment:
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      PEXELS_API_KEY: ${PEXELS_API_KEY:-}
       # sem RANKLY_URL: o endereço do seu computador, na porta escolhida
       RANKLY_URL: ${RANKLY_URL:-http://localhost:${RANKLY_PORTA:-8080}}
     volumes:

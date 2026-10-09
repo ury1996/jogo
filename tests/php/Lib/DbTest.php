@@ -77,7 +77,7 @@ final class DbTest extends TestCase
             $this->assertSame('sqlite', $app->db()->driver());
             $this->exercitar($app->db(), 'sqlite');
             $this->assertSame([], (new Migrador($app->db(), Migrador::dirPadrao($app->db())))->pendentes());
-            $this->assertSame(['001_inicial.sql'], array_column($app->db()->todos('SELECT nome FROM migracoes'), 'nome'));
+            $this->assertSame(['001_inicial.sql', '002_midia_origem.sql'], array_column($app->db()->todos('SELECT nome FROM migracoes'), 'nome'));
         } finally {
             AmbienteTeste::remover($dir);
         }

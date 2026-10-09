@@ -615,6 +615,21 @@ cabeçalho `X-CSRF-Token` (exceto login, esqueci, redefinir e leads públicos). 
 | `GET /api/media/{id}/{w}` | imagem da variante (sessão obrigatória; `w` = 480\|960\|1600\|orig) | MVP |
 | `POST /api/lead/{slug}` e `POST /_lead` (no host do site) | público; ver §8 | MVP |
 
+### 6.0b Fotos de exemplo e banco de imagens
+
+- `biblioteca/fotos/` — fotos de exemplo (WebP 480/960/1600) + `fotos.json`
+  (`{fotos: {id: {largura, altura, variantes, alt, fonte}}, nichos: {nicho: {cena, gente_f, gente_m}}}`),
+  geradas por `ferramentas/construir-fotos.php`. Entram no bundle como `fotos`.
+- `Fotos::imagensDeExemplo(doc, lib)` (`compartilhado/fotos.mjs` ≡ `Preparo/Fotos.php`, com paridade): chave →
+  foto para os espaços vazios, na ordem das seções; equipe pelo gênero do nome; destaque `retrato` e
+  chamada `pessoa` usam a mesma pessoa do 1º/2º da equipe.
+- `POST /api/sites` já preenche os espaços (as fotos viram mídias do site, `origem = "exemplo:{id}"`,
+  hard link quando possível); `"fotosExemplo": false` desliga. `POST /api/sites/{id}/fotos-exemplo {revisao}`
+  completa os espaços vazios (troca de modelo). `GET /api/fotos-exemplo/{id}-{w}.webp` serve as prévias do assistente.
+- Banco de imagens: `GET /api/pexels` (`{disponivel}`), `GET /api/pexels/buscar?q=&pagina=&orientacao=`,
+  `POST /api/pexels/importar {site_id, foto_id}` → mídia com `origem = "pexels:{id}"` e `credito`.
+- Validação da publicação: aviso `fotos_exemplo` com as fotos de exemplo ainda exibidas.
+
 ### 6.1 Bundle da biblioteca
 
 ```jsonc

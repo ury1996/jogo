@@ -3,6 +3,7 @@
 
 import { el, icone, modal, aviso } from '../ui.mjs';
 import { contextoVariaveis } from '../compartilhado/textos.mjs';
+import { mostrarFaixaIa, faixaDispensada, dispensarFaixa } from '../ia.mjs';
 
 const MAC = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform ?? navigator.userAgent ?? '');
 const MOD = MAC ? '⌘' : 'Ctrl';
@@ -26,7 +27,7 @@ export function criarBarra(ed) {
     'aria-haspopup': 'dialog', onclick: () => ed.abrirVersoes(),
   }, icone('historico'));
   const ia = el('button', {
-    type: 'button', class: 'btn btn--fantasma ed-barra__ia', hidden: true, 'aria-haspopup': 'dialog',
+    type: 'button', class: 'btn btn--ia ed-barra__ia', hidden: true, 'aria-haspopup': 'dialog',
     title: 'Escrever os textos do site com IA', onclick: () => ed.abrirIa(),
   }, icone('brilho'), el('span', { class: 'ed-barra__rotulo' }, 'Escrever com IA'));
   const visualizar = el('button', { type: 'button', class: 'btn btn--fantasma ed-barra__visualizar', onclick: () => ed.definirVisualizar(true) },
@@ -96,4 +97,41 @@ export function criarBarra(ed) {
   }
 
   return { elemento, mostrarIa: (sim) => { ia.hidden = !sim; }, atualizar, atualizarStatus, focarPublicar: () => publicar.focus(), focarVisualizar: () => visualizar.focus() };
+}
+
+/**
+ * Faixa acima da tela num site cujos textos ainda são todos de exemplo:
+ * "Os textos ainda são de exemplo…" + botão que abre a janela da IA. Dispensável (lembrada por site).
+ */
+export function criarFaixaIa(ed) {
+  let dispensada = faixaDispensada(ed.siteId);
+  const abrir = el('button', { type: 'button', class: 'btn btn--pequeno btn--ia', 'aria-haspopup': 'dialog', onclick: () => ed.abrirIa() },
+    icone('brilho'), 'Escrever com IA');
+  const fechar = el('button', {
+    type: 'button', class: 'icone-btn icone-btn--pequeno ed-faixa-ia__fechar', 'aria-label': 'Dispensar este aviso', title: 'Dispensar',
+  }, icone('fechar'));
+  const elemento = el('div', { class: 'ed-faixa-ia', role: 'region', 'aria-label': 'Sugestão: escrever os textos com IA', hidden: true },
+    el('span', { class: 'ed-faixa-ia__ico', 'aria-hidden': 'true' }, icone('brilho')),
+    el('p', { class: 'ed-faixa-ia__texto' },
+      el('strong', null, 'Os textos ainda são de exemplo.'), ' Conte sobre o negócio e a IA escreve o site para você.'),
+    el('div', { class: 'ed-faixa-ia__acoes' }, abrir, fechar));
+
+  /** Mostra ou esconde; → true se mudou (a tela precisa se reposicionar). */
+  function atualizar() {
+    const mostrar = mostrarFaixaIa({ doc: ed.estado.doc, ia: ed.iaDisponivel, dispensada });
+    if (elemento.hidden === !mostrar) return false;
+    // Se o foco estava dentro da faixa que vai sumir, ele não pode se perder.
+    const tinhaFoco = elemento.contains(document.activeElement);
+    elemento.hidden = !mostrar;
+    if (tinhaFoco && !mostrar) (document.querySelector('.ed-barra__ia:not([hidden])') ?? ed.painel?.elemento?.querySelector('button'))?.focus();
+    return true;
+  }
+  fechar.addEventListener('click', () => {
+    dispensada = true;
+    dispensarFaixa(ed.siteId);
+    atualizar();
+    ed.tela?.posicionar?.();
+    ed.anunciar?.('Aviso dispensado. O botão "Escrever com IA" continua na barra de cima.');
+  });
+  return { elemento, atualizar };
 }

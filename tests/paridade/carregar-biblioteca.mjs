@@ -65,7 +65,7 @@ function idDoJson(json, nomeArquivo) {
     : nomeArquivo.replace(/\.json$/, '');
 }
 
-/** Bundle da biblioteca: { versao, secoes, parciais, baseCss, modelos, nichos, comum, icones, fontes }. */
+/** Bundle da biblioteca: { versao, secoes, parciais, baseCss, modelos, nichos, comum, icones, fontes, fotos }. */
 export function carregarBiblioteca(dir) {
   if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) throw new Error(`Biblioteca não encontrada: ${dir}`);
   const secoes = {};
@@ -112,5 +112,6 @@ export function carregarBiblioteca(dir) {
     comum: lerJsonOpcional(path.join(dirNichos, 'comum.json')),
     icones: lerJsonOpcional(path.join(dir, 'icones', 'icones.json')),
     fontes: lerJsonOpcional(path.join(dir, 'fontes', 'fontes.json')),
+    fotos: lerJsonOpcional(path.join(dir, 'fotos', 'fotos.json')),
   };
 }

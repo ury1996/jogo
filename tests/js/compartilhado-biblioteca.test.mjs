@@ -21,7 +21,7 @@ function bundlePhp(dir) {
 
 test('bundle §6.1: estrutura e conteúdo', () => {
   const lib = carregarBiblioteca(MINI);
-  assert.deepEqual(Object.keys(lib), ['versao', 'secoes', 'parciais', 'baseCss', 'modelos', 'nichos', 'comum', 'icones', 'fontes']);
+  assert.deepEqual(Object.keys(lib), ['versao', 'secoes', 'parciais', 'baseCss', 'modelos', 'nichos', 'comum', 'icones', 'fontes', 'fotos']);
   assert.match(lib.versao, /^[0-9a-f]{40}$/);
   assert.deepEqual(Object.keys(lib.secoes), ['faq', 'header', 'hero', 'rodape', 'servicos']);
   assert.deepEqual(Object.keys(lib.secoes.servicos), ['manifest', 'templates', 'css']);

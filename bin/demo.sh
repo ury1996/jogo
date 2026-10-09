@@ -8,7 +8,8 @@
 # Uso: bin/demo.sh
 # Variáveis: PORTA (8080), RANKLY_URL (endereço público), RANKLY_DADOS (pasta dos dados),
 #            DEMO_EMAIL / DEMO_SENHA (usuário de teste; num endereço público a senha padrão é
-#            aleatória e fica em {dados}/acesso.txt), GEMINI_API_KEY (IA de verdade).
+#            aleatória e fica em {dados}/acesso.txt), GEMINI_API_KEY (IA de verdade),
+#            PEXELS_API_KEY (banco de imagens Pexels).
 
 set -euo pipefail
 
@@ -47,6 +48,7 @@ fi
 acesso="$(cat "$dados/acesso.txt" 2>/dev/null || printf 'E-mail: %s\nSenha: (a que foi definida na primeira vez)' "$DEMO_EMAIL")"
 
 ia="$(php -r '$app = require "app/bootstrap.php"; echo $app->config("ia.provedor");')"
+fotos="$(php -r '$app = require "app/bootstrap.php"; echo $app->pexels() !== null ? "Pexels ligado" : "desligado (defina PEXELS_API_KEY)";')"
 
 pids=()
 encerrar() {
@@ -73,6 +75,7 @@ cat <<TXT
   │ Abra:   $url/editor/
 $(printf '%s\n' "$acesso" | sed 's/^/  │ /')
   │ IA:     $ia$( [ "$ia" = "simulado" ] && echo " (defina GEMINI_API_KEY para a IA de verdade)" )
+  │ Fotos:  banco de imagens $fotos
   │
   │ Sites publicados ficam em $url/s/{nome-do-site}/
   │ Ctrl+C desliga.

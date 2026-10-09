@@ -129,6 +129,29 @@ final class Montagem
         return $r;
     }
 
+    /**
+     * Espaços de foto exibidos que ainda usam fotos de exemplo da biblioteca: chaves por seção.
+     *
+     * @return array<int, list<string>>
+     */
+    public function fotosDeExemplo(): array
+    {
+        $r = [];
+        foreach ($this->secoes() as $s) {
+            if (!preg_match_all('/\sdata-img="([a-z][a-z0-9.]*)"/', $s['html'], $m)) {
+                continue;
+            }
+            foreach (array_unique($m[1]) as $chave) {
+                $id = $this->doc['imagens'][$chave] ?? null;
+                $origem = is_string($id) ? (string) ($this->midia[$id]['origem'] ?? '') : '';
+                if (str_starts_with($origem, 'exemplo:')) {
+                    $r[(int) $s['indice']][] = $chave;
+                }
+            }
+        }
+        return $r;
+    }
+
     /** Textos padrão (não editados) exibidos na página: chave → texto efetivo [M5]. */
     public function textosPadraoExibidos(): array
     {

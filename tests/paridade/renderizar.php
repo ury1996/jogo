@@ -12,6 +12,7 @@ declare(strict_types=1);
 use Rankly\Preparo\Biblioteca;
 use Rankly\Preparo\Dados;
 use Rankly\Preparo\Documento;
+use Rankly\Preparo\Fotos;
 use Rankly\Preparo\Html;
 use Rankly\Preparo\Icones;
 use Rankly\Preparo\Paleta;
@@ -76,6 +77,8 @@ const FUNCOES = [
     'Textos.removerItem' => [Textos::class, 'removerItem'],
     'Textos.moverItem' => [Textos::class, 'moverItem'],
     'Documento.criarDocumento' => [Documento::class, 'criarDocumento'],
+    'Fotos.generoDoNome' => [Fotos::class, 'generoDoNome'],
+    'Fotos.imagensDeExemplo' => [Fotos::class, 'imagensDeExemplo'],
     'Documento.receitaModelo' => [Documento::class, 'receitaModelo'],
     'Documento.aplicarModelo' => [Documento::class, 'aplicarModelo'],
     'Documento.migrar' => [Documento::class, 'migrar'],

@@ -24,7 +24,7 @@ import { carregarBiblioteca, injetarCssSite } from '../biblioteca.mjs';
 import { campoAutomatico } from '../compartilhado/icones.mjs';
 import * as op from './operacoes.mjs';
 import { criarTela } from './tela.mjs';
-import { criarBarra } from './barra.mjs';
+import { criarBarra, criarFaixaIa } from './barra.mjs';
 import { criarPainel } from './painel.mjs';
 import { ligarEdicaoTexto } from './edicao-texto.mjs';
 import { ligarFotos } from './fotos.mjs';
@@ -131,7 +131,8 @@ export async function montar(alvo, { siteId } = {}) {
   const barra = criarBarra(ed);
   const painel = criarPainel(ed);
   ed.painel = painel;
-  const raiz = el('div', { class: 'editor ed-editor' }, barra.elemento, painel.elemento, tela.elemento, vivo);
+  const faixaIa = criarFaixaIa(ed);
+  const raiz = el('div', { class: 'editor ed-editor' }, barra.elemento, painel.elemento, faixaIa.elemento, tela.elemento, vivo);
   alvo.replaceChildren(raiz);
   const texto = ligarEdicaoTexto(ed);
   const fotos = ligarFotos(ed);
@@ -340,6 +341,7 @@ export async function montar(alvo, { siteId } = {}) {
       }
       tela.renderizar();
       barra.atualizar();
+      if (faixaIa.atualizar()) tela.posicionar?.();
       cancelAnimationFrame(quadroPainel);
       quadroPainel = requestAnimationFrame(() => painel.atualizar());
     } else if (evento.tipo === 'midia') {
@@ -381,6 +383,7 @@ export async function montar(alvo, { siteId } = {}) {
     if (ed.desmontado) return;
     ed.iaDisponivel = sim;
     barra.mostrarIa(sim);
+    faixaIa.atualizar();
     tela.posicionar?.();
   });
   estado.pronto?.then?.((r) => {

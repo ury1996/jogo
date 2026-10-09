@@ -135,6 +135,15 @@ Documentos:
 
 ---
 
+## Fotos: exemplos e banco de imagens (Pexels)
+
+- Todo site nasce com **fotos de exemplo** do nicho em todos os espaços (`biblioteca/fotos/`, licença
+  Unsplash), e as miniaturas do assistente mostram os modelos completos. A publicação avisa quantas
+  ainda são de exemplo.
+- No editor, **Buscar no banco de imagens** pesquisa no Pexels e baixa a foto escolhida para o site
+  (`/api/pexels/*`, com crédito do fotógrafo). Chave grátis em <https://www.pexels.com/api/>
+  (`'pexels' => ['chave' => …]` no config ou `PEXELS_API_KEY`). Detalhes em `docs/COMO-TESTAR.md` §3.2–3.3.
+
 ## IA (textos e SEO a partir de uma descrição)
 
 O assistente e o editor têm "Escrever com IA": a pessoa descreve o negócio e a IA preenche os

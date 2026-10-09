@@ -100,7 +100,7 @@ final class Biblioteca
     }
 
     /**
-     * Bundle: [versao, secoes, parciais, baseCss, modelos, nichos, comum, icones, fontes].
+     * Bundle: [versao, secoes, parciais, baseCss, modelos, nichos, comum, icones, fontes, fotos].
      *
      * @throws \RuntimeException pasta ausente ou JSON inválido
      */
@@ -157,6 +157,7 @@ final class Biblioteca
             'comum' => self::lerJsonOpcional($dirNichos . '/comum.json'),
             'icones' => self::lerJsonOpcional($dir . '/icones/icones.json'),
             'fontes' => self::lerJsonOpcional($dir . '/fontes/fontes.json'),
+            'fotos' => self::lerJsonOpcional($dir . '/fotos/fotos.json'),
         ];
     }
 

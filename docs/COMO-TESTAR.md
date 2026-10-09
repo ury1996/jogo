@@ -121,6 +121,28 @@ sistema tenta o modelo reserva e, se ainda assim falhar, avisa para tentar de no
 minutos), e o Google pode usar o conteúdo enviado para melhorar os produtos dele. O sistema só
 envia dados do negócio (nome, cidade, ramo e a descrição), nunca dados de clientes ou leads.
 
+## 3.2 Ligar o banco de imagens (Pexels, grátis)
+
+No editor, ao clicar numa foto, a opção **Buscar no banco de imagens** abre a **Biblioteca de
+imagens**: você pesquisa (ex.: "consultório odontológico"), clica na foto e ela é baixada para dentro
+do sistema e já entra no site, com o crédito do fotógrafo guardado.
+
+1. Crie uma conta grátis em <https://www.pexels.com/api/> e clique em **Your API Key**. Copie a chave.
+2. Em `config/config.php`, dentro de `'pexels'`, preencha `'chave' => 'COLE-A-CHAVE-AQUI'`
+   (ou use a variável de ambiente `PEXELS_API_KEY`). Reinicie o `bin/dev.sh`.
+
+Sem a chave, a opção aparece com a explicação de como ligar. As fotos do Pexels podem ser usadas de
+graça, inclusive em sites comerciais.
+
+## 3.3 Fotos de exemplo
+
+Todo site novo já nasce com fotos em todos os espaços (fotos de exemplo de cada tipo de negócio,
+guardadas em `biblioteca/fotos/`), e as miniaturas do assistente mostram os modelos completos. O
+dono troca pelas fotos dele (ou do banco de imagens). Ao publicar, a lista de verificação avisa
+quantas fotos ainda são de exemplo — principalmente as da equipe, que devem ser dos profissionais
+de verdade. Para trocar a seleção de fotos: edite `ferramentas/fotos-exemplo.json` e rode
+`php ferramentas/construir-fotos.php`.
+
 ---
 
 ## 4. Testar o fluxo completo

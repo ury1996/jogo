@@ -24,8 +24,12 @@ import {
 } from './previa.mjs';
 import { criarDocumento, aplicarModelo, receitaModelo } from './compartilhado/documento.mjs';
 import { normalizarCor } from './compartilhado/paleta.mjs';
+import { comFotosDeExemplo } from './compartilhado/fotos.mjs';
 import { EstadoEditor } from './estado.mjs';
-import { iaDisponivel, pedirConteudo, aplicarPatchIa, guardarDescricao, resumoResultado, MIN_DESCRICAO, MAX_DESCRICAO } from './ia.mjs';
+import {
+  iaDisponivel, pedirConteudo, aplicarPatchIa, guardarDescricao, resumoResultado, MIN_DESCRICAO, MAX_DESCRICAO,
+  chipsExemplos, linhaDica, rotuloGerar, placeholderDescricao,
+} from './ia.mjs';
 
 export const MAX_NOME = 60;
 export const MAX_CIDADE = 40;
@@ -203,6 +207,15 @@ function midiaComLogo() {
   return { [ID_LOGO_LOCAL]: { largura: logo.largura || 320, altura: logo.altura || 120, variantes: [], tipo: 'logo', formato: 'webp', local: logo.url } };
 }
 
+/** URL das variantes das fotos de exemplo da biblioteca (prévias antes de o site existir). */
+const URL_FOTOS_EXEMPLO = '/api/fotos-exemplo/';
+
+/** Documento e mídia da prévia com as fotos de exemplo nos espaços vazios (o site nasce assim). */
+function previaComFotos(doc, lib, midia = {}) {
+  const r = comFotosDeExemplo(doc, lib, URL_FOTOS_EXEMPLO);
+  return { doc: r.doc, midia: { ...midia, ...r.midia } };
+}
+
 function comLogoLocal(doc) {
   if (logo) doc.dados.logo = ID_LOGO_LOCAL;
   return doc;
@@ -348,7 +361,8 @@ async function passoNicho(alvo, lib, limpeza) {
     });
     grade.append(el('div', { role: 'listitem', class: 'grade-item' }, card));
     try {
-      const m = limpeza.add(miniatura(documentoExemplo(lib, nicho.id), lib));
+      const p = previaComFotos(documentoExemplo(lib, nicho.id), lib);
+      const m = limpeza.add(miniatura(p.doc, lib, { midia: p.midia }));
       mini.append(m.elemento);
     } catch (e) {
       console.error(e);
@@ -454,6 +468,12 @@ async function passoModelo(alvo, lib, limpeza, { siteId = null } = {}) {
           r = await api.put(`/sites/${siteId}`, { revisao, documento: aplicarModelo(antes, lib, modeloId) });
         }
         EstadoEditor.semearHistorico(siteId, { antes, revisao: r.revisao, rotulo });
+        // Espaços de foto que o modelo novo mostra e o site ainda não tinha: fotos de exemplo.
+        try {
+          await api.post(`/sites/${siteId}/fotos-exemplo`, { revisao: r.revisao });
+        } catch (e) {
+          console.error(e);
+        }
       }
       aviso(`Modelo trocado para ${nomeModelo(lib, modeloId)}. Use Desfazer no editor para voltar.`, { tipo: 'ok', duracao: 7000 });
       navegar(`#/site/${siteId}`);
@@ -485,7 +505,7 @@ async function passoModelo(alvo, lib, limpeza, { siteId = null } = {}) {
   for (const modelo of modelosOrdenados(lib, nichoId)) {
     const ativo = novo ? estado.modelo === modelo.id : emUso === modelo.id;
     const ehEmUso = !novo && emUso === modelo.id;
-    const doc = docDoModelo(modelo.id);
+    const { doc, midia: midiaModelo } = previaComFotos(docDoModelo(modelo.id), lib, midia);
     const idTitulo = `modelo-${modelo.id}-t`;
     const mini = el('div', { class: 'card-opcao__mini' });
     const verPrevia = el('button', { type: 'button', class: 'btn', 'aria-describedby': idTitulo }, icone('olho'), 'Ver prévia');
@@ -501,13 +521,13 @@ async function passoModelo(alvo, lib, limpeza, { siteId = null } = {}) {
         el('div', { class: 'card-opcao__acoes' }, verPrevia, principal)));
     grade.append(card);
     try {
-      const m = limpeza.add(miniatura(doc, lib, { midia, classe: 'previa-mini--alta' }));
+      const m = limpeza.add(miniatura(doc, lib, { midia: midiaModelo, classe: 'previa-mini--alta' }));
       mini.append(m.elemento);
     } catch (e) {
       console.error(e);
     }
     verPrevia.addEventListener('click', () => abrirPreviaCheia({
-      lib, doc, midia,
+      lib, doc, midia: midiaModelo,
       titulo: `Modelo ${modelo.nome}`,
       sub: `${nomeNicho(lib, nichoId)} · ${metaModelo(lib, modelo.id, nichoId)}`,
       acaoPrincipal: { rotulo: ehEmUso ? 'Voltar ao editor' : 'Usar este modelo', fn: () => usar(modelo.id) },
@@ -566,23 +586,73 @@ function passoDados(alvo, lib, limpeza) {
   });
   const cWhats = campo({ rotulo: 'WhatsApp', entrada: whatsapp, ajuda: 'Com DDD. Os botões do site abrem uma conversa com este número.' });
 
-  /* ---------- descrição para a IA (só aparece se a IA estiver configurada) */
+  /* ---------- descrição para a IA: o centro do passo (é dela que saem os textos do site) */
+  let iaLigada = true; // otimista até o GET /api/ia responder (evita o cartão "pular")
   const descricao = el('textarea', {
-    name: 'descricao', rows: 4, maxlength: MAX_DESCRICAO,
-    placeholder: 'Ex.: Clínica odontológica focada em implantes e ortodontia. Atendemos convênios e aos sábados.',
+    id: 'descricao-negocio', name: 'descricao', rows: 7, maxlength: MAX_DESCRICAO, class: 'campo__entrada ia-cartao__descricao',
+    'aria-labelledby': 'ia-cartao-titulo', 'aria-describedby': 'ia-cartao-ajuda ia-cartao-dica',
+    placeholder: placeholderDescricao(estado.nicho, estado.especialidade ?? nicho.especialidades?.[0]?.id ?? null),
   });
   descricao.value = estado.descricao ?? '';
-  const cDescricao = campo({
-    rotulo: 'O que você quer no site?', entrada: descricao, opcional: true, max: MAX_DESCRICAO,
-    ajuda: 'Descreva o negócio, os serviços e os diferenciais. A IA escreve os textos e o SEO do site a partir disso. Vazio usa os textos prontos do nicho.',
-  });
-  cDescricao.elemento.hidden = true;
-  iaDisponivel().then((sim) => {
-    cDescricao.elemento.hidden = !sim;
-  });
-  descricao.addEventListener('input', () => {
+  const contadorDescricao = el('span', { class: 'ia-janela__contador', 'aria-hidden': 'true' });
+  const dica = linhaDica('ia-cartao-dica');
+  const exemplosVaga = el('div');
+  const desenharExemplos = () => exemplosVaga.replaceChildren(chipsExemplos(descricao, {
+    nicho: estado.nicho, especialidade: estado.especialidade ?? especialidades[0]?.id ?? null, aoMudar: aoDescrever, id: 'ia-cartao-exemplos',
+  }));
+  const cidadeNoTexto = () => dadosLimpos(estado.dados).cidade || exemplo.cidade || 'sua cidade';
+  const seoCidade = el('span');
+  const atualizarSeoCidade = () => {
+    seoCidade.textContent = `SEO com palavras-chave de ${cidadeNoTexto()}`;
+  };
+
+  const cartaoIa = el('section', { class: 'ia-cartao', 'aria-labelledby': 'ia-cartao-titulo' },
+    el('div', { class: 'ia-cartao__cab' },
+      el('span', { class: 'ia-cartao__ico', 'aria-hidden': 'true' }, icone('brilho')),
+      el('div', null,
+        el('h2', { class: 'ia-cartao__titulo', id: 'ia-cartao-titulo' }, 'Conte sobre o seu negócio — a IA escreve o site'),
+        el('p', { class: 'ia-cartao__sub', id: 'ia-cartao-ajuda' },
+          'O que vocês fazem, os serviços principais, para quem e os diferenciais. Quanto mais detalhes verdadeiros, melhores os textos.'))),
+    exemplosVaga,
+    descricao,
+    el('div', { class: 'ia-janela__rodape' }, dica.elemento, contadorDescricao),
+    el('div', { class: 'ia-cartao__listas' },
+      el('div', null,
+        el('p', { class: 'ia-cartao__lista-titulo' }, 'A IA escreve'),
+        el('ul', { class: 'ia-cartao__lista ia-cartao__lista--sim' },
+          el('li', null, icone('check'), 'Títulos e textos de cada seção'),
+          el('li', null, icone('check'), 'Serviços e perguntas frequentes'),
+          el('li', null, icone('check'), seoCidade))),
+      el('div', null,
+        el('p', { class: 'ia-cartao__lista-titulo' }, 'Ela não inventa'),
+        el('ul', { class: 'ia-cartao__lista ia-cartao__lista--nao' },
+          el('li', null, icone('fechar'), 'Números e resultados'),
+          el('li', null, icone('fechar'), 'Depoimentos'),
+          el('li', null, icone('fechar'), 'Nomes de pessoas')))));
+  const cartaoSemIa = el('section', { class: 'ia-cartao ia-cartao--info', 'aria-labelledby': 'ia-info-titulo', hidden: true },
+    el('div', { class: 'ia-cartao__cab' },
+      el('span', { class: 'ia-cartao__ico', 'aria-hidden': 'true' }, icone('info')),
+      el('div', null,
+        el('h2', { class: 'ia-cartao__titulo', id: 'ia-info-titulo' }, 'Os textos virão de exemplo'),
+        el('p', { class: 'ia-cartao__sub' },
+          'A IA que escreve os textos não está ligada neste servidor. O site é criado com os textos de exemplo do seu tipo de negócio, e você troca o que quiser no editor.'))),
+    el('p', { class: 'ia-cartao__nota' },
+      'Para ligar: quem administra o servidor configura a chave do Gemini (', el('code', null, 'ia.chave'), ' no config.php ou a variável ',
+      el('code', null, 'GEMINI_API_KEY'), '). Depois é só usar "Escrever com IA" no editor.'));
+
+  function aoDescrever() {
     estado.descricao = descricao.value;
     guardar();
+    contadorDescricao.textContent = `${[...descricao.value].length}/${MAX_DESCRICAO}`;
+    dica.atualizar(descricao.value);
+    atualizarBotaoGerar();
+  }
+  descricao.addEventListener('input', aoDescrever);
+  iaDisponivel().then((sim) => {
+    iaLigada = sim;
+    cartaoIa.hidden = !sim;
+    cartaoSemIa.hidden = sim;
+    atualizarBotaoGerar();
   });
 
   /* ---------- cor */
@@ -701,7 +771,10 @@ function passoDados(alvo, lib, limpeza) {
       quadro = 0;
       if (!siteVivo.isConnected) return;
       try {
-        renderizarPrevia(siteVivo, comLogoLocal(documentoDoAssistente(lib, estado, { previa: true })), lib, { midia: midiaComLogo() });
+        {
+          const p = previaComFotos(comLogoLocal(documentoDoAssistente(lib, estado, { previa: true })), lib, midiaComLogo());
+          renderizarPrevia(siteVivo, p.doc, lib, { midia: p.midia });
+        }
       } catch (e) {
         console.error(e);
       }
@@ -718,6 +791,7 @@ function passoDados(alvo, lib, limpeza) {
   };
   ligar(nome, 'nome');
   ligar(cidade, 'cidade');
+  cidade.addEventListener('input', atualizarSeoCidade);
   uf.addEventListener('change', () => {
     estado.dados.uf = uf.value;
     guardar();
@@ -726,6 +800,8 @@ function passoDados(alvo, lib, limpeza) {
   cEspecialidade?.entrada.addEventListener('change', () => {
     estado.especialidade = cEspecialidade.entrada.value;
     guardar();
+    desenharExemplos();
+    descricao.placeholder = placeholderDescricao(estado.nicho, estado.especialidade);
     atualizarPrevia();
   });
   whatsapp.addEventListener('input', () => {
@@ -752,14 +828,24 @@ function passoDados(alvo, lib, limpeza) {
   });
 
   /* ---------- gerar */
-  const gerar = el('button', { type: 'submit', class: 'btn btn--primario btn--grande' }, 'Gerar meu site', icone('avancar'));
+  const gerar = el('button', { type: 'submit', class: 'btn btn--primario btn--grande dados-negocio__gerar' });
+  function atualizarBotaoGerar() {
+    const rotulo = rotuloGerar({ ia: iaLigada, descricao: descricao.value });
+    const comIa = rotulo !== rotuloGerar();
+    if (gerar.dataset.rotulo === rotulo) return;
+    gerar.dataset.rotulo = rotulo;
+    gerar.classList.toggle('btn--ia', comIa);
+    gerar.replaceChildren(...[comIa ? icone('brilho') : null, rotulo, icone('avancar')].filter(Boolean));
+  }
   const progresso = el('p', { class: 'campo__ajuda', role: 'status', 'aria-live': 'polite' });
   const form = el('form', { class: 'formulario dados-negocio__form', novalidate: true, 'aria-labelledby': 'dados-titulo' },
+    cartaoIa,
+    cartaoSemIa,
+    el('h2', { class: 'dados-negocio__secao' }, 'Contato e visual'),
     cNome.elemento,
     el('div', { class: 'campo__linha' }, cCidade.elemento, cUf.elemento),
     cEspecialidade?.elemento,
     cWhats.elemento,
-    cDescricao.elemento,
     el('div', { class: 'campo' },
       el('span', { class: 'campo__rotulo', id: 'cor-rotulo' }, 'Cor principal'),
       cores,
@@ -822,7 +908,7 @@ function passoDados(alvo, lib, limpeza) {
     }
     let resultadoIa = null;
     let falhaIa = null;
-    const textoIa = cDescricao.elemento.hidden ? '' : descricao.value.trim();
+    const textoIa = iaLigada ? descricao.value.trim() : '';
     if (textoIa.length >= MIN_DESCRICAO) {
       try {
         guardarDescricao(criado.id, textoIa);
@@ -851,7 +937,7 @@ function passoDados(alvo, lib, limpeza) {
     indicadorPassos('dados'),
     el('a', { class: 'link-voltar', href: '#/novo/modelo' }, icone('voltar'), 'Trocar modelo'),
     el('div', { class: 'cab-assistente' },
-      el('h1', { class: 'titulo-pagina titulo-assistente', id: 'dados-titulo' }, 'Conte sobre o seu negócio'),
+      el('h1', { class: 'titulo-pagina titulo-assistente', id: 'dados-titulo' }, 'Quase pronto: o seu negócio'),
       el('p', { class: 'subtitulo' }, 'Com estas respostas o site fica pronto. Campo vazio usa o exemplo, e tudo pode ser mudado depois.')),
     el('div', { class: 'dados-negocio' },
       form,
@@ -861,8 +947,14 @@ function passoDados(alvo, lib, limpeza) {
 
   desenharCores();
   desenharLogo();
+  desenharExemplos();
+  atualizarSeoCidade();
+  aoDescrever();
   limpeza.add(escalar(moldura, siteVivo, LARGURA_COMPUTADOR));
-  renderizarPrevia(siteVivo, comLogoLocal(documentoDoAssistente(lib, estado, { previa: true })), lib, { midia: midiaComLogo() });
+  {
+          const p = previaComFotos(comLogoLocal(documentoDoAssistente(lib, estado, { previa: true })), lib, midiaComLogo());
+          renderizarPrevia(siteVivo, p.doc, lib, { midia: p.midia });
+        }
   limpeza.add(() => cancelAnimationFrame(quadro));
   if (estado.dados.whatsapp) cWhats.definirErro(problemaWhatsapp(estado.dados.whatsapp));
 }

@@ -9,6 +9,7 @@ import * as dados from '../../public_html/editor/js/compartilhado/dados.mjs';
 import * as textos from '../../public_html/editor/js/compartilhado/textos.mjs';
 import * as documento from '../../public_html/editor/js/compartilhado/documento.mjs';
 import * as preparo from '../../public_html/editor/js/compartilhado/preparo.mjs';
+import * as fotos from '../../public_html/editor/js/compartilhado/fotos.mjs';
 
 export const FUNCOES = {
   'Texto.semAcentos': texto.semAcentos,
@@ -57,6 +58,8 @@ export const FUNCOES = {
   'Textos.removerItem': textos.removerItem,
   'Textos.moverItem': textos.moverItem,
   'Documento.criarDocumento': documento.criarDocumento,
+  'Fotos.generoDoNome': fotos.generoDoNome,
+  'Fotos.imagensDeExemplo': fotos.imagensDeExemplo,
   'Documento.receitaModelo': documento.receitaModelo,
   'Documento.aplicarModelo': documento.aplicarModelo,
   'Documento.migrar': documento.migrar,
@@ -242,7 +245,9 @@ export function gerarChamadas(lib, docBase) {
     add('Textos.retokenizar', s, { nome: 'Cl', cidade: 'Ju' });
     add('Textos.retokenizar', s, { nome: 'Clínica Sorriso Jundiaí', cidade: 'Jundiaí' });
   }
+  for (const nome of ['Dra. Helena', 'dr. Rafael', 'DRA ANA', 'Eng. André', 'Juliana Prado', 'Roberto', 'Lua', 'Sr.', '', 'Ângela', 'Sra.Maria']) add('Fotos.generoDoNome', nome);
   if (docBase) {
+    add('Fotos.imagensDeExemplo', docBase, '$lib');
     add('Textos.contextoVariaveis', docBase, '$lib');
     add('Textos.textosPadraoEfetivos', docBase, '$lib');
     add('Documento.registroCampos', '$lib');
@@ -273,6 +278,11 @@ export function gerarChamadas(lib, docBase) {
     for (const modelo of Object.keys(lib?.modelos ?? {})) {
       add('Documento.receitaModelo', '$lib', modelo, nicho);
       add('Documento.criarDocumento', { nicho, modelo, dados: { nome: 'X & Y' } }, '$lib');
+      if (documento.modeloDoNicho(lib, modelo, nicho)) {
+        const doc = documento.criarDocumento({ nicho, modelo, dados: {} }, lib);
+        add('Fotos.imagensDeExemplo', doc, '$lib');
+        add('Fotos.imagensDeExemplo', { ...doc, imagens: { 'hero.img': 'm_00000001' }, listas: { equipe: ['2', 'n1', '1'] } }, '$lib');
+      }
       add('Documento.criarDocumento', { nicho, modelo, especialidade: 'nao-existe', estilo: { cor: '#ABC', fonte: 'nao', acabamento: 'direto', whatsappFlutuante: false } }, '$lib');
       if (docBase) add('Documento.aplicarModelo', docBase, '$lib', modelo);
     }

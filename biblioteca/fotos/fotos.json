@@ -1,0 +1,850 @@
+{
+    "licenca": "Fotos do Unsplash (unsplash.com/license): uso livre, inclusive comercial, sem atribuição obrigatória.",
+    "fotos": {
+        "adv-estatua": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Estátua da justiça com balança",
+            "fonte": "Unsplash"
+        },
+        "adv-colunas": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Colunas de um prédio do tribunal",
+            "fonte": "Unsplash"
+        },
+        "adv-biblioteca": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Biblioteca jurídica com estantes de livros",
+            "fonte": "Unsplash"
+        },
+        "adv-livros": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Livros antigos numa estante",
+            "fonte": "Unsplash"
+        },
+        "adv-assinatura": {
+            "largura": 1600,
+            "altura": 1068,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Pessoa assinando um contrato",
+            "fonte": "Unsplash"
+        },
+        "adv-documentos": {
+            "largura": 1600,
+            "altura": 1068,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Documentos sendo assinados sobre a mesa",
+            "fonte": "Unsplash"
+        },
+        "adv-reuniao": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Duas profissionais conversando numa reunião",
+            "fonte": "Unsplash"
+        },
+        "adv-martelo": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Martelo de juiz sobre a mesa",
+            "fonte": "Unsplash"
+        },
+        "adv-martelo-escuro": {
+            "largura": 1600,
+            "altura": 884,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Martelo de juiz em fundo escuro",
+            "fonte": "Unsplash"
+        },
+        "adv-escritorio": {
+            "largura": 1600,
+            "altura": 1068,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Escritório amplo e iluminado",
+            "fonte": "Unsplash"
+        },
+        "adv-aperto": {
+            "largura": 1600,
+            "altura": 2400,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Aperto de mãos ao fechar um acordo",
+            "fonte": "Unsplash"
+        },
+        "adv-sala": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Equipe reunida numa sala de reuniões",
+            "fonte": "Unsplash"
+        },
+        "fin-graficos": {
+            "largura": 1600,
+            "altura": 1068,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissionais analisando relatórios no computador",
+            "fonte": "Unsplash"
+        },
+        "fin-impostos": {
+            "largura": 1600,
+            "altura": 918,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Calculadora e documentos de impostos",
+            "fonte": "Unsplash"
+        },
+        "fin-formularios": {
+            "largura": 1600,
+            "altura": 1125,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Formulários fiscais, calculadora e café",
+            "fonte": "Unsplash"
+        },
+        "fin-painel": {
+            "largura": 1600,
+            "altura": 1140,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Notebook com painel de indicadores",
+            "fonte": "Unsplash"
+        },
+        "fin-bolsa": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Gráfico financeiro na tela",
+            "fonte": "Unsplash"
+        },
+        "fin-moedas": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Moedas com uma planta brotando",
+            "fonte": "Unsplash"
+        },
+        "fin-comemoracao": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Equipe comemorando um bom resultado",
+            "fonte": "Unsplash"
+        },
+        "fin-mesa": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Mesa de trabalho com vista para a cidade",
+            "fonte": "Unsplash"
+        },
+        "fin-notebook": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Pessoa usando o notebook num café",
+            "fonte": "Unsplash"
+        },
+        "emp-fabrica": {
+            "largura": 1600,
+            "altura": 1067,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Engenheira operando equipamento na fábrica",
+            "fonte": "Unsplash"
+        },
+        "emp-obra": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Equipe técnica numa obra",
+            "fonte": "Unsplash"
+        },
+        "emp-solda": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Faíscas de solda numa oficina",
+            "fonte": "Unsplash"
+        },
+        "emp-solar": {
+            "largura": 1600,
+            "altura": 1065,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Usina de painéis solares",
+            "fonte": "Unsplash"
+        },
+        "emp-eletricista": {
+            "largura": 1600,
+            "altura": 1068,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Eletricista trabalhando num quadro de energia",
+            "fonte": "Unsplash"
+        },
+        "emp-predio": {
+            "largura": 1600,
+            "altura": 900,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Prédio em construção com guindaste",
+            "fonte": "Unsplash"
+        },
+        "emp-maquinas": {
+            "largura": 1600,
+            "altura": 990,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Detalhe de máquinas industriais",
+            "fonte": "Unsplash"
+        },
+        "emp-projeto": {
+            "largura": 1600,
+            "altura": 900,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Projeto técnico sendo desenhado",
+            "fonte": "Unsplash"
+        },
+        "emp-equipe": {
+            "largura": 1600,
+            "altura": 1067,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Equipe trabalhando em notebooks",
+            "fonte": "Unsplash"
+        },
+        "emp-planejamento": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Equipe planejando com notas na parede",
+            "fonte": "Unsplash"
+        },
+        "emp-escritorio": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Escritório aberto com várias equipes",
+            "fonte": "Unsplash"
+        },
+        "emp-edificios": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Edifícios comerciais vistos de baixo",
+            "fonte": "Unsplash"
+        },
+        "emp-apresentacao": {
+            "largura": 1600,
+            "altura": 900,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Apresentação para a equipe",
+            "fonte": "Unsplash"
+        },
+        "cli-consultorio": {
+            "largura": 1600,
+            "altura": 1070,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Consultório odontológico moderno",
+            "fonte": "Unsplash"
+        },
+        "cli-consultorio-claro": {
+            "largura": 1600,
+            "altura": 1069,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Consultório claro com cadeira odontológica",
+            "fonte": "Unsplash"
+        },
+        "cli-cadeira": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Cadeira odontológica",
+            "fonte": "Unsplash"
+        },
+        "cli-atendimento": {
+            "largura": 1600,
+            "altura": 1200,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Paciente sendo atendida no dentista",
+            "fonte": "Unsplash"
+        },
+        "cli-raio-x": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissional analisando um raio-x",
+            "fonte": "Unsplash"
+        },
+        "cli-conversa": {
+            "largura": 1600,
+            "altura": 1042,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Médica conversando com a paciente",
+            "fonte": "Unsplash"
+        },
+        "cli-alinhador": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Paciente colocando alinhador transparente",
+            "fonte": "Unsplash"
+        },
+        "cli-recepcao": {
+            "largura": 1600,
+            "altura": 1089,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Recepção de clínica",
+            "fonte": "Unsplash"
+        },
+        "cli-pressao": {
+            "largura": 1600,
+            "altura": 2409,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissional medindo a pressão do paciente",
+            "fonte": "Unsplash"
+        },
+        "cli-tela": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Médica mostrando exame na tela",
+            "fonte": "Unsplash"
+        },
+        "cli-celular": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Médico usando o celular",
+            "fonte": "Unsplash"
+        },
+        "cli-estetoscopio": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Estetoscópio sobre a mesa",
+            "fonte": "Unsplash"
+        },
+        "pes-mulher-1": {
+            "largura": 1600,
+            "altura": 2397,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissional sorrindo",
+            "fonte": "Unsplash"
+        },
+        "pes-homem-1": {
+            "largura": 1600,
+            "altura": 2400,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissional de terno e óculos",
+            "fonte": "Unsplash"
+        },
+        "pes-homem-2": {
+            "largura": 1600,
+            "altura": 2400,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissional de terno",
+            "fonte": "Unsplash"
+        },
+        "pes-mulher-2": {
+            "largura": 1600,
+            "altura": 2400,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissional de blazer sorrindo",
+            "fonte": "Unsplash"
+        },
+        "pes-homem-3": {
+            "largura": 1600,
+            "altura": 2399,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Retrato de profissional",
+            "fonte": "Unsplash"
+        },
+        "pes-mulher-3": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Retrato de profissional",
+            "fonte": "Unsplash"
+        },
+        "pes-homem-4": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissional de blazer claro",
+            "fonte": "Unsplash"
+        },
+        "pes-mulher-4": {
+            "largura": 1600,
+            "altura": 2013,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissional sorrindo",
+            "fonte": "Unsplash"
+        },
+        "pes-homem-5": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Retrato de profissional",
+            "fonte": "Unsplash"
+        },
+        "pes-mulher-5": {
+            "largura": 1600,
+            "altura": 2398,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Retrato de profissional",
+            "fonte": "Unsplash"
+        },
+        "pes-homem-6": {
+            "largura": 1600,
+            "altura": 2400,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissional sorrindo",
+            "fonte": "Unsplash"
+        },
+        "pes-homem-7": {
+            "largura": 1600,
+            "altura": 2400,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissional de camisa",
+            "fonte": "Unsplash"
+        },
+        "pes-homem-8": {
+            "largura": 1600,
+            "altura": 2400,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Retrato de profissional",
+            "fonte": "Unsplash"
+        },
+        "pes-mulher-6": {
+            "largura": 1600,
+            "altura": 2001,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Retrato de profissional",
+            "fonte": "Unsplash"
+        },
+        "pes-mulher-7": {
+            "largura": 1600,
+            "altura": 2400,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissional sorrindo",
+            "fonte": "Unsplash"
+        },
+        "sau-medica-1": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Médica de jaleco sorrindo",
+            "fonte": "Unsplash"
+        },
+        "sau-medico-1": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Médico de jaleco",
+            "fonte": "Unsplash"
+        },
+        "sau-medica-2": {
+            "largura": 1600,
+            "altura": 2400,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissional de saúde de uniforme",
+            "fonte": "Unsplash"
+        },
+        "sau-medico-2": {
+            "largura": 1600,
+            "altura": 2000,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Profissional de saúde sorrindo",
+            "fonte": "Unsplash"
+        },
+        "sau-medico-3": {
+            "largura": 1600,
+            "altura": 1066,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Médico de jaleco",
+            "fonte": "Unsplash"
+        },
+        "sau-medico-4": {
+            "largura": 1600,
+            "altura": 2400,
+            "variantes": [
+                480,
+                960,
+                1600
+            ],
+            "alt": "Médico de jaleco e máscara",
+            "fonte": "Unsplash"
+        }
+    },
+    "nichos": {
+        "advocacia": {
+            "cena": [
+                "adv-estatua",
+                "adv-biblioteca",
+                "adv-assinatura",
+                "adv-reuniao",
+                "adv-colunas",
+                "adv-escritorio",
+                "adv-documentos",
+                "adv-sala",
+                "adv-livros",
+                "adv-aperto",
+                "adv-martelo",
+                "adv-martelo-escuro"
+            ],
+            "gente_f": [
+                "pes-mulher-1",
+                "pes-mulher-2",
+                "pes-mulher-3"
+            ],
+            "gente_m": [
+                "pes-homem-1",
+                "pes-homem-2",
+                "pes-homem-3"
+            ]
+        },
+        "financas": {
+            "cena": [
+                "fin-graficos",
+                "fin-comemoracao",
+                "fin-impostos",
+                "fin-painel",
+                "adv-reuniao",
+                "fin-mesa",
+                "fin-formularios",
+                "fin-bolsa",
+                "adv-aperto",
+                "fin-moedas",
+                "fin-notebook",
+                "adv-assinatura"
+            ],
+            "gente_f": [
+                "pes-mulher-1",
+                "pes-mulher-4",
+                "pes-mulher-5"
+            ],
+            "gente_m": [
+                "pes-homem-4",
+                "pes-homem-5",
+                "pes-homem-1"
+            ]
+        },
+        "empresas": {
+            "cena": [
+                "emp-fabrica",
+                "emp-obra",
+                "emp-equipe",
+                "emp-solar",
+                "emp-eletricista",
+                "emp-projeto",
+                "emp-predio",
+                "emp-planejamento",
+                "emp-solda",
+                "emp-escritorio",
+                "emp-maquinas",
+                "emp-apresentacao",
+                "emp-edificios"
+            ],
+            "gente_f": [
+                "pes-mulher-6",
+                "pes-mulher-7",
+                "pes-mulher-2"
+            ],
+            "gente_m": [
+                "pes-homem-6",
+                "pes-homem-7",
+                "pes-homem-8"
+            ]
+        },
+        "clinicas": {
+            "cena": [
+                "cli-consultorio",
+                "cli-conversa",
+                "cli-atendimento",
+                "cli-consultorio-claro",
+                "cli-raio-x",
+                "cli-recepcao",
+                "cli-alinhador",
+                "cli-cadeira",
+                "cli-tela",
+                "cli-pressao",
+                "cli-celular",
+                "cli-estetoscopio"
+            ],
+            "gente_f": [
+                "sau-medica-1",
+                "sau-medica-2",
+                "pes-mulher-4"
+            ],
+            "gente_m": [
+                "sau-medico-1",
+                "sau-medico-3",
+                "sau-medico-2",
+                "sau-medico-4"
+            ]
+        }
+    }
+}

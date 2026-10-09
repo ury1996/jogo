@@ -39,6 +39,22 @@ final class Biblioteca
         ]);
     }
 
+    /** Variante WebP de uma foto de exemplo da biblioteca (prévias do assistente). */
+    public function fotoExemplo(Contexto $ctx, array $p): Resposta
+    {
+        $arquivo = $p['arquivo'];
+        if (!preg_match('/^([a-z0-9-]{1,60})-(\d{2,4})\.webp$/D', $arquivo, $m)) {
+            throw ErroHttp::naoEncontrado('Foto não encontrada.');
+        }
+        $caminho = \Rankly\Lib\FotosExemplo::arquivo($ctx->app, $m[1], (int) $m[2]);
+        if ($caminho === null) {
+            throw ErroHttp::naoEncontrado('Foto não encontrada.');
+        }
+        return Resposta::arquivo($caminho, 'image/webp', [
+            'Cache-Control' => 'public, max-age=86400',
+        ]);
+    }
+
     private static function etagConfere(?string $cabecalho, string $etag): bool
     {
         if ($cabecalho === null) {

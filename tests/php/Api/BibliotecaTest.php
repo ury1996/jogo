@@ -33,7 +33,7 @@ final class BibliotecaTest extends TestCase
         $this->assertSame('"' . $versao . '"', $r->obterCabecalho('ETag'));
         $this->assertSame('no-cache', $r->obterCabecalho('Cache-Control'));
         $dados = $r->dados();
-        $this->assertSame(['versao', 'secoes', 'parciais', 'baseCss', 'modelos', 'nichos', 'comum', 'icones', 'fontes'], array_keys($dados));
+        $this->assertSame(['versao', 'secoes', 'parciais', 'baseCss', 'modelos', 'nichos', 'comum', 'icones', 'fontes', 'fotos'], array_keys($dados));
         $this->assertSame($versao, $dados['versao']);
         $this->assertSame(Biblioteca::carregar(AmbienteTeste::fixtureBiblioteca()), $dados, 'Mesmo bundle de Preparo\\Biblioteca::carregar');
         $this->assertNotEmpty(glob($this->app->dir('var') . '/cache/biblioteca-*.json'), 'Cache em var/cache');

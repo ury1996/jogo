@@ -17,7 +17,7 @@ final class BibliotecaTest extends TestCase
     public function testEstruturaDoBundle(): void
     {
         $lib = Biblioteca::carregar(self::mini());
-        self::assertSame(['versao', 'secoes', 'parciais', 'baseCss', 'modelos', 'nichos', 'comum', 'icones', 'fontes'], array_keys($lib));
+        self::assertSame(['versao', 'secoes', 'parciais', 'baseCss', 'modelos', 'nichos', 'comum', 'icones', 'fontes', 'fotos'], array_keys($lib));
         self::assertMatchesRegularExpression('/^[0-9a-f]{40}$/', $lib['versao']);
         self::assertSame(['faq', 'header', 'hero', 'rodape', 'servicos'], array_keys($lib['secoes']));
         self::assertSame(['manifest', 'templates', 'css'], array_keys($lib['secoes']['servicos']));

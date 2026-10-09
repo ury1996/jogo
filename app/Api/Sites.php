@@ -8,6 +8,7 @@ use Rankly\Http\ErroHttp;
 use Rankly\Http\Resposta;
 use Rankly\Lib\Db;
 use Rankly\Lib\Eventos;
+use Rankly\Lib\FotosExemplo;
 use Rankly\Lib\Midia as MidiaLib;
 use Rankly\Lib\Sites as SitesLib;
 use Rankly\Lib\Slug;
@@ -107,9 +108,55 @@ final class Sites
             $nome = Texto::colapsarEspacos($nicho['exemplo']['nome'] ?? '') ?: 'Meu site';
         }
         $id = $this->inserirSite($ctx, $nome, $doc, (int) $u['id']);
+        // O site já nasce com fotos de exemplo em todos os espaços (o dono troca depois).
+        if (($d['fotosExemplo'] ?? true) !== false) {
+            try {
+                $doc = FotosExemplo::preencher($app, $id, $doc, $lib)['doc'];
+                $app->db()->executar('UPDATE sites SET documento = ? WHERE id = ?', [Documento::json($doc), $id]);
+            } catch (\Throwable $e) {
+                $app->log()->excecao($e, ['etapa' => 'fotos de exemplo', 'site' => $id]);
+            }
+        }
         Eventos::registrar($app, $id, (int) $u['id'], 'site.criado', ['nicho' => $nichoId, 'modelo' => $modeloId]);
         $site = SitesLib::porId($app, $id);
-        return Resposta::json(['site' => SitesLib::publico($app, $site), 'midia' => new \stdClass()], 201);
+        $midia = MidiaLib::mapaDoSite($app, $id);
+        return Resposta::json(['site' => SitesLib::publico($app, $site), 'midia' => $midia === [] ? new \stdClass() : $midia], 201);
+    }
+
+    /**
+     * Preenche os espaços de imagem vazios com fotos de exemplo (depois de trocar de modelo ou de
+     * opção, por exemplo). Salva como uma revisão nova; responde {revisao, preenchidos, midia}.
+     */
+    public function fotosExemplo(Contexto $ctx, array $p): Resposta
+    {
+        $u = $ctx->exigirUsuario();
+        $site = $ctx->exigirSite(Contexto::inteiro($p['id']));
+        $app = $ctx->app;
+        $revisao = $ctx->dados()['revisao'] ?? null;
+        if (!is_int($revisao)) {
+            throw ErroHttp::invalido('Informe a revisão do documento.', ['campo' => 'revisao']);
+        }
+        if ($revisao !== (int) $site['revisao']) {
+            throw $this->conflito($ctx, $site);
+        }
+        $r = FotosExemplo::preencher($app, (int) $site['id'], $site['documento'], $app->biblioteca());
+        $nova = $revisao;
+        if ($r['preenchidos'] > 0) {
+            $nova = $revisao + 1;
+            $ok = $app->db()->executar(
+                'UPDATE sites SET documento = ?, revisao = ?, atualizado_em = ?, atualizado_por = ? WHERE id = ? AND revisao = ?',
+                [Documento::json($r['doc']), $nova, $app->agoraSql(), (int) $u['id'], (int) $site['id'], $revisao],
+            );
+            if ($ok === 0) {
+                throw $this->conflito($ctx, SitesLib::porId($app, (int) $site['id']) ?? $site);
+            }
+        }
+        return Resposta::json([
+            'revisao' => $nova,
+            'preenchidos' => $r['preenchidos'],
+            'documento' => SitesLib::documentoParaJson($r['doc']),
+            'midia' => (object) MidiaLib::mapaDoSite($app, (int) $site['id']),
+        ]);
     }
 
     public function obter(Contexto $ctx, array $p): Resposta
