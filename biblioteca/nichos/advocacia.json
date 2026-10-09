@@ -53,6 +53,10 @@
     "faq": ["1", "2", "3", "4", "5", "6"]
   },
   "textos": {
+    "atalhos.r1": "Fale com um advogado",
+    "atalhos.d1": "Conte o seu caso pelo WhatsApp e saiba qual é o próximo passo, com sigilo.",
+    "atalhos.d2": "Reuniões com hora marcada, no escritório ou por videochamada. Combine o melhor horário.",
+    "atalhos.d3": "Escritório em {cidade}, com atendimento presencial e online para todo o Brasil.",
     "hero.eyebrow": "{segmento} em {cidade}",
     "hero.titulo": "Orientação jurídica clara para as decisões que importam",
     "hero.texto": "Atuação em direito civil, de família, trabalhista e empresarial, com atendimento presencial e online e explicação de cada etapa.",

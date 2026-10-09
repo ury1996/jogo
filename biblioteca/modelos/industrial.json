@@ -1,0 +1,23 @@
+{
+  "id": "industrial",
+  "nome": "Industrial",
+  "descricao": "Cabeçalho com contatos, foto de fundo com cards e números sobre foto. Para indústria e engenharia.",
+  "personalidade": "Indústria e engenharia: laranja queimado sobre marinho, fotos grandes e informação técnica.",
+  "acabamento": "classico",
+  "nichos": ["empresas"],
+  "ordem": 2,
+  "padrao": { "cor": "#c2410c", "fonte": "moderna" },
+  "secoes": [
+    ["header", "info"],
+    ["hero", "fundo-cards"],
+    ["clientes", "faixa"],
+    ["sobre", "duas-fotos"],
+    ["servicos", "foto-fundo"],
+    ["numeros", "foto-fundo"],
+    ["passos", "destaque-primeiro"],
+    ["depoimentos", "faixa-escura"],
+    ["faq", "foto-ajuda"],
+    ["contato", "foto-card"],
+    ["rodape", "completo"]
+  ]
+}

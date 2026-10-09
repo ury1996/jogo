@@ -19,6 +19,21 @@
       "descricao": "Dados de contato, botão de WhatsApp e mapa que só carrega ao clicar.",
       "tom": "claro",
       "alegacoes": []
+    },
+    {
+      "id": "foto-card",
+      "nome": "Formulário sobre foto",
+      "descricao": "Foto de fundo com véu escuro, contatos à esquerda e o formulário num card claro flutuando à direita.",
+      "tom": "escuro",
+      "sizes": { "contato.img": "100vw" },
+      "alegacoes": []
+    },
+    {
+      "id": "escuro",
+      "nome": "Escuro",
+      "descricao": "Fundo escuro com brilho da cor no topo, contatos com ícones de linha e formulário de campos vazados.",
+      "tom": "escuro",
+      "alegacoes": []
     }
   ],
   "campos": {
@@ -26,7 +41,8 @@
     "contato.titulo": { "tipo": "texto", "max": 80, "rotulo": "Título do contato" },
     "contato.texto": { "tipo": "texto-longo", "max": 200, "rotulo": "Texto de apoio" },
     "contato.botao": { "tipo": "texto", "max": 28, "rotulo": "Botão de enviar (formulário e WhatsApp)" },
-    "contato.mapa": { "tipo": "texto", "max": 24, "rotulo": "Botão que abre o mapa" }
+    "contato.mapa": { "tipo": "texto", "max": 24, "rotulo": "Botão que abre o mapa" },
+    "contato.img": { "tipo": "imagem", "proporcao": "16:9", "rotulo": "Foto de fundo do contato", "fundo": true }
   },
   "listas": {},
   "alegacoes": []

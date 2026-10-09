@@ -137,6 +137,122 @@
 }
 .k-classico .rk-op--contato-mapa .contato-grade--sem-mapa .contato-item { border: 1px solid var(--linha); }
 
+/* ===================== foto-card =====================
+   Foto de fundo (contato.img) com véu; contatos à esquerda e o formulário num card
+   claro (contexto rk-bg--branco interno) flutuando à direita. */
+
+.rk-op--contato-foto-card { padding-block: clamp(88px, 10cqi, 150px); }
+.rk-op--contato-foto-card .rk-fundo::after {
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--deep) 90%, transparent) 0%,
+    color-mix(in srgb, var(--deep) 74%, transparent) 46%,
+    color-mix(in srgb, var(--deep) 34%, transparent) 100%);
+}
+.rk-op--contato-foto-card .contato-fc {
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.86fr);
+  align-items: center;
+}
+.rk-op--contato-foto-card .contato-fc__lista {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px 28px;
+  padding-top: clamp(26px, 3cqi, 34px);
+  border-top: 1px solid var(--linha);
+}
+.rk-op--contato-foto-card .contato-fc__lista .contato-item__v { font-size: 0.97rem; }
+.rk-op--contato-foto-card .contato-fc__card {
+  position: relative;
+  padding: clamp(26px, 3.4cqi, 48px);
+  border-radius: var(--rc);
+  box-shadow: 0 44px 90px -36px color-mix(in srgb, var(--deep) 85%, transparent);
+}
+.rk-op--contato-foto-card .contato-form__titulo { margin-bottom: 22px; }
+.k-classico .rk-op--contato-foto-card .contato-fc__card { border-top: 3px solid var(--p); }
+.k-elegante .rk-op--contato-foto-card .contato-fc__card { border-top: 2px solid var(--acento); }
+.k-impacto .rk-op--contato-foto-card .contato-fc__card { box-shadow: 10px 10px 0 var(--p-sobre-escuro); }
+.k-suave .rk-op--contato-foto-card .contato-fc__card { box-shadow: 0 0 0 10px color-mix(in srgb, var(--bg) 18%, transparent), 0 44px 90px -36px color-mix(in srgb, var(--deep) 85%, transparent); }
+/* Elegante: campos só com a linha de baixo */
+.k-elegante .rk-op--contato-foto-card .rk-input {
+  min-height: 46px;
+  padding-inline: 0;
+  border-width: 0 0 1px;
+  border-radius: 0;
+  background: transparent;
+}
+.k-elegante .rk-op--contato-foto-card textarea.rk-input { min-height: 88px; }
+.k-elegante .rk-op--contato-foto-card .rk-input:focus,
+.k-elegante .rk-op--contato-foto-card .rk-input:focus-visible {
+  border-color: var(--acento);
+  box-shadow: 0 1px 0 0 var(--acento);
+}
+.k-elegante .rk-op--contato-foto-card .rk-campo > label {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ===================== escuro =====================
+   Fundo escuro com brilho da cor no topo, contatos com ícones de linha e
+   formulário de campos vazados (só borda) num painel de linha fina. */
+
+.rk-op--contato-escuro { overflow: clip; }
+.rk-op--contato-escuro::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: min(100%, 720px);
+  background:
+    radial-gradient(64% 70% at 50% 0%, color-mix(in srgb, var(--acento) 26%, transparent) 0%, transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--acento) 10%, transparent) 0%, transparent 55%);
+  pointer-events: none;
+}
+.rk-op--contato-escuro .contato-esc {
+  position: relative;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+}
+.rk-op--contato-escuro .contato-esc__lista { gap: 0; border-top: 1px solid var(--linha); }
+.rk-op--contato-escuro .contato-esc__lista .contato-item {
+  gap: 20px;
+  padding-block: 20px;
+  border-bottom: 1px solid var(--linha);
+}
+.rk-op--contato-escuro .contato-esc__ic {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  color: var(--acento);
+}
+.rk-op--contato-escuro .contato-esc__ic svg { width: 30px; height: 30px; }
+.rk-op--contato-escuro .contato-esc__form {
+  padding: clamp(26px, 3.6cqi, 52px);
+  border: 1px solid var(--linha);
+  border-radius: var(--rc);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--fg) 7%, transparent) 0%, color-mix(in srgb, var(--fg) 2%, transparent) 100%);
+}
+.rk-op--contato-escuro .contato-form__titulo { margin-bottom: 24px; }
+.rk-op--contato-escuro .rk-input {
+  border-color: color-mix(in srgb, var(--fg) 28%, transparent);
+  background: transparent;
+  color: var(--fg);
+}
+.rk-op--contato-escuro .rk-input::placeholder { color: var(--fg2); opacity: 0.7; }
+.rk-op--contato-escuro .rk-input:hover { border-color: color-mix(in srgb, var(--fg) 55%, transparent); }
+.k-classico .rk-op--contato-escuro .contato-esc__form { border-top: 2px solid var(--acento); }
+.k-elegante .rk-op--contato-escuro .contato-esc__ic { border: 1px solid color-mix(in srgb, var(--acento) 55%, transparent); border-radius: 50%; width: 52px; height: 52px; }
+.k-elegante .rk-op--contato-escuro .contato-esc__ic svg { width: 24px; height: 24px; }
+.k-elegante .rk-op--contato-escuro .rk-input {
+  min-height: 46px;
+  padding-inline: 0;
+  border-width: 0 0 1px;
+  background: transparent;
+}
+.k-elegante .rk-op--contato-escuro .contato-esc__form { background: transparent; }
+.k-suave .rk-op--contato-escuro .contato-esc__ic { border-radius: 50%; background: var(--acento-suave); width: 52px; height: 52px; }
+.k-suave .rk-op--contato-escuro .contato-esc__ic svg { width: 26px; height: 26px; }
+.k-impacto .rk-op--contato-escuro .contato-esc__form { border: 2px solid var(--fg); background: transparent; box-shadow: 10px 10px 0 var(--acento); }
+.k-impacto .rk-op--contato-escuro .rk-input { border-width: 2px; }
+
 /* ===================== tablet ===================== */
 
 @container site (max-width: 1060px) {
@@ -158,4 +274,23 @@
   .rk-op--contato-mapa .contato-mapa__fachada { aspect-ratio: 4 / 3.6; }
   .rk-op--contato-mapa .contato-grade--sem-mapa .contato-lista { gap: 12px; }
   .rk-op--contato-mapa .contato-grade--sem-mapa .contato-item { flex-basis: 100%; max-width: none; padding: 16px 18px 16px 16px; }
+}
+
+/* ===================== tablet e celular (foto-card, escuro) ===================== */
+
+@container site (max-width: 1060px) {
+  .rk-op--contato-foto-card .contato-fc { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .rk-op--contato-foto-card .contato-fc__lista { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .rk-op--contato-escuro .contato-esc { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
+}
+
+@container site (max-width: 760px) {
+  .rk-op--contato-foto-card { padding-block: 72px; }
+  .rk-op--contato-foto-card .contato-fc,
+  .rk-op--contato-escuro .contato-esc { grid-template-columns: minmax(0, 1fr); }
+  .rk-op--contato-foto-card .contato-fc__card { padding: 26px 18px; }
+  .k-impacto .rk-op--contato-foto-card .contato-fc__card { box-shadow: 6px 6px 0 var(--p-sobre-escuro); }
+  .rk-op--contato-escuro .contato-esc__lista .contato-item { padding-block: 16px; }
+  .rk-op--contato-escuro .contato-esc__form { padding: 24px 18px; }
+  .k-impacto .rk-op--contato-escuro .contato-esc__form { box-shadow: 6px 6px 0 var(--acento); }
 }

@@ -1,0 +1,23 @@
+{
+  "id": "tribuna",
+  "nome": "Tribuna",
+  "descricao": "Serifa fina, foto sangrando até a borda e retratos altos da equipe. Sobriedade de escritório tradicional.",
+  "personalidade": "Escritório tradicional de alto padrão: azul-marinho, serifa elegante, números discretos e muito respiro.",
+  "acabamento": "elegante",
+  "nichos": ["advocacia"],
+  "ordem": 1,
+  "padrao": { "cor": "#1d2b45", "fonte": "nobre" },
+  "secoes": [
+    ["header", "info"],
+    ["hero", "dividido"],
+    ["atalhos", "faixa"],
+    ["sobre", "assinatura"],
+    ["servicos", "cards"],
+    ["numeros", "fantasma"],
+    ["equipe", "retratos-altos"],
+    ["faq", "duas-colunas"],
+    ["cta", "telefone"],
+    ["contato", "escuro"],
+    ["rodape", "completo"]
+  ]
+}

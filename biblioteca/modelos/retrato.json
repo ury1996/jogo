@@ -1,0 +1,22 @@
+{
+  "id": "retrato",
+  "nome": "Retrato",
+  "descricao": "O advogado em primeiro plano: retrato no destaque, áreas em lista numerada e contato sobre foto.",
+  "personalidade": "Advogado ou advogada que atende pessoalmente: vinho, serifa clássica, retrato com forma e linhas numeradas.",
+  "acabamento": "classico",
+  "nichos": ["advocacia"],
+  "ordem": 3,
+  "padrao": { "cor": "#6b2737", "fonte": "classica" },
+  "secoes": [
+    ["header", "barra"],
+    ["hero", "retrato"],
+    ["diferenciais", "numerados"],
+    ["servicos", "linhas-numeradas"],
+    ["sobre", "duas-fotos"],
+    ["passos", "linha-tempo"],
+    ["faq", "centralizada"],
+    ["cta", "faixa-cor"],
+    ["contato", "foto-card"],
+    ["rodape", "simples"]
+  ]
+}

@@ -34,6 +34,29 @@
       "descricao": "Grade assimétrica com bloco escuro de título e os serviços em blocos.",
       "tom": "claro",
       "alegacoes": []
+    },
+    {
+      "id": "fotos-sobrepostas",
+      "nome": "Fotos com card sobreposto",
+      "descricao": "Foto de cada serviço com um card sobreposto na base: ícone, título, texto e link.",
+      "tom": "claro",
+      "sizes": { "serv.*.img": "(max-width: 760px) 100vw, (max-width: 1060px) 50vw, 34vw" },
+      "alegacoes": []
+    },
+    {
+      "id": "foto-fundo",
+      "nome": "Fotos de fundo",
+      "descricao": "Cards verticais com a foto de fundo e o título e o texto sobre um degradê escuro.",
+      "tom": "claro",
+      "sizes": { "serv.*.img": "(max-width: 760px) 100vw, (max-width: 1060px) 50vw, 34vw" },
+      "alegacoes": []
+    },
+    {
+      "id": "linhas-numeradas",
+      "nome": "Linhas numeradas",
+      "descricao": "Serviços em linhas numeradas sobre fundo escuro, com divisórias e botão de seta.",
+      "tom": "escuro",
+      "alegacoes": []
     }
   ],
   "campos": {

@@ -1,0 +1,25 @@
+<div class="rk-wrap">
+  <div class="serv-topo">
+    <div class="rk-cab serv-cab">
+      <p class="rk-eyebrow" data-k="serv.eyebrow">{{c.serv.eyebrow}}</p>
+      <h2 class="rk-h2 serv-titulo" data-k="serv.titulo">{{c.serv.titulo}}</h2>
+    </div>
+    <div class="serv-topo__lado">
+      <p class="rk-lead serv-lead" data-k="serv.texto">{{c.serv.texto}}</p>
+      <a class="rk-btn serv-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="servicos" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="hero.cta">{{c.hero.cta}}</span></a>
+    </div>
+  </div>
+  <div class="serv-grade serv-q{{c.serv.qtd}}" data-li="serv">
+    {{#c.serv.itens}}
+    <article class="serv-ff" data-it="{{id}}">
+      <div class="rk-foto serv-ff__foto" data-img="{{k}}.img" style="--ar:3/4">{{{img.html}}}</div>
+      <div class="rk-ctx-escuro serv-ff__txt">
+        <span class="serv-ff__n" aria-hidden="true">0{{i}}</span>
+        <h3 class="rk-h3 serv-ff__t" data-k="{{k}}.t">{{t}}</h3>
+        <p class="rk-p serv-ff__d" data-k="{{k}}.d">{{d}}</p>
+      </div>
+      <a class="serv-ff__seta" href="{{dados.whatsappLink}}" data-ev="whatsapp" data-pos="servicos" target="_blank" rel="noopener"><span class="rk-sr">{{c.serv.link}} – {{t}}</span><span class="rk-i">{{{u.seta}}}</span></a>
+    </article>
+    {{/c.serv.itens}}
+  </div>
+</div>

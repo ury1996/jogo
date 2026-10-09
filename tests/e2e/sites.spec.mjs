@@ -1,9 +1,9 @@
-// Verificação dos sites publicados: 4 nichos × 3 modelos, com dados completos e fotos JPEG
+// Verificação dos sites publicados: 4 nichos × 7 modelos (3 gerais + 4 exclusivos), com dados completos e fotos JPEG
 // reais, abertos no Chromium em 1280 px e 390 px. Para cada um: zero erros de console, CSP sem
 // violações, nada de terceiros, sem rolagem horizontal, peso (HTML+CSS < 80 KB, JS < 5 KB),
 // LCP/CLS aproximados (API de performance do Chromium) e capturas de tela em var/e2e/capturas/.
 import { test, expect } from '@playwright/test';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { createRequire } from 'node:module';
@@ -13,7 +13,12 @@ import { Api, publicarSiteCompleto, urlSite, vigiar, httpSite, RAIZ } from './ap
 const { PNG } = createRequire(import.meta.url)('playwright-core/lib/utilsBundle');
 
 const NICHOS = ['advocacia', 'financas', 'empresas', 'clinicas'];
-const MODELOS = ['classico', 'moderno', 'direto'];
+const MODELOS_GERAIS = ['classico', 'moderno', 'direto'];
+/** Modelos de cada nicho: os gerais + os exclusivos ("nichos" no JSON do modelo). */
+const MODELOS_DO_NICHO = Object.fromEntries(NICHOS.map((n) => [n, [...MODELOS_GERAIS,
+  ...readdirSync(path.join(RAIZ, 'biblioteca/modelos')).filter((a) => a.endsWith('.json')).sort()
+    .map((a) => JSON.parse(readFileSync(path.join(RAIZ, 'biblioteca/modelos', a), 'utf8')))
+    .filter((m) => Array.isArray(m.nichos) && m.nichos.includes(n)).map((m) => m.id)]]));
 const LARGURAS = [1280, 390];
 const DIR_CAPTURAS = path.join(RAIZ, 'var/e2e/capturas');
 const KB = 1024;
@@ -101,9 +106,9 @@ async function medirVitais(pagina) {
 }
 
 for (const nicho of NICHOS) {
-  for (const modelo of MODELOS) {
+  for (const modelo of MODELOS_DO_NICHO[nicho]) {
     test(`${nicho} × ${modelo}`, async ({ browser }) => {
-      const i = NICHOS.indexOf(nicho) * MODELOS.length + MODELOS.indexOf(modelo);
+      const i = NICHOS.slice(0, NICHOS.indexOf(nicho)).reduce((t, n) => t + MODELOS_DO_NICHO[n].length, 0) + MODELOS_DO_NICHO[nicho].indexOf(modelo);
       const pub = await publicarSiteCompleto(api, lib, { nicho, modelo, sufixo: `V${i + 1}`, comLogo: i % 2 === 0 });
       const slug = pub.site.slug;
       const medidas = { nicho, modelo, slug, peso: await medirPeso(slug), larguras: {} };

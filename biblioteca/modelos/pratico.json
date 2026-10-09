@@ -1,0 +1,23 @@
+{
+  "id": "pratico",
+  "nome": "Prático",
+  "descricao": "Título grande, faixa com WhatsApp e horário logo abaixo e chamadas fortes. Feito para gerar contato.",
+  "personalidade": "Atendimento rápido: verde, títulos grandes, contraste forte e informação objetiva.",
+  "acabamento": "impacto",
+  "nichos": ["financas"],
+  "ordem": 4,
+  "padrao": { "cor": "#047857", "fonte": "moderna" },
+  "secoes": [
+    ["header", "barra"],
+    ["hero", "titulo-gigante"],
+    ["atalhos", "faixa"],
+    ["servicos", "foto-fundo"],
+    ["sobre", "manifesto"],
+    ["numeros", "faixa-clara"],
+    ["depoimentos", "destaque-foto"],
+    ["faq", "centralizada"],
+    ["cta", "faixa-cor"],
+    ["contato", "formulario"],
+    ["rodape", "simples"]
+  ]
+}

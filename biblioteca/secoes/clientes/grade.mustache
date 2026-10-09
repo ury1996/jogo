@@ -1,0 +1,10 @@
+<div class="rk-wrap">
+  <div class="cli-topo">
+    <h2 class="rk-h2 cli-titulo" data-k="cli.titulo">{{c.cli.titulo}}</h2>
+  </div>
+  <ul class="cli-grade cli-q{{c.cli.qtd}}" data-li="cli">
+    {{#c.cli.itens}}
+    <li class="cli-cel" data-it="{{id}}"><span class="cli-marca"><span class="cli-nome" data-k="{{k}}.t">{{t}}</span></span></li>
+    {{/c.cli.itens}}
+  </ul>
+</div>

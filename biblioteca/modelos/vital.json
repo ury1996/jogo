@@ -1,0 +1,24 @@
+{
+  "id": "vital",
+  "nome": "Vital",
+  "descricao": "Destaque em cartão com linha de confiança, equipe em cards e telefone em destaque na chamada.",
+  "personalidade": "Clínica moderna: azul-royal, fonte geométrica, cartões arredondados e números sobre foto.",
+  "acabamento": "moderno",
+  "nichos": ["clinicas"],
+  "ordem": 3,
+  "padrao": { "cor": "#1d4ed8", "fonte": "geometrica" },
+  "secoes": [
+    ["header", "barra"],
+    ["hero", "inset"],
+    ["servicos", "cards-foto"],
+    ["sobre", "assinatura"],
+    ["numeros", "foto-fundo"],
+    ["passos", "linha-tempo"],
+    ["equipe", "cards-horizontais"],
+    ["depoimentos", "cards-nota"],
+    ["faq", "centralizada"],
+    ["cta", "telefone"],
+    ["contato", "formulario"],
+    ["rodape", "completo"]
+  ]
+}

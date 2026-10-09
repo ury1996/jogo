@@ -1,4 +1,4 @@
-/* Rodapé — completo (4 colunas) ou simples. Registro profissional sempre visível quando existe (cap. 11). */
+/* Rodapé — completo (4 colunas), simples ou marca gigante. Registro profissional sempre visível quando existe (cap. 11). */
 
 .rk-sec--rodape {
   padding-block: clamp(60px, 7cqi, 96px) 0;
@@ -64,7 +64,103 @@
 .rk-op--rodape-simples .rod-s__contatos a:hover { color: var(--fg); }
 .rk-op--rodape-simples .rod-s__contatos .rk-i { color: var(--acento); }
 
-/* ---- linha final (as duas opções) ---- */
+/* ---- marca-gigante ----
+   Colunas compactas (marca, navegação, contato, redes), o nome do negócio em letras
+   gigantes (decorativo, aria-hidden; quebra em até 2 linhas equilibradas para caber
+   nomes longos) e a mesma linha legal do completo. */
+.rk-op--rodape-marca-gigante .rod-mg__topo {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.75fr) minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(32px, 4cqi, 56px);
+}
+.rk-op--rodape-marca-gigante .rod-mg__topo:not(:has(.rod-mg__redes)) {
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.8fr) minmax(0, 1.2fr);
+}
+.rk-op--rodape-marca-gigante .rod-mg__marca { display: grid; align-content: start; justify-items: start; gap: 18px; }
+.rk-op--rodape-marca-gigante .rod-mg__sobre { max-width: 21rem; font-size: 0.9375rem; }
+.rk-op--rodape-marca-gigante .rod-mg__tit {
+  margin-bottom: 16px;
+  color: var(--destaque);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.rk-op--rodape-marca-gigante .rod-mg__menu,
+.rk-op--rodape-marca-gigante .rod-mg__redes { display: grid; gap: 9px; }
+.rk-op--rodape-marca-gigante .rod-mg__contatos { display: grid; gap: 12px; }
+.rk-op--rodape-marca-gigante .rod-mg__col a { color: var(--fg2); }
+.rk-op--rodape-marca-gigante .rod-mg__col a:hover { color: var(--fg); }
+.rk-op--rodape-marca-gigante .rod-mg__contatos li { display: grid; color: var(--fg2); line-height: 1.5; }
+.rk-op--rodape-marca-gigante .rod-mg__contatos a { overflow-wrap: anywhere; }
+.rk-op--rodape-marca-gigante .rod-mg__contatos li:has(.rod-mg__rot) a { color: var(--fg); font-weight: 600; font-size: 1.05rem; }
+.rk-op--rodape-marca-gigante .rod-mg__rot { order: -1; font-size: 0.75rem; color: var(--fg2); }
+.rk-op--rodape-marca-gigante .rod-linhas { display: grid; }
+.rk-op--rodape-marca-gigante .rod-mg__redes a { display: inline-flex; align-items: center; gap: 10px; }
+.rk-op--rodape-marca-gigante .rod-mg__rede-ic { display: inline-flex; width: 17px; height: 17px; color: var(--acento); }
+.rk-op--rodape-marca-gigante .rod-mg__rede-ic svg { width: 100%; height: 100%; }
+.rk-op--rodape-marca-gigante .rod-mg__seta {
+  opacity: 0;
+  transform: translateX(-4px) rotate(-45deg);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.rk-op--rodape-marca-gigante .rod-mg__redes a:hover .rod-mg__seta { opacity: 1; transform: translateX(0) rotate(-45deg); }
+
+/* o nome gigante */
+.rk-op--rodape-marca-gigante .rod-mg__gigante {
+  margin-top: clamp(52px, 6.4cqi, 96px);
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+.rk-op--rodape-marca-gigante .rod-mg__nome {
+  display: block;
+  padding-bottom: 0.08em;
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: calc(clamp(2.6rem, 0.3rem + 11cqi, 9.8rem) * var(--ft-escala));
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  color: transparent;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--fg) 30%, transparent) 0%, color-mix(in srgb, var(--fg) 6%, transparent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.k-classico .rk-op--rodape-marca-gigante .rod-mg__nome {
+  background: none;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--fg) 34%, transparent);
+  letter-spacing: -0.01em;
+}
+.k-elegante .rk-op--rodape-marca-gigante .rod-mg__nome {
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  padding-inline-end: 0.1em;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--acento) 70%, transparent) 0%, color-mix(in srgb, var(--acento) 12%, transparent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.k-suave .rk-op--rodape-marca-gigante .rod-mg__nome {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--acento) 48%, transparent) 0%, color-mix(in srgb, var(--fg) 5%, transparent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.k-direto .rk-op--rodape-marca-gigante .rod-mg__nome { background: none; color: var(--deco); font-weight: 800; }
+.k-impacto .rk-op--rodape-marca-gigante .rod-mg__nome {
+  background: none;
+  color: var(--acento);
+  font-weight: 700;
+  font-size: calc(clamp(2.3rem, 0.2rem + 9.4cqi, 8.4rem) * var(--ft-escala));
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+.k-elegante .rk-op--rodape-marca-gigante .rod-mg__tit { letter-spacing: 0.26em; font-weight: 600; }
+.rk-op--rodape-marca-gigante .rod-base { margin-top: clamp(22px, 2.6cqi, 36px); }
+
+/* ---- linha final (todas as opções) ---- */
 .rk-sec--rodape .rod-base {
   display: flex;
   flex-wrap: wrap;
@@ -87,6 +183,9 @@
 /* ---- tablet ---- */
 @container site (max-width: 1060px) {
   .rk-op--rodape-completo .rod-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rk-op--rodape-marca-gigante .rod-mg__topo,
+  .rk-op--rodape-marca-gigante .rod-mg__topo:not(:has(.rod-mg__redes)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rk-op--rodape-marca-gigante .rod-mg__marca { grid-column: 1 / -1; }
 }
 
 /* ---- celular ---- */
@@ -95,6 +194,12 @@
   .rk-op--rodape-completo .rod-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 20px; }
   .rk-op--rodape-completo .rod-sobre,
   .rk-op--rodape-completo .rod-col:last-child { grid-column: 1 / -1; }
+  .rk-op--rodape-marca-gigante .rod-mg__topo,
+  .rk-op--rodape-marca-gigante .rod-mg__topo:not(:has(.rod-mg__redes)) { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 20px; }
+  .rk-op--rodape-marca-gigante .rod-mg__col:nth-child(3) { grid-column: 1 / -1; order: 3; }
+  .rk-op--rodape-marca-gigante .rod-mg__gigante { margin-top: 44px; }
+  .rk-op--rodape-marca-gigante .rod-mg__nome { font-size: calc(clamp(2.4rem, 0.6rem + 11cqi, 4.6rem) * var(--ft-escala)); }
+  .k-impacto .rk-op--rodape-marca-gigante .rod-mg__nome { font-size: calc(clamp(2rem, 0.4rem + 9.4cqi, 4rem) * var(--ft-escala)); }
   .rk-op--rodape-simples .rod-s { flex-direction: column; align-items: flex-start; gap: 22px; }
   .rk-op--rodape-simples .rod-s__contatos { flex-direction: column; gap: 12px; }
   .rk-sec--rodape .rod-base { flex-direction: column; align-items: flex-start; padding-bottom: 92px; }

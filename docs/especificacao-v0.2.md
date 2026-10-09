@@ -380,6 +380,33 @@ Já feitos e que eram fase 2 na v0.1: listas variáveis, versões e restauraçã
 | Testes JS (`node --test`) | lógica compartilhada, estado do editor, operações, lint da biblioteca e do conteúdo dos nichos |
 | PHPUnit | preparo, banco, imagens, SVG, e-mail, fila, leads, API completa, gerador e publicador |
 | Paridade | JS e PHP produzem o mesmo HTML para todas as combinações de nicho, modelo, especialidade, acabamento, fonte, cor e conteúdo **[M8]** |
-| Ponta a ponta (Playwright) | o fluxo inteiro num navegador real, os 12 modelos em computador e celular, CSP sem violações, formulário com e sem JavaScript, consentimento, reverter, casos difíceis do editor |
+| Ponta a ponta (Playwright) | o fluxo inteiro num navegador real, os 28 sites (4 nichos × 7 modelos) em computador e celular, CSP sem violações, formulário com e sem JavaScript, consentimento, reverter, casos difíceis do editor |
 
 Comandos no `README.md` (`bin/testar.sh` roda tudo).
+
+---
+
+## 10. Revisão dos layouts a partir de 29 templates de referência (out/2026)
+
+Foram analisados 29 templates premium (9 de advocacia/negócios, 10 de clínicas, 10 de empresas),
+usados só como inspiração de composição — nada de HTML, CSS, imagens ou textos foi copiado.
+Padrões que mais pesam na sensação de "template premium" e o que entrou no construtor:
+
+| padrão observado | onde entrou |
+|---|---|
+| Cards ou faixa de informação colados na base do destaque | tipo novo `atalhos` (faixa / cards que sobem sobre o destaque) |
+| Destaque num cartão arredondado com margem, com linha de confiança | hero `inset` |
+| Foto sangrando até a borda / retrato com forma atrás e cards flutuantes | hero `dividido` e `retrato` |
+| Título gigante sobre foto | hero `titulo-gigante` |
+| Números gigantes, fantasma ou sobre foto | numeros `fantasma` e `foto-fundo` |
+| Cards de serviço com foto e card sobreposto, foto de fundo, lista numerada | servicos `fotos-sobrepostas`, `foto-fundo`, `linhas-numeradas` |
+| Depoimento único em faixa escura / mosaico | depoimentos `faixa-escura` e `mosaico` |
+| Formulário em card sobre foto ou faixa escura | contato `foto-card` e `escuro` |
+| Telefone em destaque, pessoa saindo da faixa | cta `telefone` e `pessoa` |
+| Nome da marca gigante no rodapé | rodape `marca-gigante` |
+| Tipografia por nicho (serifa fina na advocacia, sans limpa em clínicas, geométrica em empresas) | fontes Nobre, Clara e Geométrica |
+| Acabamentos com mais personalidade | Elegante (arcos, caixa alta), Suave (formas orgânicas), Impacto (contraste forte) |
+
+Com isso o catálogo passou de 32 para 60 opções de seção (com o tipo novo `atalhos`), e cada nicho ganhou **4 modelos
+exclusivos** (16 no total, além dos 3 gerais), diferentes entre si no destaque, no acabamento, na
+cor e na maioria das seções (um teste garante isso). Lista em `ARQUITETURA.md` §3.2 e §3.5.

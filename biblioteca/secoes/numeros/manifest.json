@@ -19,9 +19,26 @@
       "descricao": "Os 3 números em destaque sobre a cor principal.",
       "tom": "cor",
       "alegacoes": ["num"]
+    },
+    {
+      "id": "foto-fundo",
+      "nome": "Sobre foto",
+      "descricao": "Números gigantes e finos sobre uma foto de fundo escurecida, separados por linhas.",
+      "tom": "escuro",
+      "sizes": { "num.img": "100vw" },
+      "alegacoes": ["num"]
+    },
+    {
+      "id": "fantasma",
+      "nome": "Algarismos fantasma",
+      "descricao": "Cada número com um algarismo gigante bem claro ao fundo, o valor, um traço na cor e o rótulo.",
+      "tom": "claro",
+      "alegacoes": ["num"]
     }
   ],
-  "campos": {},
+  "campos": {
+    "num.img": { "tipo": "imagem", "proporcao": "16:9", "rotulo": "Foto de fundo dos números", "fundo": true }
+  },
   "listas": {
     "num": {
       "repete": [3, 3],

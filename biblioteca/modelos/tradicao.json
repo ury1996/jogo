@@ -1,0 +1,22 @@
+{
+  "id": "tradicao",
+  "nome": "Tradição",
+  "descricao": "Cabeçalho com horário e telefone, destaque dividido e depoimento em faixa escura. O escritório contábil de confiança.",
+  "personalidade": "Contabilidade estabelecida: verde-escuro, serifa clássica, informações de contato sempre à vista.",
+  "acabamento": "classico",
+  "nichos": ["financas"],
+  "ordem": 1,
+  "padrao": { "cor": "#14532d", "fonte": "classica" },
+  "secoes": [
+    ["header", "info"],
+    ["hero", "dividido"],
+    ["diferenciais", "numerados"],
+    ["servicos", "cards"],
+    ["numeros", "faixa-cor"],
+    ["depoimentos", "faixa-escura"],
+    ["faq", "duas-colunas"],
+    ["cta", "telefone"],
+    ["contato", "foto-card"],
+    ["rodape", "completo"]
+  ]
+}

@@ -88,8 +88,8 @@ bin/                           ← dev.sh, testar.sh
   "modelo": "moderno",                 // id em biblioteca/modelos
   "estilo": {
     "cor": "#c23b6e",                  // hex minúsculo #rrggbb
-    "fonte": "editorial",              // classica | editorial | moderna | amigavel
-    "acabamento": "moderno",           // classico | moderno | direto
+    "fonte": "editorial",              // classica | editorial | moderna | amigavel | nobre | clara | geometrica
+    "acabamento": "moderno",           // classico | moderno | direto | elegante | suave | impacto
     "whatsappFlutuante": true
   },
   "dados": {                           // [M6] dados estruturados
@@ -138,14 +138,15 @@ bin/                           ← dev.sh, testar.sh
 | `cli` | titulo | `cli`: t | 3–8 | clientes |
 | `sobre` | eyebrow, titulo, texto, img, img2, cta | `sobrel`: t | 4–4 | sobre |
 | `serv` | eyebrow, titulo, texto, link | `serv`: t, d, img, ic | 3–8 | servicos |
-| `num` | — | `num`: v, l | 3–3 | numeros |
+| `num` | img | `num`: v, l | 3–3 | numeros |
 | `passos` | eyebrow, titulo, texto, img | `passos`: t, d | 3–3 | passos |
 | `equipe` | eyebrow, titulo, texto | `equipe`: n, c, f | 3–3 | equipe |
 | `dep` | eyebrow, titulo, img | `dep`: t, n, c | 3–3 | depoimentos |
 | `aval` | nota, txt | — | — | depoimentos |
 | `faq` | eyebrow, titulo, texto, img, ajuda | `faq`: q, a | 3–10 | faq |
 | `cta` | titulo, texto, botao, img | — | — | cta |
-| `contato` | eyebrow, titulo, texto, botao, mapa | — | — | contato |
+| `contato` | eyebrow, titulo, texto, botao, mapa, img | — | — | contato |
+| `atalhos` | r1, r2, r3, d1, d2, d3 | — | — | atalhos |
 | `rodape` | sobre, texto | — | — | rodape |
 
 **Limites de caracteres (`max`) — valores únicos usados por manifestos e textos dos nichos:**
@@ -163,10 +164,10 @@ bin/                           ← dev.sh, testar.sh
 | itens `equipe.n` / `equipe.c` | 40 / 50 | itens `dep.t` / `dep.n` / `dep.c` | 240 / 40 / 50 |
 | `aval.nota` / `aval.txt` | 4 / 60 | itens `faq.q` / `faq.a` | 100 / 320 |
 | `faq.ajuda` | 120 | `cta.texto` / `contato.texto` | 180 / 200 |
-| `rodape.sobre` / `rodape.texto` | 200 / 120 | | |
+| `rodape.sobre` / `rodape.texto` | 200 / 120 | `atalhos.r1`…`r3` / `atalhos.d1`…`d3` | 40 / 120 |
 
 `ic` é um campo virtual do tipo ícone (guardado em `icones["{lista}.{id}"]`, automático a partir de `t`).
-`img`, `img2`, `f` são campos de imagem (guardados em `imagens`).
+`img`, `img2`, `f` são campos de imagem (guardados em `imagens`) — inclusive `num.img` e `contato.img` (fotos de fundo).
 Endereço, horário, e-mail, telefone, registro e redes **não são textos**: vêm de `dados` `[M6]`.
 
 ### 2.3 Regras de resolução de texto (`textoEfetivo`)
@@ -246,22 +247,25 @@ verdadeiro). Exceção: `dep` nunca pode ser confirmado (depoimento de exemplo �
 
 | tipo | opções (id → nome) | tom |
 |---|---|---|
-| `header` | `simples` Simples · `barra` Com barra de contato | branco |
-| `hero` | `cards-flutuantes` Foto com cards flutuantes · `fundo-cards` Foto de fundo com cards · `formulario` Com formulário · `centralizado` Centralizado | claro · escuro · cor · claro |
-| `diferenciais` | `faixa-icones` Faixa de ícones · `foto-selo` Foto com selo | claro |
-| `clientes` | `faixa` Faixa | claro |
-| `sobre` | `duas-fotos` Duas fotos com selo · `foto-numeros` Foto larga com números | claro |
-| `servicos` | `cards` · `lista` · `cards-foto` Cards com foto · `blocos` Blocos | claro |
-| `numeros` | `faixa-clara` · `faixa-cor` | claro · cor |
-| `passos` | `linha-tempo` Linha do tempo · `lista-foto` Lista com foto | claro |
-| `equipe` | `fotos-nome` Fotos com nome · `compacta` | claro |
-| `depoimentos` | `cards-nota` Cards com nota · `destaque-foto` Destaque com foto | claro |
-| `faq` | `centralizada` · `foto-ajuda` Com foto e ajuda | claro |
-| `cta` | `faixa-cor` Faixa na cor · `caixa-clara` Caixa clara · `foto-fundo` Foto de fundo | cor · claro · escuro |
-| `contato` | `formulario` Com formulário · `mapa` Com mapa | claro |
-| `rodape` | `completo` · `simples` | escuro |
+| `header` | `simples` Simples · `barra` Com barra de contato · `info` Com informações e menu em faixa | branco |
+| `hero` | `cards-flutuantes` Foto com cards flutuantes · `fundo-cards` Foto de fundo com cards · `formulario` Com formulário · `centralizado` Centralizado · `inset` Em cartão · `dividido` Dividido · `retrato` Retrato com forma · `titulo-gigante` Título gigante | claro · escuro · cor · claro · claro · claro · claro · escuro |
+| `atalhos` | `faixa` Faixa de informações · `cards` Cards sobrepostos | escuro · claro |
+| `diferenciais` | `faixa-icones` Faixa de ícones · `foto-selo` Foto com selo · `numerados` Numerados | claro |
+| `clientes` | `faixa` Faixa · `grade` Grade | claro |
+| `sobre` | `duas-fotos` Duas fotos com selo · `foto-numeros` Foto larga com números · `assinatura` Com assinatura · `manifesto` Manifesto | claro |
+| `servicos` | `cards` · `lista` · `cards-foto` Cards com foto · `blocos` Blocos · `fotos-sobrepostas` Fotos com card sobreposto · `foto-fundo` Fotos de fundo · `linhas-numeradas` Linhas numeradas | claro (×6) · escuro |
+| `numeros` | `faixa-clara` · `faixa-cor` · `foto-fundo` Sobre foto · `fantasma` Algarismos fantasma | claro · cor · escuro · claro |
+| `passos` | `linha-tempo` Linha do tempo · `lista-foto` Lista com foto · `destaque-primeiro` Primeiro em destaque | claro |
+| `equipe` | `fotos-nome` Fotos com nome · `compacta` · `retratos-altos` Retratos altos · `cards-horizontais` Cards horizontais | claro |
+| `depoimentos` | `cards-nota` Cards com nota · `destaque-foto` Destaque com foto · `faixa-escura` Faixa escura · `mosaico` Mosaico | claro · claro · escuro · claro |
+| `faq` | `centralizada` · `foto-ajuda` Com foto e ajuda · `caixa` Em caixa · `duas-colunas` Duas colunas | claro |
+| `cta` | `faixa-cor` Faixa na cor · `caixa-clara` Caixa clara · `foto-fundo` Foto de fundo · `telefone` Telefone em destaque · `pessoa` Com pessoa | cor · claro · escuro · escuro · cor |
+| `contato` | `formulario` Com formulário · `mapa` Com mapa · `foto-card` Formulário sobre foto · `escuro` Escuro | claro · claro · escuro · escuro |
+| `rodape` | `completo` · `simples` · `marca-gigante` Marca gigante | escuro |
 
-(32 opções — o PDF dizia 31, mas a própria tabela 4.1 lista 32.)
+(60 opções. As 32 primeiras vêm do PDF; as demais, da análise de 29 templates de referência — ver
+`docs/especificacao-v0.2.md`. O tipo `atalhos` é novo: faixa/cards de WhatsApp, horário e endereço logo
+abaixo do destaque, com valores de `dados` e rótulos `atalhos.r*`/`d*`.)
 
 ### 3.3 Templates Mustache — regras obrigatórias
 
@@ -304,6 +308,18 @@ verdadeiro). Exceção: `dep` nunca pode ser confirmado (depoimento de exemplo �
 ```
 
 Receitas (do PDF, §4.3): Clássico, Moderno, Direto. Filtros `so` / `exceto` por nicho.
+
+**Modelos exclusivos de nicho**: além dos 3 gerais, cada nicho tem 4 modelos próprios (16 no total), com
+`"nichos": ["advocacia"]` (só aparecem e só valem para esses nichos), `"ordem"` (posição na galeria: os
+exclusivos 1–4 primeiro, os gerais 10–12 depois) e `"padrao": { "cor", "fonte" }` (cor e fonte iniciais
+quando o nicho não tem `padroesPorModelo` para o modelo). O acabamento pode ser qualquer um dos 6.
+
+| nicho | modelos exclusivos (acabamento) |
+|---|---|
+| advocacia | `tribuna` (elegante) · `boutique` (moderno) · `retrato` (clássico) · `institucional` (impacto) |
+| financas | `tradicao` (clássico) · `patrimonio` (elegante) · `digital` (moderno) · `pratico` (impacto) |
+| empresas | `agencia` (impacto) · `industrial` (clássico) · `leve` (suave) · `executivo` (moderno) |
+| clinicas | `acolher` (suave) · `essencia` (elegante) · `vital` (moderno) · `agenda` (impacto) |
 
 ### 3.6 Pacote de nicho (`biblioteca/nichos/{id}.json`)
 
@@ -361,7 +377,10 @@ CFO/CFM, CRC, CREA): sem promessa de resultado; advocacia sem depoimentos.
   "classica":  { "nome": "Clássica",  "titulos": "Libre Caslon Text", "texto": "Source Sans 3", "descricao": "Serifada tradicional" },
   "editorial": { "nome": "Editorial", "titulos": "DM Serif Display",  "texto": "DM Sans",       "descricao": "Serifa marcante" },
   "moderna":   { "nome": "Moderna",   "titulos": "Manrope",           "texto": "Manrope",       "descricao": "Sem serifa, firme" },
-  "amigavel":  { "nome": "Amigável",  "titulos": "Nunito",            "texto": "Nunito",        "descricao": "Arredondada e leve" } },
+  "amigavel":  { "nome": "Amigável",  "titulos": "Nunito",            "texto": "Nunito",        "descricao": "Arredondada e leve" },
+  "nobre":     { "nome": "Nobre",     "titulos": "Cormorant Garamond", "texto": "Mulish",       "descricao": "Serifa fina e elegante" },
+  "clara":     { "nome": "Clara",     "titulos": "Plus Jakarta Sans", "texto": "Plus Jakarta Sans", "descricao": "Limpa e acolhedora" },
+  "geometrica": { "nome": "Geométrica", "titulos": "Sora",            "texto": "Sora",          "descricao": "Larga e tecnológica" } },
   "arquivos": [ { "familia": "Manrope", "arquivo": "manrope-latin-wght-normal.woff2", "peso": "200 800", "estilo": "normal" } ] }
 ```
 
@@ -402,10 +421,14 @@ Saída CSS: `.rk{--p:#c23b6e;--on-p:#ffffff;…}` na ordem da tabela, sem espaç
 `--bg`, `--fg` (texto), `--fg2` (texto secundário), `--linha`, `--card` (fundo de card, **oposto** ao da seção),
 `--card-fg`, `--destaque` (cor de acento legível neste fundo), `--btn-bg`, `--btn-fg`.
 
-### 4.3 Tokens de acabamento (`.k-classico | .k-moderno | .k-direto`)
+### 4.3 Tokens de acabamento (`.k-classico | .k-moderno | .k-direto | .k-elegante | .k-suave | .k-impacto`)
 
 `--r` (cantos de botão), `--rc` (cantos de card/foto), `--ri` (cantos da caixa de ícone), `--sh` (sombra),
 `--sh-hover`. Valores do PDF §5.3 (Clássico 2px/4px; Moderno 999px/24–28px; Direto 12px/16px).
+Acabamentos novos: **Elegante** (cantos 0, botões em caixa alta espaçada, fotos em arco, ícones finos),
+**Suave** (pílula/34px, formas orgânicas, sombras tingidas, ícones duotone) e **Impacto** (4px/8px, títulos
+maiores, sombra deslocada na cor, ícones preenchidos). Peso dos ícones: elegante → `fino`, suave → `duotone`,
+impacto → `preenchido`.
 
 ### 4.4 Tokens de fonte e escala
 

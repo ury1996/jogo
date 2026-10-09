@@ -4,6 +4,7 @@
   "descricao": "Formulário já no topo, blocos de cor fortes. Feito para gerar contato rápido.",
   "personalidade": "Conversão. Formulário no topo, blocos de cor fortes.",
   "acabamento": "direto",
+  "ordem": 12,
   "secoes": [
     ["header", "simples"],
     ["hero", "formulario"],

@@ -21,6 +21,22 @@
       "tom": "claro",
       "sizes": { "equipe.*.f": "80px" },
       "alegacoes": []
+    },
+    {
+      "id": "retratos-altos",
+      "nome": "Retratos altos",
+      "descricao": "Retratos verticais em 3 colunas, sem card, com o nome em caixa alta e o cargo embaixo.",
+      "tom": "claro",
+      "sizes": { "equipe.*.f": "(max-width: 760px) 76vw, (max-width: 1180px) 31vw, 370px" },
+      "alegacoes": []
+    },
+    {
+      "id": "cards-horizontais",
+      "nome": "Cards horizontais",
+      "descricao": "Cards com foto quadrada, nome, cargo e botão de WhatsApp, sobre uma palavra gigante vazada.",
+      "tom": "claro",
+      "sizes": { "equipe.*.f": "(max-width: 760px) 120px, 160px" },
+      "alegacoes": []
     }
   ],
   "campos": {

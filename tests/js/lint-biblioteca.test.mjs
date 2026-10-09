@@ -41,8 +41,10 @@ export const TABELA = {
     aval: { dono: 'depoimentos', campos: { nota: 4, txt: 60 } },
     faq: { dono: 'faq', campos: { eyebrow: 40, titulo: 80, texto: 220, img: 'imagem', ajuda: 120 } },
     cta: { dono: 'cta', campos: { titulo: 80, texto: 180, botao: 28, img: 'imagem' } },
-    contato: { dono: 'contato', campos: { eyebrow: 40, titulo: 80, texto: 200, botao: 28, mapa: 24 } },
+    contato: { dono: 'contato', campos: { eyebrow: 40, titulo: 80, texto: 200, botao: 28, mapa: 24, img: 'imagem' } },
     rodape: { dono: 'rodape', campos: { sobre: 200, texto: 120 } },
+    num: { dono: 'numeros', campos: { img: 'imagem' } },
+    atalhos: { dono: 'atalhos', campos: { r1: 40, r2: 40, r3: 40, d1: 120, d2: 120, d3: 120 } },
   },
   listas: {
     dif: { dono: 'diferenciais', repete: [3, 3], campos: { t: 40, d: 140, ic: 'icone' } },
@@ -59,20 +61,27 @@ export const TABELA = {
 
 /** §3.2: opções (ids estáveis) e tom de cada uma. */
 export const CATALOGO = {
-  header: { simples: 'branco', barra: 'branco' },
-  hero: { 'cards-flutuantes': 'claro', 'fundo-cards': 'escuro', formulario: 'cor', centralizado: 'claro' },
-  diferenciais: { 'faixa-icones': 'claro', 'foto-selo': 'claro' },
-  clientes: { faixa: 'claro' },
-  sobre: { 'duas-fotos': 'claro', 'foto-numeros': 'claro' },
-  servicos: { cards: 'claro', lista: 'claro', 'cards-foto': 'claro', blocos: 'claro' },
-  numeros: { 'faixa-clara': 'claro', 'faixa-cor': 'cor' },
-  passos: { 'linha-tempo': 'claro', 'lista-foto': 'claro' },
-  equipe: { 'fotos-nome': 'claro', compacta: 'claro' },
-  depoimentos: { 'cards-nota': 'claro', 'destaque-foto': 'claro' },
-  faq: { centralizada: 'claro', 'foto-ajuda': 'claro' },
-  cta: { 'faixa-cor': 'cor', 'caixa-clara': 'claro', 'foto-fundo': 'escuro' },
-  contato: { formulario: 'claro', mapa: 'claro' },
-  rodape: { completo: 'escuro', simples: 'escuro' },
+  header: { simples: 'branco', barra: 'branco', info: 'branco' },
+  hero: {
+    'cards-flutuantes': 'claro', 'fundo-cards': 'escuro', formulario: 'cor', centralizado: 'claro',
+    inset: 'claro', dividido: 'claro', retrato: 'claro', 'titulo-gigante': 'escuro',
+  },
+  atalhos: { faixa: 'escuro', cards: 'claro' },
+  diferenciais: { 'faixa-icones': 'claro', 'foto-selo': 'claro', numerados: 'claro' },
+  clientes: { faixa: 'claro', grade: 'claro' },
+  sobre: { 'duas-fotos': 'claro', 'foto-numeros': 'claro', assinatura: 'claro', manifesto: 'claro' },
+  servicos: {
+    cards: 'claro', lista: 'claro', 'cards-foto': 'claro', blocos: 'claro',
+    'fotos-sobrepostas': 'claro', 'foto-fundo': 'claro', 'linhas-numeradas': 'escuro',
+  },
+  numeros: { 'faixa-clara': 'claro', 'faixa-cor': 'cor', 'foto-fundo': 'escuro', fantasma: 'claro' },
+  passos: { 'linha-tempo': 'claro', 'lista-foto': 'claro', 'destaque-primeiro': 'claro' },
+  equipe: { 'fotos-nome': 'claro', compacta: 'claro', 'retratos-altos': 'claro', 'cards-horizontais': 'claro' },
+  depoimentos: { 'cards-nota': 'claro', 'destaque-foto': 'claro', 'faixa-escura': 'escuro', mosaico: 'claro' },
+  faq: { centralizada: 'claro', 'foto-ajuda': 'claro', caixa: 'claro', 'duas-colunas': 'claro' },
+  cta: { 'faixa-cor': 'cor', 'caixa-clara': 'claro', 'foto-fundo': 'escuro', telefone: 'escuro', pessoa: 'cor' },
+  contato: { formulario: 'claro', mapa: 'claro', 'foto-card': 'escuro', escuro: 'escuro' },
+  rodape: { completo: 'escuro', simples: 'escuro', 'marca-gigante': 'escuro' },
 };
 
 const TONS = ['claro', 'escuro', 'branco', 'tom-claro', 'cor'];
@@ -511,7 +520,7 @@ export function lintCss(tipo, opcoes, css, arquivo = `secoes/${tipo}/estilo.css`
   const { regras, problemas } = analisarCss(css);
   for (const p of problemas) erros.push(`${arquivo}: ${p}`);
   const ops = opcoes.filter((o) => typeof o === 'string').map(escaparRe).join('|') || '(?!)';
-  const reSeletor = new RegExp(`^(?:\\.k-(?:classico|moderno|direto)(?:\\s*[>+~]\\s*|\\s+))?(?:\\.rk-sec--${escaparRe(tipo)}|\\.rk-op--${escaparRe(tipo)}-(?:${ops}))(?![\\w-])`);
+  const reSeletor = new RegExp(`^(?:\\.k-(?:classico|moderno|direto|elegante|suave|impacto)(?:\\s*[>+~]\\s*|\\s+))?(?:\\.rk-sec--${escaparRe(tipo)}|\\.rk-op--${escaparRe(tipo)}-(?:${ops}))(?![\\w-])`);
   for (const r of regras) {
     if (r.arroba !== undefined) {
       const a = r.arroba.replace(/\s+/g, ' ');
@@ -556,7 +565,14 @@ export function lintConteudo(lib, { estrito = false } = {}) {
   const idsIcones = new Set([...(lib.icones?.icones ?? []).map((i) => i?.id), ...Object.keys(lib.icones?.utilitarios ?? {})]);
   for (const [id, modelo] of Object.entries(lib.modelos)) {
     const arq = `modelos/${id}.json`;
-    if (!['classico', 'moderno', 'direto'].includes(modelo.acabamento)) erros.push(`${arq}: acabamento inválido`);
+    if (!['classico', 'moderno', 'direto', 'elegante', 'suave', 'impacto'].includes(modelo.acabamento)) erros.push(`${arq}: acabamento inválido`);
+    if (modelo.nichos !== undefined) {
+      // Modelo exclusivo de nicho: nichos conhecidos e cor/fonte padrão próprias.
+      if (!Array.isArray(modelo.nichos) || modelo.nichos.length === 0) erros.push(`${arq}: "nichos" deve ser lista não vazia`);
+      for (const n of estrito && Array.isArray(modelo.nichos) ? modelo.nichos : []) if (!temChave(lib.nichos, n)) erros.push(`${arq}: nichos cita "${n}", que não existe`);
+      if (normalizarCor(modelo.padrao?.cor) !== modelo.padrao?.cor) erros.push(`${arq}: padrao.cor deve ser #rrggbb minúsculo`);
+      if (!fontes.includes(modelo.padrao?.fonte)) erros.push(`${arq}: padrao.fonte "${modelo.padrao?.fonte}" não existe`);
+    }
     for (const [i, e] of (modelo.secoes ?? []).entries()) {
       const [tipo, opcao, filtro] = Array.isArray(e) ? e : [e?.tipo, e?.opcao, e];
       const sec = lib.secoes[tipo];
@@ -611,8 +627,9 @@ export function lintConteudo(lib, { estrito = false } = {}) {
       if (e?.registroObrigatorio && !e.rotuloRegistro) erros.push(`${arq}: especialidade "${e.id}" com registro obrigatório sem rotuloRegistro`);
     }
     for (const campo of ['nome', 'cidade', 'uf', 'whatsapp']) if (typeof nicho.exemplo?.[campo] !== 'string' || nicho.exemplo[campo] === '') erros.push(`${arq}: exemplo.${campo} ausente`);
-    for (const modelo of Object.keys(lib.modelos)) {
+    for (const [modelo, def] of Object.entries(lib.modelos)) {
       const p = nicho.padroesPorModelo?.[modelo];
+      if (!p && def.nichos !== undefined) continue; // exclusivo: usa "padrao" do próprio modelo
       if (!p) { erros.push(`${arq}: padroesPorModelo.${modelo} ausente`); continue; }
       if (normalizarCor(p.cor) !== p.cor) erros.push(`${arq}: padroesPorModelo.${modelo}.cor deve ser #rrggbb minúsculo`);
       if (!fontes.includes(p.fonte)) erros.push(`${arq}: padroesPorModelo.${modelo}.fonte "${p.fonte}" não existe`);

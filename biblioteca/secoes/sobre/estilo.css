@@ -196,3 +196,231 @@
   .rk-op--sobre-foto-numeros .sobre-num + .sobre-num { border-left: 0; border-top: 1px solid var(--linha); }
   .rk-op--sobre-foto-numeros .sobre-num__v { font-size: 1.85rem; white-space: normal; }
 }
+
+/* ===================== assinatura ===================== */
+/* Três colunas: título / retrato do 1º da equipe / texto com letra capitular, lista e assinatura. */
+
+.rk-op--sobre-assinatura .sobre-tres {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 0.9fr) minmax(0, 1.08fr);
+  align-items: start;
+  gap: clamp(32px, 4.6cqi, 68px);
+}
+.rk-op--sobre-assinatura .sobre-cab {
+  display: grid;
+  justify-items: start;
+  gap: 18px;
+  padding-top: 6px;
+}
+.rk-op--sobre-assinatura .sobre-marca {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  background: var(--acento-suave);
+  color: var(--acento);
+}
+.rk-op--sobre-assinatura .sobre-marca svg { width: 42%; height: 42%; }
+.rk-op--sobre-assinatura .sobre-titulo {
+  font-size: calc(clamp(1.75rem, 1.05rem + 1.75cqi, 2.55rem) * var(--ft-escala));
+  max-width: 12em;
+}
+.rk-op--sobre-assinatura .sobre-link { margin-top: 10px; }
+
+.rk-op--sobre-assinatura .sobre-retrato { position: relative; padding: 0 0 var(--deco-d); }
+
+.rk-op--sobre-assinatura .sobre-texto {
+  display: grid;
+  justify-items: start;
+  gap: 26px;
+  min-width: 0;
+  padding-top: 6px;
+}
+/* letra capitular */
+.rk-op--sobre-assinatura .sobre-p::first-letter {
+  float: left;
+  margin: 0.08em 0.14em 0 0;
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 3.85em;
+  line-height: 0.8;
+  color: var(--destaque);
+}
+.k-suave .rk-op--sobre-assinatura .sobre-p::first-letter,
+.k-moderno .rk-op--sobre-assinatura .sobre-p::first-letter {
+  margin: 0.12em 0.32em 0 0;
+  padding: 0.16em 0.2em 0.1em;
+  border-radius: 0.28em;
+  background: var(--acento-suave);
+  font-size: 2.9em;
+  line-height: 0.92;
+}
+.k-impacto .rk-op--sobre-assinatura .sobre-p::first-letter,
+.k-direto .rk-op--sobre-assinatura .sobre-p::first-letter {
+  margin: 0.12em 0.32em 0 0;
+  padding: 0.14em 0.2em 0.1em;
+  border-radius: var(--ri);
+  background: var(--solido);
+  color: var(--solido-fg);
+  font-size: 2.9em;
+  line-height: 0.92;
+}
+.rk-op--sobre-assinatura .sobre-lista {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 11px;
+  width: 100%;
+  font-size: 0.97rem;
+}
+/* assinatura: nome do responsável na fonte de título, em itálico, com um traço "de caneta" */
+.rk-op--sobre-assinatura .sobre-ass {
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+  width: 100%;
+  padding-top: 24px;
+  border-top: 1px solid var(--linha);
+}
+.rk-op--sobre-assinatura .sobre-ass__n {
+  position: relative;
+  padding-bottom: 10px;
+  font-family: var(--ft);
+  font-style: italic;
+  font-weight: var(--ft-peso);
+  font-size: calc(clamp(1.6rem, 1.2rem + 1cqi, 2.05rem) * var(--ft-escala));
+  line-height: 1.1;
+  letter-spacing: var(--ft-ls);
+  color: var(--destaque);
+}
+.rk-op--sobre-assinatura .sobre-ass__n::after {
+  content: "";
+  position: absolute;
+  left: 0.1em;
+  bottom: 0;
+  width: min(100%, 7.5em);
+  height: 12px;
+  border-bottom: 1.5px solid var(--acento);
+  border-radius: 0 0 60% 40% / 0 0 100% 100%;
+  transform: rotate(-2deg);
+  opacity: 0.7;
+}
+.rk-op--sobre-assinatura .sobre-ass__c {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg2);
+}
+.k-elegante .rk-op--sobre-assinatura .sobre-ass__n { font-weight: 400; }
+.k-elegante .rk-op--sobre-assinatura .sobre-marca { background: transparent; border: 1px solid color-mix(in srgb, var(--acento) 55%, transparent); }
+.k-impacto .rk-op--sobre-assinatura .sobre-marca { border-radius: var(--ri); background: var(--solido); color: var(--solido-fg); }
+
+/* ===================== manifesto ===================== */
+/* Frase grande na largura toda, texto em 2 colunas + etiquetas com check, foto larga embaixo. */
+
+.rk-op--sobre-manifesto .sobre-topo {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: clamp(26px, 3.2cqi, 44px);
+}
+.rk-op--sobre-manifesto .sobre-fio { flex: 1; min-width: 40px; height: 1px; background: var(--linha); }
+.rk-op--sobre-manifesto .sobre-frase {
+  max-width: 21em;
+  font-size: var(--t-h1);
+  line-height: var(--ft-lh);
+}
+.rk-op--sobre-manifesto .sobre-corpo {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: start;
+  gap: 32px clamp(24px, 3cqi, 40px);
+  margin-top: clamp(36px, 4.4cqi, 60px);
+  padding-top: clamp(28px, 3.2cqi, 40px);
+  border-top: 1px solid var(--linha);
+}
+.rk-op--sobre-manifesto .sobre-p {
+  grid-column: 1 / span 7;
+  columns: 2;
+  column-gap: clamp(24px, 3cqi, 40px);
+  font-size: calc(var(--t-p) * 1.04);
+  line-height: 1.7;
+}
+.rk-op--sobre-manifesto .sobre-lado {
+  grid-column: 9 / -1;
+  display: grid;
+  justify-items: start;
+  gap: 28px;
+}
+.rk-op--sobre-manifesto .sobre-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.rk-op--sobre-manifesto .sobre-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  padding: 0.55em 1.1em 0.55em 0.6em;
+  border: 1px solid var(--linha);
+  border-radius: var(--r);
+  background: var(--card);
+  color: var(--fg);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.rk-op--sobre-manifesto .sobre-chip__ic {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--solido);
+  color: var(--solido-fg);
+}
+.rk-op--sobre-manifesto .sobre-chip__ic svg { width: 62%; height: 62%; }
+.k-classico .rk-op--sobre-manifesto .sobre-chip,
+.k-elegante .rk-op--sobre-manifesto .sobre-chip { padding-left: 0.8em; background: transparent; }
+.k-classico .rk-op--sobre-manifesto .sobre-chip__ic,
+.k-elegante .rk-op--sobre-manifesto .sobre-chip__ic { width: 18px; height: 18px; background: transparent; color: var(--acento); }
+.k-classico .rk-op--sobre-manifesto .sobre-chip__ic svg,
+.k-elegante .rk-op--sobre-manifesto .sobre-chip__ic svg { width: 100%; height: 100%; }
+.k-elegante .rk-op--sobre-manifesto .sobre-chip { border-color: color-mix(in srgb, var(--acento) 35%, transparent); }
+.k-impacto .rk-op--sobre-manifesto .sobre-chip { border: 1.5px solid var(--fg); background: transparent; }
+.k-impacto .rk-op--sobre-manifesto .sobre-chip__ic { border-radius: 3px; }
+.k-impacto .rk-op--sobre-manifesto .sobre-corpo { border-top: 2px solid var(--fg); }
+.k-suave .rk-op--sobre-manifesto .sobre-chip { border-color: transparent; background: var(--acento-suave); }
+
+.rk-op--sobre-manifesto .sobre-foto { margin-top: clamp(40px, 5cqi, 72px); }
+.k-suave .rk-op--sobre-manifesto .sobre-foto { border-radius: calc(var(--rc) * 1.4); }
+
+/* ===================== tablet (opções novas) ===================== */
+
+@container site (max-width: 1060px) {
+  .rk-op--sobre-assinatura .sobre-tres { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
+  .rk-op--sobre-assinatura .sobre-cab { grid-column: 1 / -1; }
+  .rk-op--sobre-assinatura .sobre-titulo { max-width: 18em; font-size: var(--t-h2); }
+  .rk-op--sobre-assinatura .sobre-lista { grid-template-columns: minmax(0, 1fr); }
+
+  .rk-op--sobre-manifesto .sobre-p { grid-column: 1 / -1; }
+  .rk-op--sobre-manifesto .sobre-lado { grid-column: 1 / -1; }
+  .rk-op--sobre-manifesto .sobre-foto { aspect-ratio: 16 / 8; }
+}
+
+/* ===================== celular (opções novas) ===================== */
+
+@container site (max-width: 760px) {
+  .rk-op--sobre-assinatura .sobre-tres { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .rk-op--sobre-assinatura .sobre-retrato { padding-right: var(--deco-d); }
+  .rk-op--sobre-assinatura .sobre-foto { aspect-ratio: 4 / 4.4; }
+  .rk-op--sobre-assinatura .sobre-texto { padding-top: 0; }
+
+  .rk-op--sobre-manifesto .sobre-topo { margin-bottom: 22px; }
+  .rk-op--sobre-manifesto .sobre-frase { font-size: calc(var(--t-h2) * 1.08); }
+  .rk-op--sobre-manifesto .sobre-corpo { gap: 26px; margin-top: 28px; padding-top: 26px; }
+  .rk-op--sobre-manifesto .sobre-p { columns: 1; }
+  .rk-op--sobre-manifesto .sobre-lado { gap: 24px; }
+  .rk-op--sobre-manifesto .sobre-btn { width: 100%; }
+  .rk-op--sobre-manifesto .sobre-chip { font-size: 0.875rem; }
+  .rk-op--sobre-manifesto .sobre-foto { margin-top: 36px; aspect-ratio: 4 / 3; }
+}

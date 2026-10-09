@@ -1,0 +1,19 @@
+<div class="rk-wrap sobre-manif">
+  <div class="sobre-topo">
+    <p class="rk-eyebrow sobre-eyebrow" data-k="sobre.eyebrow">{{c.sobre.eyebrow}}</p>
+    <span class="sobre-fio" aria-hidden="true"></span>
+  </div>
+  <h2 class="rk-h2 sobre-frase" data-k="sobre.titulo">{{c.sobre.titulo}}</h2>
+  <div class="sobre-corpo">
+    <p class="rk-p sobre-p" data-k="sobre.texto">{{c.sobre.texto}}</p>
+    <div class="sobre-lado">
+      <ul class="sobre-chips" data-li="sobrel">
+        {{#c.sobrel.itens}}
+        <li class="sobre-chip" data-it="{{id}}"><span class="sobre-chip__ic">{{{u.check}}}</span><span data-k="{{k}}.t">{{t}}</span></li>
+        {{/c.sobrel.itens}}
+      </ul>
+      <a class="rk-btn sobre-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="sobre" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="sobre.cta">{{c.sobre.cta}}</span></a>
+    </div>
+  </div>
+  <div class="rk-foto sobre-foto" data-img="sobre.img" style="--ar:21/8">{{{c.sobre.img.html}}}</div>
+</div>

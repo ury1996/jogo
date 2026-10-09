@@ -58,6 +58,11 @@
 .rk-op--header-barra .hdr-topo a { transition: color 0.2s ease; }
 .rk-op--header-barra .hdr-topo a:hover { color: var(--fg); }
 .rk-op--header-barra .hdr-linha { min-height: 88px; }
+/* o menu não encolhe por baixo do telefone: quem cede é o nome do logo (quebra em 2 linhas) */
+.rk-op--header-barra .hdr-menu { flex-shrink: 0; }
+.k-elegante .rk-op--header-barra .rk-menu__lista { gap: clamp(16px, 1.9cqi, 26px); }
+.k-elegante .rk-op--header-barra .rk-menu__lista a { letter-spacing: 0.15em; }
+.k-elegante .rk-op--header-barra .hdr-cta { padding-inline: 1.7em; }
 
 .rk-op--header-barra .hdr-fone {
   display: flex;
@@ -103,12 +108,114 @@
 }
 .rk-op--header-barra .hdr-fone:hover .hdr-fone__num { color: var(--destaque); }
 
+/* ---- info: linha com logo e blocos de informação + menu em faixa escura ---- */
+.rk-op--header-info { top: -96px; }
+.rk-op--header-info .hdr-info { min-height: 96px; gap: clamp(20px, 3cqi, 44px); }
+.rk-op--header-info .hdr-info__lista {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.6cqi, 40px);
+  min-width: 0;
+}
+.rk-op--header-info .hdr-info__item { flex: none; }
+/* telefone e horário nunca cortam; o endereço é quem cede (reticências) */
+.rk-op--header-info .hdr-info__item--end { flex: 0 1 auto; min-width: 0; }
+.rk-op--header-info .hdr-info__item + .hdr-info__item {
+  padding-left: clamp(18px, 2.6cqi, 40px);
+  border-left: 1px solid var(--linha);
+}
+.rk-op--header-info .hdr-info__alvo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  color: var(--fg);
+}
+.rk-op--header-info .hdr-info__ic {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--acento-suave);
+  color: var(--acento);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.rk-op--header-info .hdr-info__ic svg { width: 20px; height: 20px; }
+.rk-op--header-info a.hdr-info__alvo:hover .hdr-info__ic { background: var(--solido); color: var(--solido-fg); }
+.rk-op--header-info .hdr-info__txt { display: grid; min-width: 0; line-height: 1.25; }
+.rk-op--header-info .hdr-info__rot {
+  font-size: 0.75rem;
+  color: var(--fg2);
+  white-space: nowrap;
+}
+.rk-op--header-info .hdr-info__v {
+  overflow: hidden;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.rk-op--header-info .hdr-info__end { max-width: 16rem; }
+.rk-op--header-info .hdr-info__horas > span + span,
+.rk-op--header-info .hdr-info__end > span + span { display: none; }
+.rk-op--header-info a.hdr-info__alvo:hover .hdr-info__v { color: var(--destaque); }
+.rk-op--header-info .hdr-info__mob { display: none; }
+
+.rk-op--header-info .hdr-faixa__linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 62px;
+}
+.rk-op--header-info .hdr-faixa .rk-menu__lista a { padding-block: 20px; }
+.rk-op--header-info .hdr-faixa .rk-menu__lista a::after { bottom: 0; height: 3px; border-radius: 0; }
+.rk-op--header-info .hdr-faixa__cta { flex: none; }
+.rk-op--header-info:not(:has(.hdr-faixa li)) .hdr-faixa__linha { justify-content: flex-end; }
+
+/* acabamentos */
+.k-classico .rk-op--header-info .hdr-info__ic {
+  border: 1px solid var(--linha);
+  border-radius: var(--ri);
+  background: transparent;
+}
+.k-classico .rk-op--header-info .hdr-info__rot,
+.k-elegante .rk-op--header-info .hdr-info__rot { text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.66rem; }
+.k-elegante .rk-op--header-info .hdr-info__ic {
+  border: 1px solid color-mix(in srgb, var(--acento) 55%, transparent);
+  background: transparent;
+}
+.k-elegante .rk-op--header-info .hdr-info__v { font-weight: 600; }
+.k-direto .rk-op--header-info .hdr-info__ic,
+.k-impacto .rk-op--header-info .hdr-info__ic {
+  border-radius: var(--ri);
+  background: var(--solido);
+  color: var(--solido-fg);
+}
+.k-suave .rk-op--header-info .hdr-info__ic { box-shadow: inset 0 0 0 5px color-mix(in srgb, var(--bg) 55%, transparent); }
+.k-impacto .rk-op--header-info .hdr-faixa { border-top: 3px solid var(--acento); }
+.k-impacto .rk-op--header-info .hdr-faixa__cta { align-self: stretch; min-height: 62px; border-radius: 0; box-shadow: none; }
+
 /* ---- tablet: menu vira <details> ---- */
 @container site (max-width: 1060px) {
   .rk-sec--header .hdr-menu { display: none; }
   .rk-sec--header .rk-menu__mob { display: block; }
   .rk-op--header-barra .hdr-fone__txt { display: none; }
   .rk-op--header-barra .hdr-topo__email { display: none; }
+  .rk-op--header-info { top: 0; }
+  .rk-op--header-info .hdr-faixa { display: none; }
+  .rk-op--header-info .hdr-info { min-height: 84px; }
+  .rk-op--header-info .hdr-info__mob { display: flex; }
+  .rk-op--header-info .hdr-info__item:not(:first-child) { display: none; }
+  .rk-op--header-info .hdr-info__wa {
+    width: 46px;
+    min-height: 46px;
+    padding: 0;
+    border-radius: min(var(--r), 14px);
+  }
+  .rk-op--header-info .hdr-info__wa .rk-i { width: 22px; height: 22px; }
 }
 
 /* ---- celular ---- */
@@ -138,6 +245,8 @@
     white-space: nowrap;
   }
   .rk-op--header-barra .hdr-fone { display: none; }
+  .rk-op--header-info .hdr-info__lista { display: none; }
+  .rk-op--header-info .hdr-info { min-height: 70px; }
   .rk-op--header-barra .hdr-topo__linha { justify-content: center; height: auto; min-height: 38px; padding-block: 8px; }
   .rk-op--header-barra .hdr-topo__item { white-space: normal; text-align: center; line-height: 1.4; }
   .rk-op--header-barra .hdr-topo__info > li + li { display: none; }

@@ -1,0 +1,31 @@
+<a class="rk-pular" href="#rk-conteudo">Pular para o conteúdo</a>
+<header class="hdr">
+  <div class="rk-wrap hdr-linha hdr-info">
+    <a class="rk-logo hdr-logo" href="#topo">{{{d.logo.html}}}{{^d.logo.temLogo}}<span class="rk-logo__nome">{{d.nome}}</span>{{/d.logo.temLogo}}</a>
+    <ul class="hdr-info__lista">
+      {{#d.temTelefone}}<li class="hdr-info__item"><a class="hdr-info__alvo" href="{{d.telefoneLink}}" data-ev="telefone"><span class="hdr-info__ic">{{{u.telefone}}}</span><span class="hdr-info__txt"><span class="hdr-info__rot">Ligue agora</span><strong class="hdr-info__v">{{d.telefone}}</strong></span></a></li>{{/d.temTelefone}}
+      {{^d.temTelefone}}{{#d.temWhatsapp}}<li class="hdr-info__item"><a class="hdr-info__alvo" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="header" target="_blank" rel="noopener"><span class="hdr-info__ic">{{{u.whatsapp}}}</span><span class="hdr-info__txt"><span class="hdr-info__rot">Fale no WhatsApp</span><strong class="hdr-info__v">{{d.whatsapp}}</strong></span></a></li>{{/d.temWhatsapp}}{{/d.temTelefone}}
+      {{#d.temHorarios}}<li class="hdr-info__item hdr-info__item--horas"><span class="hdr-info__alvo"><span class="hdr-info__ic">{{{u.relogio}}}</span><span class="hdr-info__txt"><span class="hdr-info__rot">Horário de atendimento</span><strong class="hdr-info__v hdr-info__horas">{{#d.horarios}}<span>{{dias}}: {{horas}}</span>{{/d.horarios}}</strong></span></span></li>{{/d.temHorarios}}
+      {{#d.temEndereco}}<li class="hdr-info__item hdr-info__item--end"><a class="hdr-info__alvo" href="{{d.mapaLink}}" target="_blank" rel="noopener"><span class="hdr-info__ic">{{{u.pin}}}</span><span class="hdr-info__txt"><span class="hdr-info__rot">Onde estamos</span><strong class="hdr-info__v hdr-info__end">{{#d.enderecoLinhas}}<span>{{.}}</span>{{/d.enderecoLinhas}}</strong></span></a></li>{{/d.temEndereco}}
+    </ul>
+    <div class="hdr-acoes hdr-info__mob">
+      {{#d.temWhatsapp}}<a class="rk-btn rk-btn--p hdr-cta hdr-info__wa" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="header" target="_blank" rel="noopener" aria-label="Conversar no WhatsApp"><span class="rk-i">{{{u.whatsapp}}}</span></a>{{/d.temWhatsapp}}
+      <details class="rk-menu__mob">
+        <summary><span class="rk-menu__abrir">{{{u.menu}}}</span><span class="rk-menu__fechar">{{{u.fechar}}}</span><span class="rk-sr">Menu</span></summary>
+        <nav class="rk-menu__painel" aria-label="Menu principal (celular)">
+          <ul>{{#menu}}<li><a href="{{href}}">{{rotulo}}</a></li>{{/menu}}</ul>
+          {{#d.temTelefone}}<a class="rk-btn rk-btn--sec rk-btn--bloco" href="{{d.telefoneLink}}" data-ev="telefone"><span class="rk-i">{{{u.telefone}}}</span><span>{{d.telefone}}</span></a>{{/d.temTelefone}}
+        </nav>
+      </details>
+    </div>
+  </div>
+  <div class="hdr-faixa rk-ctx-escuro">
+    <div class="rk-wrap hdr-faixa__linha">
+      <nav class="rk-menu hdr-menu" aria-label="Menu principal">
+        <ul class="rk-menu__lista">{{#menu}}<li><a href="{{href}}">{{rotulo}}</a></li>{{/menu}}</ul>
+      </nav>
+      {{#d.temWhatsapp}}<a class="rk-btn rk-btn--p hdr-cta hdr-faixa__cta" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="header" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span class="hdr-cta__txt" data-k="hero.cta">{{c.hero.cta}}</span></a>{{/d.temWhatsapp}}
+    </div>
+  </div>
+</header>
+<span class="rk-pular-alvo" id="rk-conteudo" tabindex="-1"></span>

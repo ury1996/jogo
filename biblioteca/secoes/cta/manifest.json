@@ -24,6 +24,19 @@
       "descricao": "Foto em tela larga com sobreposição escura e texto centralizado.",
       "tom": "escuro",
       "sizes": { "cta.img": "100vw" }
+    },
+    {
+      "id": "telefone",
+      "nome": "Telefone em destaque",
+      "descricao": "Faixa escura com ícone em círculo, título e o telefone em letras grandes, clicável, mais o botão de WhatsApp.",
+      "tom": "escuro"
+    },
+    {
+      "id": "pessoa",
+      "nome": "Com pessoa",
+      "descricao": "Faixa na cor com título, texto e botão, e a foto de uma pessoa à direita saindo por cima da faixa.",
+      "tom": "cor",
+      "sizes": { "cta.img": "(max-width: 760px) 80vw, 420px" }
     }
   ],
   "campos": {

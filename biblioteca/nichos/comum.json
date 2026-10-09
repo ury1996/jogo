@@ -11,6 +11,13 @@
     "form.nota": "Respondemos em até 1 dia útil. Seus dados ficam só com a {nome} e servem apenas para este contato.",
     "form.botao": "Enviar mensagem",
 
+    "atalhos.r1": "Fale pelo WhatsApp",
+    "atalhos.d1": "Tire suas dúvidas e combine o próximo passo por mensagem, direto com a nossa equipe.",
+    "atalhos.r2": "Horário de atendimento",
+    "atalhos.d2": "Atendimento com hora marcada. Combine pelo WhatsApp o dia e o horário melhores para você.",
+    "atalhos.r3": "Onde estamos",
+    "atalhos.d3": "Fácil de chegar, em {cidade}. Veja a localização no mapa e planeje a sua visita.",
+
     "dif.eyebrow": "Diferenciais",
     "dif.titulo": "Por que escolher a {nome}",
     "dif.1.t": "Atendimento próximo",

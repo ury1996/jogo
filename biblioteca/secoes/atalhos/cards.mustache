@@ -1,0 +1,29 @@
+<div class="rk-wrap atl-cards rk-ctx-claro">
+  <article class="rk-card atl-card atl-card--cor">
+    <span class="rk-ic atl-card__ic">{{{u.whatsapp}}}</span>
+    <h3 class="rk-h3 atl-card__t" data-k="atalhos.r1">{{c.atalhos.r1}}</h3>
+    <p class="rk-p atl-card__d" data-k="atalhos.d1">{{c.atalhos.d1}}</p>
+    <div class="atl-card__pe">
+      {{#d.temWhatsapp}}<a class="atl-card__link" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="atalhos" target="_blank" rel="noopener"><span class="atl-card__v">{{d.whatsapp}}</span><span class="atl-card__seta">{{{u.seta}}}</span></a>{{/d.temWhatsapp}}
+      {{^d.temWhatsapp}}{{#d.temTelefone}}<a class="atl-card__link" href="{{d.telefoneLink}}" data-ev="telefone"><span class="atl-card__v">{{d.telefone}}</span><span class="atl-card__seta">{{{u.seta}}}</span></a>{{/d.temTelefone}}{{^d.temTelefone}}<a class="atl-card__link" href="#contato"><span class="atl-card__v">Enviar mensagem</span><span class="atl-card__seta">{{{u.seta}}}</span></a>{{/d.temTelefone}}{{/d.temWhatsapp}}
+    </div>
+  </article>
+  <article class="rk-card atl-card">
+    <span class="rk-ic atl-card__ic">{{{u.relogio}}}</span>
+    <h3 class="rk-h3 atl-card__t" data-k="atalhos.r2">{{c.atalhos.r2}}</h3>
+    <p class="rk-p atl-card__d" data-k="atalhos.d2">{{c.atalhos.d2}}</p>
+    <div class="atl-card__pe">
+      {{#d.temHorarios}}<ul class="atl-card__horas">{{#d.horarios}}<li><span class="atl-card__dias">{{dias}}</span><span class="atl-card__h">{{horas}}</span></li>{{/d.horarios}}</ul>{{/d.temHorarios}}
+      {{^d.temHorarios}}<a class="atl-card__link" href="#contato"><span class="atl-card__v">Marcar um horário</span><span class="atl-card__seta">{{{u.seta}}}</span></a>{{/d.temHorarios}}
+    </div>
+  </article>
+  <article class="rk-card atl-card">
+    <span class="rk-ic atl-card__ic">{{{u.pin}}}</span>
+    <h3 class="rk-h3 atl-card__t" data-k="atalhos.r3">{{c.atalhos.r3}}</h3>
+    <p class="rk-p atl-card__d" data-k="atalhos.d3">{{c.atalhos.d3}}</p>
+    <div class="atl-card__pe">
+      {{#d.temEndereco}}<p class="atl-card__end">{{#d.enderecoLinhas}}<span>{{.}}</span>{{/d.enderecoLinhas}}</p><a class="atl-card__link" href="{{d.mapaLink}}" target="_blank" rel="noopener"><span class="atl-card__v">Como chegar</span><span class="atl-card__seta">{{{u.seta}}}</span></a>{{/d.temEndereco}}
+      {{^d.temEndereco}}{{#d.temTelefone}}<a class="atl-card__link" href="{{d.telefoneLink}}" data-ev="telefone"><span class="atl-card__v">{{d.telefone}}</span><span class="atl-card__seta">{{{u.seta}}}</span></a>{{/d.temTelefone}}{{^d.temTelefone}}<a class="atl-card__link" href="{{d.mapaLink}}" target="_blank" rel="noopener"><span class="atl-card__v">Ver no mapa</span><span class="atl-card__seta">{{{u.seta}}}</span></a>{{/d.temTelefone}}{{/d.temEndereco}}
+    </div>
+  </article>
+</div>

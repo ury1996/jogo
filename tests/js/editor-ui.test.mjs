@@ -171,7 +171,9 @@ test('CSS dos sites no editor: fontes servidas pela API, base e todas as seçõe
   const ruim = cssFontes({ fontes: { arquivos: [{ familia: 'X"}body{', arquivo: 'a.woff2' }, { familia: 'Ok', arquivo: '../x.woff2' }] } });
   assert.equal(ruim, '');
   assert.deepEqual(nichosOrdenados(lib).map((n) => n.id), ['advocacia', 'financas', 'empresas', 'clinicas']);
-  assert.deepEqual(modelosOrdenados(lib).map((m) => m.id), ['classico', 'moderno', 'direto']);
+  // Exclusivos do nicho primeiro (ordem 1–4), depois os gerais (10–12).
+  assert.deepEqual(modelosOrdenados(lib, 'clinicas').map((m) => m.id), ['acolher', 'essencia', 'vital', 'agenda', 'classico', 'moderno', 'direto']);
+  assert.deepEqual(modelosOrdenados(lib, 'advocacia').map((m) => m.id), ['tribuna', 'boutique', 'retrato', 'institucional', 'classico', 'moderno', 'direto']);
 });
 
 test('paleta escopada por prévia e opções do preparo no modo editor', () => {

@@ -1,4 +1,5 @@
-/* Depoimentos — cards com a nota do Google e destaque com foto. Lista fixa de 3 (dep) + nota (aval). */
+/* Depoimentos — cards com a nota do Google, destaque com foto, faixa escura e mosaico.
+   Lista fixa de 3 (dep) + nota (aval). */
 
 .rk-sec--depoimentos .dep-titulo { max-width: 16em; }
 
@@ -22,8 +23,10 @@
    no Clássico (traço fino) o contorno do ícone ganha um miolo na mesma cor */
 .rk-sec--depoimentos .dep-estrela { position: relative; display: inline-flex; width: 1.1em; height: 1.1em; }
 .rk-sec--depoimentos .dep-estrela svg { position: relative; z-index: 1; width: 100%; height: 100%; }
-.k-moderno .rk-sec--depoimentos .dep-estrela path[opacity] { opacity: 1; }
-.k-classico .rk-sec--depoimentos .dep-estrela::before {
+.k-moderno .rk-sec--depoimentos .dep-estrela path[opacity],
+.k-suave .rk-sec--depoimentos .dep-estrela path[opacity] { opacity: 1; }
+.k-classico .rk-sec--depoimentos .dep-estrela::before,
+.k-elegante .rk-sec--depoimentos .dep-estrela::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -56,6 +59,23 @@
   padding: 11px;
   border-radius: 50%;
   background: var(--acento-suave);
+}
+.k-suave .rk-sec--depoimentos .dep-aspas {
+  width: 50px;
+  height: 50px;
+  padding: 12px;
+  border-radius: 50%;
+  background: var(--acento-suave);
+  box-shadow: inset 0 0 0 5px color-mix(in srgb, var(--bg) 55%, transparent);
+}
+.k-elegante .rk-sec--depoimentos .dep-aspas { width: 38px; height: 38px; opacity: 0.85; }
+.k-impacto .rk-sec--depoimentos .dep-aspas {
+  width: 46px;
+  height: 46px;
+  padding: 11px;
+  border-radius: var(--ri);
+  background: var(--solido);
+  color: var(--solido-fg);
 }
 .k-direto .rk-sec--depoimentos .dep-aspas {
   width: 46px;
@@ -113,6 +133,8 @@
 }
 .rk-op--depoimentos-cards-nota .dep-item { min-width: 0; }
 .k-classico .rk-op--depoimentos-cards-nota .dep-card { border-top: 2px solid var(--p); }
+.k-elegante .rk-op--depoimentos-cards-nota .dep-card { border-top: 2px solid var(--acento); }
+.k-elegante .rk-sec--depoimentos .dep-card__t p { font-family: var(--ft); font-size: 1.14rem; line-height: 1.55; }
 
 /* ===================== destaque-foto ===================== */
 
@@ -135,6 +157,8 @@
   padding: 0 var(--deco-d) var(--deco-d) 0;
 }
 .k-direto .rk-op--depoimentos-destaque-foto .dep-midia { padding: 0 0 var(--deco-d) var(--deco-d); }
+.k-elegante .rk-op--depoimentos-destaque-foto .dep-midia { padding: var(--deco-d) 0 0 var(--deco-d); }
+.k-suave .rk-op--depoimentos-destaque-foto .dep-midia { padding: 0 6% 6% 0; }
 .rk-op--depoimentos-destaque-foto .dep-nota {
   position: absolute;
   right: -28px;
@@ -192,6 +216,195 @@
 .rk-op--depoimentos-destaque-foto .dep-card .dep-autor__n { font-size: 1rem; }
 .k-classico .rk-op--depoimentos-destaque-foto .dep-card { border-left: 2px solid var(--p); }
 
+/* ===================== faixa-escura ===================== */
+
+/* brilho suave da cor no alto da faixa */
+.rk-op--depoimentos-faixa-escura {
+  background:
+    radial-gradient(60% 55% at 50% 0%, color-mix(in srgb, var(--acento) 16%, transparent) 0%, transparent 100%),
+    var(--bg);
+}
+.rk-op--depoimentos-faixa-escura .dep-faixa { display: grid; justify-items: center; text-align: center; }
+.rk-op--depoimentos-faixa-escura .dep-cab { margin-bottom: clamp(28px, 3.4cqi, 44px); }
+.rk-op--depoimentos-faixa-escura .dep-titulo { max-width: 20em; }
+.rk-op--depoimentos-faixa-escura .dep-faixa__lista { display: grid; justify-items: center; width: 100%; }
+
+.rk-op--depoimentos-faixa-escura .dep-grande {
+  display: grid;
+  justify-items: center;
+  gap: clamp(22px, 2.6cqi, 32px);
+  max-width: 54rem;
+  margin: 0;
+}
+.rk-op--depoimentos-faixa-escura .dep-aspas--g { width: 64px; height: 64px; }
+.k-elegante .rk-op--depoimentos-faixa-escura .dep-aspas--g { width: 52px; height: 52px; }
+.rk-op--depoimentos-faixa-escura .dep-grande__t { margin: 0; }
+.rk-op--depoimentos-faixa-escura .dep-grande__t p {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: calc(clamp(1.4rem, 0.95rem + 1.6cqi, 2.25rem) * var(--ft-escala));
+  line-height: 1.38;
+  letter-spacing: var(--ft-ls);
+  color: var(--fg);
+  text-wrap: balance;
+}
+.k-elegante .rk-op--depoimentos-faixa-escura .dep-grande__t p,
+.k-classico .rk-op--depoimentos-faixa-escura .dep-grande__t p { font-style: italic; font-weight: 400; }
+.rk-op--depoimentos-faixa-escura .dep-grande .dep-autor { justify-items: center; gap: 4px; }
+.rk-op--depoimentos-faixa-escura .dep-grande .dep-autor__n { font-size: 1.1rem; }
+.k-elegante .rk-op--depoimentos-faixa-escura .dep-grande .dep-autor__n,
+.k-classico .rk-op--depoimentos-faixa-escura .dep-grande .dep-autor__n { font-size: 0.875rem; letter-spacing: 0.18em; text-transform: uppercase; }
+.rk-op--depoimentos-faixa-escura .dep-autor__c { color: var(--fg2); }
+
+/* os dois menores: colunas separadas por linhas finas */
+.rk-op--depoimentos-faixa-escura .dep-menores {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  max-width: 62rem;
+  margin-top: clamp(44px, 5.4cqi, 72px);
+  border-top: 1px solid var(--linha);
+  text-align: left;
+}
+.rk-op--depoimentos-faixa-escura .dep-menor {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: clamp(26px, 3cqi, 40px) clamp(20px, 3.2cqi, 48px) 0;
+}
+.rk-op--depoimentos-faixa-escura .dep-menor:first-child { padding-left: 0; }
+.rk-op--depoimentos-faixa-escura .dep-menor:last-child { padding-right: 0; border-left: 1px solid var(--linha); }
+.rk-op--depoimentos-faixa-escura .dep-menor__t { flex: 1 1 auto; margin: 0; }
+.rk-op--depoimentos-faixa-escura .dep-menor__t p {
+  font-size: var(--t-p);
+  line-height: 1.68;
+  color: color-mix(in srgb, var(--fg) 88%, var(--bg));
+  text-wrap: pretty;
+}
+.rk-op--depoimentos-faixa-escura .dep-menor .dep-autor { position: relative; padding-left: 34px; }
+.rk-op--depoimentos-faixa-escura .dep-menor .dep-autor::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 22px;
+  height: 1px;
+  background: var(--acento);
+}
+.rk-op--depoimentos-faixa-escura .dep-menor .dep-autor__n { font-size: 1rem; }
+
+/* nota do Google: linha discreta em pílula */
+.rk-op--depoimentos-faixa-escura .dep-nota--linha {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 14px;
+  margin-top: clamp(44px, 5cqi, 64px);
+  padding: 10px 20px;
+  border: 1px solid var(--linha);
+  border-radius: var(--r);
+}
+.k-elegante .rk-op--depoimentos-faixa-escura .dep-nota--linha,
+.k-classico .rk-op--depoimentos-faixa-escura .dep-nota--linha { border-width: 1px 0; border-radius: 0; }
+.rk-op--depoimentos-faixa-escura .dep-nota--linha .dep-nota__v { font-size: 1.5rem; }
+.rk-op--depoimentos-faixa-escura .dep-nota--linha .rk-estrelas { font-size: 0.95rem; }
+.rk-op--depoimentos-faixa-escura .dep-nota__txt .rk-i { color: var(--fg); }
+
+/* ===================== mosaico ===================== */
+
+.rk-op--depoimentos-mosaico .dep-mosaico {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: start;
+  gap: clamp(40px, 6cqi, 96px);
+}
+/* coluna da esquerda fica fixa enquanto os cards rolam */
+.rk-op--depoimentos-mosaico .dep-lado {
+  position: sticky;
+  top: 110px;
+  display: grid;
+  justify-items: start;
+  gap: clamp(28px, 3cqi, 40px);
+}
+.rk-op--depoimentos-mosaico .dep-cab { margin-bottom: 0; }
+.rk-op--depoimentos-mosaico .dep-nota--bloco {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 0 0 22px;
+  border-left: 2px solid var(--acento);
+}
+.k-suave .rk-op--depoimentos-mosaico .dep-nota--bloco,
+.k-moderno .rk-op--depoimentos-mosaico .dep-nota--bloco {
+  padding: 16px 24px 16px 18px;
+  border: 0;
+  border-radius: var(--rs);
+  background: var(--acento-suave);
+}
+.k-impacto .rk-op--depoimentos-mosaico .dep-nota--bloco { border-left-width: 4px; }
+.rk-op--depoimentos-mosaico .dep-nota--bloco .dep-nota__v { font-size: clamp(2.8rem, 2rem + 2cqi, 3.6rem); }
+
+/* duas colunas: o 2º card ocupa a coluna da direita, centrado na altura dos outros dois */
+.rk-op--depoimentos-mosaico .dep-grade {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2cqi, 26px);
+}
+.rk-op--depoimentos-mosaico .dep-item { min-width: 0; }
+.rk-op--depoimentos-mosaico .dep-item:nth-child(3n + 2) { grid-column: 2; grid-row: span 2; align-self: center; }
+.rk-op--depoimentos-mosaico .dep-item:nth-child(3n + 3) { grid-column: 1; }
+.rk-op--depoimentos-mosaico .dep-card { height: auto; gap: 18px; }
+.rk-op--depoimentos-mosaico .dep-item:nth-child(3n + 2) .dep-card__t p {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: clamp(1.1rem, 1rem + 0.4cqi, 1.3rem);
+  line-height: 1.5;
+  letter-spacing: var(--ft-ls);
+}
+.k-elegante .rk-op--depoimentos-mosaico .dep-item:nth-child(3n + 2) .dep-card__t p { font-style: italic; font-weight: 400; font-size: clamp(1.2rem, 1.05rem + 0.5cqi, 1.45rem); }
+.k-classico .rk-op--depoimentos-mosaico .dep-card { border-top: 2px solid var(--p); }
+.k-elegante .rk-op--depoimentos-mosaico .dep-card { border-top: 2px solid var(--acento); }
+
+/* autor com inicial num círculo */
+.rk-op--depoimentos-mosaico .dep-pessoa {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 18px;
+  border-top: 1px solid var(--linha);
+}
+.rk-op--depoimentos-mosaico .dep-card .dep-autor { padding-top: 0; border-top: 0; }
+.rk-op--depoimentos-mosaico .dep-ini {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--acento-suave);
+  color: var(--destaque);
+  font-size: 0;
+  line-height: 0;
+  white-space: nowrap;
+}
+.rk-op--depoimentos-mosaico .dep-ini::first-letter {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+.k-classico .rk-op--depoimentos-mosaico .dep-ini,
+.k-elegante .rk-op--depoimentos-mosaico .dep-ini { background: transparent; box-shadow: inset 0 0 0 1px var(--acento); }
+.k-direto .rk-op--depoimentos-mosaico .dep-ini,
+.k-impacto .rk-op--depoimentos-mosaico .dep-ini { background: var(--solido); color: var(--solido-fg); }
+.k-direto .rk-op--depoimentos-mosaico .dep-ini,
+.k-impacto .rk-op--depoimentos-mosaico .dep-ini { border-radius: var(--ri); }
+.k-direto .rk-op--depoimentos-mosaico .dep-ini::first-letter,
+.k-impacto .rk-op--depoimentos-mosaico .dep-ini::first-letter { font-family: var(--fb); font-weight: 800; }
+
 /* ===================== tablet ===================== */
 
 @container site (max-width: 1060px) {
@@ -211,6 +424,15 @@
   .rk-op--depoimentos-destaque-foto .dep-midia { margin-bottom: 40px; }
   .rk-op--depoimentos-destaque-foto .dep-grande { align-self: center; margin-bottom: 40px; }
   .rk-op--depoimentos-destaque-foto .dep-nota { right: -12px; }
+
+  .rk-op--depoimentos-mosaico .dep-mosaico { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .rk-op--depoimentos-mosaico .dep-lado {
+    position: static;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    justify-items: stretch;
+    gap: 24px 40px;
+  }
 }
 
 /* ===================== celular ===================== */
@@ -236,4 +458,18 @@
   .rk-op--depoimentos-destaque-foto .dep-midia { margin-bottom: 36px; }
   .rk-op--depoimentos-destaque-foto .dep-grande { gap: 16px; margin-bottom: 28px; }
   .rk-op--depoimentos-destaque-foto .dep-menores { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+
+  .rk-op--depoimentos-faixa-escura .dep-aspas--g { width: 52px; height: 52px; }
+  .rk-op--depoimentos-faixa-escura .dep-menores { grid-template-columns: minmax(0, 1fr); margin-top: 40px; }
+  .rk-op--depoimentos-faixa-escura .dep-menor,
+  .rk-op--depoimentos-faixa-escura .dep-menor:first-child,
+  .rk-op--depoimentos-faixa-escura .dep-menor:last-child { padding: 28px 0; border-left: 0; }
+  .rk-op--depoimentos-faixa-escura .dep-menor + .dep-menor { border-top: 1px solid var(--linha); }
+  .rk-op--depoimentos-faixa-escura .dep-menor:last-child { padding-bottom: 0; }
+  .rk-op--depoimentos-faixa-escura .dep-nota--linha { margin-top: 36px; }
+
+  .rk-op--depoimentos-mosaico .dep-lado { grid-template-columns: minmax(0, 1fr); justify-items: start; }
+  .rk-op--depoimentos-mosaico .dep-grade { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .rk-op--depoimentos-mosaico .dep-item:nth-child(3n + 2),
+  .rk-op--depoimentos-mosaico .dep-item:nth-child(3n + 3) { grid-column: auto; grid-row: auto; }
 }

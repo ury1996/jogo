@@ -58,10 +58,15 @@ const { problemasSvg, LIMITE_BYTES } = await import(pathToFileURL(path.join(RAIZ
 // ------------------------------------------------------------------ dados
 
 const NICHOS = ['advocacia', 'financas', 'empresas', 'clinicas'];
+// Modelos gerais (valem para todos os nichos, com cor/fonte em nicho.padroesPorModelo) e todos os modelos
+// da pasta (os exclusivos têm "nichos", "ordem" e "padrao").
 const MODELOS = ['classico', 'moderno', 'direto'];
+const ACABAMENTOS = ['classico', 'moderno', 'direto', 'elegante', 'suave', 'impacto'];
 const comum = lerJson('nichos/comum.json');
 const nichos = Object.fromEntries(NICHOS.map((id) => [id, lerJson(`nichos/${id}.json`)]));
-const modelos = Object.fromEntries(MODELOS.map((id) => [id, lerJson(`modelos/${id}.json`)]));
+const TODOS_MODELOS = fs.readdirSync(path.join(BIB, 'modelos')).filter((n) => n.endsWith('.json')).map((n) => n.slice(0, -5)).sort();
+const modelos = Object.fromEntries(TODOS_MODELOS.map((id) => [id, lerJson(`modelos/${id}.json`)]));
+const nichosDoModelo = (m) => m.nichos ?? NICHOS;
 const iconesJson = lerJson('icones/icones.json');
 const fontes = lerJson('fontes/fontes.json');
 const idsIcones = new Set(iconesJson.icones.map((i) => i.id));
@@ -76,15 +81,16 @@ const ESCALARES = {
   cli: ['titulo'],
   sobre: ['eyebrow', 'titulo', 'texto', 'img', 'img2', 'cta'],
   serv: ['eyebrow', 'titulo', 'texto', 'link'],
-  num: [],
+  num: ['img'],
   passos: ['eyebrow', 'titulo', 'texto', 'img'],
   equipe: ['eyebrow', 'titulo', 'texto'],
   dep: ['eyebrow', 'titulo', 'img'],
   aval: ['nota', 'txt'],
   faq: ['eyebrow', 'titulo', 'texto', 'img', 'ajuda'],
   cta: ['titulo', 'texto', 'botao', 'img'],
-  contato: ['eyebrow', 'titulo', 'texto', 'botao', 'mapa'],
+  contato: ['eyebrow', 'titulo', 'texto', 'botao', 'mapa', 'img'],
   rodape: ['sobre', 'texto'],
+  atalhos: ['r1', 'r2', 'r3', 'd1', 'd2', 'd3'],
 };
 const LISTAS = {
   dif: { campos: ['t', 'd', 'ic'], repete: [3, 3] },
@@ -107,6 +113,7 @@ const MAX_ESCALAR = {
   'serv.link': 24, 'contato.mapa': 24, 'hero.selo': 40, 'form.titulo': 60, 'form.nota': 120, 'cli.titulo': 60,
   'aval.nota': 4, 'aval.txt': 60, 'faq.ajuda': 120, 'cta.texto': 180, 'contato.texto': 200,
   'rodape.sobre': 200, 'rodape.texto': 120,
+  'atalhos.r1': 40, 'atalhos.r2': 40, 'atalhos.r3': 40, 'atalhos.d1': 120, 'atalhos.d2': 120, 'atalhos.d3': 120,
 };
 const MAX_ITEM = {
   'cli.t': 30, 'sobrel.t': 60, 'dif.t': 40, 'dif.d': 140, 'serv.t': 40, 'serv.d': 160, 'num.v': 8, 'num.l': 40,
@@ -122,20 +129,21 @@ function maxDe(chave) {
 
 // Catálogo de seções (§3.2).
 const CATALOGO = {
-  header: ['simples', 'barra'],
-  hero: ['cards-flutuantes', 'fundo-cards', 'formulario', 'centralizado'],
-  diferenciais: ['faixa-icones', 'foto-selo'],
-  clientes: ['faixa'],
-  sobre: ['duas-fotos', 'foto-numeros'],
-  servicos: ['cards', 'lista', 'cards-foto', 'blocos'],
-  numeros: ['faixa-clara', 'faixa-cor'],
-  passos: ['linha-tempo', 'lista-foto'],
-  equipe: ['fotos-nome', 'compacta'],
-  depoimentos: ['cards-nota', 'destaque-foto'],
-  faq: ['centralizada', 'foto-ajuda'],
-  cta: ['faixa-cor', 'caixa-clara', 'foto-fundo'],
-  contato: ['formulario', 'mapa'],
-  rodape: ['completo', 'simples'],
+  header: ['simples', 'barra', 'info'],
+  hero: ['cards-flutuantes', 'fundo-cards', 'formulario', 'centralizado', 'inset', 'dividido', 'retrato', 'titulo-gigante'],
+  atalhos: ['faixa', 'cards'],
+  diferenciais: ['faixa-icones', 'foto-selo', 'numerados'],
+  clientes: ['faixa', 'grade'],
+  sobre: ['duas-fotos', 'foto-numeros', 'assinatura', 'manifesto'],
+  servicos: ['cards', 'lista', 'cards-foto', 'blocos', 'fotos-sobrepostas', 'foto-fundo', 'linhas-numeradas'],
+  numeros: ['faixa-clara', 'faixa-cor', 'foto-fundo', 'fantasma'],
+  passos: ['linha-tempo', 'lista-foto', 'destaque-primeiro'],
+  equipe: ['fotos-nome', 'compacta', 'retratos-altos', 'cards-horizontais'],
+  depoimentos: ['cards-nota', 'destaque-foto', 'faixa-escura', 'mosaico'],
+  faq: ['centralizada', 'foto-ajuda', 'caixa', 'duas-colunas'],
+  cta: ['faixa-cor', 'caixa-clara', 'foto-fundo', 'telefone', 'pessoa'],
+  contato: ['formulario', 'mapa', 'foto-card', 'escuro'],
+  rodape: ['completo', 'simples', 'marca-gigante'],
 };
 
 const listaPadrao = (nicho, lista) => nicho?.listas?.[lista] ?? comum.listas[lista];
@@ -160,7 +168,7 @@ function contemTermo(texto, termo) {
 describe('arquivos JSON', () => {
   test('todos os arquivos de conteúdo são JSON válido', () => {
     const arquivos = [
-      'nichos/comum.json', ...NICHOS.map((n) => `nichos/${n}.json`), ...MODELOS.map((m) => `modelos/${m}.json`),
+      'nichos/comum.json', ...NICHOS.map((n) => `nichos/${n}.json`), ...TODOS_MODELOS.map((m) => `modelos/${m}.json`),
       'icones/icones.json', 'fontes/fontes.json',
     ];
     for (const rel of arquivos) assert.doesNotThrow(() => lerJson(rel), rel);
@@ -175,8 +183,41 @@ describe('modelos (§3.5)', () => {
       assert.equal(m.id, id);
       assert.ok(typeof m.nome === 'string' && m.nome.length > 0, `${id}.nome`);
       for (const campo of ['descricao', 'personalidade']) assert.ok(typeof m[campo] === 'string' && m[campo].length > 20, `${id}.${campo}`);
-      assert.equal(m.acabamento, id, `${id}: acabamento`);
+      assert.ok(m.descricao.length <= 140, `${id}: descrição longa demais para o card`);
+      if (MODELOS.includes(id)) {
+        assert.equal(m.acabamento, id, `${id}: acabamento`);
+        assert.equal(m.nichos, undefined, `${id}: modelo geral não tem "nichos"`);
+      } else {
+        assert.ok(ACABAMENTOS.includes(m.acabamento), `${id}: acabamento ${m.acabamento}`);
+        assert.ok(Array.isArray(m.nichos) && m.nichos.length > 0 && m.nichos.every((n) => NICHOS.includes(n)), `${id}: nichos`);
+        assert.match(m.padrao?.cor ?? '', /^#[0-9a-f]{6}$/, `${id}: padrao.cor`);
+        assert.ok(m.padrao?.fonte in fontes.pares, `${id}: padrao.fonte`);
+      }
+      assert.ok(Number.isInteger(m.ordem), `${id}: ordem`);
     }
+  });
+
+  test('4 modelos exclusivos por nicho, com ordem própria e diferentes entre si', () => {
+    for (const n of NICHOS) {
+      const exclusivos = Object.values(modelos).filter((m) => m.nichos?.includes(n));
+      assert.equal(exclusivos.length, 4, `${n}: ${exclusivos.map((m) => m.id)}`);
+      assert.deepEqual(exclusivos.map((m) => m.ordem).sort(), [1, 2, 3, 4], `${n}: ordem`);
+      assert.equal(new Set(exclusivos.map((m) => m.acabamento)).size, 4, `${n}: acabamentos repetidos`);
+      assert.equal(new Set(exclusivos.map((m) => m.padrao.cor)).size, 4, `${n}: cores repetidas`);
+      // receitas diferentes: cada par de modelos difere no destaque ou em pelo menos metade das seções
+      for (const a of exclusivos) {
+        for (const b of exclusivos) {
+          if (a.id >= b.id) continue;
+          const ra = new Set(receita(a, n).map((s) => `${s.tipo}/${s.opcao}`));
+          const rb = receita(b, n).map((s) => `${s.tipo}/${s.opcao}`);
+          const iguais = rb.filter((x) => ra.has(x) && !x.startsWith('header/') && !x.startsWith('rodape/')).length;
+          const heroA = [...ra].find((x) => x.startsWith('hero/'));
+          assert.ok(heroA !== rb.find((x) => x.startsWith('hero/')), `${n}: ${a.id} e ${b.id} com o mesmo destaque`);
+          assert.ok(iguais <= Math.floor(rb.length / 2), `${n}: ${a.id} e ${b.id} parecidos demais (${iguais} seções iguais)`);
+        }
+      }
+    }
+    for (const id of MODELOS) assert.ok(modelos[id].ordem > 4, `${id}: os gerais vêm depois dos exclusivos`);
   });
 
   test('só tipos e opções do catálogo §3.2; filtros só com nichos conhecidos', () => {
@@ -211,7 +252,7 @@ describe('modelos (§3.5)', () => {
 
   test('para todo nicho: cabeçalho primeiro, rodapé último, sem tipo repetido; advocacia sem depoimentos', () => {
     for (const m of Object.values(modelos)) {
-      for (const n of NICHOS) {
+      for (const n of nichosDoModelo(m)) {
         const tipos = receita(m, n).map((s) => s.tipo);
         assert.equal(tipos[0], 'header');
         assert.equal(tipos.at(-1), 'rodape');
@@ -693,11 +734,12 @@ describe('integração com o preparo compartilhado', { skip: !existe('public_htm
     const opcoes = { modo: 'editor', urlMidia: '/api/media/{id}/{w}', midia: {}, ano: 2026 };
     let combinacoes = 0;
     for (const n of NICHOS) {
-      for (const m of MODELOS) {
+      for (const m of TODOS_MODELOS.filter((id) => nichosDoModelo(modelos[id]).includes(n))) {
         for (const esp of nichos[n].especialidades) {
           const doc = criarDocumento({ nicho: n, modelo: m, especialidade: esp.id, dados: { whatsapp: nichos[n].exemplo.whatsapp } }, lib);
-          assert.equal(doc.estilo.cor, nichos[n].padroesPorModelo[m].cor);
+          assert.equal(doc.estilo.cor, nichos[n].padroesPorModelo[m]?.cor ?? modelos[m].padrao.cor);
           const site = prepararSite(doc, lib, opcoes);
+          assert.deepEqual(site.avisos, [], `${n}/${m}/${esp.id}: avisos`);
           assert.ok(site.html.length > 0, `${n}/${m}/${esp.id}`);
           assert.ok(!/\{(nome|cidade|segmento)\}/.test(site.html), `${n}/${m}/${esp.id}: variável sem trocar`);
           assert.ok(site.html.includes(nichos[n].exemplo.nome.replace(/&/g, '&amp;')), `${n}/${m}/${esp.id}: nome do exemplo`);
@@ -708,6 +750,6 @@ describe('integração com o preparo compartilhado', { skip: !existe('public_htm
         }
       }
     }
-    assert.equal(combinacoes, 3 * (1 + 3 + 3 + 5));
+    assert.equal(combinacoes, (3 + 4) * (1 + 3 + 3 + 5));
   });
 });

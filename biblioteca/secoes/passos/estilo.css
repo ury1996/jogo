@@ -1,4 +1,4 @@
-/* Como funciona (passos) — linha do tempo e lista com foto. Lista fixa de 3 itens. */
+/* Como funciona (passos) — linha do tempo, lista com foto e cards com o primeiro na cor. Lista fixa de 3 itens. */
 
 .rk-sec--passos {
   --num: 60px;          /* tamanho do número do passo */
@@ -30,6 +30,24 @@
 .k-moderno .rk-sec--passos .passos-num {
   background: var(--acento-suave);
   box-shadow: 0 0 0 8px var(--bg);
+}
+.k-elegante .rk-sec--passos .passos-num {
+  border: 1px solid color-mix(in srgb, var(--acento) 60%, transparent);
+  font-size: 1.35rem;
+  font-weight: 500;
+  box-shadow: 0 0 0 6px var(--bg);
+}
+.k-suave .rk-sec--passos .passos-num {
+  background: var(--acento-suave);
+  box-shadow: 0 0 0 8px var(--bg), inset 0 0 0 6px color-mix(in srgb, var(--bg) 55%, transparent);
+}
+.k-impacto .rk-sec--passos .passos-num {
+  border-radius: var(--ri);
+  background: var(--solido);
+  color: var(--solido-fg);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  box-shadow: 0 0 0 8px var(--bg), 4px 4px 0 0 var(--fg);
 }
 .k-direto .rk-sec--passos .passos-num {
   border-radius: var(--ri);
@@ -124,6 +142,121 @@
 .rk-op--passos-lista-foto .passos-btn { margin-top: clamp(30px, 3.4cqi, 44px); }
 .rk-op--passos-lista-foto .passos-midia { padding: 0 var(--deco-d) var(--deco-d) 0; }
 .k-direto .rk-op--passos-lista-foto .passos-midia { padding: 0 0 var(--deco-d) var(--deco-d); }
+.k-elegante .rk-op--passos-lista-foto .passos-midia { padding: var(--deco-d) 0 0 var(--deco-d); }
+.k-suave .rk-op--passos-lista-foto .passos-midia { padding: 0 6% 6% 0; }
+
+/* ===================== destaque-primeiro ===================== */
+
+/* topo dividido: título à esquerda, texto e link à direita, alinhados pela base */
+.rk-op--passos-destaque-primeiro .passos-topo {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: end;
+  gap: 28px clamp(40px, 6cqi, 96px);
+  margin-bottom: clamp(40px, 5cqi, 68px);
+}
+.rk-op--passos-destaque-primeiro .passos-cab { margin-bottom: 0; }
+.rk-op--passos-destaque-primeiro .passos-titulo { max-width: 15em; }
+.rk-op--passos-destaque-primeiro .passos-apoio { display: grid; justify-items: start; gap: 18px; padding-bottom: 6px; }
+.rk-op--passos-destaque-primeiro .passos-lead { font-size: var(--t-p); }
+
+.rk-op--passos-destaque-primeiro .passos-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2cqi, 28px);
+}
+.rk-op--passos-destaque-primeiro .passos-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(40px, 5cqi, 72px);
+  min-width: 0;
+  min-height: clamp(280px, 26cqi, 340px);
+  padding: clamp(26px, 2.6cqi, 38px);
+  overflow: hidden;
+}
+/* o primeiro card troca de contexto (rk-bg--cor): o .rk-card pintaria de branco */
+.rk-op--passos-destaque-primeiro .passos-card--cor {
+  border-color: var(--p);
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--on-p) 12%, transparent) 0%, transparent 55%),
+    var(--p);
+  color: var(--fg);
+  box-shadow: 0 30px 60px -34px color-mix(in srgb, var(--p) 90%, transparent);
+}
+.k-classico .rk-op--passos-destaque-primeiro .passos-card--cor,
+.k-elegante .rk-op--passos-destaque-primeiro .passos-card--cor { box-shadow: none; }
+
+/* número grande e claro no canto */
+.rk-op--passos-destaque-primeiro .passos-card__num {
+  position: absolute;
+  top: clamp(14px, 1.6cqi, 22px);
+  right: clamp(18px, 2cqi, 28px);
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: clamp(3.4rem, 2rem + 3.2cqi, 5.4rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: color-mix(in srgb, var(--fg) 9%, transparent);
+  font-variant-numeric: lining-nums tabular-nums;
+  pointer-events: none;
+  transition: color 0.25s ease;
+}
+.rk-op--passos-destaque-primeiro .passos-card--cor .passos-card__num { color: color-mix(in srgb, var(--on-p) 26%, transparent); }
+.k-elegante .rk-op--passos-destaque-primeiro .passos-card__num { font-weight: 400; font-style: italic; letter-spacing: -0.02em; }
+.k-classico .rk-op--passos-destaque-primeiro .passos-card__num { font-weight: 400; }
+.k-impacto .rk-op--passos-destaque-primeiro .passos-card__num,
+.k-direto .rk-op--passos-destaque-primeiro .passos-card__num { font-weight: 800; letter-spacing: -0.06em; }
+
+/* marca: seta num círculo (enfeite) */
+.rk-op--passos-destaque-primeiro .passos-card__marca {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--ri);
+  background: var(--acento-suave);
+  color: var(--destaque);
+  transition: transform 0.3s ease, background-color 0.25s ease, color 0.25s ease;
+}
+.rk-op--passos-destaque-primeiro .passos-card__marca svg { width: 44%; height: 44%; transform: rotate(-45deg); }
+.rk-op--passos-destaque-primeiro .passos-card--cor .passos-card__marca { background: var(--on-p); color: var(--p); }
+.k-classico .rk-op--passos-destaque-primeiro .passos-card__marca,
+.k-elegante .rk-op--passos-destaque-primeiro .passos-card__marca {
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--acento) 55%, transparent);
+}
+.k-classico .rk-op--passos-destaque-primeiro .passos-card--cor .passos-card__marca,
+.k-elegante .rk-op--passos-destaque-primeiro .passos-card--cor .passos-card__marca {
+  background: transparent;
+  color: var(--on-p);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--on-p) 60%, transparent);
+}
+.k-moderno .rk-op--passos-destaque-primeiro .passos-card__marca,
+.k-suave .rk-op--passos-destaque-primeiro .passos-card__marca { border-radius: 50%; }
+.k-direto .rk-op--passos-destaque-primeiro .passos-card__marca,
+.k-impacto .rk-op--passos-destaque-primeiro .passos-card__marca { background: var(--solido); color: var(--solido-fg); }
+.k-direto .rk-op--passos-destaque-primeiro .passos-card--cor .passos-card__marca,
+.k-impacto .rk-op--passos-destaque-primeiro .passos-card--cor .passos-card__marca { background: var(--on-p); color: var(--p); }
+.rk-op--passos-destaque-primeiro .passos-card:hover .passos-card__marca { transform: rotate(45deg); }
+
+.rk-op--passos-destaque-primeiro .passos-card__txt { display: grid; gap: 10px; }
+.rk-op--passos-destaque-primeiro .passos-card__t { color: var(--fg); }
+.rk-op--passos-destaque-primeiro .passos-card--cor .passos-card__d { color: color-mix(in srgb, var(--on-p) 86%, var(--p)); }
+/* traço na cor acima do título */
+.rk-op--passos-destaque-primeiro .passos-card__txt::before {
+  content: "";
+  width: 32px;
+  height: 2px;
+  margin-bottom: 8px;
+  background: var(--acento);
+}
+.k-elegante .rk-op--passos-destaque-primeiro .passos-card__txt::before { height: 1px; width: 44px; }
+.k-impacto .rk-op--passos-destaque-primeiro .passos-card__txt::before { height: 4px; width: 40px; }
+.k-moderno .rk-op--passos-destaque-primeiro .passos-card__txt::before,
+.k-suave .rk-op--passos-destaque-primeiro .passos-card__txt::before { height: 4px; width: 28px; border-radius: 4px; }
+.k-impacto .rk-op--passos-destaque-primeiro .passos-card--cor { border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); }
 
 /* ===================== tablet ===================== */
 
@@ -131,6 +264,10 @@
   .rk-sec--passos { --num: 54px; }
   .rk-op--passos-linha-tempo .passos-linha { --vao: 28px; }
   .rk-op--passos-lista-foto .passos-grade { gap: 48px; }
+
+  .rk-op--passos-destaque-primeiro .passos-topo { grid-template-columns: minmax(0, 1fr); }
+  .rk-op--passos-destaque-primeiro .passos-cards { gap: 14px; }
+  .rk-op--passos-destaque-primeiro .passos-card { min-height: 300px; padding: 24px; }
 }
 
 /* ===================== celular ===================== */
@@ -169,4 +306,10 @@
   .rk-op--passos-lista-foto .passos-item { gap: 18px; padding-bottom: 26px; }
   .rk-op--passos-lista-foto .passos-btn { width: 100%; }
   .rk-op--passos-lista-foto .passos-foto { aspect-ratio: 4 / 3.4; }
+
+  .rk-op--passos-destaque-primeiro .passos-topo { gap: 18px; margin-bottom: 32px; }
+  .rk-op--passos-destaque-primeiro .passos-cards { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .rk-op--passos-destaque-primeiro .passos-card { min-height: 0; gap: 30px; padding: 24px 22px 26px; }
+  .rk-op--passos-destaque-primeiro .passos-card__num { font-size: 3.6rem; }
+  .rk-op--passos-destaque-primeiro .passos-card__marca { width: 44px; height: 44px; }
 }

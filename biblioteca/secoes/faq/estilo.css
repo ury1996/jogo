@@ -88,6 +88,35 @@
 }
 .k-direto .rk-sec--faq .faq-q__ic { border-radius: var(--ri); }
 
+/* Elegante: linhas finas, pergunta em serifa maior, ícone em círculo de traço */
+.k-elegante .rk-sec--faq .faq-q__t { font-size: clamp(1.2rem, 1.08rem + 0.42cqi, 1.4rem); font-weight: 500; letter-spacing: 0; }
+.k-elegante .rk-sec--faq .faq-lista { gap: 0; border-top: 1px solid var(--linha); }
+.k-elegante .rk-sec--faq .faq-item {
+  border-width: 0 0 1px;
+  border-color: var(--linha);
+  border-radius: 0;
+  background: transparent;
+}
+.k-elegante .rk-sec--faq .faq-q { padding: 24px 4px; }
+.k-elegante .rk-sec--faq .faq-a { padding: 0 64px 28px 4px; }
+.k-elegante .rk-sec--faq .faq-q__ic {
+  width: 36px;
+  height: 36px;
+  border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
+  background: transparent;
+  color: var(--destaque);
+}
+.k-elegante .rk-sec--faq .faq-item[open] .faq-q__ic { border-color: var(--acento); background: var(--acento); color: var(--bg); }
+
+/* Suave: cartões bem arredondados com sombra leve; o aberto flutua */
+.k-suave .rk-sec--faq .faq-item { border-radius: 22px; box-shadow: 0 1px 2px color-mix(in srgb, var(--p-dark) 5%, transparent); }
+.k-suave .rk-sec--faq .faq-item[open] { box-shadow: var(--sh); }
+
+/* Impacto: borda fina; o aberto ganha contorno forte e sombra deslocada na cor */
+.k-impacto .rk-sec--faq .faq-item { border-color: var(--linha); }
+.k-impacto .rk-sec--faq .faq-item[open] { border-color: var(--fg); box-shadow: 5px 5px 0 var(--acento); }
+.k-impacto .rk-sec--faq .faq-q__ic { border-radius: var(--ri); }
+
 /* ===================== centralizada ===================== */
 
 .rk-op--faq-centralizada .faq-centro { max-width: 860px; }
@@ -142,6 +171,152 @@
   text-wrap: pretty;
 }
 
+/* ===================== caixa ===================== */
+/* Título, texto e ajuda à esquerda; perguntas em linhas claras empilhadas numa caixa em tom suave. */
+
+.rk-op--faq-caixa .faq-grade {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  align-items: start;
+  gap: clamp(40px, 6.5cqi, 96px);
+}
+.rk-op--faq-caixa .faq-lado { position: sticky; top: 96px; display: grid; justify-items: start; min-width: 0; }
+.rk-op--faq-caixa .faq-cab { margin-bottom: 0; }
+.rk-op--faq-caixa .faq-ajuda {
+  display: grid;
+  justify-items: start;
+  gap: 18px;
+  width: 100%;
+  margin-top: clamp(32px, 4cqi, 48px);
+  padding-top: clamp(26px, 3cqi, 36px);
+  border-top: 1px solid var(--linha);
+}
+.rk-op--faq-caixa .faq-ajuda__txt {
+  max-width: 24rem;
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: clamp(1.08rem, 1rem + 0.3cqi, 1.25rem);
+  line-height: 1.4;
+  letter-spacing: calc(var(--ft-ls) / 2);
+  color: var(--fg);
+  text-wrap: pretty;
+}
+.rk-op--faq-caixa .faq-ajuda__av .rk-avatar { width: 48px; height: 48px; }
+.rk-op--faq-caixa .faq-caixa {
+  --faq-r: min(var(--rc), 18px);
+  --faq-pad: clamp(8px, 1cqi, 12px);
+  padding: var(--faq-pad);
+  border-radius: calc(var(--faq-r) + var(--faq-pad));
+  background: color-mix(in srgb, var(--deco) 42%, var(--acento-suave));
+}
+.rk-sec--faq.rk-op--faq-caixa .faq-lista { gap: 8px; border: 0; }
+.rk-sec--faq.rk-op--faq-caixa .faq-item {
+  border: 1px solid transparent;
+  border-radius: var(--faq-r);
+  background: var(--bg);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent);
+}
+.rk-sec--faq.rk-op--faq-caixa .faq-item[open] { border-color: transparent; box-shadow: var(--sh); }
+.rk-sec--faq.rk-op--faq-caixa .faq-q { padding: 20px 20px 20px 26px; }
+.rk-sec--faq.rk-op--faq-caixa .faq-a { padding: 0 64px 24px 26px; }
+.rk-sec--faq.rk-op--faq-caixa .faq-q__ic {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--destaque);
+}
+.rk-sec--faq.rk-op--faq-caixa .faq-q__ic svg { width: 20px; height: 20px; }
+.rk-sec--faq.rk-op--faq-caixa .faq-item[open] .faq-q__ic { background: var(--acento-suave); color: var(--destaque); }
+.rk-sec--faq.rk-op--faq-caixa .faq-item[open] .faq-q__t { color: var(--destaque); }
+
+/* ===================== duas-colunas ===================== */
+/* Título centralizado; perguntas numeradas (01, 02…) em duas colunas, separadas por linhas finas. */
+
+.rk-op--faq-duas-colunas .faq-cab { margin-bottom: clamp(36px, 4.4cqi, 60px); }
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-colunas {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(32px, 5cqi, 72px);
+  row-gap: 0;
+  border: 0;
+  counter-reset: faq;
+}
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-item {
+  counter-increment: faq;
+  border: 0;
+  border-bottom: 1px solid var(--linha);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-item[open] { border-color: var(--linha); box-shadow: none; }
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-item:nth-child(-n+2) { border-top: 1px solid var(--linha); }
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-q {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 16px;
+  padding: 28px 0;
+}
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-num {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: 1.5rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--destaque);
+}
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-num::before { content: counter(faq, decimal-leading-zero) / ""; }
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-q__t { padding-top: 0.08em; font-size: clamp(1.06rem, 0.98rem + 0.32cqi, 1.22rem); }
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-q__ic {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--linha);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--fg);
+}
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-q__ic svg { width: 16px; height: 16px; }
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-item[open] .faq-q__ic { border-color: var(--solido); background: var(--solido); color: var(--solido-fg); }
+.rk-sec--faq.rk-op--faq-duas-colunas .faq-a { padding: 0 48px 30px calc(2.6rem + 16px); }
+.rk-op--faq-duas-colunas .faq-rodape {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 14px 24px;
+  margin-top: clamp(36px, 4.4cqi, 56px);
+  text-align: center;
+}
+.rk-op--faq-duas-colunas .faq-rodape__txt { max-width: 34rem; font-size: var(--t-p); line-height: 1.5; color: var(--fg2); }
+
+/* acabamentos nas opções novas */
+.k-classico .rk-op--faq-caixa .faq-caixa { border: 1px solid var(--linha); }
+.k-elegante .rk-op--faq-caixa .faq-caixa { --faq-pad: clamp(10px, 1.4cqi, 16px); background: var(--acento-suave); }
+.k-elegante .rk-op--faq-caixa .faq-lista { gap: 6px; border: 0; }
+.k-elegante .rk-sec--faq.rk-op--faq-caixa .faq-item { border: 0; background: var(--bg); box-shadow: none; }
+.k-elegante .rk-sec--faq.rk-op--faq-caixa .faq-item[open] { box-shadow: inset 0 2px 0 var(--acento); }
+.k-elegante .rk-sec--faq.rk-op--faq-caixa .faq-q { padding: 20px 20px 20px 26px; }
+.k-elegante .rk-sec--faq.rk-op--faq-caixa .faq-a { padding: 0 64px 26px 26px; }
+.k-elegante .rk-sec--faq.rk-op--faq-caixa .faq-q__ic { border: 0; }
+.k-elegante .rk-sec--faq.rk-op--faq-caixa .faq-item[open] .faq-q__ic { background: transparent; color: var(--destaque); }
+.k-elegante .rk-op--faq-caixa .faq-ajuda__txt { font-size: clamp(1.25rem, 1.1rem + 0.45cqi, 1.45rem); font-style: italic; }
+.k-impacto .rk-op--faq-caixa .faq-caixa { border: 2px solid var(--fg); }
+.k-impacto .rk-sec--faq.rk-op--faq-caixa .faq-item { border-color: var(--linha); box-shadow: none; }
+.k-impacto .rk-sec--faq.rk-op--faq-caixa .faq-item[open] { border-color: var(--fg); box-shadow: 4px 4px 0 var(--acento); }
+.k-suave .rk-op--faq-caixa .faq-caixa { --faq-r: 22px; }
+
+.k-elegante .rk-sec--faq.rk-op--faq-duas-colunas .faq-num { font-size: 1.85rem; font-weight: 400; font-style: italic; }
+.k-elegante .rk-sec--faq.rk-op--faq-duas-colunas .faq-q { padding: 28px 0; }
+.k-elegante .rk-sec--faq.rk-op--faq-duas-colunas .faq-a { padding: 0 48px 30px calc(2.6rem + 16px); }
+.k-impacto .rk-sec--faq.rk-op--faq-duas-colunas .faq-num { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.04em; }
+.k-impacto .rk-sec--faq.rk-op--faq-duas-colunas .faq-item:nth-child(-n+2) { border-top: 2px solid var(--fg); }
+.k-impacto .rk-sec--faq.rk-op--faq-duas-colunas .faq-item[open] { border-color: var(--linha); box-shadow: none; }
+.k-impacto .rk-sec--faq.rk-op--faq-duas-colunas .faq-item[open]:nth-child(-n+2) { border-top-color: var(--fg); }
+.k-classico .rk-sec--faq.rk-op--faq-duas-colunas .faq-q__ic,
+.k-impacto .rk-sec--faq.rk-op--faq-duas-colunas .faq-q__ic { border-radius: var(--ri); }
+
 /* ===================== tablet ===================== */
 
 @container site (max-width: 1060px) {
@@ -169,4 +344,26 @@
   .rk-op--faq-foto-ajuda .faq-principal { position: relative; top: auto; grid-column: auto; grid-row: auto; }
   .rk-op--faq-foto-ajuda .faq-foto { aspect-ratio: 4 / 3; }
   .rk-op--faq-foto-ajuda .faq-ajuda { margin: -64px 14px 0; padding: 20px 18px; }
+
+  /* caixa: título, perguntas e, por fim, o convite */
+  .rk-op--faq-caixa .faq-grade { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .rk-op--faq-caixa .faq-lado { display: contents; }
+  .rk-op--faq-caixa .faq-cab { order: 1; }
+  .rk-op--faq-caixa .faq-caixa { order: 2; --faq-pad: 6px; margin-inline: -6px; }
+  .rk-op--faq-caixa .faq-ajuda { order: 3; margin-top: 8px; }
+  .rk-op--faq-caixa .faq-ajuda__btn { width: 100%; }
+  .rk-sec--faq.rk-op--faq-caixa .faq-q,
+  .k-elegante .rk-sec--faq.rk-op--faq-caixa .faq-q { padding: 16px 12px 16px 18px; }
+  .rk-sec--faq.rk-op--faq-caixa .faq-a,
+  .k-elegante .rk-sec--faq.rk-op--faq-caixa .faq-a { padding: 0 18px 20px; }
+
+  /* duas-colunas: uma coluna só */
+  .rk-sec--faq.rk-op--faq-duas-colunas .faq-colunas { grid-template-columns: minmax(0, 1fr); }
+  .rk-sec--faq.rk-op--faq-duas-colunas .faq-item:nth-child(2) { border-top: 0; }
+  .rk-sec--faq.rk-op--faq-duas-colunas .faq-q,
+  .k-elegante .rk-sec--faq.rk-op--faq-duas-colunas .faq-q { grid-template-columns: 2.1rem minmax(0, 1fr) auto; gap: 12px; padding: 22px 0; }
+  .rk-sec--faq.rk-op--faq-duas-colunas .faq-a,
+  .k-elegante .rk-sec--faq.rk-op--faq-duas-colunas .faq-a { padding: 0 0 24px calc(2.1rem + 12px); }
+  .rk-op--faq-duas-colunas .faq-rodape { flex-direction: column; }
+  .rk-op--faq-duas-colunas .faq-rodape__btn { width: 100%; }
 }

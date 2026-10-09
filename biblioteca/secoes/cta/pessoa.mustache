@@ -1,0 +1,14 @@
+<div class="rk-wrap cta-pes">
+  <div class="cta-texto cta-pes__texto">
+    <h2 class="rk-h2 cta-titulo" data-k="cta.titulo">{{c.cta.titulo}}</h2>
+    <p class="rk-lead cta-lead" data-k="cta.texto">{{c.cta.texto}}</p>
+    <div class="cta-acoes cta-pes__acoes">
+      <a class="rk-btn cta-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="cta" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="cta.botao">{{c.cta.botao}}</span></a>
+      {{#d.temTelefone}}<a class="cta-fone" href="{{d.telefoneLink}}" data-ev="telefone"><span class="rk-i">{{{u.telefone}}}</span><span>ou ligue {{d.telefone}}</span></a>{{/d.temTelefone}}
+    </div>
+  </div>
+  <div class="cta-pes__lado">
+    <span class="cta-pes__forma" aria-hidden="true"></span>
+    <div class="rk-foto cta-pes__foto" data-img="cta.img" style="--ar:4/5">{{{c.cta.img.html}}}</div>
+  </div>
+</div>

@@ -1,0 +1,265 @@
+/* Atalhos — faixa de informações colada no destaque / cards que sobem sobre o destaque.
+   Os valores vêm dos dados do negócio (WhatsApp ou telefone, horários, endereço); quando um
+   dado falta, o template mostra o texto atalhos.dN no lugar. */
+
+/* ===================== faixa ===================== */
+
+.rk-op--atalhos-faixa {
+  padding-block: clamp(26px, 3.4cqi, 44px);
+  border-top: 1px solid var(--linha);
+}
+/* brilho sutil da cor no canto, como nas faixas de informação dos templates de clínica */
+.rk-op--atalhos-faixa::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(60% 140% at 0% 0%, color-mix(in srgb, var(--p-sobre-escuro) 16%, transparent) 0%, transparent 70%);
+}
+/* depois do destaque "foto de fundo com cards", os cards dele pendem sobre a faixa: abre espaço só para eles */
+.rk-op--atalhos-faixa:is(.rk-op--hero-fundo-cards + *) { padding-top: calc(clamp(64px, 7cqi, 96px) + clamp(30px, 3.6cqi, 48px)); }
+.rk-op--atalhos-faixa .atl-lista {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.rk-op--atalhos-faixa .atl-item { display: flex; min-width: 0; }
+.rk-op--atalhos-faixa .atl-item + .atl-item { border-left: 1px solid var(--linha); }
+.rk-op--atalhos-faixa .atl-alvo {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  min-width: 0;
+  padding: 8px clamp(18px, 2.6cqi, 36px);
+  color: var(--fg);
+  text-decoration: none;
+}
+.rk-op--atalhos-faixa .atl-item:first-child .atl-alvo { padding-left: 0; }
+.rk-op--atalhos-faixa .atl-item:last-child .atl-alvo { padding-right: 0; }
+.rk-op--atalhos-faixa .atl-ic {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--solido);
+  color: var(--solido-fg);
+  transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+}
+.rk-op--atalhos-faixa .atl-ic svg { width: 46%; height: 46%; }
+.rk-op--atalhos-faixa a.atl-alvo:hover .atl-ic { transform: scale(1.06); }
+.rk-op--atalhos-faixa .atl-txt { display: grid; gap: 4px; min-width: 0; }
+.rk-op--atalhos-faixa .atl-rot {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: var(--fg2);
+}
+.rk-op--atalhos-faixa .atl-v {
+  font-family: var(--fb);
+  font-size: clamp(1rem, 0.9rem + 0.4cqi, 1.1875rem);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--fg);
+  overflow-wrap: anywhere;
+}
+.rk-op--atalhos-faixa a.atl-alvo:hover .atl-v { color: var(--destaque); }
+.rk-op--atalhos-faixa .atl-d { font-size: 0.9375rem; line-height: 1.45; color: var(--fg); text-wrap: pretty; }
+/* horários: uma linha por grupo de dias, dias em tom secundário */
+.rk-op--atalhos-faixa .atl-horas { display: grid; gap: 1px; font-size: 0.9375rem; font-weight: 600; }
+.rk-op--atalhos-faixa .atl-horas__d { font-weight: 500; color: var(--fg2); }
+.rk-op--atalhos-faixa .atl-horas__d::after { content: ":"; }
+/* endereço: linha principal em destaque, bairro/cidade/CEP menor */
+.rk-op--atalhos-faixa .atl-end { display: grid; gap: 2px; font-size: 1rem; }
+.rk-op--atalhos-faixa .atl-end > span + span { font-size: 0.875rem; font-weight: 500; color: var(--fg2); }
+
+/* acabamentos */
+.k-classico .rk-op--atalhos-faixa .atl-ic,
+.k-elegante .rk-op--atalhos-faixa .atl-ic {
+  background: transparent;
+  color: var(--acento);
+  border: 1px solid color-mix(in srgb, var(--acento) 60%, transparent);
+}
+.k-classico .rk-op--atalhos-faixa .atl-ic { border-radius: 2px; }
+.k-classico .rk-op--atalhos-faixa .atl-rot,
+.k-elegante .rk-op--atalhos-faixa .atl-rot {
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.k-elegante .rk-op--atalhos-faixa .atl-v { font-family: var(--ft); font-weight: var(--ft-peso); font-size: clamp(1.15rem, 1rem + 0.5cqi, 1.4rem); }
+.k-elegante .rk-op--atalhos-faixa :is(.atl-horas, .atl-end) { font-size: 1.05rem; }
+.k-elegante .rk-op--atalhos-faixa .atl-end > span + span { font-family: var(--fb); font-size: 0.8125rem; }
+.k-elegante .rk-op--atalhos-faixa::before { display: none; }
+.k-moderno .rk-op--atalhos-faixa .atl-ic,
+.k-suave .rk-op--atalhos-faixa .atl-ic { background: var(--acento-suave); color: var(--acento); }
+.k-suave .rk-op--atalhos-faixa .atl-ic { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--acento) 30%, transparent); }
+.k-direto .rk-op--atalhos-faixa .atl-ic { border-radius: var(--ri); }
+.k-impacto .rk-op--atalhos-faixa { border-top: 4px solid var(--solido); }
+.k-impacto .rk-op--atalhos-faixa .atl-ic { border-radius: var(--ri); }
+.k-impacto .rk-op--atalhos-faixa .atl-rot { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.k-impacto .rk-op--atalhos-faixa .atl-v { font-family: var(--ft); font-weight: var(--ft-peso); letter-spacing: -0.01em; }
+
+/* ===================== cards ===================== */
+
+.rk-op--atalhos-cards {
+  --atl-sobe: clamp(44px, 5.6cqi, 76px);
+  padding-block: clamp(48px, 6cqi, 88px);
+}
+/* logo depois do destaque: os cards sobem sobre ele (o respiro de baixo do destaque comporta a subida) */
+.rk-op--atalhos-cards:is(.rk-sec--hero + *) { padding-top: 0; }
+.rk-op--atalhos-cards:is(.rk-sec--hero + *) .atl-cards { margin-top: calc(-1 * var(--atl-sobe)); }
+/* o destaque "foto de fundo com cards" já tem os próprios cards pendurados: aqui não sobe */
+.rk-op--atalhos-cards:is(.rk-op--hero-fundo-cards + *) { padding-top: calc(var(--sec-py) + clamp(40px, 5cqi, 72px)); }
+.rk-op--atalhos-cards:is(.rk-op--hero-fundo-cards + *) .atl-cards { margin-top: 0; }
+/* o destaque "em cartão" termina na linha de confiança, que os cards cobririam: aqui também não sobe */
+.rk-op--atalhos-cards:is(.rk-op--hero-inset + *) { padding-top: clamp(28px, 3.5cqi, 48px); }
+.rk-op--atalhos-cards:is(.rk-op--hero-inset + *) .atl-cards { margin-top: 0; }
+
+.rk-op--atalhos-cards .atl-cards {
+  /* ilha clara: --bg vira branco aqui dentro, e os cards usam esse branco (não o tom do fundo) */
+  --atl-branco: var(--bg);
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2cqi, 26px);
+  background: transparent;
+}
+.rk-op--atalhos-cards .atl-card {
+  --bg: var(--atl-branco);
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  align-content: start;
+  gap: 12px;
+  min-width: 0;
+  padding: clamp(24px, 2.6cqi, 34px);
+  background: var(--atl-branco);
+  box-shadow: var(--sh-hover);
+}
+.rk-op--atalhos-cards .atl-card__ic { --ic: 52px; margin-bottom: 8px; }
+.rk-op--atalhos-cards .atl-card__d { font-size: 0.9375rem; line-height: 1.6; }
+.rk-op--atalhos-cards .atl-card__pe {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--linha);
+}
+.rk-op--atalhos-cards .atl-card__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+  color: var(--fg);
+  font-weight: 700;
+  font-size: 0.9875rem;
+  text-decoration: none;
+}
+.rk-op--atalhos-cards .atl-card__v { min-width: 0; overflow-wrap: anywhere; }
+.rk-op--atalhos-cards .atl-card__seta {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--linha);
+  color: var(--destaque);
+  transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.rk-op--atalhos-cards .atl-card__seta svg { width: 44%; height: 44%; }
+.rk-op--atalhos-cards .atl-card__link:hover .atl-card__seta {
+  transform: translateX(3px);
+  border-color: var(--solido);
+  background: var(--solido);
+  color: var(--solido-fg);
+}
+.rk-op--atalhos-cards .atl-card__horas { display: grid; gap: 4px; font-size: 0.9rem; line-height: 1.4; }
+.rk-op--atalhos-cards .atl-card__horas > li { display: flex; justify-content: space-between; gap: 12px; }
+.rk-op--atalhos-cards .atl-card__dias { color: var(--fg2); }
+.rk-op--atalhos-cards .atl-card__end { display: grid; gap: 2px; font-size: 0.9rem; line-height: 1.45; color: var(--fg2); }
+.rk-op--atalhos-cards .atl-card__end > span:first-child { font-weight: 700; color: var(--fg); }
+.rk-op--atalhos-cards .atl-card__h { font-weight: 700; color: var(--fg); text-align: right; }
+
+/* primeiro card preenchido na cor */
+.rk-op--atalhos-cards .atl-card--cor {
+  --bg: var(--p);
+  --fg: var(--on-p);
+  --fg2: color-mix(in srgb, var(--on-p) 86%, var(--p));
+  --linha: color-mix(in srgb, var(--on-p) 26%, transparent);
+  --destaque: var(--on-p); --acento: var(--on-p);
+  --acento-suave: color-mix(in srgb, var(--on-p) 16%, transparent);
+  --solido: var(--on-p); --solido-fg: var(--p);
+  background: var(--p);
+  border-color: var(--p);
+}
+.rk-op--atalhos-cards .atl-card--cor .atl-card__ic { color: var(--on-p); }
+.k-direto .rk-op--atalhos-cards .atl-card--cor .atl-card__ic,
+.k-impacto .rk-op--atalhos-cards .atl-card--cor .atl-card__ic { background: var(--on-p); color: var(--p); }
+
+/* acabamentos */
+.k-classico .rk-op--atalhos-cards .atl-cards,
+.k-elegante .rk-op--atalhos-cards .atl-cards { gap: 0; }
+.k-classico .rk-op--atalhos-cards .atl-card + .atl-card,
+.k-elegante .rk-op--atalhos-cards .atl-card + .atl-card { border-left-width: 0; }
+.k-elegante .rk-op--atalhos-cards .atl-card__t { font-size: calc(var(--t-h3) * 1.12); }
+.k-elegante .rk-op--atalhos-cards .atl-card__seta,
+.k-classico .rk-op--atalhos-cards .atl-card__seta { border-radius: 0; }
+.k-direto .rk-op--atalhos-cards .atl-card__seta,
+.k-impacto .rk-op--atalhos-cards .atl-card__seta { border-radius: var(--ri); }
+.k-impacto .rk-op--atalhos-cards .atl-card { border-color: var(--fg); box-shadow: 6px 6px 0 color-mix(in srgb, var(--ink) 88%, transparent); }
+.k-impacto .rk-op--atalhos-cards .atl-card--cor { border-color: var(--ink); }
+.k-suave .rk-op--atalhos-cards .atl-card__pe { border-top: 0; padding-top: 6px; }
+.k-suave .rk-op--atalhos-cards .atl-card__horas {
+  padding: 12px 16px;
+  border-radius: calc(var(--rf));
+  background: var(--acento-suave);
+}
+
+/* ===================== tablet ===================== */
+
+@container site (max-width: 1060px) {
+  .rk-op--atalhos-faixa .atl-alvo { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .rk-op--atalhos-faixa .atl-ic { width: 46px; height: 46px; }
+  .rk-op--atalhos-cards .atl-cards { gap: 14px; }
+  .rk-op--atalhos-cards .atl-card { padding: 22px; }
+}
+
+/* ===================== celular ===================== */
+
+@container site (max-width: 760px) {
+  .rk-op--atalhos-faixa,
+  .rk-op--atalhos-faixa:is(.rk-op--hero-fundo-cards + *) { padding-block: 10px; }
+  .rk-op--atalhos-faixa .atl-lista { grid-template-columns: minmax(0, 1fr); }
+  .rk-op--atalhos-faixa .atl-item + .atl-item { border-left: 0; border-top: 1px solid var(--linha); }
+  .rk-op--atalhos-faixa .atl-alvo,
+  .rk-op--atalhos-faixa .atl-item:first-child .atl-alvo,
+  .rk-op--atalhos-faixa .atl-item:last-child .atl-alvo {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+  }
+  .rk-op--atalhos-faixa .atl-ic { width: 44px; height: 44px; }
+
+  .rk-op--atalhos-cards { --atl-sobe: 28px; padding-block: 40px; }
+  .rk-op--atalhos-cards:is(.rk-op--hero-fundo-cards + *) { padding-top: 40px; }
+  .rk-op--atalhos-cards .atl-cards { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .k-classico .rk-op--atalhos-cards .atl-card + .atl-card,
+  .k-elegante .rk-op--atalhos-cards .atl-card + .atl-card { border-left-width: 1px; border-top-width: 0; }
+  .rk-op--atalhos-cards .atl-card {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: none;
+    column-gap: 16px;
+    row-gap: 6px;
+    padding: 20px;
+  }
+  .rk-op--atalhos-cards .atl-card__ic { --ic: 46px; grid-row: span 2; margin: 0; }
+  .rk-op--atalhos-cards .atl-card__pe { grid-column: 1 / -1; margin-top: 6px; padding-top: 12px; }
+  .k-impacto .rk-op--atalhos-cards .atl-card { box-shadow: 4px 4px 0 color-mix(in srgb, var(--ink) 88%, transparent); }
+}

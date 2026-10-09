@@ -11,7 +11,7 @@ const lib = {
   ...base,
   modelos: {
     ...base.modelos,
-    togado: { ...base.modelos.classico, id: 'togado', nome: 'Togado', nichos: ['advocacia'], ordem: 4, padrao: { cor: '#7a5c2e', fonte: 'classica' } },
+    togado: { ...base.modelos.classico, id: 'togado', nome: 'Togado', nichos: ['advocacia'], ordem: 5, padrao: { cor: '#7a5c2e', fonte: 'classica' } },
   },
 };
 
@@ -20,7 +20,7 @@ test('modelo com "nichos" só aparece e só vale para aqueles nichos', () => {
   assert.equal(modeloDoNicho(lib, 'togado', 'clinicas'), false);
   assert.equal(modeloDoNicho(lib, 'classico', 'clinicas'), true);
   assert.equal(modeloDoNicho(lib, 'nao-existe', 'clinicas'), false);
-  assert.deepEqual(modelosOrdenados(lib, 'advocacia').map((m) => m.id), ['classico', 'moderno', 'direto', 'togado']);
+  assert.deepEqual(modelosOrdenados(lib, 'advocacia').map((m) => m.id), ['tribuna', 'boutique', 'retrato', 'institucional', 'togado', 'classico', 'moderno', 'direto']);
   assert.ok(!modelosOrdenados(lib, 'clinicas').some((m) => m.id === 'togado'));
 });
 

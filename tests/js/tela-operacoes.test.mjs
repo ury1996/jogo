@@ -100,9 +100,9 @@ test('seções: remover (textos ficam guardados) e trocar opção', () => {
   assert.equal(op.trocarOpcao(doc, lib, h, 'nao-existe'), doc);
   assert.equal(op.trocarOpcao(doc, lib, h, doc.secoes[h].opcao), doc);
 
-  assert.deepEqual(op.opcaoVizinha(lib, 'hero', 'cards-flutuantes', 1), { id: 'fundo-cards', posicao: 2, total: 4 });
-  assert.deepEqual(op.opcaoVizinha(lib, 'hero', 'cards-flutuantes', -1), { id: 'centralizado', posicao: 4, total: 4 }, 'circular');
-  assert.deepEqual(op.posicaoOpcao(lib, 'servicos', 'blocos'), { posicao: 4, total: 4 });
+  assert.deepEqual(op.opcaoVizinha(lib, 'hero', 'cards-flutuantes', 1), { id: 'fundo-cards', posicao: 2, total: 8 });
+  assert.deepEqual(op.opcaoVizinha(lib, 'hero', 'cards-flutuantes', -1), { id: 'titulo-gigante', posicao: 8, total: 8 }, 'circular');
+  assert.deepEqual(op.posicaoOpcao(lib, 'servicos', 'blocos'), { posicao: 4, total: 7 });
   assert.equal(op.nomeSecao(lib, 'hero'), 'Destaque');
   assert.equal(op.nomeOpcao(lib, 'hero', 'centralizado'), 'Centralizado');
 });

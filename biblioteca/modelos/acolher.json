@@ -1,0 +1,23 @@
+{
+  "id": "acolher",
+  "nome": "Acolher",
+  "descricao": "Profissional em destaque com forma orgânica, atalhos de agendamento e depoimentos em mosaico.",
+  "personalidade": "Clínica acolhedora: verde-água, fonte limpa, formas suaves e informações de agendamento à mão.",
+  "acabamento": "suave",
+  "nichos": ["clinicas"],
+  "ordem": 1,
+  "padrao": { "cor": "#0e7c86", "fonte": "clara" },
+  "secoes": [
+    ["header", "simples"],
+    ["hero", "retrato"],
+    ["atalhos", "cards"],
+    ["servicos", "fotos-sobrepostas"],
+    ["sobre", "foto-numeros"],
+    ["passos", "destaque-primeiro"],
+    ["depoimentos", "mosaico"],
+    ["faq", "caixa"],
+    ["cta", "pessoa"],
+    ["contato", "foto-card"],
+    ["rodape", "completo"]
+  ]
+}

@@ -1,0 +1,34 @@
+<div class="rk-wrap dep-faixa">
+  <div class="rk-cab rk-cab--centro dep-cab">
+    <p class="rk-eyebrow" data-k="dep.eyebrow">{{c.dep.eyebrow}}</p>
+    <h2 class="rk-h2 dep-titulo" data-k="dep.titulo">{{c.dep.titulo}}</h2>
+  </div>
+  <div class="dep-faixa__lista" data-li="dep">
+    {{#c.dep.p1}}
+    <figure class="dep-grande" data-it="{{id}}">
+      <span class="dep-aspas dep-aspas--g" aria-hidden="true">{{{u.aspas}}}</span>
+      <blockquote class="dep-grande__t"><p data-k="{{k}}.t">{{t}}</p></blockquote>
+      <figcaption class="dep-autor"><strong class="dep-autor__n" data-k="{{k}}.n">{{n}}</strong><span class="dep-autor__c" data-k="{{k}}.c">{{c}}</span></figcaption>
+    </figure>
+    {{/c.dep.p1}}
+    <div class="dep-menores">
+      {{#c.dep.p2}}
+      <figure class="dep-menor" data-it="{{id}}">
+        <blockquote class="dep-menor__t"><p data-k="{{k}}.t">{{t}}</p></blockquote>
+        <figcaption class="dep-autor"><strong class="dep-autor__n" data-k="{{k}}.n">{{n}}</strong><span class="dep-autor__c" data-k="{{k}}.c">{{c}}</span></figcaption>
+      </figure>
+      {{/c.dep.p2}}
+      {{#c.dep.p3}}
+      <figure class="dep-menor" data-it="{{id}}">
+        <blockquote class="dep-menor__t"><p data-k="{{k}}.t">{{t}}</p></blockquote>
+        <figcaption class="dep-autor"><strong class="dep-autor__n" data-k="{{k}}.n">{{n}}</strong><span class="dep-autor__c" data-k="{{k}}.c">{{c}}</span></figcaption>
+      </figure>
+      {{/c.dep.p3}}
+    </div>
+  </div>
+  <div class="dep-nota dep-nota--linha">
+    <strong class="dep-nota__v" data-k="aval.nota">{{c.aval.nota}}</strong>
+    <span class="rk-estrelas dep-estrelas" aria-hidden="true"><span class="dep-estrela">{{{u.estrela}}}</span><span class="dep-estrela">{{{u.estrela}}}</span><span class="dep-estrela">{{{u.estrela}}}</span><span class="dep-estrela">{{{u.estrela}}}</span><span class="dep-estrela">{{{u.estrela}}}</span></span>
+    <span class="dep-nota__txt"><span class="rk-i">{{{u.google}}}</span><span data-k="aval.txt">{{c.aval.txt}}</span></span>
+  </div>
+</div>

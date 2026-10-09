@@ -1,0 +1,22 @@
+<div class="rk-wrap equipe-palco">
+  <p class="rk-fantasma equipe-fantasma" aria-hidden="true">{{c.equipe.eyebrow}}</p>
+  <div class="rk-cab rk-cab--centro equipe-cab">
+    <p class="rk-eyebrow" data-k="equipe.eyebrow">{{c.equipe.eyebrow}}</p>
+    <h2 class="rk-h2 equipe-titulo" data-k="equipe.titulo">{{c.equipe.titulo}}</h2>
+    <p class="rk-lead equipe-lead" data-k="equipe.texto">{{c.equipe.texto}}</p>
+  </div>
+  <ul class="equipe-cards" data-li="equipe">
+    {{#c.equipe.itens}}
+    <li class="rk-card rk-card--estatico equipe-card" data-it="{{id}}">
+      <div class="rk-foto equipe-card__foto" data-img="{{k}}.f" style="--ar:1/1">{{{f.html}}}</div>
+      <div class="equipe-card__txt">
+        <h3 class="rk-h3 equipe-card__n" data-k="{{k}}.n">{{n}}</h3>
+        <p class="equipe-card__c" data-k="{{k}}.c">{{c}}</p>
+        {{#d.temWhatsapp}}
+        <a class="equipe-card__wa" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="equipe" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span class="equipe-card__wa-txt">WhatsApp</span></a>
+        {{/d.temWhatsapp}}
+      </div>
+    </li>
+    {{/c.equipe.itens}}
+  </ul>
+</div>

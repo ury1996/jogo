@@ -20,6 +20,13 @@
       "tom": "claro",
       "sizes": { "dif.img": "(max-width: 760px) 100vw, (max-width: 1180px) 44vw, 520px" },
       "alegacoes": ["num"]
+    },
+    {
+      "id": "numerados",
+      "nome": "Numerados",
+      "descricao": "Título à esquerda e os 3 diferenciais em colunas com número grande, linha, título e texto.",
+      "tom": "claro",
+      "alegacoes": []
     }
   ],
   "campos": {

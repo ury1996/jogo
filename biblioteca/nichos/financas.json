@@ -73,6 +73,10 @@
     "faq": ["1", "2", "3", "4", "5"]
   },
   "textos": {
+    "atalhos.r1": "Fale com um especialista",
+    "atalhos.d1": "Envie sua dúvida pelo WhatsApp: respondemos com clareza e sem compromisso.",
+    "atalhos.d2": "Atendimento em horário comercial, com reuniões presenciais ou online.",
+    "atalhos.d3": "Escritório em {cidade}, com atendimento digital para empresas de toda a região.",
     "hero.eyebrow": "{segmento} em {cidade}",
     "hero.titulo": "Sua contabilidade em dia, sem dor de cabeça",
     "hero.texto": "Abertura de empresa, impostos, folha de pagamento e obrigações fiscais organizados por uma equipe que explica cada número.",

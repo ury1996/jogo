@@ -1,0 +1,23 @@
+{
+  "id": "digital",
+  "nome": "Digital",
+  "descricao": "Destaque em cartão, atalhos em cards e serviços com foto. Para contabilidade e crédito 100% online.",
+  "personalidade": "Fintech: índigo, fonte geométrica, cards flutuando e passo a passo em destaque.",
+  "acabamento": "moderno",
+  "nichos": ["financas"],
+  "ordem": 3,
+  "padrao": { "cor": "#4f46e5", "fonte": "geometrica" },
+  "secoes": [
+    ["header", "simples"],
+    ["hero", "inset"],
+    ["atalhos", "cards"],
+    ["servicos", "fotos-sobrepostas"],
+    ["passos", "destaque-primeiro"],
+    ["numeros", "foto-fundo"],
+    ["depoimentos", "cards-nota"],
+    ["faq", "caixa"],
+    ["cta", "caixa-clara"],
+    ["contato", "mapa"],
+    ["rodape", "completo"]
+  ]
+}

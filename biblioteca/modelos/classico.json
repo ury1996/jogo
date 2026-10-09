@@ -4,6 +4,7 @@
   "descricao": "Foto de fundo, cards sobrepostos e seções escuras. O visual corporativo dos templates premium.",
   "personalidade": "Corporativo, estilo dos templates premium do Envato. Foto de fundo, seções escuras.",
   "acabamento": "classico",
+  "ordem": 10,
   "secoes": [
     ["header", "barra"],
     ["hero", "fundo-cards"],

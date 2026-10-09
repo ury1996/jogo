@@ -1,0 +1,20 @@
+<div class="rk-wrap contato-grade contato-esc">
+  <div class="contato-info">
+    <div class="rk-cab contato-cab">
+      <p class="rk-eyebrow" data-k="contato.eyebrow">{{c.contato.eyebrow}}</p>
+      <h2 class="rk-h2 contato-titulo" data-k="contato.titulo">{{c.contato.titulo}}</h2>
+      <p class="rk-lead contato-lead" data-k="contato.texto">{{c.contato.texto}}</p>
+    </div>
+    <ul class="contato-lista contato-esc__lista">
+      {{#d.temWhatsapp}}<li class="contato-item"><span class="contato-esc__ic">{{{u.whatsapp}}}</span><span class="contato-item__txt"><span class="contato-item__rot">WhatsApp</span><a class="contato-item__v" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="contato" target="_blank" rel="noopener">{{d.whatsapp}}</a></span></li>{{/d.temWhatsapp}}
+      {{#d.temTelefone}}<li class="contato-item"><span class="contato-esc__ic">{{{u.telefone}}}</span><span class="contato-item__txt"><span class="contato-item__rot">Telefone</span><a class="contato-item__v" href="{{d.telefoneLink}}" data-ev="telefone">{{d.telefone}}</a></span></li>{{/d.temTelefone}}
+      {{#d.temEmail}}<li class="contato-item"><span class="contato-esc__ic">{{{u.email}}}</span><span class="contato-item__txt"><span class="contato-item__rot">E-mail</span><a class="contato-item__v" href="{{d.emailLink}}">{{d.email}}</a></span></li>{{/d.temEmail}}
+      {{#d.temEndereco}}<li class="contato-item"><span class="contato-esc__ic">{{{u.pin}}}</span><span class="contato-item__txt"><span class="contato-item__rot">Endereço</span><span class="contato-item__v contato-linhas">{{#d.enderecoLinhas}}<span>{{.}}</span>{{/d.enderecoLinhas}}</span><a class="contato-rota" href="{{d.mapaLink}}" target="_blank" rel="noopener">Como chegar</a></span></li>{{/d.temEndereco}}
+      {{#d.temHorarios}}<li class="contato-item"><span class="contato-esc__ic">{{{u.relogio}}}</span><span class="contato-item__txt"><span class="contato-item__rot">Horário de atendimento</span><span class="contato-item__v contato-horarios">{{#d.horarios}}<span class="contato-horarios__dias">{{dias}}</span><span class="contato-horarios__horas">{{horas}}</span>{{/d.horarios}}</span></span></li>{{/d.temHorarios}}
+    </ul>
+  </div>
+  <div class="contato-esc__form">
+    <h3 class="rk-h3 contato-form__titulo" data-k="form.titulo">{{c.form.titulo}}</h3>
+    {{> formulario}}
+  </div>
+</div>

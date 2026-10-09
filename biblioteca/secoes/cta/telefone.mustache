@@ -1,0 +1,22 @@
+<div class="rk-wrap cta-tel">
+  <div class="cta-tel__ic" aria-hidden="true">
+    <span class="cta-tel__anel"></span>
+    {{#d.temTelefone}}<span class="rk-i">{{{u.telefone}}}</span>{{/d.temTelefone}}
+    {{^d.temTelefone}}<span class="rk-i">{{{u.whatsapp}}}</span>{{/d.temTelefone}}
+  </div>
+  <h2 class="rk-h2 cta-titulo cta-tel__titulo" data-k="cta.titulo">{{c.cta.titulo}}</h2>
+  {{#d.temTelefone}}
+  <p class="cta-tel__rot">Ligue agora</p>
+  <a class="cta-tel__num" href="{{d.telefoneLink}}" data-ev="telefone">{{d.telefone}}</a>
+  {{/d.temTelefone}}
+  {{^d.temTelefone}}
+  {{#d.temWhatsapp}}
+  <p class="cta-tel__rot">Chame no WhatsApp</p>
+  <a class="cta-tel__num" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="cta" target="_blank" rel="noopener">{{d.whatsapp}}</a>
+  {{/d.temWhatsapp}}
+  {{/d.temTelefone}}
+  <p class="rk-lead cta-lead cta-tel__lead" data-k="cta.texto">{{c.cta.texto}}</p>
+  <div class="cta-acoes cta-tel__acoes">
+    <a class="rk-btn cta-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="cta" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="cta.botao">{{c.cta.botao}}</span></a>
+  </div>
+</div>

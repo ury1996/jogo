@@ -1,4 +1,5 @@
-/* Números — faixa clara com divisórias / faixa na cor principal. Lista fixa de 3 itens (num). */
+/* Números — faixa clara com divisórias / faixa na cor principal / sobre foto / algarismos fantasma.
+   Lista fixa de 3 itens (num). */
 
 .rk-sec--numeros { padding-block: clamp(52px, 6.5cqi, 92px); }
 .rk-sec--numeros .num-faixa {
@@ -77,6 +78,91 @@
 .k-direto .rk-op--numeros-faixa-cor::after { border-radius: 40px; transform: rotate(18deg); }
 .k-classico .rk-op--numeros-faixa-cor::after { background: transparent; border: 1px solid var(--linha); }
 
+/* ---- foto-fundo: números gigantes e finos sobre a foto (num.img) com véu ---- */
+.rk-op--numeros-foto-fundo { padding-block: clamp(84px, 3rem + 8cqi, 156px); }
+.rk-op--numeros-foto-fundo .num-fundo::after {
+  background:
+    radial-gradient(80% 120% at 0% 100%, color-mix(in srgb, var(--p) 26%, transparent) 0%, transparent 60%),
+    linear-gradient(180deg, color-mix(in srgb, var(--deep) 74%, transparent) 0%, color-mix(in srgb, var(--deep) 86%, transparent) 100%);
+}
+.rk-op--numeros-foto-fundo .num-faixa { border-block: 1px solid var(--linha); }
+.rk-op--numeros-foto-fundo .num-item {
+  justify-items: start;
+  gap: 18px;
+  padding: clamp(30px, 3.4cqi, 48px) clamp(20px, 3.4cqi, 48px);
+  text-align: left;
+}
+.rk-op--numeros-foto-fundo .num-v {
+  font-weight: 300;
+  font-size: clamp(3.4rem, 1.6rem + 5.6cqi, 6.6rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  color: var(--fg);
+}
+.rk-op--numeros-foto-fundo .num-l {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg2);
+}
+.rk-op--numeros-foto-fundo .num-l::before {
+  content: "";
+  flex: none;
+  width: 28px;
+  height: 2px;
+  background: var(--acento);
+}
+.k-elegante .rk-op--numeros-foto-fundo .num-v { font-weight: 400; }
+.k-elegante .rk-op--numeros-foto-fundo .num-l::before { height: 1px; }
+.k-direto .rk-op--numeros-foto-fundo .num-v { font-family: var(--fb); font-weight: 800; letter-spacing: -0.05em; }
+.k-impacto .rk-op--numeros-foto-fundo .num-v { font-weight: 700; color: transparent; -webkit-text-stroke: 1.5px var(--fg); }
+.k-impacto .rk-op--numeros-foto-fundo .num-faixa { border-block-width: 2px; }
+
+/* ---- fantasma: algarismo gigante bem claro atrás do valor, traço na cor ---- */
+.rk-op--numeros-fantasma { padding-block: clamp(64px, 3rem + 5cqi, 112px); }
+.rk-op--numeros-fantasma .num-item {
+  position: relative;
+  isolation: isolate;
+  gap: 14px;
+  padding-top: clamp(64px, 7cqi, 104px);
+}
+.rk-op--numeros-fantasma .num-item + .num-item { border-left: 0; }
+.rk-op--numeros-fantasma .num-fantasma {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: -1;
+  transform: translateX(-50%);
+  font-size: clamp(7rem, 3.4rem + 10cqi, 12.5rem);
+  line-height: 0.8;
+  color: color-mix(in srgb, var(--destaque) 9%, transparent);
+  -webkit-text-stroke: 0;
+}
+.rk-op--numeros-fantasma .num-v { color: var(--fg); }
+.rk-op--numeros-fantasma .num-v::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  margin: 18px auto 0;
+  background: var(--acento);
+}
+.k-moderno .rk-op--numeros-fantasma .num-v::after,
+.k-suave .rk-op--numeros-fantasma .num-v::after { border-radius: 3px; }
+.k-elegante .rk-op--numeros-fantasma .num-fantasma { font-style: italic; font-weight: 400; color: color-mix(in srgb, var(--destaque) 14%, transparent); }
+.k-elegante .rk-op--numeros-fantasma .num-v::after { width: 56px; height: 1px; }
+.k-direto .rk-op--numeros-fantasma .num-fantasma { font-family: var(--fb); font-weight: 800; }
+.k-direto .rk-op--numeros-fantasma .num-v::after { height: 5px; background: var(--solido); }
+.k-impacto .rk-op--numeros-fantasma .num-fantasma {
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--destaque) 28%, transparent);
+}
+
 /* ===================== celular ===================== */
 
 @container site (max-width: 760px) {
@@ -95,4 +181,13 @@
   .rk-op--numeros-faixa-cor::after { display: none; }
   .k-moderno .rk-op--numeros-faixa-clara .num-v::after,
   .k-direto .rk-op--numeros-faixa-clara .num-v::after { margin: 12px 0 0; }
+
+  .rk-op--numeros-foto-fundo { padding-block: 64px; }
+  .rk-op--numeros-foto-fundo .num-item { grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 24px 4px; }
+  .rk-op--numeros-foto-fundo .num-v { font-size: 3.4rem; }
+  .rk-op--numeros-fantasma .num-item { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 10px; padding: 52px 0 22px; text-align: center; }
+  .rk-op--numeros-fantasma .num-item + .num-item { border-top: 0; }
+  .rk-op--numeros-fantasma .num-fantasma { font-size: 6.4rem; }
+  .rk-op--numeros-fantasma .num-v { font-size: 2.6rem; }
+  .rk-op--numeros-fantasma .num-v::after { margin-top: 12px; }
 }

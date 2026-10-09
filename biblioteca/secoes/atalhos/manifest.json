@@ -1,0 +1,34 @@
+{
+  "tipo": "atalhos",
+  "nome": "Atalhos de contato",
+  "ordem": 3,
+  "fixa": null,
+  "ancora": "atalhos",
+  "menu": null,
+  "opcoes": [
+    {
+      "id": "faixa",
+      "nome": "Faixa de informações",
+      "descricao": "Faixa escura logo abaixo do destaque com WhatsApp, horário e endereço.",
+      "tom": "escuro",
+      "alegacoes": []
+    },
+    {
+      "id": "cards",
+      "nome": "Cards de atalho",
+      "descricao": "Três cards que sobem sobre o destaque, com atalhos para WhatsApp, horário e localização.",
+      "tom": "claro",
+      "alegacoes": []
+    }
+  ],
+  "campos": {
+    "atalhos.r1": { "tipo": "texto", "max": 40, "rotulo": "Título do 1º atalho (WhatsApp)" },
+    "atalhos.d1": { "tipo": "texto-longo", "max": 120, "rotulo": "Texto do 1º atalho" },
+    "atalhos.r2": { "tipo": "texto", "max": 40, "rotulo": "Título do 2º atalho (horário)" },
+    "atalhos.d2": { "tipo": "texto-longo", "max": 120, "rotulo": "Texto do 2º atalho" },
+    "atalhos.r3": { "tipo": "texto", "max": 40, "rotulo": "Título do 3º atalho (endereço)" },
+    "atalhos.d3": { "tipo": "texto-longo", "max": 120, "rotulo": "Texto do 3º atalho" }
+  },
+  "listas": {},
+  "alegacoes": []
+}

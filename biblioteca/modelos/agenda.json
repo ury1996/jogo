@@ -1,0 +1,22 @@
+{
+  "id": "agenda",
+  "nome": "Agenda",
+  "descricao": "Formulário no topo, faixa com WhatsApp e horário e tratamentos em lista numerada. Para lotar a agenda.",
+  "personalidade": "Conversão para clínicas: cor forte, títulos grandes, agendamento em primeiro lugar.",
+  "acabamento": "impacto",
+  "nichos": ["clinicas"],
+  "ordem": 4,
+  "padrao": { "cor": "#0f766e", "fonte": "moderna" },
+  "secoes": [
+    ["header", "simples"],
+    ["hero", "formulario"],
+    ["atalhos", "faixa"],
+    ["servicos", "linhas-numeradas"],
+    ["diferenciais", "numerados"],
+    ["depoimentos", "destaque-foto"],
+    ["faq", "caixa"],
+    ["cta", "faixa-cor"],
+    ["contato", "mapa"],
+    ["rodape", "simples"]
+  ]
+}

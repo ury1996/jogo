@@ -17,6 +17,12 @@
       "nome": "Simples",
       "descricao": "Logo, contatos em linha, registro profissional e privacidade.",
       "tom": "escuro"
+    },
+    {
+      "id": "marca-gigante",
+      "nome": "Marca gigante",
+      "descricao": "Colunas compactas de contatos, menu e redes, o nome do negócio em letras gigantes e a linha com registro e privacidade.",
+      "tom": "escuro"
     }
   ],
   "campos": {

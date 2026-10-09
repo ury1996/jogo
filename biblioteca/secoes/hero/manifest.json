@@ -36,6 +36,38 @@
       "tom": "claro",
       "sizes": { "hero.img": "(max-width: 1180px) 100vw, 1180px" },
       "alegacoes": ["num"]
+    },
+    {
+      "id": "inset",
+      "nome": "Em cartão",
+      "descricao": "Foto escura dentro de um cartão com margem, título grande e linha de confiança com os 3 diferenciais.",
+      "tom": "claro",
+      "sizes": { "hero.img": "100vw" },
+      "alegacoes": []
+    },
+    {
+      "id": "dividido",
+      "nome": "Dividido",
+      "descricao": "Texto de um lado e a foto ocupando a outra metade até a borda da tela, com selo na divisa.",
+      "tom": "claro",
+      "sizes": { "hero.img": "(max-width: 760px) 100vw, 50vw" },
+      "alegacoes": []
+    },
+    {
+      "id": "retrato",
+      "nome": "Retrato com forma",
+      "descricao": "Retrato da pessoa com forma decorativa atrás, selo e cartão com nome e cargo.",
+      "tom": "claro",
+      "sizes": { "hero.img": "(max-width: 760px) 86vw, 36vw" },
+      "alegacoes": []
+    },
+    {
+      "id": "titulo-gigante",
+      "nome": "Título gigante",
+      "descricao": "Foto em tela cheia com título enorme embaixo, e texto com botões ao lado.",
+      "tom": "escuro",
+      "sizes": { "hero.img": "100vw" },
+      "alegacoes": []
     }
   ],
   "campos": {

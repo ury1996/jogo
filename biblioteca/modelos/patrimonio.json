@@ -1,0 +1,22 @@
+{
+  "id": "patrimonio",
+  "nome": "Patrimônio",
+  "descricao": "Retrato do consultor, assinatura e serviços em linhas numeradas. Ar de gestão de patrimônio.",
+  "personalidade": "Consultoria de alto padrão: marinho, serifa fina, retratos altos e números fantasma.",
+  "acabamento": "elegante",
+  "nichos": ["financas"],
+  "ordem": 2,
+  "padrao": { "cor": "#1e3a5f", "fonte": "nobre" },
+  "secoes": [
+    ["header", "simples"],
+    ["hero", "retrato"],
+    ["sobre", "assinatura"],
+    ["servicos", "linhas-numeradas"],
+    ["numeros", "fantasma"],
+    ["equipe", "retratos-altos"],
+    ["depoimentos", "mosaico"],
+    ["cta", "pessoa"],
+    ["contato", "escuro"],
+    ["rodape", "marca-gigante"]
+  ]
+}

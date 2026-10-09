@@ -1,0 +1,17 @@
+<div class="hero-moldura">
+  <div class="hero-cartao rk-ctx-escuro">
+    <div class="rk-fundo" data-img="hero.img" data-fundo>{{{c.hero.img.html}}}</div>
+    <div class="rk-wrap hero-corpo">
+      <div class="hero-texto">
+        <p class="rk-eyebrow" data-k="hero.eyebrow">{{c.hero.eyebrow}}</p>
+        <h1 class="rk-h1 hero-titulo" data-k="hero.titulo">{{c.hero.titulo}}</h1>
+        <p class="rk-lead hero-lead" data-k="hero.texto">{{c.hero.texto}}</p>
+        <div class="rk-acoes hero-acoes">
+          <a class="rk-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="hero" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="hero.cta">{{c.hero.cta}}</span></a>
+          <a class="rk-btn rk-btn--sec" href="#servicos"><span data-k="hero.cta2">{{c.hero.cta2}}</span></a>
+        </div>
+      </div>
+      <ul class="hero-confianca" data-li="dif">{{#c.dif.itens}}<li class="hero-confianca__item" data-it="{{id}}"><span class="rk-ic rk-ic--p" data-ic="{{k}}">{{{ic.svg}}}</span><span class="hero-confianca__t" data-k="{{k}}.t">{{t}}</span></li>{{/c.dif.itens}}</ul>
+    </div>
+  </div>
+</div>

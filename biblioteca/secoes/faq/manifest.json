@@ -20,6 +20,21 @@
       "tom": "claro",
       "sizes": { "faq.img": "(max-width: 760px) 100vw, (max-width: 1180px) 38vw, 450px" },
       "alegacoes": []
+    },
+    {
+      "id": "caixa",
+      "nome": "Caixa de perguntas",
+      "descricao": "Título e convite para o WhatsApp à esquerda; perguntas empilhadas numa caixa em tom suave.",
+      "tom": "claro",
+      "sizes": { "equipe.*.f": "48px" },
+      "alegacoes": []
+    },
+    {
+      "id": "duas-colunas",
+      "nome": "Duas colunas",
+      "descricao": "Título centralizado e perguntas numeradas em duas colunas, separadas por linhas finas.",
+      "tom": "claro",
+      "alegacoes": []
     }
   ],
   "campos": {

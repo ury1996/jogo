@@ -3,6 +3,9 @@
 Roteiro para ver o sistema funcionando de ponta a ponta: criar um site pelo assistente, editar,
 publicar, abrir o site e receber um contato. Leva uns 15 minutos na primeira vez.
 
+> **Só quer abrir e testar, ou mandar para outra pessoa testar?** Use o modo demonstração
+> ([`DEMONSTRACAO.md`](DEMONSTRACAO.md)): um clique no GitHub Codespaces ou `docker compose up`.
+
 Este roteiro usa **SQLite** (um arquivo no lugar do banco), então não precisa instalar MySQL.
 Em produção, use MySQL/MariaDB (veja o README).
 
@@ -135,10 +138,12 @@ Aparece o painel **Meus sites**, vazio.
 
    ![Passo 1 do assistente](img/como-testar/1-nicho.jpg)
 
-3. **Modelo**: clique em **Ver prévia** em qualquer um para ver o site inteiro (dá para alternar
-   Computador/Celular). Depois clique em **Usar este modelo** no **Clássico**.
-   *(O Moderno e o Direto também funcionam; o Clássico tem formulário de contato no fim da página,
-   o que facilita o teste do item 4.6.)*
+3. **Modelo**: cada tipo de negócio tem 7 modelos — 4 exclusivos dele (para Clínicas: Acolher,
+   Essência, Vital e Agenda) e os 3 gerais (Clássico, Moderno e Direto). Clique em **Ver prévia** em
+   qualquer um para ver o site inteiro (dá para alternar Computador/Celular). Depois clique em
+   **Usar este modelo** no **Clássico**.
+   *(Todos funcionam; o Clássico tem formulário de contato no fim da página, o que facilita o teste
+   do item 4.6.)*
 4. **Dados**: preencha nome (ex.: "Clínica Teste Sorriso"), cidade, estado e WhatsApp.
    Repare que a prévia à direita muda a cada tecla. Teste também trocar a cor.
    Com a IA ligada, aparece o campo **O que você quer no site?**: escreva algo como
@@ -163,7 +168,9 @@ Coisas para experimentar:
 - **Seções** (painel da esquerda): as setas ‹ › trocam o visual da seção sem perder o texto; arraste
   para mudar a ordem; **Adicionar seção** no fim da lista.
 - **Lista de serviços**: passe o mouse na seção de serviços e use **Adicionar** / **Remover** item.
-- **Estilo**: troque cor, acabamento (Clássico, Moderno, Direto) e fontes.
+- **Estilo**: troque cor, acabamento (Clássico, Moderno, Direto, Elegante, Suave, Impacto) e fontes
+  (7 pares).
+- **Visual das seções**: as setas ‹ › de cada seção mostram as opções (o Destaque, por exemplo, tem 8).
 - **Computador / Celular** no alto, e **Visualizar** para ver sem as ferramentas (Esc volta).
 - **IA**: **Escrever com IA** na barra do alto reescreve o site inteiro; o ícone de brilho na
   barrinha de cada seção reescreve só aquela seção. **Desfazer** volta ao que estava. A IA não
@@ -240,8 +247,8 @@ npm run paridade                                 # editor (JS) e servidor (PHP) 
 RANKLY_E2E_BANCO=sqlite npm run e2e              # navegador de verdade: fluxo completo e os 12 sites
 ```
 
-Ou tudo de uma vez: `bin/testar.sh`. O teste ponta a ponta salva capturas dos 12 sites
-(4 nichos × 3 modelos, computador e celular) em `var/e2e/capturas/`.
+Ou tudo de uma vez: `bin/testar.sh`. O teste ponta a ponta salva capturas dos 28 sites
+(4 nichos × 7 modelos, computador e celular) em `var/e2e/capturas/`.
 
 ---
 

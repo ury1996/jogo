@@ -20,6 +20,20 @@
       "tom": "claro",
       "sizes": { "dep.img": "(max-width: 760px) 100vw, (max-width: 1180px) 40vw, 470px" },
       "alegacoes": ["dep", "aval"]
+    },
+    {
+      "id": "faixa-escura",
+      "nome": "Faixa escura",
+      "descricao": "Faixa escura com um depoimento grande centralizado, dois menores embaixo e a nota do Google.",
+      "tom": "escuro",
+      "alegacoes": ["dep", "aval"]
+    },
+    {
+      "id": "mosaico",
+      "nome": "Mosaico",
+      "descricao": "Título e nota do Google fixos à esquerda e os depoimentos em cards desencontrados à direita.",
+      "tom": "claro",
+      "alegacoes": ["dep", "aval"]
     }
   ],
   "campos": {

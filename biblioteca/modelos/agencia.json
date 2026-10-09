@@ -1,0 +1,22 @@
+{
+  "id": "agencia",
+  "nome": "Agência",
+  "descricao": "Título gigante, grade de clientes, serviços em linhas numeradas e o nome da empresa enorme no rodapé.",
+  "personalidade": "Agência ousada: laranja, fonte geométrica larga, contraste forte e tipografia como imagem.",
+  "acabamento": "impacto",
+  "nichos": ["empresas"],
+  "ordem": 1,
+  "padrao": { "cor": "#ea580c", "fonte": "geometrica" },
+  "secoes": [
+    ["header", "simples"],
+    ["hero", "titulo-gigante"],
+    ["clientes", "grade"],
+    ["servicos", "linhas-numeradas"],
+    ["numeros", "fantasma"],
+    ["sobre", "manifesto"],
+    ["depoimentos", "mosaico"],
+    ["cta", "faixa-cor"],
+    ["contato", "escuro"],
+    ["rodape", "marca-gigante"]
+  ]
+}

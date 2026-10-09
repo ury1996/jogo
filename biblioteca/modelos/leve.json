@@ -1,0 +1,23 @@
+{
+  "id": "leve",
+  "nome": "Leve",
+  "descricao": "Formas orgânicas, retrato com cards flutuantes e cantos bem redondos. Para serviços e startups.",
+  "personalidade": "Startup e serviços: violeta, fonte limpa, formas orgânicas e tons suaves.",
+  "acabamento": "suave",
+  "nichos": ["empresas"],
+  "ordem": 3,
+  "padrao": { "cor": "#6d28d9", "fonte": "clara" },
+  "secoes": [
+    ["header", "simples"],
+    ["hero", "retrato"],
+    ["clientes", "faixa"],
+    ["diferenciais", "numerados"],
+    ["servicos", "blocos"],
+    ["passos", "destaque-primeiro"],
+    ["depoimentos", "cards-nota"],
+    ["faq", "caixa"],
+    ["cta", "caixa-clara"],
+    ["contato", "mapa"],
+    ["rodape", "completo"]
+  ]
+}

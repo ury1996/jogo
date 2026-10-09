@@ -25,6 +25,22 @@
       "tom": "claro",
       "sizes": { "sobre.img": "(max-width: 1180px) 100vw, 1180px" },
       "alegacoes": ["num"]
+    },
+    {
+      "id": "assinatura",
+      "nome": "Assinatura",
+      "descricao": "Três colunas: título, retrato do responsável e texto com letra capitular, lista e assinatura.",
+      "tom": "claro",
+      "sizes": { "equipe.*.f": "(max-width: 760px) 92vw, (max-width: 1060px) 44vw, 340px" },
+      "alegacoes": []
+    },
+    {
+      "id": "manifesto",
+      "nome": "Manifesto",
+      "descricao": "Frase grande de abertura, texto em colunas, diferenciais em etiquetas e foto larga.",
+      "tom": "claro",
+      "sizes": { "sobre.img": "(max-width: 1180px) 100vw, 1180px" },
+      "alegacoes": []
     }
   ],
   "campos": {

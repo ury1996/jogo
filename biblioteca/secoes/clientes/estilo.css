@@ -1,4 +1,4 @@
-/* Clientes — faixa discreta com os nomes das empresas atendidas (lista de 3 a 8). */
+/* Clientes — faixa discreta e grade de "logotipos" com os nomes das empresas atendidas (lista de 3 a 8). */
 
 .rk-op--clientes-faixa { padding-block: clamp(44px, 5.5cqi, 76px); }
 .rk-op--clientes-faixa .cli-faixa {
@@ -91,4 +91,135 @@
     font-size: 1rem;
     text-align: left;
   }
+}
+
+/* ===================== grade ===================== */
+/* Células com bordas finas (as linhas de 1px vêm do vão da grade sobre a cor da linha).
+   Linhas sempre completas: 3 → 3 · 4 → 4 · 5 → 3+2 · 6 → 3+3 · 7 → 4+3 · 8 → 4+4.
+   Cada nome ganha um tratamento de marca diferente (sinal gráfico + tipografia). */
+
+.rk-op--clientes-grade .cli-topo {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: clamp(30px, 3.6cqi, 48px);
+}
+.rk-op--clientes-grade .cli-topo::after {
+  content: "";
+  flex: 1;
+  min-width: 40px;
+  height: 1px;
+  background: var(--linha);
+}
+.rk-op--clientes-grade .cli-titulo {
+  max-width: 24em;
+  font-size: clamp(1.35rem, 1.05rem + 1cqi, 1.9rem);
+}
+.rk-op--clientes-grade .cli-grade {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--linha);
+  border-radius: var(--rc);
+  background: var(--linha);
+}
+.rk-op--clientes-grade .cli-cel {
+  grid-column: span 4;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: clamp(112px, 11cqi, 148px);
+  padding: 22px clamp(16px, 2cqi, 28px);
+  background: var(--bg);
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+.rk-op--clientes-grade :is(.cli-q4, .cli-q8) > .cli-cel,
+.rk-op--clientes-grade .cli-q7 > .cli-cel:nth-child(-n + 4) { grid-column: span 3; }
+.rk-op--clientes-grade .cli-q5 > .cli-cel:nth-child(n + 4) { grid-column: span 6; }
+.rk-op--clientes-grade .cli-cel:hover { background: var(--card); }
+
+.rk-op--clientes-grade .cli-marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-width: 0;
+  max-width: 100%;
+  font-size: clamp(1.05rem, 0.95rem + 0.4cqi, 1.3rem);
+  color: color-mix(in srgb, var(--fg) 72%, var(--bg));
+  transition: color 0.3s ease;
+}
+.rk-op--clientes-grade .cli-cel:hover .cli-marca { color: var(--fg); }
+.rk-op--clientes-grade .cli-marca::before {
+  content: "";
+  flex: none;
+  width: 0.9em;
+  height: 0.9em;
+  background: currentColor;
+  opacity: 0.8;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+.rk-op--clientes-grade .cli-cel:hover .cli-marca::before { background: var(--acento); opacity: 1; }
+.rk-op--clientes-grade .cli-nome {
+  min-width: 0;
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  line-height: 1.15;
+  letter-spacing: var(--ft-ls);
+  overflow-wrap: anywhere;
+}
+/* seis "estilos de marca" que se repetem */
+.rk-op--clientes-grade .cli-cel:nth-child(6n + 1) .cli-marca::before { border-radius: 50%; }
+.rk-op--clientes-grade .cli-cel:nth-child(6n + 2) .cli-marca::before { width: 0.62em; height: 0.62em; transform: rotate(45deg); }
+.rk-op--clientes-grade .cli-cel:nth-child(6n + 2) .cli-nome {
+  font-family: var(--fb);
+  font-size: 0.74em;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.rk-op--clientes-grade .cli-cel:nth-child(6n + 3) .cli-marca::before {
+  background: transparent;
+  border: 0.16em solid currentColor;
+  border-radius: 50%;
+}
+.rk-op--clientes-grade .cli-cel:nth-child(6n + 3) .cli-nome { font-style: italic; }
+.rk-op--clientes-grade .cli-cel:nth-child(6n + 4) .cli-marca::before { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.rk-op--clientes-grade .cli-cel:nth-child(6n + 4) .cli-nome { font-family: var(--fb); font-weight: 800; letter-spacing: -0.03em; }
+.rk-op--clientes-grade .cli-cel:nth-child(6n + 5) .cli-marca::before { width: 0.34em; height: 1em; border-radius: 1px; box-shadow: 0.48em 0 0 currentColor; margin-right: 0.48em; }
+.rk-op--clientes-grade .cli-cel:nth-child(6n + 5) .cli-nome { font-family: var(--fb); font-size: 0.9em; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.rk-op--clientes-grade .cli-cel:nth-child(6n + 6) .cli-marca::before { border-radius: 0.24em 0.24em 0.24em 0; }
+.rk-op--clientes-grade .cli-cel:nth-child(6n + 6) .cli-nome { font-weight: 400; letter-spacing: 0.01em; }
+.rk-op--clientes-grade .cli-cel:nth-child(6n + 5):hover .cli-marca::before { box-shadow: 0.48em 0 0 var(--acento); }
+
+/* acabamentos */
+.k-moderno .rk-op--clientes-grade .cli-grade,
+.k-suave .rk-op--clientes-grade .cli-grade { gap: 12px; border: 0; background: transparent; overflow: visible; }
+.k-moderno .rk-op--clientes-grade .cli-cel,
+.k-suave .rk-op--clientes-grade .cli-cel { border: 1px solid var(--linha); border-radius: calc(var(--rc) * 0.7); background: var(--card); }
+.k-moderno .rk-op--clientes-grade .cli-cel:hover,
+.k-suave .rk-op--clientes-grade .cli-cel:hover { box-shadow: var(--sh); }
+.k-elegante .rk-op--clientes-grade .cli-grade { border-inline: 0; }
+.k-elegante .rk-op--clientes-grade .cli-titulo { font-weight: 500; }
+.k-impacto .rk-op--clientes-grade .cli-grade { border-width: 2px; border-color: var(--fg); }
+.k-impacto .rk-op--clientes-grade .cli-cel:hover { background: var(--acento-suave); }
+.k-direto .rk-op--clientes-grade .cli-topo::after { height: 3px; background: var(--solido); flex: 0 0 56px; order: -1; }
+
+@container site (max-width: 1060px) {
+  /* no tablet as linhas de 4 viram 2+2 (as de 3 continuam) */
+  .rk-op--clientes-grade :is(.cli-q4, .cli-q8) > .cli-cel:nth-child(n),
+  .rk-op--clientes-grade .cli-q7 > .cli-cel:nth-child(n) { grid-column: span 6; }
+  .rk-op--clientes-grade .cli-q7 > .cli-cel:last-child { grid-column: 1 / -1; }
+}
+
+@container site (max-width: 760px) {
+  .rk-op--clientes-grade .cli-topo { margin-bottom: 24px; }
+  .rk-op--clientes-grade .cli-topo::after { display: none; }
+  .rk-op--clientes-grade .cli-grade > .cli-cel:nth-child(n) { grid-column: span 6; min-height: 96px; padding: 18px 12px; }
+  .rk-op--clientes-grade :is(.cli-q3, .cli-q5, .cli-q7) > .cli-cel:last-child { grid-column: 1 / -1; }
+  .rk-op--clientes-grade .cli-marca { flex-direction: column; gap: 10px; font-size: 1rem; }
+  .rk-op--clientes-grade .cli-cel:nth-child(6n + 5) .cli-marca::before { margin-right: 0.48em; }
+  .k-moderno .rk-op--clientes-grade .cli-grade,
+  .k-suave .rk-op--clientes-grade .cli-grade { gap: 10px; }
 }

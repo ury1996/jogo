@@ -1,0 +1,20 @@
+<div class="rk-wrap">
+  <div class="equipe-topo">
+    <div class="rk-cab equipe-cab">
+      <p class="rk-eyebrow" data-k="equipe.eyebrow">{{c.equipe.eyebrow}}</p>
+      <h2 class="rk-h2 equipe-titulo" data-k="equipe.titulo">{{c.equipe.titulo}}</h2>
+    </div>
+    <p class="rk-lead equipe-lead" data-k="equipe.texto">{{c.equipe.texto}}</p>
+  </div>
+  <ul class="equipe-retratos" data-li="equipe">
+    {{#c.equipe.itens}}
+    <li class="equipe-retrato" data-it="{{id}}">
+      <div class="rk-foto equipe-foto" data-img="{{k}}.f" style="--ar:2/3">{{{f.html}}}</div>
+      <div class="equipe-retrato__txt">
+        <h3 class="equipe-retrato__n" data-k="{{k}}.n">{{n}}</h3>
+        <p class="equipe-retrato__c" data-k="{{k}}.c">{{c}}</p>
+      </div>
+    </li>
+    {{/c.equipe.itens}}
+  </ul>
+</div>

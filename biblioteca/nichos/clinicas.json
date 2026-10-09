@@ -93,6 +93,11 @@
     "faq": ["1", "2", "3", "4", "5"]
   },
   "textos": {
+    "atalhos.r1": "Agende pelo WhatsApp",
+    "atalhos.d1": "Marque sua avaliação por mensagem e tire dúvidas sobre o atendimento.",
+    "atalhos.r3": "Como chegar",
+    "atalhos.d2": "Atendimento com hora marcada, para você não esperar. Veja os horários.",
+    "atalhos.d3": "Clínica em {cidade}, de fácil acesso. Veja a localização no mapa.",
     "hero.eyebrow": "{segmento} em {cidade}",
     "hero.titulo": "Cuidado com o seu sorriso, do primeiro atendimento ao resultado",
     "hero.texto": "Avaliação completa, plano de tratamento explicado sem pressa e uma equipe que acompanha cada etapa.",

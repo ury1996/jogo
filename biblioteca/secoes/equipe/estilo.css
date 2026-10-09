@@ -1,4 +1,5 @@
-/* Equipe — fotos com nome em plaquinha e versão compacta com avatar. Lista fixa de 3 pessoas. */
+/* Equipe — fotos com nome em plaquinha, versão compacta com avatar, retratos altos e cards horizontais
+   sobre palavra gigante. Lista fixa de 3 pessoas. */
 
 .rk-sec--equipe .equipe-titulo { max-width: 18em; }
 .rk-sec--equipe .equipe-lead { max-width: 38rem; }
@@ -137,6 +138,152 @@
 .k-classico .rk-op--equipe-compacta .equipe-pessoa { border-left: 3px solid var(--p); }
 .k-direto .rk-op--equipe-compacta .equipe-pessoa { padding-left: 16px; }
 
+/* ===================== retratos-altos ===================== */
+
+.rk-op--equipe-retratos-altos .equipe-topo {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: end;
+  gap: 24px clamp(40px, 6cqi, 96px);
+  margin-bottom: clamp(40px, 5cqi, 68px);
+}
+.rk-op--equipe-retratos-altos .equipe-cab { margin-bottom: 0; }
+.rk-op--equipe-retratos-altos .equipe-lead { padding-bottom: 4px; font-size: var(--t-p); }
+.rk-op--equipe-retratos-altos .equipe-retratos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: clamp(20px, 3cqi, 44px);
+}
+/* o retrato do meio desce um pouco: composição de revista */
+.rk-op--equipe-retratos-altos .equipe-retrato { min-width: 0; }
+.rk-op--equipe-retratos-altos .equipe-retrato:nth-child(3n + 2) { margin-top: clamp(28px, 4.4cqi, 64px); }
+.rk-op--equipe-retratos-altos .equipe-foto { overflow: hidden; }
+.rk-op--equipe-retratos-altos .equipe-foto > img {
+  filter: saturate(0.88);
+  transition: transform 0.7s ease, filter 0.5s ease;
+}
+.rk-op--equipe-retratos-altos .equipe-retrato:hover .equipe-foto > img { transform: scale(1.04); filter: saturate(1); }
+.rk-op--equipe-retratos-altos .equipe-retrato:hover .equipe-retrato__txt::before { width: 56px; }
+.rk-op--equipe-retratos-altos .equipe-retrato__txt {
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+  padding-top: 22px;
+}
+/* traço na cor que cresce no hover */
+.rk-op--equipe-retratos-altos .equipe-retrato__txt::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  margin-bottom: 8px;
+  background: var(--acento);
+  transition: width 0.35s ease;
+}
+.rk-op--equipe-retratos-altos .equipe-retrato__n {
+  font-family: var(--ft);
+  font-weight: var(--ft-peso);
+  font-size: clamp(1rem, 0.94rem + 0.3cqi, 1.18rem);
+  line-height: 1.3;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.rk-op--equipe-retratos-altos .equipe-retrato__c { font-size: 0.9375rem; line-height: 1.45; color: var(--fg2); }
+
+/* por acabamento: arco (Elegante), cantos generosos (Suave), base marcada (Impacto) */
+.k-elegante .rk-op--equipe-retratos-altos .equipe-foto { border-radius: 999px 999px 0 0; }
+.k-elegante .rk-op--equipe-retratos-altos .equipe-retrato__txt { justify-items: center; text-align: center; }
+.k-elegante .rk-op--equipe-retratos-altos .equipe-retrato__txt::before { width: 1px; height: 26px; margin-bottom: 4px; }
+.k-elegante .rk-op--equipe-retratos-altos .equipe-retrato:hover .equipe-retrato__txt::before { width: 1px; }
+.k-elegante .rk-op--equipe-retratos-altos .equipe-retrato__n { font-weight: 500; font-size: clamp(1.05rem, 0.98rem + 0.35cqi, 1.28rem); letter-spacing: 0.16em; }
+.k-elegante .rk-op--equipe-retratos-altos .equipe-retrato__c { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.k-classico .rk-op--equipe-retratos-altos .equipe-retrato__c { font-size: 0.8125rem; letter-spacing: 0.06em; }
+.k-impacto .rk-op--equipe-retratos-altos .equipe-retrato__txt::before { height: 4px; }
+.k-impacto .rk-op--equipe-retratos-altos .equipe-retrato__n,
+.k-direto .rk-op--equipe-retratos-altos .equipe-retrato__n { letter-spacing: 0.06em; font-weight: 700; }
+.k-impacto .rk-op--equipe-retratos-altos .equipe-foto { box-shadow: 0 0 0 0 var(--fg); transition: box-shadow 0.3s ease; }
+.k-impacto .rk-op--equipe-retratos-altos .equipe-retrato:hover .equipe-foto { box-shadow: 6px 6px 0 0 var(--acento); }
+
+/* ===================== cards-horizontais ===================== */
+
+.rk-op--equipe-cards-horizontais .equipe-palco { position: relative; }
+.rk-op--equipe-cards-horizontais .equipe-cab { position: relative; z-index: 1; }
+/* palavra gigante vazada atrás dos cards (decorativa) */
+.rk-op--equipe-cards-horizontais .equipe-fantasma {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(30px, 4cqi, 60px);
+  z-index: 0;
+  width: max-content;
+  transform: translateX(-50%);
+  font-size: clamp(5rem, 1rem + 15cqi, 15rem);
+  white-space: nowrap;
+  text-transform: uppercase;
+  -webkit-text-stroke-color: color-mix(in srgb, var(--acento) 30%, transparent);
+}
+.k-elegante .rk-op--equipe-cards-horizontais .equipe-fantasma { font-weight: 400; letter-spacing: 0.02em; }
+.k-impacto .rk-op--equipe-cards-horizontais .equipe-fantasma { -webkit-text-stroke-width: 1.5px; font-weight: 800; }
+
+.rk-op--equipe-cards-horizontais .equipe-cards {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.8cqi, 24px);
+  margin-top: clamp(20px, 3cqi, 44px);
+}
+.rk-op--equipe-cards-horizontais .equipe-card {
+  display: grid;
+  grid-template-columns: minmax(96px, 0.82fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(14px, 1.6cqi, 22px);
+  min-width: 0;
+  padding: 12px clamp(14px, 1.4cqi, 20px) 12px 12px;
+}
+.rk-op--equipe-cards-horizontais .equipe-card__foto { overflow: hidden; border-radius: calc(var(--rc) * 0.7); }
+.k-suave .rk-op--equipe-cards-horizontais .equipe-card__foto { border-radius: 26px; }
+.k-elegante .rk-op--equipe-cards-horizontais .equipe-card__foto { border-radius: 999px 999px 0 0; }
+.rk-op--equipe-cards-horizontais .equipe-card__txt { display: grid; justify-items: start; gap: 4px; min-width: 0; }
+.rk-op--equipe-cards-horizontais .equipe-card__n { font-size: clamp(1.05rem, 0.98rem + 0.3cqi, 1.2rem); }
+.rk-op--equipe-cards-horizontais .equipe-card__c { font-size: 0.875rem; line-height: 1.4; color: var(--fg2); }
+.k-elegante .rk-op--equipe-cards-horizontais .equipe-card__c,
+.k-classico .rk-op--equipe-cards-horizontais .equipe-card__c { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* botão pequeno de WhatsApp em pílula */
+.rk-op--equipe-cards-horizontais .equipe-card__wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+  padding: 7px 14px 7px 9px;
+  border-radius: var(--r);
+  background: var(--acento-suave);
+  color: var(--destaque);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.rk-op--equipe-cards-horizontais .equipe-card__wa .rk-i { width: 1.2em; height: 1.2em; }
+.rk-op--equipe-cards-horizontais .equipe-card__wa:hover { background: var(--solido); color: var(--solido-fg); }
+.k-classico .rk-op--equipe-cards-horizontais .equipe-card__wa,
+.k-elegante .rk-op--equipe-cards-horizontais .equipe-card__wa {
+  padding-left: 12px;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--acento) 50%, transparent);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.k-direto .rk-op--equipe-cards-horizontais .equipe-card__wa,
+.k-impacto .rk-op--equipe-cards-horizontais .equipe-card__wa { background: var(--solido); color: var(--solido-fg); }
+.k-direto .rk-op--equipe-cards-horizontais .equipe-card__wa:hover,
+.k-impacto .rk-op--equipe-cards-horizontais .equipe-card__wa:hover { background: var(--fg); color: var(--bg); }
+.k-classico .rk-op--equipe-cards-horizontais .equipe-card { border-bottom: 2px solid var(--p); }
+
 /* ===================== tablet ===================== */
 
 @container site (max-width: 1060px) {
@@ -153,6 +300,17 @@
     gap: 16px;
     padding: 22px;
   }
+
+  .rk-op--equipe-retratos-altos .equipe-topo { grid-template-columns: minmax(0, 1fr); }
+  .rk-op--equipe-retratos-altos .equipe-retratos { gap: 18px; }
+
+  .rk-op--equipe-cards-horizontais .equipe-cards {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 620px;
+    margin-inline: auto;
+  }
+  .rk-op--equipe-cards-horizontais .equipe-card { grid-template-columns: 150px minmax(0, 1fr); }
+  .rk-op--equipe-cards-horizontais .equipe-fantasma { top: 50%; bottom: auto; transform: translate(-50%, -10%); }
 }
 
 /* ===================== celular ===================== */
@@ -186,4 +344,29 @@
   .rk-op--equipe-compacta .equipe-avatar { width: 64px; height: 64px; }
   .rk-op--equipe-compacta .equipe-avatar__ini::first-letter { font-size: 1.6rem; }
   .rk-op--equipe-compacta .equipe-pessoa__n { font-size: 1.06rem; }
+
+  /* retratos em carrossel com "espiada" da próxima pessoa */
+  .rk-op--equipe-retratos-altos .equipe-topo { gap: 16px; margin-bottom: 32px; }
+  .rk-op--equipe-retratos-altos .equipe-retratos {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 72%;
+    gap: 16px;
+    margin-inline: calc(-1 * var(--gut));
+    padding: 0 var(--gut) 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gut);
+    scrollbar-width: none;
+  }
+  .rk-op--equipe-retratos-altos .equipe-retratos::-webkit-scrollbar { display: none; }
+  .rk-op--equipe-retratos-altos .equipe-retrato { scroll-snap-align: start; }
+  .rk-op--equipe-retratos-altos .equipe-retrato:nth-child(3n + 2) { margin-top: 0; }
+  .rk-op--equipe-retratos-altos .equipe-retrato__txt { padding-top: 16px; }
+
+  .rk-op--equipe-cards-horizontais .equipe-cards { margin-top: 0; gap: 12px; }
+  .rk-op--equipe-cards-horizontais .equipe-card { grid-template-columns: 104px minmax(0, 1fr); gap: 16px; padding: 10px 14px 10px 10px; }
+  .rk-op--equipe-cards-horizontais .equipe-card__wa { margin-top: 8px; }
+  .rk-op--equipe-cards-horizontais .equipe-fantasma { top: 0; transform: translate(-50%, -18%); font-size: 5.5rem; }
 }

@@ -1,0 +1,24 @@
+{
+  "id": "executivo",
+  "nome": "Executivo",
+  "descricao": "Destaque em cartão, atalhos sobrepostos, liderança em retratos e depoimento em faixa escura.",
+  "personalidade": "Empresa de serviços corporativos: verde-petróleo, fonte geométrica, cartões e retratos.",
+  "acabamento": "moderno",
+  "nichos": ["empresas"],
+  "ordem": 4,
+  "padrao": { "cor": "#0f766e", "fonte": "geometrica" },
+  "secoes": [
+    ["header", "simples"],
+    ["hero", "inset"],
+    ["atalhos", "cards"],
+    ["sobre", "assinatura"],
+    ["servicos", "fotos-sobrepostas"],
+    ["equipe", "retratos-altos"],
+    ["numeros", "faixa-cor"],
+    ["depoimentos", "faixa-escura"],
+    ["faq", "duas-colunas"],
+    ["cta", "pessoa"],
+    ["contato", "formulario"],
+    ["rodape", "marca-gigante"]
+  ]
+}

@@ -4,6 +4,7 @@
   "descricao": "Cantos arredondados, cards flutuando sobre as fotos e grade de serviços em blocos.",
   "personalidade": "Estilo Framer. Cantos arredondados, cards flutuantes, grade em blocos.",
   "acabamento": "moderno",
+  "ordem": 11,
   "secoes": [
     ["header", "simples"],
     ["hero", "cards-flutuantes"],

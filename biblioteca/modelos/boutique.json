@@ -1,0 +1,22 @@
+{
+  "id": "boutique",
+  "nome": "Boutique",
+  "descricao": "Destaque em cartão arredondado com linha de confiança, áreas com foto e equipe em cards. Moderno e acolhedor.",
+  "personalidade": "Escritório boutique contemporâneo: verde profundo, serifa marcante com botões em pílula, chips e cartões.",
+  "acabamento": "moderno",
+  "nichos": ["advocacia"],
+  "ordem": 2,
+  "padrao": { "cor": "#2c4a3e", "fonte": "editorial" },
+  "secoes": [
+    ["header", "simples"],
+    ["hero", "inset"],
+    ["sobre", "manifesto"],
+    ["servicos", "fotos-sobrepostas"],
+    ["equipe", "cards-horizontais"],
+    ["passos", "destaque-primeiro"],
+    ["faq", "caixa"],
+    ["cta", "pessoa"],
+    ["contato", "mapa"],
+    ["rodape", "marca-gigante"]
+  ]
+}

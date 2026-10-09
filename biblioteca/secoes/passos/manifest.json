@@ -20,6 +20,13 @@
       "tom": "claro",
       "sizes": { "passos.img": "(max-width: 760px) 100vw, (max-width: 1180px) 42vw, 500px" },
       "alegacoes": []
+    },
+    {
+      "id": "destaque-primeiro",
+      "nome": "Cards com destaque",
+      "descricao": "3 cards com número grande no canto; o primeiro passo preenchido na cor.",
+      "tom": "claro",
+      "alegacoes": []
     }
   ],
   "campos": {

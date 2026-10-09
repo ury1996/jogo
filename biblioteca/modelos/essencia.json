@@ -1,0 +1,23 @@
+{
+  "id": "essencia",
+  "nome": "Essência",
+  "descricao": "Serifa fina, foto em arco e tratamentos em cards com foto. Para estética e clínicas de alto padrão.",
+  "personalidade": "Estética e clínica premium: tons de terracota, serifa elegante, fotos em arco e muito respiro.",
+  "acabamento": "elegante",
+  "nichos": ["clinicas"],
+  "ordem": 2,
+  "padrao": { "cor": "#8c5e4f", "fonte": "nobre" },
+  "secoes": [
+    ["header", "simples"],
+    ["hero", "dividido"],
+    ["sobre", "manifesto"],
+    ["servicos", "foto-fundo"],
+    ["numeros", "fantasma"],
+    ["equipe", "retratos-altos"],
+    ["depoimentos", "faixa-escura"],
+    ["faq", "duas-colunas"],
+    ["cta", "caixa-clara"],
+    ["contato", "escuro"],
+    ["rodape", "marca-gigante"]
+  ]
+}

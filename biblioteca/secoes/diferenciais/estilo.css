@@ -1,4 +1,4 @@
-/* Diferenciais — faixa de ícones e foto com selo. Lista fixa de 3 itens (dif). */
+/* Diferenciais — faixa de ícones, foto com selo e numerados. Lista fixa de 3 itens (dif). */
 
 .rk-sec--diferenciais .dif-titulo { max-width: 20em; }
 .rk-sec--diferenciais .dif-item__txt { display: grid; align-content: start; gap: 8px; min-width: 0; }
@@ -89,12 +89,80 @@
 }
 .rk-op--diferenciais-foto-selo .dif-item__t { padding-top: 4px; }
 
+/* ===================== numerados ===================== */
+/* Título à esquerda e botão à direita; embaixo 3 colunas com número grande e fino na cor,
+   linha (com trecho na cor), título e texto. */
+
+.rk-op--diferenciais-numerados .dif-topo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px 48px;
+  margin-bottom: clamp(44px, 5.4cqi, 76px);
+}
+.rk-op--diferenciais-numerados .dif-topo .rk-cab { margin-bottom: 0; }
+.rk-op--diferenciais-numerados .dif-titulo { max-width: 16em; }
+.rk-op--diferenciais-numerados .dif-btn { flex: none; }
+.rk-op--diferenciais-numerados .dif-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(32px, 4.4cqi, 64px);
+}
+.rk-op--diferenciais-numerados .dif-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.rk-op--diferenciais-numerados .dif-col__n {
+  position: relative;
+  display: block;
+  margin-bottom: 14px;
+  padding-bottom: clamp(18px, 2cqi, 26px);
+  border-bottom: 1px solid var(--linha);
+  font-family: var(--ft);
+  font-weight: 300;
+  font-size: clamp(3.2rem, 2rem + 3.6cqi, 5.4rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--acento);
+}
+.rk-op--diferenciais-numerados .dif-col__n::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 56px;
+  height: 2px;
+  background: var(--acento);
+  transition: width 0.5s ease;
+}
+.rk-op--diferenciais-numerados .dif-col:hover .dif-col__n::after { width: 100%; }
+.rk-op--diferenciais-numerados .dif-col__d { font-size: 0.975rem; }
+/* acabamentos */
+.k-elegante .rk-op--diferenciais-numerados .dif-col__n { font-style: italic; font-weight: 400; }
+.k-elegante .rk-op--diferenciais-numerados .dif-col__n::after { height: 1px; }
+.k-suave .rk-op--diferenciais-numerados .dif-col__n::after { height: 4px; bottom: -2px; border-radius: 4px; }
+.k-direto .rk-op--diferenciais-numerados .dif-col__n { font-family: var(--fb); font-weight: 800; letter-spacing: -0.05em; }
+.k-direto .rk-op--diferenciais-numerados .dif-col__n::after { height: 4px; bottom: -2px; background: var(--solido); }
+.k-impacto .rk-op--diferenciais-numerados .dif-col__n {
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--acento);
+}
+.k-impacto .rk-op--diferenciais-numerados .dif-col:hover .dif-col__n { color: var(--acento); }
+.k-impacto .rk-op--diferenciais-numerados .dif-col__n::after { height: 4px; bottom: -2px; }
+.k-classico .rk-op--diferenciais-numerados .dif-col__n::after { height: 3px; bottom: -2px; }
+
 /* ===================== tablet ===================== */
 
 @container site (max-width: 1060px) {
   .rk-op--diferenciais-faixa-icones .dif-item { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-inline: 24px; }
   .rk-op--diferenciais-foto-selo .dif-grade { gap: 48px; }
   .rk-op--diferenciais-foto-selo .dif-selo { right: -14px; }
+  .rk-op--diferenciais-numerados .dif-cols { gap: 32px; }
+  .rk-op--diferenciais-numerados .dif-col__n { font-size: 3.4rem; }
 }
 
 /* ===================== celular ===================== */
@@ -122,4 +190,29 @@
   .rk-op--diferenciais-foto-selo .dif-selo__v { font-size: 2rem; }
   .rk-op--diferenciais-foto-selo .dif-item { gap: 16px; }
   .rk-op--diferenciais-foto-selo .dif-item .rk-ic { --ic: 48px; }
+
+  .rk-op--diferenciais-numerados .dif-topo { margin-bottom: 36px; }
+  .rk-op--diferenciais-numerados .dif-btn { width: 100%; }
+  .rk-op--diferenciais-numerados .dif-cols { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .rk-op--diferenciais-numerados .dif-col {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 20px;
+    row-gap: 8px;
+  }
+  .rk-op--diferenciais-numerados .dif-col__n {
+    grid-row: 1 / span 2;
+    margin: 0;
+    padding: 0 18px 0 0;
+    border-bottom: 0;
+    border-right: 1px solid var(--linha);
+    font-size: 2.9rem;
+  }
+  .rk-op--diferenciais-numerados .dif-col__n::after { left: auto; right: -1px; bottom: auto; top: 0; width: 2px; height: 28px; }
+  .k-suave .rk-op--diferenciais-numerados .dif-col__n::after,
+  .k-direto .rk-op--diferenciais-numerados .dif-col__n::after,
+  .k-impacto .rk-op--diferenciais-numerados .dif-col__n::after,
+  .k-classico .rk-op--diferenciais-numerados .dif-col__n::after { right: -2px; width: 3px; height: 28px; }
+  .rk-op--diferenciais-numerados .dif-col:hover .dif-col__n::after { width: 2px; }
+  .rk-op--diferenciais-numerados .dif-col__t { padding-top: 4px; }
 }

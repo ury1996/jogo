@@ -1,0 +1,15 @@
+<div class="rk-wrap">
+  <ul class="atl-lista">
+    <li class="atl-item">
+      {{#d.temWhatsapp}}<a class="atl-alvo" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="atalhos" target="_blank" rel="noopener"><span class="atl-ic">{{{u.whatsapp}}}</span><span class="atl-txt"><span class="atl-rot" data-k="atalhos.r1">{{c.atalhos.r1}}</span><strong class="atl-v">{{d.whatsapp}}</strong></span></a>{{/d.temWhatsapp}}
+      {{^d.temWhatsapp}}{{#d.temTelefone}}<a class="atl-alvo" href="{{d.telefoneLink}}" data-ev="telefone"><span class="atl-ic">{{{u.telefone}}}</span><span class="atl-txt"><span class="atl-rot" data-k="atalhos.r1">{{c.atalhos.r1}}</span><strong class="atl-v">{{d.telefone}}</strong></span></a>{{/d.temTelefone}}{{^d.temTelefone}}<div class="atl-alvo"><span class="atl-ic">{{{u.whatsapp}}}</span><span class="atl-txt"><span class="atl-rot" data-k="atalhos.r1">{{c.atalhos.r1}}</span><span class="atl-d" data-k="atalhos.d1">{{c.atalhos.d1}}</span></span></div>{{/d.temTelefone}}{{/d.temWhatsapp}}
+    </li>
+    <li class="atl-item">
+      <div class="atl-alvo"><span class="atl-ic">{{{u.relogio}}}</span><span class="atl-txt"><span class="atl-rot" data-k="atalhos.r2">{{c.atalhos.r2}}</span>{{#d.temHorarios}}<span class="atl-v atl-horas">{{#d.horarios}}<span class="atl-horas__l"><span class="atl-horas__d">{{dias}}</span> <span class="atl-horas__h">{{horas}}</span></span>{{/d.horarios}}</span>{{/d.temHorarios}}{{^d.temHorarios}}<span class="atl-d" data-k="atalhos.d2">{{c.atalhos.d2}}</span>{{/d.temHorarios}}</span></div>
+    </li>
+    <li class="atl-item">
+      {{#d.temEndereco}}<a class="atl-alvo" href="{{d.mapaLink}}" target="_blank" rel="noopener"><span class="atl-ic">{{{u.pin}}}</span><span class="atl-txt"><span class="atl-rot" data-k="atalhos.r3">{{c.atalhos.r3}}</span><span class="atl-v atl-end">{{#d.enderecoLinhas}}<span>{{.}}</span>{{/d.enderecoLinhas}}</span></span></a>{{/d.temEndereco}}
+      {{^d.temEndereco}}<div class="atl-alvo"><span class="atl-ic">{{{u.pin}}}</span><span class="atl-txt"><span class="atl-rot" data-k="atalhos.r3">{{c.atalhos.r3}}</span><span class="atl-d" data-k="atalhos.d3">{{c.atalhos.d3}}</span></span></div>{{/d.temEndereco}}
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,18 @@
+<div class="rk-wrap hero-grade">
+  <div class="hero-texto">
+    <p class="rk-eyebrow" data-k="hero.eyebrow">{{c.hero.eyebrow}}</p>
+    <h1 class="rk-h1 hero-titulo" data-k="hero.titulo">{{c.hero.titulo}}</h1>
+    <p class="rk-lead hero-lead" data-k="hero.texto">{{c.hero.texto}}</p>
+    <div class="rk-acoes hero-acoes">
+      <a class="rk-btn" href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="hero" target="_blank" rel="noopener"><span class="rk-i">{{{u.whatsapp}}}</span><span data-k="hero.cta">{{c.hero.cta}}</span></a>
+      <a class="rk-btn rk-btn--sec" href="#servicos"><span data-k="hero.cta2">{{c.hero.cta2}}</span></a>
+    </div>
+  </div>
+  <div class="hero-palco">
+    <span class="hero-forma" aria-hidden="true"></span>
+    <span class="hero-pontos" aria-hidden="true"></span>
+    <div class="rk-foto hero-foto" data-img="hero.img" style="--ar:4/5">{{{c.hero.img.html}}}</div>
+    <p class="rk-selo hero-selo"><span class="rk-check__ic">{{{u.check}}}</span><span class="hero-selo__txt" data-k="hero.selo">{{c.hero.selo}}</span></p>
+    {{#c.equipe.p1}}<p class="rk-selo hero-pessoa"><span class="hero-pessoa__ponto" aria-hidden="true"></span><span class="hero-pessoa__txt"><strong class="hero-pessoa__n" data-k="{{k}}.n">{{n}}</strong><span class="hero-pessoa__c" data-k="{{k}}.c">{{c}}</span></span></p>{{/c.equipe.p1}}
+  </div>
+</div>

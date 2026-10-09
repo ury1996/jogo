@@ -1,0 +1,33 @@
+<footer class="rod rod-mg">
+  <div class="rk-wrap rod-mg__topo">
+    <div class="rod-mg__marca">
+      <a class="rk-logo" href="#topo">{{{d.logo.html}}}{{^d.logo.temLogo}}<span class="rk-logo__nome">{{d.nome}}</span>{{/d.logo.temLogo}}</a>
+      <p class="rk-p rod-mg__sobre" data-k="rodape.sobre">{{c.rodape.sobre}}</p>
+    </div>
+    <nav class="rod-mg__col" aria-label="Navegação do rodapé">
+      <p class="rod-mg__tit">Navegação</p>
+      <ul class="rod-mg__menu"><li><a href="#topo">Início</a></li>{{#menu}}<li><a href="{{href}}">{{rotulo}}</a></li>{{/menu}}</ul>
+    </nav>
+    <div class="rod-mg__col">
+      <p class="rod-mg__tit">Contato</p>
+      <ul class="rod-mg__contatos">
+        {{#d.temWhatsapp}}<li><a href="{{d.whatsappLink}}" data-ev="whatsapp" data-pos="rodape" target="_blank" rel="noopener">{{d.whatsapp}}</a><span class="rod-mg__rot">WhatsApp</span></li>{{/d.temWhatsapp}}
+        {{#d.temTelefone}}<li><a href="{{d.telefoneLink}}" data-ev="telefone">{{d.telefone}}</a><span class="rod-mg__rot">Telefone</span></li>{{/d.temTelefone}}
+        {{#d.temEmail}}<li><a href="{{d.emailLink}}">{{d.email}}</a></li>{{/d.temEmail}}
+        {{#d.temEndereco}}<li><a href="{{d.mapaLink}}" target="_blank" rel="noopener"><span class="rod-linhas">{{#d.enderecoLinhas}}<span>{{.}}</span>{{/d.enderecoLinhas}}</span></a></li>{{/d.temEndereco}}
+        {{#d.temHorarios}}<li><span class="rod-linhas">{{#d.horarios}}<span>{{dias}}: {{horas}}</span>{{/d.horarios}}</span></li>{{/d.temHorarios}}
+      </ul>
+    </div>
+    {{#d.temRedes}}
+    <div class="rod-mg__col">
+      <p class="rod-mg__tit">Redes</p>
+      <ul class="rod-mg__redes">{{#d.redes}}<li><a href="{{url}}" target="_blank" rel="noopener"><span class="rod-mg__rede-ic">{{{svg}}}</span><span>{{rotulo}}</span><span class="rk-i rod-mg__seta">{{{u.seta}}}</span></a></li>{{/d.redes}}</ul>
+    </div>
+    {{/d.temRedes}}
+  </div>
+  <div class="rk-wrap rod-mg__gigante" aria-hidden="true"><span class="rod-mg__nome">{{d.nome}}</span></div>
+  <div class="rk-wrap rod-base">
+    <p class="rod-base__id">© {{d.ano}} {{d.nome}}{{#d.temRegistro}}<span class="rod-sep" aria-hidden="true">·</span><span class="rod-registro">{{d.registro}}</span>{{/d.temRegistro}}</p>
+    <p class="rod-base__links"><span data-k="rodape.texto">{{c.rodape.texto}}</span><span class="rod-sep" aria-hidden="true">·</span><a href="/privacidade/">Política de privacidade</a><span class="rod-sep" aria-hidden="true">·</span><a class="rod-topo" href="#topo">Voltar ao topo</a></p>
+  </div>
+</footer>

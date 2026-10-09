@@ -1,0 +1,22 @@
+{
+  "id": "institucional",
+  "nome": "Institucional",
+  "descricao": "Título enorme sobre foto, atalhos de atendimento e áreas em cards com foto. Presença forte de escritório grande.",
+  "personalidade": "Escritório estruturado, várias áreas: azul-royal, títulos grandes, contraste forte e cantos secos.",
+  "acabamento": "impacto",
+  "nichos": ["advocacia"],
+  "ordem": 4,
+  "padrao": { "cor": "#1e3a8a", "fonte": "moderna" },
+  "secoes": [
+    ["header", "info"],
+    ["hero", "titulo-gigante"],
+    ["atalhos", "cards"],
+    ["servicos", "foto-fundo"],
+    ["numeros", "foto-fundo"],
+    ["equipe", "fotos-nome"],
+    ["faq", "foto-ajuda"],
+    ["cta", "foto-fundo"],
+    ["contato", "formulario"],
+    ["rodape", "marca-gigante"]
+  ]
+}

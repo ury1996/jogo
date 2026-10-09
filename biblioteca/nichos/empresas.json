@@ -74,6 +74,10 @@
     "faq": ["1", "2", "3", "4", "5"]
   },
   "textos": {
+    "atalhos.r1": "Peça um orçamento",
+    "atalhos.d1": "Descreva a necessidade pelo WhatsApp e receba o contato de um responsável técnico.",
+    "atalhos.d2": "Equipe disponível em horário comercial, com agendamento de visitas técnicas.",
+    "atalhos.d3": "Sede em {cidade}, atendendo empresas e condomínios da região.",
     "hero.eyebrow": "{segmento} em {cidade}",
     "hero.titulo": "Soluções técnicas que mantêm a sua operação rodando",
     "hero.texto": "Projetos, instalações e manutenção elétrica para indústrias, comércios e condomínios, com equipe própria, ART e atendimento de emergência.",

@@ -17,6 +17,12 @@
       "nome": "Com barra de contato",
       "descricao": "Faixa escura com horário, e-mail e endereço, e telefone em destaque.",
       "tom": "branco"
+    },
+    {
+      "id": "info",
+      "nome": "Com informações e menu em faixa",
+      "descricao": "Logo com telefone, horário e endereço em destaque, e o menu numa faixa escura com botão de WhatsApp.",
+      "tom": "branco"
     }
   ],
   "campos": {},

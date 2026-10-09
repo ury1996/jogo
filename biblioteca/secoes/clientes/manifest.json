@@ -12,6 +12,13 @@
       "descricao": "Faixa discreta com os nomes das empresas atendidas.",
       "tom": "claro",
       "alegacoes": ["cli"]
+    },
+    {
+      "id": "grade",
+      "nome": "Grade",
+      "descricao": "Nomes dos clientes como logotipos numa grade de células com bordas finas.",
+      "tom": "claro",
+      "alegacoes": ["cli"]
     }
   ],
   "campos": {
