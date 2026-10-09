@@ -45,6 +45,7 @@ final class Config
             'email_leads_copia' => '',
             'retencao_leads_meses' => 12,
             'confiar_cloudflare' => false,
+            'confiar_proxy_local' => false,
             'releases_mantidas' => 5,
             'limite_upload_mb' => 15,
             'max_megapixels' => 40,

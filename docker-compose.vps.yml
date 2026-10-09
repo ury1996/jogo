@@ -1,0 +1,25 @@
+# Complemento para uma VPS: o Caddy recebe as visitas em http/https (portas 80 e 443), tira e
+# renova o certificado sozinho e repassa para o sistema, que fica fechado para fora.
+# Não precisa chamar este arquivo à mão: o bin/instalar-vps.sh grava COMPOSE_FILE no .env, e aí
+# `docker compose up -d`, `logs`, `restart`… já usam os dois arquivos.
+services:
+  rankly:
+    environment:
+      RANKLY_ATRAS_DE_PROXY: "1"
+  caddy:
+    image: caddy:2.8
+    restart: unless-stopped
+    depends_on: [rankly]
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      RANKLY_DOMINIO: ${RANKLY_DOMINIO:?defina RANKLY_DOMINIO no .env (rode bin/instalar-vps.sh)}
+    volumes:
+      - ./vps/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-dados:/data
+      - caddy-config:/config
+volumes:
+  caddy-dados:
+  caddy-config:

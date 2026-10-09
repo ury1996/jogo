@@ -86,6 +86,23 @@ final class LeadsTest extends TestCase
         }
     }
 
+    public function testProxyLocalSoQuandoConfiadoEVindoDeEnderecoInterno(): void
+    {
+        $doProxy = new \Rankly\Http\Requisicao('POST', '/x', [], ['X-Real-IP' => '198.51.100.7'], '', [], [], [], ['REMOTE_ADDR' => '172.18.0.3']);
+        $deFora = new \Rankly\Http\Requisicao('POST', '/x', [], ['X-Real-IP' => '198.51.100.7'], '', [], [], [], ['REMOTE_ADDR' => '203.0.113.50']);
+        $this->assertSame('172.18.0.3', IpHash::ipDe($this->app, $doProxy), 'Desligado: ignora o cabeçalho');
+        $dir = null;
+        $app = AmbienteTeste::criar(['confiar_proxy_local' => true], $dir);
+        try {
+            $this->assertSame('198.51.100.7', IpHash::ipDe($app, $doProxy));
+            $this->assertSame('203.0.113.50', IpHash::ipDe($app, $deFora), 'Visitante de fora não forja o IP');
+            $lixo = new \Rankly\Http\Requisicao('POST', '/x', [], ['X-Real-IP' => 'lixo'], '', [], [], [], ['REMOTE_ADDR' => '127.0.0.1']);
+            $this->assertSame('127.0.0.1', IpHash::ipDe($app, $lixo));
+        } finally {
+            AmbienteTeste::remover($dir);
+        }
+    }
+
     public function testPoteDeMelDescartaComSucessoFalso(): void
     {
         $r = Leads::receber($this->app, $this->site, ['empresa_site' => 'http://spam.example'] + self::VALIDO, '1.1.1.1');

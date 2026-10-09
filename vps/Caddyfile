@@ -1,0 +1,9 @@
+# HTTPS automático (Let's Encrypt) na frente do Construtor Rankly — usado pelo docker-compose.vps.yml.
+# O endereço vem de RANKLY_DOMINIO (gravado no .env pelo bin/instalar-vps.sh).
+{$RANKLY_DOMINIO} {
+	encode zstd gzip
+	reverse_proxy rankly:8080 {
+		# IP real do visitante (o sistema só aceita este cabeçalho vindo da rede interna do Docker).
+		header_up X-Real-IP {remote_host}
+	}
+}

@@ -10,7 +10,7 @@ O jeito padrão é o **Docker Desktop** (item 2, com o passo a passo em `COMO-TE
 |---|---|---|---|
 | **1. GitHub Codespaces** | nada (abre no navegador) | sim, enquanto o Codespace estiver ligado | no Codespace |
 | **2. Docker Desktop no seu computador (padrão)** | Docker Desktop | só com um túnel (item 2.1) | no seu computador |
-| **3. Docker num servidor (VPS)** | Docker no servidor | sim, sempre no ar | no servidor |
+| **3. Servidor (VPS), ex.: Hostinger** | nada (o instalador cuida) | sim, sempre no ar | no servidor |
 
 ---
 
@@ -88,98 +88,32 @@ depender do seu computador.
 > A hospedagem compartilhada da Hostinger (onde o sistema vai rodar em produção) **não** roda
 > Docker. Para o servidor de testes, use um VPS. A instalação de produção é outra (veja o `README.md`).
 
-### 3.1 O que contratar
+**VPS da Hostinger:** siga o passo a passo com as telas do hPanel em
+**[`HOSTINGER-VPS.md`](HOSTINGER-VPS.md)**.
 
-- Um **VPS com Ubuntu 24.04**, 1 a 2 GB de memória, 1 processador, 20 GB de disco. Exemplos:
-  Hostinger VPS (KVM 1), Hetzner, DigitalOcean, Contabo, Magalu Cloud. Custa em torno de
-  R$ 25 a R$ 50 por mês. Na hora de criar, escolha "Ubuntu 24.04" e anote o **IP** e a **senha de root**.
-- Opcional, mas recomendado: um **subdomínio** para o teste, ex.: `teste.sitesrankly.com.br`.
-  No painel de DNS do domínio (na Hostinger: **Domínios → DNS / Nameservers**), crie um registro
-  **A** com nome `teste` apontando para o IP do servidor. Leva de alguns minutos a algumas horas para valer.
+**Qualquer outra VPS** (Hetzner, DigitalOcean, Contabo, Magalu Cloud…) com Ubuntu 24.04: o mesmo
+instalador serve. Em resumo:
 
-### 3.2 Instalar (uma vez só)
+1. aponte um subdomínio (registro **A**) para o IP da VPS, ou pule e use o endereço provisório;
+2. entre na VPS como root (`ssh root@IP`);
+3. baixe o código (o repositório é privado: o GitHub pede usuário e um token só de leitura, como em
+   `HOSTINGER-VPS.md` parte 3):
 
-No seu computador, abra o terminal e entre no servidor (troque pelo IP dele; ele pede a senha de root):
+   ```bash
+   apt-get update && apt-get install -y git
+   git config --global credential.helper store
+   git clone -b claude/jolly-hawking-m0fur7 https://github.com/ury1996/jogo.git /opt/rankly
+   ```
 
-```bash
-ssh root@203.0.113.10
-```
+4. rode o instalador e responda às perguntas (endereço e chaves):
 
-Dentro do servidor, rode um bloco de cada vez:
+   ```bash
+   cd /opt/rankly && bash bin/instalar-vps.sh
+   ```
 
-```bash
-# 1. Docker
-curl -fsSL https://get.docker.com | sh
-
-# 2. Código (o repositório é privado: o GitHub pede usuário e um token no lugar da senha —
-#    crie em github.com → Settings → Developer settings → Personal access tokens → Fine-grained,
-#    só com leitura do repositório ury1996/jogo)
-git clone https://github.com/ury1996/jogo.git /opt/rankly
-cd /opt/rankly
-git checkout claude/jolly-hawking-m0fur7
-
-# 3. Configuração: troque pelo seu endereço e cole as chaves (como pegar: COMO-TESTAR.md §3)
-cat > .env <<'FIM'
-RANKLY_URL=https://teste.sitesrankly.com.br
-RANKLY_PORTA=127.0.0.1:8080
-PIXABAY_API_KEY=
-GEMINI_API_KEY=
-FIM
-
-# 4. Ligar (fica ligado sozinho, inclusive depois de reiniciar o servidor)
-docker compose up -d --build
-```
-
-`RANKLY_PORTA=127.0.0.1:8080` deixa o sistema acessível só de dentro do servidor: quem fala com a
-internet é o Caddy (próximo passo), que cuida do HTTPS.
-
-### 3.3 HTTPS com o Caddy
-
-O Caddy recebe as visitas em `https://` e entrega para o sistema. Ele tira e renova o certificado
-sozinho.
-
-```bash
-apt install -y caddy
-cat > /etc/caddy/Caddyfile <<'FIM'
-teste.sitesrankly.com.br {
-    reverse_proxy 127.0.0.1:8080
-}
-FIM
-systemctl reload caddy
-```
-
-Se o provedor tiver firewall no painel, libere as portas **80** e **443**.
-Abra `https://teste.sitesrankly.com.br/editor/` no navegador.
-
-**Sem domínio?** Dá para usar o [sslip.io](https://sslip.io), que transforma o IP em endereço: no
-`.env` use `RANKLY_URL=https://203-0-113-10.sslip.io` (o IP com traços) e no Caddyfile
-`203-0-113-10.sslip.io { reverse_proxy 127.0.0.1:8080 }`.
-
-### 3.4 Pegar o e-mail e a senha de acesso
-
-Num endereço público a senha é criada aleatória (uma senha fixa conhecida deixaria qualquer um entrar):
-
-```bash
-cd /opt/rankly
-docker compose exec rankly cat /dados/acesso.txt
-```
-
-Para criar mais usuários (um para cada pessoa que vai testar):
-
-```bash
-docker compose exec rankly php app/cli/criar-usuario.php --nome="Fulano" --email=fulano@exemplo.com --papel=admin --senha=umasenhaforte
-```
-
-### 3.5 No dia a dia
-
-| Quero… | Comando (no servidor, dentro de `/opt/rankly`) |
-|---|---|
-| atualizar para a versão nova do código | `git pull && docker compose up -d --build` |
-| ver o que está acontecendo | `docker compose logs -f` |
-| reiniciar | `docker compose restart` |
-| desligar | `docker compose down` |
-| apagar tudo e começar do zero | `docker compose down -v` (apaga sites, fotos e contatos) |
-| cópia de segurança dos dados | `docker run --rm -v rankly_rankly-dados:/d -v $PWD:/b alpine tar czf /b/backup.tgz -C /d .` |
+Ele instala o Docker, liga o sistema com HTTPS automático (Caddy) e mostra o e-mail e a senha de
+acesso. Rodar de novo atualiza para a versão nova. Os comandos do dia a dia estão em
+`HOSTINGER-VPS.md`.
 
 Os e-mails (aviso de contato, redefinir senha) não saem de verdade no modo demonstração: ficam em
 arquivos, que dá para ver com `docker compose exec rankly ls /dados/var/emails`.

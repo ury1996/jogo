@@ -66,6 +66,10 @@ return [
     // true só se o servidor estiver atrás da Cloudflare: o IP do visitante vem de CF-Connecting-IP.
     'confiar_cloudflare' => false,
 
+    // true só se um proxy na própria máquina (Caddy, Nginx) recebe as visitas e repassa o IP real em
+    // X-Real-IP. O cabeçalho só é aceito quando a conexão vem de um endereço interno.
+    'confiar_proxy_local' => false,
+
     // Quantas publicações anteriores de cada site ficam guardadas para "voltar à anterior".
     'releases_mantidas' => 5,
 

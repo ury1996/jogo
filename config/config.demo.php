@@ -53,6 +53,8 @@ return [
     'ambiente' => 'dev',
     'url_editor' => $url,
     'sites_no_caminho' => true,
+    // Na VPS (bin/instalar-vps.sh) o Caddy fica na frente e manda o IP do visitante em X-Real-IP.
+    'confiar_proxy_local' => getenv('RANKLY_ATRAS_DE_PROXY') === '1',
     'dominio_sites' => 'localhost:' . $porta,
     'protocolo_sites' => 'http',
     'db' => [

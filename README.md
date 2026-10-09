@@ -32,6 +32,8 @@ Documentos:
 
 - [`docs/DEMONSTRACAO.md`](docs/DEMONSTRACAO.md): modo demonstração (Codespaces, Docker, servidor de
   testes), tudo num endereço só.
+- [`docs/HOSTINGER-VPS.md`](docs/HOSTINGER-VPS.md): servidor de testes sempre no ar numa VPS da
+  Hostinger (ou qualquer Ubuntu), com HTTPS, instalado e atualizado por `bin/instalar-vps.sh`.
 - [`docs/COMO-TESTAR.md`](docs/COMO-TESTAR.md): passo a passo para rodar no seu computador (com SQLite)
   e testar o fluxo completo, do assistente ao lead.
 - [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md): contrato técnico (formatos, regras, rotas, tabelas).

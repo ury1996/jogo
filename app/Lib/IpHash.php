@@ -9,7 +9,8 @@ use Rankly\Http\Requisicao;
 
 /**
  * Identificação de IP sem guardar o IP (LGPD) [M19]: HMAC-SHA256(ip, segredo_ip) — IPv6 por /64.
- * Atrás da Cloudflare, o IP real vem de CF-Connecting-IP — só se confiar_cloudflare.
+ * Atrás da Cloudflare, o IP real vem de CF-Connecting-IP — só se confiar_cloudflare; atrás de um
+ * proxy na mesma máquina (Caddy da VPS), de X-Real-IP — só se confiar_proxy_local.
  */
 final class IpHash
 {
@@ -24,7 +25,7 @@ final class IpHash
     /** IP do cliente conforme a configuração. */
     public static function ipDe(Aplicacao $app, Requisicao $req): string
     {
-        return $req->ip((bool) $app->config('confiar_cloudflare', false));
+        return $req->ip((bool) $app->config('confiar_cloudflare', false), (bool) $app->config('confiar_proxy_local', false));
     }
 
     /** HMAC do IP do cliente da requisição. */

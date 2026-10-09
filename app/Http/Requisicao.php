@@ -180,8 +180,12 @@ final class Requisicao
         return $a;
     }
 
-    /** IP do cliente; CF-Connecting-IP só quando a configuração confia na Cloudflare. */
-    public function ip(bool $confiarCloudflare = false): string
+    /**
+     * IP do cliente. CF-Connecting-IP só quando a configuração confia na Cloudflare; X-Real-IP só
+     * quando confia no proxy local E a conexão veio de um endereço interno (o proxy, ex.: o Caddy
+     * na rede do Docker) — um visitante de fora não consegue forjar o próprio IP.
+     */
+    public function ip(bool $confiarCloudflare = false, bool $confiarProxyLocal = false): string
     {
         if ($confiarCloudflare) {
             $cf = trim($this->cabecalho('cf-connecting-ip') ?? '');
@@ -190,7 +194,16 @@ final class Requisicao
             }
         }
         $ip = (string) ($this->servidor['REMOTE_ADDR'] ?? '');
-        return filter_var($ip, FILTER_VALIDATE_IP) !== false ? $ip : '0.0.0.0';
+        if (filter_var($ip, FILTER_VALIDATE_IP) === false) {
+            return '0.0.0.0';
+        }
+        if ($confiarProxyLocal && filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+            $real = trim($this->cabecalho('x-real-ip') ?? '');
+            if ($real !== '' && filter_var($real, FILTER_VALIDATE_IP) !== false) {
+                return $real;
+            }
+        }
+        return $ip;
     }
 
     public function userAgent(): string
