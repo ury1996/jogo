@@ -17,7 +17,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 COPY composer.json composer.lock ./
-RUN composer install --no-interaction --no-progress --no-dev --optimize-autoloader --no-scripts
+RUN composer install --no-interaction --no-progress --no-dev --optimize-autoloader --no-scripts \
+ && php -r 'file_put_contents("vendor/.composer-lock.sha1", sha1_file("composer.lock"));'
 COPY . .
 RUN composer dump-autoload --no-dev --optimize
 
@@ -27,4 +28,4 @@ ENV RANKLY_CONFIG=/app/config/config.demo.php \
 VOLUME ["/dados"]
 EXPOSE 8080
 
-CMD ["bin/demo.sh"]
+CMD ["bash", "bin/demo.sh"]

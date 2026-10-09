@@ -18,7 +18,11 @@ services:
       # sem RANKLY_URL: o endereço do seu computador, na porta escolhida
       RANKLY_URL: ${RANKLY_URL:-http://localhost:${RANKLY_PORTA:-8080}}
     volumes:
+      # O código vem da própria pasta: baixou uma versão nova, é só ligar de novo (sem rebuild).
+      - .:/app
+      - rankly-vendor:/app/vendor
       - rankly-dados:/dados
     restart: unless-stopped
 volumes:
   rankly-dados:
+  rankly-vendor:

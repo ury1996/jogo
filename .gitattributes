@@ -1,0 +1,4 @@
+# Scripts rodam no Linux (Docker): sempre com fim de linha LF, mesmo baixados no Windows.
+*.sh text eol=lf
+bin/* text eol=lf
+Dockerfile text eol=lf

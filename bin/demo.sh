@@ -20,9 +20,13 @@ export RANKLY_CONFIG="${RANKLY_CONFIG:-$RAIZ/config/config.demo.php}"
 export PORTA="${PORTA:-${PORT:-8080}}"
 DEMO_EMAIL="${DEMO_EMAIL:-demo@rankly.app}"
 
-if [ ! -f vendor/autoload.php ]; then
+# Dependências PHP: instala na primeira vez e de novo quando o composer.lock mudar (versão nova).
+lock_sha="$(php -r 'echo sha1_file("composer.lock");')"
+# (a marca vendor/.composer-lock.sha1 só existe na imagem Docker; fora dela não reinstala à toa)
+if [ ! -f vendor/autoload.php ] || { [ -f vendor/.composer-lock.sha1 ] && [ "$(cat vendor/.composer-lock.sha1)" != "$lock_sha" ]; }; then
   echo "== Instalando dependências PHP (composer install)"
   composer install --no-interaction --no-progress --no-dev --optimize-autoloader
+  printf '%s' "$lock_sha" > vendor/.composer-lock.sha1
 fi
 
 echo "== Banco de dados"
@@ -49,6 +53,7 @@ acesso="$(cat "$dados/acesso.txt" 2>/dev/null || printf 'E-mail: %s\nSenha: (a q
 
 ia="$(php -r '$app = require "app/bootstrap.php"; echo $app->config("ia.provedor");')"
 fotos="$(php -r '$app = require "app/bootstrap.php"; echo $app->bancoImagens() !== null ? "Pixabay ligado" : "desligado (defina PIXABAY_API_KEY)";')"
+versao="$(php -r '$app = require "app/bootstrap.php"; $l = $app->biblioteca(); echo count($l["modelos"] ?? []), " modelos · biblioteca ", substr((string) ($l["versao"] ?? ""), 0, 8);')"
 
 pids=()
 encerrar() {
@@ -76,6 +81,7 @@ cat <<TXT
 $(printf '%s\n' "$acesso" | sed 's/^/  │ /')
   │ IA:     $ia$( [ "$ia" = "simulado" ] && echo " (defina GEMINI_API_KEY para a IA de verdade)" )
   │ Fotos:  banco de imagens $fotos
+  │ Versão: $versao
   │
   │ Sites publicados ficam em $url/s/{nome-do-site}/
   │ Ctrl+C desliga.

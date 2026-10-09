@@ -48,10 +48,12 @@ Escolha um dos jeitos:
 
 **Sem programas extras (mais fácil):**
 
-1. No GitHub, abra o repositório `ury1996/jogo`.
-2. No botão que mostra o nome da branch (normalmente `main`), escolha `claude/jolly-hawking-m0fur7`.
-3. Clique no botão verde **Code** → **Download ZIP**.
-4. Descompacte o ZIP numa pasta fácil de achar, por exemplo `Documentos\construtor-rankly`.
+1. Com o GitHub aberto no navegador (logado), baixe o ZIP da versão mais nova por este link:
+   <https://github.com/ury1996/jogo/archive/refs/heads/claude/jolly-hawking-m0fur7.zip>
+   (é o mesmo que abrir o repositório `ury1996/jogo`, escolher a branch
+   `claude/jolly-hawking-m0fur7` e clicar em **Code** → **Download ZIP**).
+2. Descompacte o ZIP numa pasta fácil de achar, por exemplo `Documentos\construtor-rankly`.
+   Use sempre **a mesma pasta** (veja "Atualizar para a versão nova", na parte 6).
 
 **Com Git:**
 
@@ -61,8 +63,7 @@ cd construtor-rankly
 git checkout claude/jolly-hawking-m0fur7
 ```
 
-Para atualizar depois: baixe o ZIP de novo (ou `git pull`) e ligue com `docker compose up --build`
-(veja a parte 6).
+Para atualizar depois, veja **"Atualizar para a versão nova"** na parte 6.
 
 ---
 
@@ -151,6 +152,7 @@ recurso ficou ligado:
 ```
 │ IA:     gemini                      ← ligada (sem chave: "simulado")
 │ Fotos:  banco de imagens Pixabay ligado
+│ Versão: 19 modelos · biblioteca …      ← 19 = versão nova
 ```
 
 Mudou o `.env` com o sistema ligado? Desligue (Ctrl+C no terminal) e ligue de novo
@@ -330,13 +332,39 @@ Todos os comandos são rodados no terminal, dentro da pasta do projeto.
 | desligar | **Ctrl+C** no terminal (ou ■ no Docker Desktop) |
 | ligar sem ocupar o terminal | `docker compose up -d` (desligar: `docker compose down`) |
 | ver o que está acontecendo | `docker compose logs -f`, ou a aba **Logs** no Docker Desktop |
-| atualizar para uma versão nova do código | baixar o código novo e rodar `docker compose up --build` |
+| atualizar para uma versão nova do código | veja logo abaixo, "Atualizar para a versão nova" |
 | mudar uma chave | editar o `.env`, desligar e ligar de novo |
 | criar outro usuário | `docker compose exec rankly php app/cli/criar-usuario.php --nome="Fulano" --email=fulano@exemplo.com --papel=admin --senha=umasenhaforte` |
 | apagar tudo (sites, fotos, contatos) e começar do zero | `docker compose down -v` |
 
 Os sites, fotos e contatos ficam guardados entre uma vez e outra (num "volume" do Docker chamado
 `rankly-dados`), até você rodar o `down -v`.
+
+### Atualizar para a versão nova
+
+O sistema roda o código **que está na pasta do projeto**. Para atualizar:
+
+1. Desligue o sistema (Ctrl+C no terminal, ou `docker compose down`).
+2. Baixe o ZIP de novo (link da parte 2) e descompacte **por cima da mesma pasta**, substituindo os
+   arquivos (o seu `.env` continua lá, porque ele não vem no ZIP). Com Git: `git pull`.
+3. Ligue de novo: `docker compose up --build`. (O `--build` só é obrigatório quando o próprio
+   Docker muda, mas não atrapalha: use sempre que atualizar.)
+4. No navegador, recarregue a página do editor sem cache: **Ctrl+Shift+R** (Windows) ou
+   **Cmd+Shift+R** (Mac).
+
+### Como saber se está na versão nova
+
+O quadro que aparece ao ligar mostra a linha **Versão**, por exemplo:
+
+```
+│ Versão: 19 modelos · biblioteca d7c713fe
+```
+
+Nesta versão são **19 modelos** (4 exclusivos de cada tipo de negócio + 3 gerais). No assistente,
+ao escolher **Clínicas**, aparecem 7 modelos (Acolher, Essência, Vital, Agenda, Clássico, Moderno e
+Direto), todos com fotos, e o passo "Seus dados" começa com o cartão roxo da IA. Se aparecerem só
+3 modelos sem fotos, está rodando uma versão antiga: veja o item "Está abrindo uma versão antiga"
+em Problemas comuns.
 
 Para mostrar o sistema para alguém de fora do seu computador, veja
 [`DEMONSTRACAO.md`](DEMONSTRACAO.md) (túnel gratuito ou servidor de testes).
@@ -356,6 +384,7 @@ Para mostrar o sistema para alguém de fora do seu computador, veja
 | "O banco de imagens ainda não está ligado" | Falta a `PIXABAY_API_KEY` no `.env` (parte 3.3), ou o sistema não foi religado. |
 | "A chave do Pixabay é inválida" | Confira se copiou o código inteiro da seção **key (required)** em <https://pixabay.com/api/docs/>, com a conta aberta. |
 | O formulário "envia" mas o contato não aparece | Espere 3 s depois de abrir a página antes de enviar; e não mais de 5 envios por hora do mesmo computador. |
+| **Está abrindo uma versão antiga** (só 3 modelos, sem fotos, sem o cartão da IA) | Quase sempre é um sistema antigo ainda ligado ou outra pasta. 1) No Docker Desktop, em **Containers**, pare e apague (ícone de lixeira) **todos** os containers do Construtor Rankly — cada pasta diferente cria um. 2) Feche os terminais antigos. 3) Baixe o ZIP de novo pelo link da parte 2 e use só essa pasta (copie o seu `.env` para ela). 4) Nela, rode `docker compose up --build`. 5) Confira a linha **Versão: 19 modelos** no quadro e recarregue o navegador com Ctrl+Shift+R. |
 | Esqueci a senha do usuário de teste | Ela é `demo12345` (é a do primeiro uso). Se mudou, crie outro usuário com o comando da parte 6. |
 
 ---
