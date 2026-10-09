@@ -15,3 +15,4 @@
 /var/
 .phpunit.result.cache
 .DS_Store
+/.env

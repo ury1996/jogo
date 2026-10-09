@@ -21,7 +21,8 @@ RUN composer install --no-interaction --no-progress --no-dev --optimize-autoload
 COPY . .
 RUN composer dump-autoload --no-dev --optimize
 
-ENV RANKLY_DADOS=/dados \
+ENV RANKLY_CONFIG=/app/config/config.demo.php \
+    RANKLY_DADOS=/dados \
     PORTA=8080
 VOLUME ["/dados"]
 EXPOSE 8080
